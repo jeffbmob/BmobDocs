@@ -846,7 +846,7 @@
 <h2 id="_10">客服消息<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
 <p>使用nodejs云函数可以对其他平台接口进行服务端开发，具体开发请参考微信官方文档。</p>
 <h2 id="websocket">WebSocket<a class="headerlink" href="#websocket" title="Permanent link">&para;</a></h2>
-<p>一个微信小程序同时只能有一个 WebSocket 连接，如果当前已存在一个 WebSocket 连接，会创建失败。WebSocket可以做一些实时数据功能，比如聊天室，你画我猜之类的游戏。具体文档参考~~JavaScript-&gt;实时数据平台~~  </p>
+<p>一个微信小程序同时只能有一个 WebSocket 连接，如果当前已存在一个 WebSocket 连接，会创建失败。WebSocket可以做一些实时数据功能，比如聊天室，你画我猜之类的游戏。具体文档参考 <strong>JavaScript-&gt;实时数据平台</strong></p>
 <h2 id="_11">微信主人通知接口<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
 <p>微信主动推送通知，业务场景：比如你有APP，有人下单了，或者有人留言了。你可以收到微信推送通知。</p>
 <p>支持2种调用方法
@@ -989,7 +989,7 @@ formSubmit: function (event) {
         Bmob.generateCode({ &quot;path&quot;: path, &quot;width&quot;: width }).then(function (obj) {
             console.log(obj);
             that.setData({
-                imageBytes: obj.imageBytes  //二维码示例
+                imageBytes: obj.imageBytes  //二维码示例, 这里也可以返回二维码URL，请看上面参数
             })
 
         }, function (err) {
