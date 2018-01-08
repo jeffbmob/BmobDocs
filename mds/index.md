@@ -1,3 +1,17 @@
+<div id="loading">
+<div>
+<h1></h1>
+<div class="loading">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+</div>
+</div>
 <div class="page-wrapper">
 <header class="header text-center">
     <div class="container">
@@ -113,7 +127,7 @@
             </div>
         </div><!--//item-inner-->
     </div><!--//item-->
-    <div class="item item-blue col-md-4 col-sm-6 col-xs-6">
+    <!-- <div class="item item-blue col-md-4 col-sm-6 col-xs-6">
         <div class="item-inner">
             <div class="icon-holder">
                 <i class="icon o6"></i>
@@ -127,8 +141,8 @@
                   <li></li>
                 </ul>
             </div>
-        </div><!--//item-inner-->
-    </div><!--//item-->
+        </div>
+    </div> -->
     <div class="item item-blue col-md-4 col-sm-6 col-xs-6 hidden">
         <div class="item-inner">
             <div class="icon-holder">
@@ -143,7 +157,7 @@
             </div>
         </div><!--//item-inner-->
     </div><!--//item-->
-    <div class="item item-blue col-md-4 col-sm-6 col-xs-6 col-md-offset-4">
+    <div class="item item-blue col-md-4 col-sm-6 col-xs-6">
         <div class="item-inner">
             <div class="icon-holder">
                <i class="icon o7"></i>
