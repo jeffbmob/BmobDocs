@@ -185,23 +185,23 @@ PS:更多请参考Demo里面的群聊功能。
 
 
 
-1. ## 地道美食地图
+1. ### 地道美食地图
 > 点击查看[地道美食地图](https://github.com/LanceCong/gourmet_map) 
 
 
-2. ## 出发吧一起
+2. ### 出发吧一起
 > 点击查看[出发吧一起](https://github.com/dmego/together) 
 
-3. ## 心邮
+3. ### 心邮
 > 点击查看[心邮](https://github.com/bmob/Bmob-wechatapp-xinyou) 
 
-4. ## 自媒体文章小程序
+4. ### 自媒体文章小程序
 > 点击查看[自媒体文章小程序](https://github.com/qfwc258/weapp-bmob-cw) 
 
-5. ## 灵动云课堂小程序端
+5. ### 灵动云课堂小程序端
 > 点击查看[灵动云课堂小程序端](https://gitee.com/laeser/course) 
 
-6. ## 灵犀外卖
+6. ### 灵犀外卖
 > 点击查看[灵犀外卖](https://gitee.com/laeser/dinner) 
 
 
@@ -306,4 +306,4 @@ Bmob示例包含常用接口（学习示例）：[https://github.com/magic007/we
 - 79.电控之家服务
 
 
->官方交流QQ群：118541934 。欢迎提交给我们
+>官方交流QQ群：372103594 。欢迎提交给我们

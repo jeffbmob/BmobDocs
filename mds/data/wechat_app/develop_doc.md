@@ -101,8 +101,8 @@ ps:最近小程序也推出了显示H5页面，如果需要使用，可开通FTP
 ## 客服消息
 使用nodejs云函数可以对其他平台接口进行服务端开发，具体开发请参考微信官方文档。
 
-## WebSocket 
-一个微信小程序同时只能有一个 WebSocket 连接，如果当前已存在一个 WebSocket 连接，会创建失败。WebSocket可以做一些实时数据功能，比如聊天室，你画我猜之类的游戏。具体文档参考~~JavaScript->实时数据平台~~  
+## WebSocket
+一个微信小程序同时只能有一个 WebSocket 连接，如果当前已存在一个 WebSocket 连接，会创建失败。WebSocket可以做一些实时数据功能，比如聊天室，你画我猜之类的游戏。具体文档参考 **JavaScript->实时数据平台**
 
 ## 微信主人通知接口
 微信主动推送通知，业务场景：比如你有APP，有人下单了，或者有人留言了。你可以收到微信推送通知。
@@ -239,7 +239,7 @@ formSubmit: function (event) {
         Bmob.generateCode({ "path": path, "width": width }).then(function (obj) {
             console.log(obj);
             that.setData({
-                imageBytes: obj.imageBytes  //二维码示例
+                imageBytes: obj.imageBytes  //二维码示例, 这里也可以返回二维码URL，请看上面参数
             })
 
         }, function (err) {
@@ -2113,4 +2113,3 @@ Bmob.Cloud.run('test', {}, {
   }
 })
 ```
-
