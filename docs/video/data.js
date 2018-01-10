@@ -395,4 +395,15 @@ var data = [
 				time: '22:55'
             }]
         }]
+    }, {
+        id: 'cloudFunction',
+        title: '云函数',
+        data: [{
+            title: '第一节',
+            chapter: [{
+                title: '公众号开发',
+                id: 'XMzMwNjI2OTE5Ng==',
+				time: '22:36'
+            }]
+        }]
     }];
