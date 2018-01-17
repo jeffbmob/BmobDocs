@@ -104,6 +104,16 @@ ps:最近小程序也推出了显示H5页面，如果需要使用，可开通FTP
 ## WebSocket
 一个微信小程序同时只能有一个 WebSocket 连接，如果当前已存在一个 WebSocket 连接，会创建失败。WebSocket可以做一些实时数据功能，比如聊天室，你画我猜之类的游戏。具体文档参考 **JavaScript->实时数据平台**
 
+## 小程序token接口
+微信access_token，业务场景,当其他平台需要使用你小程序的token，并不想与Bmob的平台冲突，可以通过此API实现
+```
+curl --request GET \
+  --url https://api.bmob.cn/1/wechatApp/getAccessToken \
+  --header 'content-type: application/json' \
+  --header 'x-bmob-application-id: ' \
+  --header 'x-bmob-rest-api-key: ' \
+```
+
 ## 微信主人通知接口
 微信主动推送通知，业务场景：比如你有APP，有人下单了，或者有人留言了。你可以收到微信推送通知。
 
@@ -118,7 +128,7 @@ ps:最近小程序也推出了显示H5页面，如果需要使用，可开通FTP
 
 成功后发送主人模板消息，这个只需把openid改正确即可接收到， Bmob后端云公众号回复openid
           var temp = {
-            "touser": "oUxY3w_jURG89H5wCIvJDPjJ5s2o",
+            "touser": "Bmob公众号回复，openid 得到",
             "template_id": "-ERkPwp0ntimqH39bggQc_Pj55a18CYLpj-Ert8-c8Y",
             "url": "https://www.bmob.cn/",
             "data": {
@@ -158,13 +168,35 @@ ps:最近小程序也推出了显示H5页面，如果需要使用，可开通FTP
 2.restful调用方式
 
 ```
-
 curl --request POST \
   --url http://api.bmob.cn/1/wechatApp/notifyMsg \
   --header 'content-type: application/json' \
   --header 'x-bmob-application-id: ' \
   --header 'x-bmob-rest-api-key: ' \
-  --data '{\n    "touser": "oUxY3w_jURG89H5wCIvJDPjJ5s2o",\n    "template_id":"-ERkPwp0ntimqH39bggQc_Pj55a18CYLpj-Ert8-c8Y",\n    "url": "http://www.bmob.cn/",\n    "data": {\n        "first": {\n            "value": "您好，Restful 失效，请登录控制台查看。",\n            "color": "#c00"\n        },\n        "keyword1": {\n            "value": "Restful 失效"\n        },\n        "keyword2": {\n            "value": "2017-07-03 16:13:01"\n        },\n        "keyword3": {\n            "value": "高"\n        },\n        "remark": {\n            "value": "如果您十分钟内再次收到此信息，请及时处理。"\n        }\n    }\n}'
+  --data '{
+   "touser": "Bmob公众号回复，openid 得到",
+   "template_id":"-ERkPwp0ntimqH39bggQc_Pj55a18CYLpj-Ert8-c8Y",
+   "url": "http://www.bmob.cn/",
+   "data": {
+       "first": {
+           "value": "您好，Restful 失效，请登录控制台查看。",
+           "color": "#c00"
+       },
+       "keyword1": {
+           "value": "Restful 失效"
+       },
+       "keyword2": {
+           "value": "2017-07-03 16:13:01"
+       },
+       "keyword3": {
+           "value": "高"
+       },
+       "remark": {
+           "value": "如果您十分钟内再次收到此信息，请及时处理。"
+       }
+   }}'
+
+
 ```
 
 PS:`openid` 关注Bmob后端云公众平台回复`openid`
@@ -221,7 +253,7 @@ Bmob.generateCode 参数列表
 | 键 | 值 |参数说明 |
 | ------------ | ------------- | ------------ |
 | path | pages/index/index | 页面路径，支持参数 |
-| width | 430  | 二维码宽度 |
+| width | 430  | 二维码宽度，这个参数微信规定不能少于180 |
 | interface | a\b\c  | 对应微信二维码abc方案 |
 | scene | Bmob  | 微信B方案才需要此值 |
 | type | 0/1  | 默认0，返回二维码base64数据.如果为1则服务端返回为二维码网络路径 |
@@ -454,13 +486,13 @@ function(err) {
 
 
 ## 小程序支付
-小程序支付只需发起请求获取微信需要的字段，这里用Bmob.Pay.wechatPay获取`nonceStr`,`packages`,`orderId`等相关信息。然后 wx.requestPayment弹窗支付页面，里面处理成功失败。 （Bmob的接口都是独立的，任何平台小程序都可以使用，自需要小程序微信开通都支持。目前小程序支付跟其他有APP区别Bmob平台不收取任何手续费，只要是Bmob平台付费会员都可使用。）
+小程序支付只需发起请求获取微信需要的字段，这里用Bmob.Pay.wechatPay获取`nonceStr`,`packages`,`orderId`等相关信息。然后 wx.requestPayment弹窗支付页面，里面处理成功失败。 （Bmob的接口都是独立的，任何平台小程序都可以使用，只需要你的小程序微信商户平台开通了都支持。目前小程序支付Bmob平台不收取任何手续费，只要是Bmob平台付费会员都可使用。）
 
 
 ```
 
 //传参数金额，名称，描述,openid
-    Bmob.Pay.wechatPay(0.01, '名称1', '描述', openId).then(function (resp) {
+    Bmob.Pay.wechatPay(0.01, '哇哈哈1瓶', '哇哈哈饮料，杭州生产', openId).then(function (resp) {
       console.log('resp');
       console.log(resp);
 
