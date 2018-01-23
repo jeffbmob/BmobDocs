@@ -356,6 +356,7 @@ var data = [
             title: '第一节',
             chapter: [{
                 title: '小程序开发基础',
+                detail: '啦啦啦啦啦啦啦德玛西亚</br>1asdfasdf',
                 id: 'XMzI4NzA0NjEwOA==',
 				time: '13:50'
             }]
@@ -363,6 +364,7 @@ var data = [
             title: '第二节',
             chapter: [{
                 title: '小程序后端介绍',
+                 detail: '啦啦啦啦啦啦啦德玛西亚',
                 id: 'XMzI4NzA2MDI0MA==',
 				time: '13:27'
             }]
@@ -370,6 +372,7 @@ var data = [
             title: '第三节',
             chapter: [{
                 title: '相关准备工作',
+                 detail: '啦啦啦啦啦啦啦德玛西亚',
                 id: 'XMzI4NzA3NDM1Mg==',
 				time: '26:49'
             }]

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Bmob Docs</title>
     <!-- Global CSS -->
-    <link rel="shortcut icon" href="../img/favicon.ico">  
+    <link rel="shortcut icon" href="../img/favicon.ico">
     <link rel="stylesheet" href="bootstrap.min.css">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -54,7 +54,7 @@
             font-weight: 700;
         }
 
-        .mod-chapters .chapter .video li {
+        .mod-chapters .chapter .video li>div {
             position: relative;
             height: 40px;
             line-height: 40px;
@@ -64,18 +64,25 @@
             cursor: pointer;
         }
 
-        .mod-chapters .chapter .video li:hover {
+        .mod-chapters .chapter .video li>div:hover {
             background-color: #58bbee;
         }
-
+.mod-chapters .chapter .video li{
+ list-style: none; position: relative;
+}
+.mod-chapters .chapter .video li::after{
+content: "●"; position: absolute; left: -20px; top: 8px;
+}
         .mod-chapters .chapter .video li a {
             color: #787d82;
         }
 
-        .mod-chapters .chapter .video li:hover a {
+        .mod-chapters .chapter .video li>div:hover a {
             color: #FFF;
         }
-
+        .mod-chapters .chapter .video li>div+p {
+           color: #999;
+        }
         .mark {
             position: fixed;
             top: 0;
@@ -186,11 +193,15 @@
             function sub(item) {
                 var li = '';
                 for(var i = 0; i< item.length; i++ ){
-                    li+='<li data-media-id="'+ item[i].id +' ">'+
+                 var datail = item[i].detail == undefined ? "" : item[i].detail;
+                    li+='<li>'+
+                    '<div data-media-id="'+ item[i].id +'" style="overflow:hidden">'+
                         '<a class="J-media-item">'+
                             item[i].title +
                         '</a>'+
 						'<span style="float: right; margin-right: 20px;">['+item[i].time+']</span>'+
+                    '</div>'+
+                    '<p>'+ datail +'</p>'
                         '</li>'
                 }
                 return li;
@@ -226,9 +237,10 @@
         $('.tab-content').html(content);
         $('.nav.navbar-nav').html(li);
 
-        $('.video li').on('click',function () {
+        $('.video li>div').on('click',function () {
             body.addClass('hidden-scroll');
             var id = $(this).data('media-id');
+            console.log(id)
             var title = $(this).find('a').html();
             video.prev('.title').html(title);
             video.attr('src', 'http://player.youku.com/embed/' + id);
