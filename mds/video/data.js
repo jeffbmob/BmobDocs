@@ -356,7 +356,7 @@ var data = [
             title: '第一节',
             chapter: [{
                 title: '小程序开发基础',
-                detail: '啦啦啦啦啦啦啦德玛西亚</br>1asdfasdf',
+                detail: '注册成为微信公众平台开发者</br>安装开发者工具</br>小程序开发工具介绍</br>&nbsp&nbsp&nbsp&nbsp目录介绍</br>&nbsp&nbsp&nbsp&nbsp项目app.js相关目录</br>&nbsp&nbsp&nbsp&nbsp文件介绍</br>&nbsp&nbsp&nbsp&nbsp逻辑层</br>&nbsp&nbsp&nbsp&nbsp视图层</br>&nbsp&nbsp&nbsp&nbsp数据层</br>学习技能</br>&nbsp&nbsp&nbsp&nbspDIV+CSS</br>&nbsp&nbsp&nbsp&nbspJavaScript</br>&nbsp&nbsp&nbsp&nbsp小程序文档</br>',
                 id: 'XMzI4NzA0NjEwOA==',
 				time: '13:50'
             }]
@@ -364,7 +364,7 @@ var data = [
             title: '第二节',
             chapter: [{
                 title: '小程序后端介绍',
-                 detail: '啦啦啦啦啦啦啦德玛西亚',
+                detail: 'Bmob 文档<br/>Bmob示例介绍<br/>增删改查<br/>模块功能<br/>项目实战一：准备工作<br/>相关配置<br/>&nbsp;&nbsp;&nbsp;&nbsp;小程序appid<br/>下载前端UI<br/>Bmob控制台介绍<br/>&nbsp;&nbsp;&nbsp;&nbsp;云函数介绍<br/>&nbsp;&nbsp;&nbsp;&nbsp;支付介绍<br/>数据库设计<br/>测试后端<br/>&nbsp;&nbsp;&nbsp;&nbsp;取出数据<br/>',
                 id: 'XMzI4NzA2MDI0MA==',
 				time: '13:27'
             }]
@@ -372,7 +372,7 @@ var data = [
             title: '第三节',
             chapter: [{
                 title: '相关准备工作',
-                 detail: '啦啦啦啦啦啦啦德玛西亚',
+                detail: '小程序相关配置<br/>UI代码准备<br/>后端使用介绍<br/>数据库设计<br/>测试与后端连接<br/>',
                 id: 'XMzI4NzA3NDM1Mg==',
 				time: '26:49'
             }]
@@ -380,6 +380,7 @@ var data = [
             title: '第四节',
             chapter: [{
                 title: '实战一：景区首页',
+				detail: '轮播图<br/>最近加入<br/>数据导出导入<br/>数据排序<br/>',
                 id: 'XMzI4NzEwMTA1Mg==',
 				time: '14:24'
             }]
@@ -387,6 +388,7 @@ var data = [
             title: '第五节',
             chapter: [{
                 title: '实战一：景区列表、详情',
+				detail: '景区列表<br/>景区信息<br/>评论<br/>',
                 id: 'XMzI5MDAwOTA3Mg==',
 				time: '22:14'
             }]
@@ -394,6 +396,7 @@ var data = [
             title: '第六节',
             chapter: [{
                 title: '实战一：评论功能',
+				detail: '关联表查询<br/>添加评论<br/>显示评论<br/>发布上线<br/>',
                 id: 'XMzMwMzY3NzkyOA==',
 				time: '22:55'
             }]

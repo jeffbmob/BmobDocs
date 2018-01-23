@@ -356,6 +356,7 @@ var data = [
             title: '第一节',
             chapter: [{
                 title: '小程序开发基础',
+                detail: '注册成为微信公众平台开发者</br>&nbsp&nbsp安装开发者工具</br>小程序开发工具介绍</br>目录介绍</br>项目app.js相关目录</br>文件介绍</br>逻辑层</br>视图层</br>数据层</br>学习技能</br>小程序文档</br>',
                 id: 'XMzI4NzA0NjEwOA==',
 				time: '13:50'
             }]
@@ -363,6 +364,7 @@ var data = [
             title: '第二节',
             chapter: [{
                 title: '小程序后端介绍',
+                 detail: '啦啦啦啦啦啦啦德玛西亚',
                 id: 'XMzI4NzA2MDI0MA==',
 				time: '13:27'
             }]
@@ -370,6 +372,7 @@ var data = [
             title: '第三节',
             chapter: [{
                 title: '相关准备工作',
+                 detail: '啦啦啦啦啦啦啦德玛西亚',
                 id: 'XMzI4NzA3NDM1Mg==',
 				time: '26:49'
             }]
