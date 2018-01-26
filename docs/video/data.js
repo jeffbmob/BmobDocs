@@ -239,8 +239,8 @@ var data = [
             }
         ]
     }, {
-        id: 'im',
-        title: '即时通讯',
+        id: 'push',
+        title: '推送服务',
         data: [{
             title: '第一节',
             chapter: [{
@@ -278,8 +278,8 @@ var data = [
             }]
         }]
     }, {
-        id: 'push',
-        title: '推送服务',
+        id: 'im',
+        title: '即时通讯',
         data: [{
             title: '第一节',
             chapter: [{
