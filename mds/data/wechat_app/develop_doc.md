@@ -153,11 +153,9 @@ curl --request GET \
           console.log(temp);
           Bmob.sendMasterMessage(temp).then(function (obj) {
             console.log('发送成功');
-
-
+            console.log(obj);
           }, function (err) {
-
-            common.showTip('失败' + err);
+            console.log(err);
           });
 
 ```
@@ -474,7 +472,7 @@ Bmob.sendMessage(temp).then(function(obj) {
     console.log('发送成功')
 },
 function(err) {
-    common.showTip('失败' + err)
+  console.log(err)
 });
 
 
@@ -490,7 +488,7 @@ function(err) {
 
 
 ```
-
+var openId = wx.getStorageSync('openid');
 //传参数金额，名称，描述,openid
     Bmob.Pay.wechatPay(0.01, '哇哈哈1瓶', '哇哈哈饮料，杭州生产', openId).then(function (resp) {
       console.log('resp');
@@ -531,7 +529,6 @@ function(err) {
 
     }, function (err) {
       console.log('服务端返回失败');
-      common.showTip(err.message, 'loading',{},6000);
       console.log(err);
     });
 
@@ -875,6 +872,72 @@ mainQuery.find({
 ```
 
 **注意：我们不会在组合查询的子查询中支持非过滤型的条件 (比如:limit,skip,ascending/descending,include)**
+
+
+
+### 统计相关的查询
+Bmob的统计查询，提供以下关键字或其组合的查询操作：
+
+| Key        | Operation |
+| :----:  | :----:  |
+| groupby     | 分组操作 |
+| groupcount     | 返回每个分组的总记录 |
+| sum     | 计算总和 |
+| average     | 计算平均值 |
+| max     | 计算最大值 |
+| min     | 计算最小值 |
+| having     | 分组中的过滤条件 |
+
+
+为避免和用户创建的列名称冲突，Bmob约定以上统计关键字（sum, max, min)的查询结果值都用 `_(关键字)+首字母大写的列名` 的格式，如计算玩家得分列名称为score总和的操作，则返回的结果集会有一个列名为_sumScore。average返回的列为 `_avg+首字母大写的列名` ，有groupcount的情形下则返回_count。
+
+以上关键字除了groupcount是传Boolean值true或false，having传的是和where类似的json字符串，但having只应该用于过滤分组查询得到的结果集，即having只应该包含结果集中的列名如 `{"_sumScore":{"$gt":100}}` ，其他关键字必须是字符串而必须是表中包含的列名，多个列名用,分隔。
+
+以上关键字可以自由组合并可以与前面查询语句中的where, order, limit, skip等组合使用。
+
+比如，GameScore表是游戏玩家的信息和得分表，有playerName(玩家名称)、score(玩家得分)等你自己创建的列，还有Bmob的默认列objectId, createdAt, updatedAt,那么我们现在举例如何使用以上的查询关键字来作这个表的统计。 
+
+#### 计算总和
+我们要计算GameScore表所有玩家的得分总和，sum后面只能拼接Number类型的列名，即要计算哪个列的值的总和，只对Number类型有效，多个Number列用,分隔，则查询如下：
+
+```
+query._extraOptions = {"sum":"score"};
+```
+
+返回内容如下：
+
+```
+[
+	{
+		"_sumScore": 2398
+	}   
+]
+                  
+```
+
+#### 分组计算总和
+比如我们以创建时间按天统计所有玩家的得分，并按时间降序, groupby后面只能拼接列名，如果该列是时间类型，则按天分组，其他类型，则按确定值分组:
+
+```
+query._extraOptions = {"sum":"score","groupby":"createdAt"};
+query.ascending("createdAt");
+```
+
+返回内容如下：
+
+```
+[
+	{
+		"_sumScore": 2398,
+		"createdAt": "2014-02-05"
+	},
+	{
+		"_sumScore": 1208,
+		"createdAt": "2014-01-01"
+	},
+]                 
+```
+
 
 ## 修改数据
 
@@ -1948,7 +2011,7 @@ post.save(null, {
 
 ## ACL和角色
 
-数据安全是软件系统中最重要的组成部分，为了更好的保护应用数据的安全，Bmob在软件架构层面提供了应用层次、表层次、ACL（Access Control List：访问控制列表）、角色管理（Role）四种不同粒度的权限控制的方式，确保用户数据的安全（详细请查看[Bmob数据与安全页面](https://docs.bmob.cn/other/Other/m_bql/doc/index.html)，了解Bmob如何保护数据安全）。
+数据安全是软件系统中最重要的组成部分，为了更好的保护应用数据的安全，Bmob在软件架构层面提供了应用层次、表层次、ACL（Access Control List：访问控制列表）、角色管理（Role）四种不同粒度的权限控制的方式，确保用户数据的安全（详细请查看[Bmob数据与安全页面](http://doc.bmob.cn/other/data_safety/)，了解Bmob如何保护数据安全）。
 
 其中，最灵活的方法是通过ACL和角色，它的思路是每一条数据有一个用户和角色的列表，以及这些用户和角色拥有什么样的许可权限。
 
