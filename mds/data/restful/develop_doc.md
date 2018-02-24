@@ -4232,7 +4232,7 @@ timestamp为时间戳，datetime为格式化的日期。
 
 ## 错误码
 
-参照[所有平台错误码列表](/errorcode/index.html?menukey=otherdoc&key=errorcode) 中的Restful部分。
+参照[所有平台错误码列表](/other/error_code/#restapi) 中的Restful部分。
 
 
 

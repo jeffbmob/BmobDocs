@@ -537,6 +537,10 @@
 </tr>
 </tbody>
 </table>
+<p>注：<br>
+1. 关于9015错误，是SDK相关方法被调用过程中遇到的异常统一返回的标识，所以反馈问题和提交工单时请务必带上错误描述;
+2. 如果您在SDK相关方法的成功回调中，调用您项目中的业务方法抛出异常的话也会被SDK捕获到,亦即先成功回调SDK的操作，后出现9015报错，此时建议检查下您的业务方法的代码，
+解决这种看似done方法被回调两次的假象。</p>
 <h2 id="iossdk">iOSSDK错误码列表<a class="headerlink" href="#iossdk" title="Permanent link">&para;</a></h2>
 <table>
 <thead>

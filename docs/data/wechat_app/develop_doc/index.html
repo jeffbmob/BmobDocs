@@ -425,6 +425,10 @@
 												
 											</li>
 												
+											<li class=""><a href="#token">小程序token接口</a>
+												
+											</li>
+												
 											<li class=""><a href="#_11">微信主人通知接口</a>
 												
 											</li>
@@ -847,6 +851,15 @@
 <p>使用nodejs云函数可以对其他平台接口进行服务端开发，具体开发请参考微信官方文档。</p>
 <h2 id="websocket">WebSocket<a class="headerlink" href="#websocket" title="Permanent link">&para;</a></h2>
 <p>一个微信小程序同时只能有一个 WebSocket 连接，如果当前已存在一个 WebSocket 连接，会创建失败。WebSocket可以做一些实时数据功能，比如聊天室，你画我猜之类的游戏。具体文档参考 <strong>JavaScript-&gt;实时数据平台</strong></p>
+<h2 id="token">小程序token接口<a class="headerlink" href="#token" title="Permanent link">&para;</a></h2>
+<p>微信access_token，业务场景,当其他平台需要使用你小程序的token，并不想与Bmob的平台冲突，可以通过此API实现</p>
+<pre><code>curl --request GET \
+  --url https://api.bmob.cn/1/wechatApp/getAccessToken \
+  --header 'content-type: application/json' \
+  --header 'x-bmob-application-id: ' \
+  --header 'x-bmob-rest-api-key: ' \
+</code></pre>
+
 <h2 id="_11">微信主人通知接口<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
 <p>微信主动推送通知，业务场景：比如你有APP，有人下单了，或者有人留言了。你可以收到微信推送通知。</p>
 <p>支持2种调用方法
@@ -856,7 +869,7 @@
 <pre><code>
 成功后发送主人模板消息，这个只需把openid改正确即可接收到， Bmob后端云公众号回复openid
           var temp = {
-            &quot;touser&quot;: &quot;oUxY3w_jURG89H5wCIvJDPjJ5s2o&quot;,
+            &quot;touser&quot;: &quot;Bmob公众号回复，openid 得到&quot;,
             &quot;template_id&quot;: &quot;-ERkPwp0ntimqH39bggQc_Pj55a18CYLpj-Ert8-c8Y&quot;,
             &quot;url&quot;: &quot;https://www.bmob.cn/&quot;,
             &quot;data&quot;: {
@@ -891,13 +904,35 @@
 </code></pre>
 
 <p>2.restful调用方式</p>
-<pre><code>
-curl --request POST \
+<pre><code>curl --request POST \
   --url http://api.bmob.cn/1/wechatApp/notifyMsg \
   --header 'content-type: application/json' \
   --header 'x-bmob-application-id: ' \
   --header 'x-bmob-rest-api-key: ' \
-  --data '{\n    &quot;touser&quot;: &quot;oUxY3w_jURG89H5wCIvJDPjJ5s2o&quot;,\n    &quot;template_id&quot;:&quot;-ERkPwp0ntimqH39bggQc_Pj55a18CYLpj-Ert8-c8Y&quot;,\n    &quot;url&quot;: &quot;http://www.bmob.cn/&quot;,\n    &quot;data&quot;: {\n        &quot;first&quot;: {\n            &quot;value&quot;: &quot;您好，Restful 失效，请登录控制台查看。&quot;,\n            &quot;color&quot;: &quot;#c00&quot;\n        },\n        &quot;keyword1&quot;: {\n            &quot;value&quot;: &quot;Restful 失效&quot;\n        },\n        &quot;keyword2&quot;: {\n            &quot;value&quot;: &quot;2017-07-03 16:13:01&quot;\n        },\n        &quot;keyword3&quot;: {\n            &quot;value&quot;: &quot;高&quot;\n        },\n        &quot;remark&quot;: {\n            &quot;value&quot;: &quot;如果您十分钟内再次收到此信息，请及时处理。&quot;\n        }\n    }\n}'
+  --data '{
+   &quot;touser&quot;: &quot;Bmob公众号回复，openid 得到&quot;,
+   &quot;template_id&quot;:&quot;-ERkPwp0ntimqH39bggQc_Pj55a18CYLpj-Ert8-c8Y&quot;,
+   &quot;url&quot;: &quot;http://www.bmob.cn/&quot;,
+   &quot;data&quot;: {
+       &quot;first&quot;: {
+           &quot;value&quot;: &quot;您好，Restful 失效，请登录控制台查看。&quot;,
+           &quot;color&quot;: &quot;#c00&quot;
+       },
+       &quot;keyword1&quot;: {
+           &quot;value&quot;: &quot;Restful 失效&quot;
+       },
+       &quot;keyword2&quot;: {
+           &quot;value&quot;: &quot;2017-07-03 16:13:01&quot;
+       },
+       &quot;keyword3&quot;: {
+           &quot;value&quot;: &quot;高&quot;
+       },
+       &quot;remark&quot;: {
+           &quot;value&quot;: &quot;如果您十分钟内再次收到此信息，请及时处理。&quot;
+       }
+   }}'
+
+
 </code></pre>
 
 <p>PS:<code>openid</code> 关注Bmob后端云公众平台回复<code>openid</code></p>
@@ -960,7 +995,7 @@ curl --request POST \
 <tr>
 <td>width</td>
 <td>430</td>
-<td>二维码宽度</td>
+<td>二维码宽度，这个参数微信规定不能少于180</td>
 </tr>
 <tr>
 <td>interface</td>
@@ -1192,10 +1227,10 @@ function(err) {
 <h2 id="_14">小程序短信验证码<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
 <p>方法调用与JavaScript一致，查看JavaScript 短信文档 <a href="https://docs.bmob.cn/sms/JavaScript/b_developdoc/doc/index.html#请求短信验证码" title="请求短信验证码">请求短信验证码</a></p>
 <h2 id="_15">小程序支付<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
-<p>小程序支付只需发起请求获取微信需要的字段，这里用Bmob.Pay.wechatPay获取<code>nonceStr</code>,<code>packages</code>,<code>orderId</code>等相关信息。然后 wx.requestPayment弹窗支付页面，里面处理成功失败。 （Bmob的接口都是独立的，任何平台小程序都可以使用，自需要小程序微信开通都支持。目前小程序支付跟其他有APP区别Bmob平台不收取任何手续费，只要是Bmob平台付费会员都可使用。）</p>
+<p>小程序支付只需发起请求获取微信需要的字段，这里用Bmob.Pay.wechatPay获取<code>nonceStr</code>,<code>packages</code>,<code>orderId</code>等相关信息。然后 wx.requestPayment弹窗支付页面，里面处理成功失败。 （Bmob的接口都是独立的，任何平台小程序都可以使用，只需要你的小程序微信商户平台开通了都支持。目前小程序支付Bmob平台不收取任何手续费，只要是Bmob平台付费会员都可使用。）</p>
 <pre><code>
 //传参数金额，名称，描述,openid
-    Bmob.Pay.wechatPay(0.01, '名称1', '描述', openId).then(function (resp) {
+    Bmob.Pay.wechatPay(0.01, '哇哈哈1瓶', '哇哈哈饮料，杭州生产', openId).then(function (resp) {
       console.log('resp');
       console.log(resp);
 
