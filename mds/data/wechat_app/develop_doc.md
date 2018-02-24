@@ -829,7 +829,7 @@ userQuery.find({
 ```
 var Diary = Bmob.Object.extend("diary");
 var query = new Bmob.Query(Diary);
-// 只返回score和playerName字段值
+// 只返回select的字段值
 query.select("title");
 query.find().then(function(results) {
   // 返回成功
@@ -895,7 +895,7 @@ Bmob的统计查询，提供以下关键字或其组合的查询操作：
 
 以上关键字可以自由组合并可以与前面查询语句中的where, order, limit, skip等组合使用。
 
-比如，GameScore表是游戏玩家的信息和得分表，有playerName(玩家名称)、score(玩家得分)等你自己创建的列，还有Bmob的默认列objectId, createdAt, updatedAt,那么我们现在举例如何使用以上的查询关键字来作这个表的统计。 
+比如，GameScore表是游戏玩家的信息和得分表，有playerName(玩家名称)、score(玩家得分)等你自己创建的列，还有Bmob的默认列objectId, createdAt, updatedAt,那么我们现在举例如何使用以上的查询关键字来作这个表的统计。
 
 #### 计算总和
 我们要计算GameScore表所有玩家的得分总和，sum后面只能拼接Number类型的列名，即要计算哪个列的值的总和，只对Number类型有效，多个Number列用,分隔，则查询如下：
@@ -910,9 +910,9 @@ query._extraOptions = {"sum":"score"};
 [
 	{
 		"_sumScore": 2398
-	}   
+	}
 ]
-                  
+
 ```
 
 #### 分组计算总和
@@ -935,7 +935,7 @@ query.ascending("createdAt");
 		"_sumScore": 1208,
 		"createdAt": "2014-01-01"
 	},
-]                 
+]
 ```
 
 
