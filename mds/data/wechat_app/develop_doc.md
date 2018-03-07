@@ -1,93 +1,9 @@
 ## 简介
 
-Bmob平台为您的移动应用提供了一个完整的后端解决方案，我们提供轻量级的SDK开发包，让开发者以最小的配置和最简单的方式使用Bmob平台提供的服务，进而完全消除开发者编写服务器代码以及维护服务器的操作。
+- Bmob平台为您的移动应用提供了一个完整的后端解决方案，我们提供轻量级的SDK开发包，让开发者以最小的配置和最简单的方式使用Bmob平台提供的服务，进而完全消除开发者编写服务器代码以及维护服务器的操作。
 
 
-## 典型案例
 
-Bmob示例包含常用接口（学习示例）：[https://github.com/magic007/wechatAppDemo](https://github.com/magic007/wechatAppDemo) （采用实时数据同步SDK开发，里面几乎包含了小程序开发常见功能示例代码，右击可直接查看源码）
-扫描二维码查看
-![](image/code.jpg)
-![](image/ui2.1.gif)
-![](image/ui2.2.gif)
-
-心邮（官方线上项目）：[https://github.com/bmob/Bmob-wechatapp-xinyou](https://github.com/bmob/Bmob-wechatapp-xinyou) （采用实时数据同步SDK开发，右击可直接查看源码）
-
--------
-
-
-- 1.生日工具                    -------工具类
-- 2.足迹地图
-- 3.接力喵视频                -------视频类
-- 4.像素涂鸦
-- 5.地道美食地图           -------LBS
-- 6.胖熊圈
-- 7.有货Hk
-- 8.厦漳泉生活通               -------本地生活
-- 9.极简笔记
-- 10.衣在线                  -------商城
-- 11.活动报名表                -------工具类
-- 12.味蕾点餐               -------点餐
-- 13.烟台微拼               -------本地生活
-- 14.顺德便利贴
-- 15.同城生活广告
-- 16.点点英语学堂
-- 17.朝露时刻               -------音频类
-- 18.青岛一起秀科学俱乐部
-- 19.纸塘					-------17年6月最热门的小程序
-- 20.雷湖古琴艺术
-- 21.皋城文明随手拍   -----政府
-- 22.阅后即焚图片分享
-- 23.猎位共享停车
-- 24.听写宝
-- 25.嘿车出行
-- 26.喵星人宠物社区
-- 27.标签生成器
-- 28.视频看房
-- 29.海南黎家特产
-- 30.轩宇工具
-- 31.在旅途看世界
-- 32.寻遍美食地图
-- 33.Bmob示例
-- 34.鲁山拼车
-- 33.莲馨图书室          图书馆-扫描借书
-- 34.灵动云课堂
-- 35.9cam     视频类
-- 36.恋爱迹
-- 37.融信品质生活服务
-- 38.全民摄影秀
-- 39.农电微服务    国家电网公司
-- 40.壁纸印象
-- 41.跟妆师
-- 42.高能名片
-- 43.婚纱lite
-- 44.张阿姨打扫
-- 45.吃决策
-- 46.比心比价
-- 47.蜂鸟作业               教育
-- 48.美味面包lite
-- 51.幸福的5班
-- 52.大武汉公交               交通
-- 53.Buy优选					淘客
-- 54.码赚
-- 55.附近的圈子
-- 56.吴忠意大利冰淇淋          实体店点餐
-- 57.摩西讲单词     教育
-- 58.贝莱福居
-- 59.花间集鲜花
-- 60.柏亚阅读书吧
-- 61.找我跑腿服务
-- 62.橙色工地圈
-- 63.大学城活动报名
-- 64.聚合助手
-- 65.圆桌绿色版
-- 66.我的王者名片
-- 67.趣猫
-- 68.管图智能选座          大学图书馆
-- 69.呼伦贝尔二手车平台
-- 70.我的王者名片
-- 71.万能服           答题应用
->官方交流QQ群：118541934 。欢迎提交给我们
 
 ## 应用程序
 在Bmob平台注册后，每个账户可创建多个应用程序，创建的每个应用程序都有其独自的应用程序ID，此后所有的应用程序将凭其ID进行Bmob SDK的使用。即使只有一个应用程序，也可以以不同的版本进行测试和生产。
@@ -143,7 +59,7 @@ title: "I am title", content: "I am content"
 	console.log(diary.gleaterThanOneHundred());
 ```
 
-## 小程序使用图文素材
+## 使用图文素材
 图文素材，类似微信的图文素材，经常被用在活动、广告、详细说明等情况。
 使用图文素材系统会生成一个`_Article` 的数据表。如需取出图文素材的数据，只需跟普通表一样操作即可。
 
@@ -183,12 +99,20 @@ ps:最近小程序也推出了显示H5页面，如果需要使用，可开通FTP
 由于最近微信封了~~*.upaiyun.com~~	域名，如果你没做文件下载功能，只是显示图片，可以不填写。如果你需要做下载功能，在应用设置里面，可以开启独立域名， 开启后，填写到微信平台就好了，当然有时候你想用自己的域名，也是可以的，可以工单联系我们。
 
 ## 客服消息
-对一些应用有嵌入微信客服消息，需要主动实时收到用户反馈，并希望手机可以回复消息的，可以基于云逻辑开发此功能，如果完全不想写代码实现也可以联系我们,出一定费用整套客服系统帮上线。
+使用nodejs云函数可以对其他平台接口进行服务端开发，具体开发请参考微信官方文档。
 
-简介地址：[http://www.jianshu.com/p/540a8db78fbf](http://www.jianshu.com/p/540a8db78fbf)
+## WebSocket
+一个微信小程序同时只能有一个 WebSocket 连接，如果当前已存在一个 WebSocket 连接，会创建失败。WebSocket可以做一些实时数据功能，比如聊天室，你画我猜之类的游戏。具体文档参考 **JavaScript->实时数据平台**
 
-## WebSocket 
-一个微信小程序同时只能有一个 WebSocket 连接，如果当前已存在一个 WebSocket 连接，会创建失败。WebSocket可以做一些实时数据功能，比如聊天室，你画我猜之类的游戏。具体文档参考~~JavaScript->实时数据平台~~  
+## 小程序token接口
+微信access_token，业务场景,当其他平台需要使用你小程序的token，并不想与Bmob的平台冲突，可以通过此API实现
+```
+curl --request GET \
+  --url https://api.bmob.cn/1/wechatApp/getAccessToken \
+  --header 'content-type: application/json' \
+  --header 'x-bmob-application-id: ' \
+  --header 'x-bmob-rest-api-key: ' \
+```
 
 ## 微信主人通知接口
 微信主动推送通知，业务场景：比如你有APP，有人下单了，或者有人留言了。你可以收到微信推送通知。
@@ -204,7 +128,7 @@ ps:最近小程序也推出了显示H5页面，如果需要使用，可开通FTP
 
 成功后发送主人模板消息，这个只需把openid改正确即可接收到， Bmob后端云公众号回复openid
           var temp = {
-            "touser": "oUxY3w_jURG89H5wCIvJDPjJ5s2o",
+            "touser": "Bmob公众号回复，openid 得到",
             "template_id": "-ERkPwp0ntimqH39bggQc_Pj55a18CYLpj-Ert8-c8Y",
             "url": "https://www.bmob.cn/",
             "data": {
@@ -229,11 +153,9 @@ ps:最近小程序也推出了显示H5页面，如果需要使用，可开通FTP
           console.log(temp);
           Bmob.sendMasterMessage(temp).then(function (obj) {
             console.log('发送成功');
-
-
+            console.log(obj);
           }, function (err) {
-
-            common.showTip('失败' + err);
+            console.log(err);
           });
 
 ```
@@ -244,13 +166,35 @@ ps:最近小程序也推出了显示H5页面，如果需要使用，可开通FTP
 2.restful调用方式
 
 ```
-
 curl --request POST \
   --url http://api.bmob.cn/1/wechatApp/notifyMsg \
   --header 'content-type: application/json' \
   --header 'x-bmob-application-id: ' \
   --header 'x-bmob-rest-api-key: ' \
-  --data '{\n    "touser": "oUxY3w_jURG89H5wCIvJDPjJ5s2o",\n    "template_id":"-ERkPwp0ntimqH39bggQc_Pj55a18CYLpj-Ert8-c8Y",\n    "url": "http://www.bmob.cn/",\n    "data": {\n        "first": {\n            "value": "您好，Restful 失效，请登录控制台查看。",\n            "color": "#c00"\n        },\n        "keyword1": {\n            "value": "Restful 失效"\n        },\n        "keyword2": {\n            "value": "2017-07-03 16:13:01"\n        },\n        "keyword3": {\n            "value": "高"\n        },\n        "remark": {\n            "value": "如果您十分钟内再次收到此信息，请及时处理。"\n        }\n    }\n}'
+  --data '{
+   "touser": "Bmob公众号回复，openid 得到",
+   "template_id":"-ERkPwp0ntimqH39bggQc_Pj55a18CYLpj-Ert8-c8Y",
+   "url": "http://www.bmob.cn/",
+   "data": {
+       "first": {
+           "value": "您好，Restful 失效，请登录控制台查看。",
+           "color": "#c00"
+       },
+       "keyword1": {
+           "value": "Restful 失效"
+       },
+       "keyword2": {
+           "value": "2017-07-03 16:13:01"
+       },
+       "keyword3": {
+           "value": "高"
+       },
+       "remark": {
+           "value": "如果您十分钟内再次收到此信息，请及时处理。"
+       }
+   }}'
+
+
 ```
 
 PS:`openid` 关注Bmob后端云公众平台回复`openid`
@@ -307,7 +251,7 @@ Bmob.generateCode 参数列表
 | 键 | 值 |参数说明 |
 | ------------ | ------------- | ------------ |
 | path | pages/index/index | 页面路径，支持参数 |
-| width | 430  | 二维码宽度 |
+| width | 430  | 二维码宽度，这个参数微信规定不能少于180 |
 | interface | a\b\c  | 对应微信二维码abc方案 |
 | scene | Bmob  | 微信B方案才需要此值 |
 | type | 0/1  | 默认0，返回二维码base64数据.如果为1则服务端返回为二维码网络路径 |
@@ -325,7 +269,7 @@ formSubmit: function (event) {
         Bmob.generateCode({ "path": path, "width": width }).then(function (obj) {
             console.log(obj);
             that.setData({
-                imageBytes: obj.imageBytes  //二维码示例
+                imageBytes: obj.imageBytes  //二维码示例, 这里也可以返回二维码URL，请看上面参数
             })
 
         }, function (err) {
@@ -342,8 +286,8 @@ formSubmit: function (event) {
 
 有些时候，我们小程序需要把内容分享到微信群，统计每个微信群有多少用户来查看了此信息。可以使用此接口，下面是微信官方的2个说法
 
-*** 当用户成功地将小程序页面分享到微信群的时候，小程序的回调中可以获取分享目标的微信群 ID。***
-*** 当用户从微信群进入小程序页面的时候，小程序启动时可以获取用户进入小程序的渠道群聊 ID。***
+* #####当用户成功地将小程序页面分享到微信群的时候，小程序的回调中可以获取分享目标的微信群 ID。
+* #####当用户从微信群进入小程序页面的时候，小程序启动时可以获取用户进入小程序的渠道群聊 ID。
 
 
 ```
@@ -388,7 +332,7 @@ Page({
 }
 
 ```
-*** 页面只要加上这2个函数，即可实现转发到群功能，这里主要讲下解密群ID。***
+* ##### 页面只要加上这2个函数，即可实现转发到群功能，这里主要讲下解密群ID。
 
 
 解密群ID主要是通过云逻辑来实现，这里添加一个`getOpenGId` 逻辑。你也可以复制腾讯官方提供的nodejs里面的代码
@@ -460,9 +404,9 @@ var sessionKey="xTlW5jfSUP3Kx0vC5PJbmw==";
 ## 小程序模板消息
 小程序模板消息首先是通过获取`access_token`来发送。access_token有效期2小时。
 
-模板消息支持2种方式调用。
-- 1.Restful
-- 2.小程序
+* ##### 模板消息支持2种方式调用。
+* 1.Restful
+* 2.小程序
 
 Restful
 ```
@@ -528,7 +472,7 @@ Bmob.sendMessage(temp).then(function(obj) {
     console.log('发送成功')
 },
 function(err) {
-    common.showTip('失败' + err)
+  console.log(err)
 });
 
 
@@ -540,13 +484,13 @@ function(err) {
 
 
 ## 小程序支付
-小程序支付只需发起请求获取微信需要的字段，这里用Bmob.Pay.wechatPay获取`nonceStr`,`packages`,`orderId`等相关信息。然后 wx.requestPayment弹窗支付页面，里面处理成功失败。 （Bmob的接口都是独立的，任何平台小程序都可以使用，自需要小程序微信开通都支持。目前小程序支付跟其他有APP区别Bmob平台不收取任何手续费，只要是Bmob平台付费会员都可使用。）
+小程序支付只需发起请求获取微信需要的字段，这里用Bmob.Pay.wechatPay获取`nonceStr`,`packages`,`orderId`等相关信息。然后 wx.requestPayment弹窗支付页面，里面处理成功失败。 （Bmob的接口都是独立的，任何平台小程序都可以使用，只需要你的小程序微信商户平台开通了都支持。目前小程序支付Bmob平台不收取任何手续费，只要是Bmob平台付费会员都可使用。）
 
 
 ```
-
+var openId = wx.getStorageSync('openid');
 //传参数金额，名称，描述,openid
-    Bmob.Pay.wechatPay(0.01, '名称1', '描述', openId).then(function (resp) {
+    Bmob.Pay.wechatPay(0.01, '哇哈哈1瓶', '哇哈哈饮料，杭州生产', openId).then(function (resp) {
       console.log('resp');
       console.log(resp);
 
@@ -585,7 +529,6 @@ function(err) {
 
     }, function (err) {
       console.log('服务端返回失败');
-      common.showTip(err.message, 'loading',{},6000);
       console.log(err);
     });
 
@@ -886,7 +829,7 @@ userQuery.find({
 ```
 var Diary = Bmob.Object.extend("diary");
 var query = new Bmob.Query(Diary);
-// 只返回score和playerName字段值
+// 只返回select的字段值
 query.select("title");
 query.find().then(function(results) {
   // 返回成功
@@ -930,6 +873,72 @@ mainQuery.find({
 
 **注意：我们不会在组合查询的子查询中支持非过滤型的条件 (比如:limit,skip,ascending/descending,include)**
 
+
+
+### 统计相关的查询
+Bmob的统计查询，提供以下关键字或其组合的查询操作：
+
+| Key        | Operation |
+| :----:  | :----:  |
+| groupby     | 分组操作 |
+| groupcount     | 返回每个分组的总记录 |
+| sum     | 计算总和 |
+| average     | 计算平均值 |
+| max     | 计算最大值 |
+| min     | 计算最小值 |
+| having     | 分组中的过滤条件 |
+
+
+为避免和用户创建的列名称冲突，Bmob约定以上统计关键字（sum, max, min)的查询结果值都用 `_(关键字)+首字母大写的列名` 的格式，如计算玩家得分列名称为score总和的操作，则返回的结果集会有一个列名为_sumScore。average返回的列为 `_avg+首字母大写的列名` ，有groupcount的情形下则返回_count。
+
+以上关键字除了groupcount是传Boolean值true或false，having传的是和where类似的json字符串，但having只应该用于过滤分组查询得到的结果集，即having只应该包含结果集中的列名如 `{"_sumScore":{"$gt":100}}` ，其他关键字必须是字符串而必须是表中包含的列名，多个列名用,分隔。
+
+以上关键字可以自由组合并可以与前面查询语句中的where, order, limit, skip等组合使用。
+
+比如，GameScore表是游戏玩家的信息和得分表，有playerName(玩家名称)、score(玩家得分)等你自己创建的列，还有Bmob的默认列objectId, createdAt, updatedAt,那么我们现在举例如何使用以上的查询关键字来作这个表的统计。
+
+#### 计算总和
+我们要计算GameScore表所有玩家的得分总和，sum后面只能拼接Number类型的列名，即要计算哪个列的值的总和，只对Number类型有效，多个Number列用,分隔，则查询如下：
+
+```
+query._extraOptions = {"sum":"score"};
+```
+
+返回内容如下：
+
+```
+[
+	{
+		"_sumScore": 2398
+	}
+]
+
+```
+
+#### 分组计算总和
+比如我们以创建时间按天统计所有玩家的得分，并按时间降序, groupby后面只能拼接列名，如果该列是时间类型，则按天分组，其他类型，则按确定值分组:
+
+```
+query._extraOptions = {"sum":"score","groupby":"createdAt"};
+query.ascending("createdAt");
+```
+
+返回内容如下：
+
+```
+[
+	{
+		"_sumScore": 2398,
+		"createdAt": "2014-02-05"
+	},
+	{
+		"_sumScore": 1208,
+		"createdAt": "2014-01-01"
+	},
+]
+```
+
+
 ## 修改数据
 
 修改数据非常简单，首先需要获取到要更新的`Bmob.Object`对象，修改值后保存数据就可以了，示例代码如下：
@@ -938,9 +947,9 @@ mainQuery.find({
 var Diary = Bmob.Object.extend("diary");
 var query = new Bmob.Query(Diary);
 
-// 这个 id 是要修改条目的 id，你在
+// 这个 id 是要修改条目的 objectId，你在
  这个存储并成功时可以获取到，请看前面的文档
-query.get('3453453453fdsdf', {
+query.get('3453453453', {
     success: function(result) {
       // 回调中可以取得这个 GameScore 对象的一个实例，然后就可以修改它了
       result.set('title', 'test!');
@@ -2002,7 +2011,7 @@ post.save(null, {
 
 ## ACL和角色
 
-数据安全是软件系统中最重要的组成部分，为了更好的保护应用数据的安全，Bmob在软件架构层面提供了应用层次、表层次、ACL（Access Control List：访问控制列表）、角色管理（Role）四种不同粒度的权限控制的方式，确保用户数据的安全（详细请查看[Bmob数据与安全页面](https://docs.bmob.cn/other/Other/m_bql/doc/index.html)，了解Bmob如何保护数据安全）。
+数据安全是软件系统中最重要的组成部分，为了更好的保护应用数据的安全，Bmob在软件架构层面提供了应用层次、表层次、ACL（Access Control List：访问控制列表）、角色管理（Role）四种不同粒度的权限控制的方式，确保用户数据的安全（详细请查看[Bmob数据与安全页面](http://doc.bmob.cn/other/data_safety/)，了解Bmob如何保护数据安全）。
 
 其中，最灵活的方法是通过ACL和角色，它的思路是每一条数据有一个用户和角色的列表，以及这些用户和角色拥有什么样的许可权限。
 
@@ -2167,6 +2176,15 @@ query.find({
 });
 ```
 
+
+一个完整的示例效果如下
+
+```
+//当前用户位置，40.0改为微信获取到的位置
+var point = new Bmob.GeoPoint({latitude: 40.0, longitude: -30.0});
+query.withinKilometers("locationGeo", point, 3000);  //位置周围3000米的数据
+```
+
 ## 小程序使用云逻辑
 端逻辑调用使用Bmob.Cloud.run方法，如调用云函数中的"test"方法，并传递name参数到服务器中的示例代码如下：
 
@@ -2190,4 +2208,3 @@ Bmob.Cloud.run('test', {}, {
   }
 })
 ```
-
