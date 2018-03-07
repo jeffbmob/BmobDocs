@@ -2293,6 +2293,66 @@ curl -X GET \
     https://api.bmob.cn/1/users/Kc3M222J
 ```
 
+
+### 检查用户的登录是否过期
+
+**请求描述**
+
+当用户登录后，系统会返回用户一个session token，用这个api可以检查这个session token是否过期
+
+**请求**
+
+- url ： https://api.bmob.cn/1/checkSession/objectID
+
+- method ：GET
+
+- header:
+
+```
+X-Bmob-Application-Id: Your Application ID
+X-Bmob-REST-API-Key: Your REST API Key
+X-Bmob-Session-Token: Your Session Token
+Content-Type: application/json
+```
+
+
+**不过期时响应**
+
+- status: 200 OK
+
+- body:
+
+```
+{
+    "msg": "ok"
+}
+```
+
+**过期时响应**
+
+- status: 200 OK
+
+- body:
+
+```
+{
+    "msg": "fail"
+}
+```
+
+**例子**
+
+检查用户objectId为Kc3M222J的session token是否过期:
+
+```
+curl -X GET \
+    -H "X-Bmob-Application-Id: Your Application ID" \
+    -H "X-Bmob-REST-API-Key: Your REST API Key" \
+    -H "X-Bmob-Session-Token: Your Session Token" \
+    https://api.bmob.cn/1/checkSession/Kc3M222J
+```
+
+
 ### 更新用户
 
 **请求描述**
