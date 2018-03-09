@@ -353,7 +353,7 @@ query.find().then(function(results) {
 
 ### 对字符串类型做查询
 
-如果想要查询以某一个特定字符串开头的记录，可以使用`startWith`方法，示例代码如下：
+如果想要查询以某一个特定字符串开头的记录，可以使用`startsWith`方法，示例代码如下：
 
 ```
 // 查询在playerName字段中以bm开头的记录
