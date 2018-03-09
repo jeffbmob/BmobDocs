@@ -683,7 +683,14 @@ query.equalTo("title", { "$regex": "" + k + ".*" });
 ```
 
 查询大于某个日期的数据，示例代码如下
+```
 query.equalTo("dateTime", {"$gte":{"__type":"Date","iso":"2011-08-21 18:02:52"}});
+```
+
+查询今天内的数据，方式如下:
+```
+query.equalTo("$and",[{"createdAt":{"$gte":{"__type":"Date","iso":"2014-07-15 00:00:00"}}},{"createdAt":{"$lte":{"__type":"Date","iso":"2014-07-15 23:59:59"}}}]);
+```
 
 对查询的属性值进行大小比较的示例代码如下：
 
@@ -1793,6 +1800,13 @@ wx.login({
     }
 
 
+```
+V3.5 版本优化上面代码登陆只需在app.js 加入2行代码
+```
+onLaunch: function() {
+    var user = new Bmob.User() //实例化用户对象
+    user.auth()
+  },
 ```
 
 ### 登录（自有账户密码登录，适合APP迁移过来的用户）
