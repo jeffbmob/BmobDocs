@@ -546,43 +546,47 @@
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_53">更新用户</a></li>
+													<li><a class="itm-l2" href="#_53">检查用户的登录是否过期</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_54">删除用户</a></li>
+													<li><a class="itm-l2" href="#_54">更新用户</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_55">查询用户</a></li>
+													<li><a class="itm-l2" href="#_55">删除用户</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_56">密码重置</a></li>
+													<li><a class="itm-l2" href="#_56">查询用户</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_59">邮箱验证</a></li>
+													<li><a class="itm-l2" href="#_57">密码重置</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_60">用户账户连接</a></li>
+													<li><a class="itm-l2" href="#_60">邮箱验证</a></li>
+												</ul>
+												
+												<ul class="nav nav-l2">
+													<li><a class="itm-l2" href="#_61">用户账户连接</a></li>
 												</ul>
 												
 											</li>
 												
-											<li class=""><a href="#_64">文件管理</a>
+											<li class=""><a href="#_65">文件管理</a>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_65">整个文件上传</a></li>
+													<li><a class="itm-l2" href="#_66">整个文件上传</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_66">删除文件</a></li>
+													<li><a class="itm-l2" href="#_67">删除文件</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_67">批量删除文件</a></li>
+													<li><a class="itm-l2" href="#_68">批量删除文件</a></li>
 												</ul>
 												
 											</li>
@@ -594,19 +598,19 @@
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_68">角色和相关操作</a></li>
+													<li><a class="itm-l2" href="#_69">角色和相关操作</a></li>
 												</ul>
 												
 											</li>
 												
-											<li class=""><a href="#_75">地理位置</a>
+											<li class=""><a href="#_76">地理位置</a>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_76">创建地理位置对象</a></li>
+													<li><a class="itm-l2" href="#_77">创建地理位置对象</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_77">查询地理位置信息</a></li>
+													<li><a class="itm-l2" href="#_78">查询地理位置信息</a></li>
 												</ul>
 												
 											</li>
@@ -627,35 +631,35 @@
 												
 											</li>
 												
-											<li class=""><a href="#_78">数据表</a>
+											<li class=""><a href="#_79">数据表</a>
 												
 												<ul class="nav nav-l2">
 													<li><a class="itm-l2" href="#app_5">获取app表的信息</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_79">表支持的数据类型</a></li>
+													<li><a class="itm-l2" href="#_80">表支持的数据类型</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_80">创建一个表</a></li>
+													<li><a class="itm-l2" href="#_81">创建一个表</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_81">修改表的结构</a></li>
+													<li><a class="itm-l2" href="#_82">修改表的结构</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_82">删除表</a></li>
+													<li><a class="itm-l2" href="#_83">删除表</a></li>
 												</ul>
 												
 											</li>
 												
-											<li class=""><a href="#_83">获取服务器时间</a>
+											<li class=""><a href="#_84">获取服务器时间</a>
 												
 											</li>
 												
-											<li class=""><a href="#_84">错误码</a>
+											<li class=""><a href="#_85">错误码</a>
 												
 											</li>
 												
@@ -2982,7 +2986,65 @@ Content-Type: application/json
     https://api.bmob.cn/1/users/Kc3M222J
 </code></pre>
 
-<h3 id="_53">更新用户<a class="headerlink" href="#_53" title="Permanent link">&para;</a></h3>
+<h3 id="_53">检查用户的登录是否过期<a class="headerlink" href="#_53" title="Permanent link">&para;</a></h3>
+<p><strong>请求描述</strong></p>
+<p>当用户登录后，系统会返回用户一个session token，用这个api可以检查这个session token是否过期</p>
+<p><strong>请求</strong></p>
+<ul>
+<li>
+<p>url ： https://api.bmob.cn/1/checkSession/objectID</p>
+</li>
+<li>
+<p>method ：GET</p>
+</li>
+<li>
+<p>header:</p>
+</li>
+</ul>
+<pre><code>X-Bmob-Application-Id: Your Application ID
+X-Bmob-REST-API-Key: Your REST API Key
+X-Bmob-Session-Token: Your Session Token
+Content-Type: application/json
+</code></pre>
+
+<p><strong>不过期时响应</strong></p>
+<ul>
+<li>
+<p>status: 200 OK</p>
+</li>
+<li>
+<p>body:</p>
+</li>
+</ul>
+<pre><code>{
+    &quot;msg&quot;: &quot;ok&quot;
+}
+</code></pre>
+
+<p><strong>过期时响应</strong></p>
+<ul>
+<li>
+<p>status: 200 OK</p>
+</li>
+<li>
+<p>body:</p>
+</li>
+</ul>
+<pre><code>{
+    &quot;msg&quot;: &quot;fail&quot;
+}
+</code></pre>
+
+<p><strong>例子</strong></p>
+<p>检查用户objectId为Kc3M222J的session token是否过期:</p>
+<pre><code>curl -X GET \
+    -H &quot;X-Bmob-Application-Id: Your Application ID&quot; \
+    -H &quot;X-Bmob-REST-API-Key: Your REST API Key&quot; \
+    -H &quot;X-Bmob-Session-Token: Your Session Token&quot; \
+    https://api.bmob.cn/1/checkSession/Kc3M222J
+</code></pre>
+
+<h3 id="_54">更新用户<a class="headerlink" href="#_54" title="Permanent link">&para;</a></h3>
 <p><strong>请求描述</strong></p>
 <p>在通常的情况下，我们都不希望用户去修改自己的数据，但可以通过认证让用户去做这件事，用户必须加入一个 <strong>X-Bmob-Session-Token</strong> 头部来请求这个更新操作，这个sessionToken在注册和登录时都会返回。该值的有效期为1年。</p>
 <p>为了改动一个用户已经有的数据，需要对这个用户的URL发送一个HTTP PUT请求，任何你没有指定的key会保持不变，所以你可以只改动用户信息中的一部分，username和password可以更改，但是新的username不能重复。</p>
@@ -3040,7 +3102,7 @@ X-Bmob-Session-Token: sessionToken
 </code></pre>
 
 <p><strong>在更新用户信息时，如果用户邮箱有变更并且在管理后台打开了邮箱验证选项的话，Bmob云后端同样会自动发动一封验证邮件给用户。</strong></p>
-<h3 id="_54">删除用户<a class="headerlink" href="#_54" title="Permanent link">&para;</a></h3>
+<h3 id="_55">删除用户<a class="headerlink" href="#_55" title="Permanent link">&para;</a></h3>
 <p><strong>请求描述</strong>
 为了在<a href="http://www.bmob.cn/" title="Bmob移动后端云服务平台">Bmob</a>上删除一个用户，可以向用户的URL上发送一个DELETE请求，前提是你必须提供一个X-Bmob-Session-Token在Http请求头以便认证授权。</p>
 <p>当然了，你也可以直接把MasterKey传入到X-Bmob-Master-Key中, 这个就可以实现在不需要提供SessionToken的情形下更新和删除用户了，但希望只在开发环境下使用，不要把MasterKey发布出去。</p>
@@ -3085,7 +3147,7 @@ X-Bmob-Session-Token: sessionToken
     https://api.bmob.cn/1/users/g7y9tkhB7O
 </code></pre>
 
-<h3 id="_55">查询用户<a class="headerlink" href="#_55" title="Permanent link">&para;</a></h3>
+<h3 id="_56">查询用户<a class="headerlink" href="#_56" title="Permanent link">&para;</a></h3>
 <p><strong>请求描述</strong></p>
 <p>你可以一次获取多个用户，只要向用户的根URL发送一个GET请求，没有任何URL参数的话，可以简单地列出所有用户。</p>
 <p>所有的对普通对象的查询选项都适用于对用户对象的查询，所以可以查看 <a href="#查询">查询</a> 部分来获取详细信息。</p>
@@ -3148,7 +3210,7 @@ X-Bmob-REST-API-Key: Your REST API Key
     https://api.bmob.cn/1/users
 </code></pre>
 
-<h3 id="_56">密码重置<a class="headerlink" href="#_56" title="Permanent link">&para;</a></h3>
+<h3 id="_57">密码重置<a class="headerlink" href="#_57" title="Permanent link">&para;</a></h3>
 <p>共提供了3种方法，分别是email重置、短信验证码重置、旧密码重置。</p>
 <h4 id="eamil">Eamil重置<a class="headerlink" href="#eamil" title="Permanent link">&para;</a></h4>
 <p><strong>请求描述</strong></p>
@@ -3209,7 +3271,7 @@ Content-Type: application/json
     https://api.bmob.cn/1/requestPasswordReset
 </code></pre>
 
-<h4 id="_57">使用短信验证码进行密码重置<a class="headerlink" href="#_57" title="Permanent link">&para;</a></h4>
+<h4 id="_58">使用短信验证码进行密码重置<a class="headerlink" href="#_58" title="Permanent link">&para;</a></h4>
 <p><strong>请求描述</strong></p>
 <p>如果用户有绑定了手机号码，就可以通过手机验证码短信来实现使用手机号码找回密码的功能，先调用 <a href="../../../restful/developdoc/index.html?menukey=develop_doc&amp;key=develop_restful#请求短信验证码" title="请求短信验证码API">请求短信验证码API</a>会将验证码发送到用户手机上，用户收到验证码并输入后，调用PUT /1/resetPasswordBySmsCode/smsCode 来为用户设置新的密码。</p>
 <p><strong>请求</strong></p>
@@ -3259,7 +3321,7 @@ Content-Type: application/json
     https://api.bmob.cn/1/resetPasswordBySmsCode/123987
 </code></pre>
 
-<h4 id="_58">提供旧密码方式安全修改用户密码<a class="headerlink" href="#_58" title="Permanent link">&para;</a></h4>
+<h4 id="_59">提供旧密码方式安全修改用户密码<a class="headerlink" href="#_59" title="Permanent link">&para;</a></h4>
 <p><strong>请求描述</strong></p>
 <p>很多开发者希望让用户输入一次旧密码做一次校验，旧密码正确才可以修改为新密码，因此我们提供了一个单独的 API <strong>PUT /1/updatePassword</strong> 来安全地修改用户密码。</p>
 <p><strong>注意：仍然需要传入 X-Bmob-Session-Token，也就是登录用户才可以修改自己的密码。</strong></p>
@@ -3316,7 +3378,7 @@ X-Bmob-Session-Token: sessionToken
 
 <p>g7y9tkhB7O：为当前登录用户的objectId。
 pnktnjyb996sj4p156gjtp4im:用户sessionToken</p>
-<h3 id="_59">邮箱验证<a class="headerlink" href="#_59" title="Permanent link">&para;</a></h3>
+<h3 id="_60">邮箱验证<a class="headerlink" href="#_60" title="Permanent link">&para;</a></h3>
 <p>设置邮件验证是一个可选的应用设置, 这样可以对已经确认过邮件的用户提供一部分保留的体验，邮件验证功能会在用户(User)对象中加入emailVerified字段, 当一个用户的邮件被新添加或者修改过的话，emailVerified会默认被设为false，如果应用设置中开启了邮箱认证功能，<a href="http://www.bmob.cn/" title="Bmob移动后端云服务平台">Bmob</a>会对用户填写的邮箱发送一个链接, 这个链接可以把emailVerified设置为 true.</p>
 <p>emailVerified 字段有 3 种状态可以考虑：</p>
 <p><strong>true</strong> : 用户可以点击邮件中的链接通过<a href="http://www.bmob.cn/" title="Bmob移动后端云服务平台">Bmob</a>来验证地址，一个用户永远不会在新创建这个值的时候出现emailVerified为true。</p>
@@ -3372,7 +3434,7 @@ Content-Type: application/json
   https://api.bmob.cn/1/requestEmailVerify
 </code></pre>
 
-<h3 id="_60">用户账户连接<a class="headerlink" href="#_60" title="Permanent link">&para;</a></h3>
+<h3 id="_61">用户账户连接<a class="headerlink" href="#_61" title="Permanent link">&para;</a></h3>
 <p>Bmob允许你连接你的用户到第三方账户服务系统，比如新浪微博和QQ，这样就允许您的用户用已经存在的第三方账户直接登录您的App。通过注册或者更新的用户信息的功能，使用 <strong>authData</strong> 字段来保存第三方服务的授权信息就可以做到。一旦用户关联了某个第三方账户，<strong>authData</strong> 将被存储到您的Bmob的用户信息里，并通过登录即可重新获取到。</p>
 <p><strong>authData</strong> 是一个普通的 JSON 对象，它所要求的key根据第三方账户服务不同而不同，具体要求见下面。每种情况下，你都需要自己负责完成整个授权过程 (一般是通过 OAuth 协议，1.0 或者 2.0) 通过连接的API来获取授权信息。</p>
 <p>新浪微博的 <strong>authData</strong> 内容:</p>
@@ -3407,7 +3469,7 @@ Content-Type: application/json
 }
 </code></pre>
 
-<h4 id="_61">注册和登录<a class="headerlink" href="#_61" title="Permanent link">&para;</a></h4>
+<h4 id="_62">注册和登录<a class="headerlink" href="#_62" title="Permanent link">&para;</a></h4>
 <p><strong>请求描述</strong></p>
 <p>使用一个第三方账户连接服务来注册用户并登录，同样使用POST请求/1/users，只是需要提供authData字段。</p>
 <p><strong>请求</strong></p>
@@ -3497,7 +3559,7 @@ Location: https://api.bmob.cn/1/users/objectId
   https://api.bmob.cn/1/users
 </code></pre>
 
-<h4 id="_62">连接<a class="headerlink" href="#_62" title="Permanent link">&para;</a></h4>
+<h4 id="_63">连接<a class="headerlink" href="#_63" title="Permanent link">&para;</a></h4>
 <p><strong>请求描述</strong></p>
 <p>连接一个现有的用户到新浪微博或者腾讯QQ帐号，可以通过发送一个 PUT 请求附带 authData 字段到以上Location返回的用户URL做到。</p>
 <p><strong>请求</strong></p>
@@ -3578,7 +3640,7 @@ X-Bmob-Session-Token: sessionToken
 </code></pre>
 
 <p>完成连接后，你可以使用匹配的 authData 来认证他们。</p>
-<h4 id="_63">断开连接<a class="headerlink" href="#_63" title="Permanent link">&para;</a></h4>
+<h4 id="_64">断开连接<a class="headerlink" href="#_64" title="Permanent link">&para;</a></h4>
 <p><strong>请求描述</strong></p>
 <p>断开一个现有用户到某个服务，可以发送一个 PUT 请求设置 authData 中对应的服务为 null 来做到。</p>
 <p><strong>请求</strong></p>
@@ -3646,9 +3708,9 @@ X-Bmob-Session-Token: sessionToken
   https://api.bmob.cn/1/users/Kc3M222J
 </code></pre>
 
-<h2 id="_64">文件管理<a class="headerlink" href="#_64" title="Permanent link">&para;</a></h2>
+<h2 id="_65">文件管理<a class="headerlink" href="#_65" title="Permanent link">&para;</a></h2>
 <p>Bmob的新版文件采用了cdn。</p>
-<h3 id="_65">整个文件上传<a class="headerlink" href="#_65" title="Permanent link">&para;</a></h3>
+<h3 id="_66">整个文件上传<a class="headerlink" href="#_66" title="Permanent link">&para;</a></h3>
 <p><strong>请求描述</strong></p>
 <p><strong>请求</strong></p>
 <ul>
@@ -3741,7 +3803,7 @@ Content-Type: content-Type
 https://api.bmob.cn/1/classes/GameScore/e1kXT22L
 </code></pre>
 
-<h3 id="_66">删除文件<a class="headerlink" href="#_66" title="Permanent link">&para;</a></h3>
+<h3 id="_67">删除文件<a class="headerlink" href="#_67" title="Permanent link">&para;</a></h3>
 <p><strong>请求描述</strong></p>
 <p>该接口可删除已经上传的文件。</p>
 <p><strong>请求</strong></p>
@@ -3785,7 +3847,7 @@ Content-Type: application/json
 
 <p>其中2016/04/14/9306f2e74090d668801eac8814b3f56f.jpg是文件上传时返回的url除去域名之后的字符串，upyun是上传时返回的cdn。</p>
 <p><strong>删除文件不会删除文件关联的行记录中的文件列的值，需要自行通过更新行来删除关联。</strong></p>
-<h3 id="_67">批量删除文件<a class="headerlink" href="#_67" title="Permanent link">&para;</a></h3>
+<h3 id="_68">批量删除文件<a class="headerlink" href="#_68" title="Permanent link">&para;</a></h3>
 <p><strong>请求描述</strong>
 该接口可批量删除已经上传的文件。此操作不可逆，已经删除成功的文件不可恢复。</p>
 <p><strong>请求</strong></p>
@@ -3876,13 +3938,13 @@ cdnname为删除失败的cdn名称，url1，url2为删除失败的url地址。</
 }
 </code></pre>
 
-<h3 id="_68">角色和相关操作<a class="headerlink" href="#_68" title="Permanent link">&para;</a></h3>
+<h3 id="_69">角色和相关操作<a class="headerlink" href="#_69" title="Permanent link">&para;</a></h3>
 <p>在很多情况下，你需要定义一些用户具有某种相同的数据操作权限，而另外一群用户具有另外一种相同的数据操作权限，这时你就可以使用到Bmob的角色（对应Bmob在Web提供的Role表、SDK中的BmobRole类）功能，设置不同的用户组不同的操作权限。角色表有三个特殊字段：</p>
 <p><code>name</code> : 必须字段，表示角色名称,而且只允许被设置一次（命名必须由字母, 空格, 减号或者下划线构成）；</p>
 <p><code>users</code> :一个指向一系列用户的关系, 这些用户会继承角色的权限；</p>
 <p><code>roles</code> : 一个指向一系列子角色的关系, 这些子关系会继承父角色所有的权限。</p>
 <p>而创建角色、更新角色、删除角色本质就是对_Role表进行操作，因为该表是固定的，所以我们将请求的URL设置为https://api.bmob.cn/1/roles，具体操作如下。_Role表中含 <code>users</code>和 <code>roles</code>字段，其中 <code>users</code> 字段指向的是 <code>_User</code> 表，在该字段下的用户记录具备该角色的读写权限，而 <code>roles</code> 字段指向的是 <code>_Role</code> 表，在该字段下的角色记录都将继承该角色的权限。</p>
-<h4 id="_69">创建角色<a class="headerlink" href="#_69" title="Permanent link">&para;</a></h4>
+<h4 id="_70">创建角色<a class="headerlink" href="#_70" title="Permanent link">&para;</a></h4>
 <p>创建一个新角色的方法如下（固定POST数据到https://api.bmob.cn/1/roles中，且必须提供 <code>name</code> 字段）：</p>
 <pre><code>curl -X POST \
   -H &quot;X-Bmob-Application-Id: Your Application ID&quot; \
@@ -3940,7 +4002,7 @@ cdnname为删除失败的cdn名称，url1，url2为删除失败的url地址。</
 Location: https://api.bmob.cn/1/roles/51e3812D
 </code></pre>
 
-<h4 id="_70">获取角色<a class="headerlink" href="#_70" title="Permanent link">&para;</a></h4>
+<h4 id="_71">获取角色<a class="headerlink" href="#_71" title="Permanent link">&para;</a></h4>
 <p>获取角色对象的方法如下：</p>
 <pre><code>curl -X GET \
   -H &quot;X-Bmob-Application-Id: Your Application ID&quot; \
@@ -3966,7 +4028,7 @@ Location: https://api.bmob.cn/1/roles/51e3812D
 </code></pre>
 
 <p>注意 users 和 roles 关系无法在 JSON 结果中看到, 您需要使用 $relatedTo 操作符来查询。</p>
-<h4 id="_71">更新角色<a class="headerlink" href="#_71" title="Permanent link">&para;</a></h4>
+<h4 id="_72">更新角色<a class="headerlink" href="#_72" title="Permanent link">&para;</a></h4>
 <p>更新角色时，一个很重要的一点是： <code>name</code> 字段不可以更改。添加和删除 <code>users</code> 和 <code>roles</code> 可以通过使用 AddRelation 和 RemoveRelation 操作符进行。</p>
 <p>如给 "Moderators" 角色增加 2 个用户，实现如下:</p>
 <pre><code>curl -X PUT \
@@ -4013,7 +4075,7 @@ Location: https://api.bmob.cn/1/roles/51e3812D
   https://api.bmob.cn/1/roles/51e3812D
 </code></pre>
 
-<h4 id="_72">删除角色<a class="headerlink" href="#_72" title="Permanent link">&para;</a></h4>
+<h4 id="_73">删除角色<a class="headerlink" href="#_73" title="Permanent link">&para;</a></h4>
 <p>删除角色这里有一个需要注意的是：需要传入 X-Bmob-Session-Token ，即对这条数据有操作权限的用户SessionToken。实现如下：</p>
 <pre><code>curl -X DELETE \
   -H &quot;X-Bmob-Application-Id: Your Application ID&quot; \
@@ -4022,7 +4084,7 @@ Location: https://api.bmob.cn/1/roles/51e3812D
   https://api.bmob.cn/1/roles/51e3812D
 </code></pre>
 
-<h4 id="_73">角色的使用<a class="headerlink" href="#_73" title="Permanent link">&para;</a></h4>
+<h4 id="_74">角色的使用<a class="headerlink" href="#_74" title="Permanent link">&para;</a></h4>
 <p>设置一条数据的角色权限，需要在ACL中把Key的名字设置为 “<code>role:</code> + 角色名称” 。如限制一条数据可以被在 "Members" 里的任何人读到, 而且可以被它的创建者（objectId为<code>f1766d0b42</code>）和任何有 "Moderators" 角色的人所修改, 实现方式如下:</p>
 <pre><code>{
   &quot;f1766d0b42&quot;: {
@@ -4038,7 +4100,7 @@ Location: https://api.bmob.cn/1/roles/51e3812D
 </code></pre>
 
 <p>如果这个用户和 "Moderators" 本身就是 "Members" 的子角色和用户，那么，您不必为创建的用户和 "Moderators" 指定读的权限，因为它们都会继承授予 "Members" 的权限。</p>
-<h4 id="_74">角色的继承<a class="headerlink" href="#_74" title="Permanent link">&para;</a></h4>
+<h4 id="_75">角色的继承<a class="headerlink" href="#_75" title="Permanent link">&para;</a></h4>
 <p>一个角色可以包含另一个，可以为 2 个角色建立一个父-子关系。 这个关系的结果就是任何被授予父角色的权限隐含地被授予子角色。</p>
 <p>这样的关系类型通常在用户管理的内容类的应用上比较常见, 比如在论坛中，有一些少数的用户是 "管理员（Administartors）", 有最高的权限，可以调整系统设置、 创建新的论坛等等。 另一类用户是 "版主（Moderators）"，他们可以对用户发帖的内容进行管理。可见，任何有管理员权限的人都应该有版主的权限。为建立起这种关系, 您应该把 "Administartors" 的角色设置为 "Moderators" 的子角色, 具体来说就是把 "Administrators" 这个角色加入 "Moderators" 对象的 roles 关系之中，实现如下：</p>
 <pre><code class="java">
@@ -4061,9 +4123,9 @@ curl -X PUT \
   https://api.bmob.cn/1/roles/&lt;ModeratorsRoleObjectId&gt;
 </code></pre>
 
-<h2 id="_75">地理位置<a class="headerlink" href="#_75" title="Permanent link">&para;</a></h2>
+<h2 id="_76">地理位置<a class="headerlink" href="#_76" title="Permanent link">&para;</a></h2>
 <p>Bmob允许用户根据地球的经度和纬度坐标进行基于地理位置的信息查询。你可以在查询中添加一个GeoPoint的对象查询。你可以实现轻松查找出离当前用户最接近的信息或地点的功能。</p>
-<h3 id="_76">创建地理位置对象<a class="headerlink" href="#_76" title="Permanent link">&para;</a></h3>
+<h3 id="_77">创建地理位置对象<a class="headerlink" href="#_77" title="Permanent link">&para;</a></h3>
 <p>在表中添加一个地理位置的列，只需要在对应列值满足以下格式即可。</p>
 <pre><code>{
   key : {
@@ -4087,7 +4149,7 @@ curl -X PUT \
   https://api.bmob.cn/1/classes/GameScore/e1kXT22L
 </code></pre>
 
-<h3 id="_77">查询地理位置信息<a class="headerlink" href="#_77" title="Permanent link">&para;</a></h3>
+<h3 id="_78">查询地理位置信息<a class="headerlink" href="#_78" title="Permanent link">&para;</a></h3>
 <p>现在你有一系列的对象对应的地理坐标，如果能发现哪些对象离指定的点近就好了，这可以通过GeoPoint数据类型加上在查询中使用$nearSphere做到。查询的 <code>where</code> 参数值格式如下。</p>
 <pre><code>{
   key: {
@@ -4401,7 +4463,7 @@ X-Bmob-Password: Your Account Password
     https://api.bmob.cn/1/apps/f6fe8d5ab8a7909a3c6f6a7a0adb9550
 </code></pre>
 
-<h2 id="_78">数据表<a class="headerlink" href="#_78" title="Permanent link">&para;</a></h2>
+<h2 id="_79">数据表<a class="headerlink" href="#_79" title="Permanent link">&para;</a></h2>
 <p>通过数据表的restful api，你可以查看，创建或编辑你的表结构，在用户管理后台的数据浏览页面也实现了这样的功能。</p>
 <p>注意，调用数据表相关的api，必须指定Master Key。</p>
 <h3 id="app_5">获取app表的信息<a class="headerlink" href="#app_5" title="Permanent link">&para;</a></h3>
@@ -4522,9 +4584,9 @@ X-Bmob-Master-Key: Your Master Key
 }
 </code></pre>
 
-<h3 id="_79">表支持的数据类型<a class="headerlink" href="#_79" title="Permanent link">&para;</a></h3>
+<h3 id="_80">表支持的数据类型<a class="headerlink" href="#_80" title="Permanent link">&para;</a></h3>
 <p>Bmob的表含有String、Number、Bool、Date、File、Geo、Array、Object、Pointer以及Relation类型。</p>
-<h3 id="_80">创建一个表<a class="headerlink" href="#_80" title="Permanent link">&para;</a></h3>
+<h3 id="_81">创建一个表<a class="headerlink" href="#_81" title="Permanent link">&para;</a></h3>
 <p><strong>请求描述</strong></p>
 <p>可通过该接口创建一个表</p>
 <p><strong>请求</strong></p>
@@ -4611,7 +4673,7 @@ X-Bmob-Master-Key: Your Master Key
   https://api.bmob.cn/1/schemas/City
 </code></pre>
 
-<h3 id="_81">修改表的结构<a class="headerlink" href="#_81" title="Permanent link">&para;</a></h3>
+<h3 id="_82">修改表的结构<a class="headerlink" href="#_82" title="Permanent link">&para;</a></h3>
 <p><strong>请求描述</strong></p>
 <p><strong>请求</strong></p>
 <ul>
@@ -4710,7 +4772,7 @@ X-Bmob-Master-Key: Your Master Key
   https://api.bmob.cn/1/schemas/City
 </code></pre>
 
-<h3 id="_82">删除表<a class="headerlink" href="#_82" title="Permanent link">&para;</a></h3>
+<h3 id="_83">删除表<a class="headerlink" href="#_83" title="Permanent link">&para;</a></h3>
 <p><strong>请求描述</strong></p>
 <p><strong>请求</strong></p>
 <ul>
@@ -4750,7 +4812,7 @@ X-Bmob-Master-Key: Your Master Key
   https://api.bmob.cn/1/schemas/City
 </code></pre>
 
-<h2 id="_83">获取服务器时间<a class="headerlink" href="#_83" title="Permanent link">&para;</a></h2>
+<h2 id="_84">获取服务器时间<a class="headerlink" href="#_84" title="Permanent link">&para;</a></h2>
 <p><strong>请求描述</strong></p>
 <p>有时，app需要获取服务器的时间，可使用该请求。</p>
 <p><strong>请求</strong></p>
@@ -4797,7 +4859,7 @@ X-Bmob-REST-API-Key: Your REST API Key
 </code></pre>
 
 <p>timestamp为时间戳，datetime为格式化的日期。</p>
-<h2 id="_84">错误码<a class="headerlink" href="#_84" title="Permanent link">&para;</a></h2>
+<h2 id="_85">错误码<a class="headerlink" href="#_85" title="Permanent link">&para;</a></h2>
 <p>参照<a href="../../../other/error_code/#restapi">所有平台错误码列表</a> 中的Restful部分。</p>
                 </div>
             </div>
