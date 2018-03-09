@@ -31,6 +31,9 @@
 
 ![](image/1.png)
 
+在应用设置->配置里面把这几个域名填写到上图微信后台，设置https域名
+![](image/2.png)
+
 ## 下载和安装BmobSDK
 
 一、把"bmob-min.js"和"underscore.js"放到相应的文件，例如放到utils中，在其他页面添加以下代码
