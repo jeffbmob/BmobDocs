@@ -385,7 +385,7 @@
 												
 											</li>
 												
-											<li class=""><a href="#sdk">统计SDK</a>
+											<li class=""><a href="#sdk">统计SDK(暂不维护)</a>
 												
 												<ul class="nav nav-l2">
 													<li><a class="itm-l2" href="#_6">添加方法</a></li>
@@ -824,7 +824,7 @@
 <p><strong>注: 仅数据迁移功能而言 目前是不需要开发者手动调用重置请求域名的resetDomain方法，不同用户级别的应用请求到的域名空间都是由Bmob后端控制(之前的迁移用户重置了也无妨);</strong></p>
 <h2 id="_5">海外加速<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>如果您不是使用迁移服务的用户,但仅仅想使用海外加速功能的话，就需要在初始化sdk后就调用resetDomain方法(建议在Application中做)，传的参数也是上面数据迁移例子中的openvip域名。</p>
-<h2 id="sdk">统计SDK<a class="headerlink" href="#sdk" title="Permanent link">&para;</a></h2>
+<h2 id="sdk">统计SDK(暂不维护)<a class="headerlink" href="#sdk" title="Permanent link">&para;</a></h2>
 <p>从v3.5.2开始，把统计SDK集成到了数据服务SDK，上传应用不再需要额外集成统计SDK，低于此版本的可以去控制台的应用官网下载。</p>
 <h3 id="_6">添加方法<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <ul>
@@ -1516,7 +1516,7 @@ query.findObjects(new FindListener&lt;GameScore&gt;() {
                             // ...
                         }
                     }
-                }); 
+                });
 </code></pre>
 
 <h3 id="_26">查询条件<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h3>
@@ -1576,7 +1576,7 @@ q1.addWhereGreaterThanOrEqualTo(&quot;createdAt&quot;,new BmobDate(date));
 and.add(q1);
 //小于23：59：59
 BmobQuery&lt;Person&gt; q2 = new BmobQuery&lt;Person&gt;();
-String end = &quot;2015-05-01 23:59:59&quot;; 
+String end = &quot;2015-05-01 23:59:59&quot;;
 SimpleDateFormat sdf1 = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);  
 Date date1  = null;
 try {
@@ -1819,7 +1819,7 @@ bmobQuery.findObjects(new FindListener&lt;Person&gt;() {
 例：
 计算玩家得分表（GameScore）中列名为score的总和，那么返回的结果集会有一个列名为<code>_sumScore</code>，
 若设置了setHasGroupCount（true）,则结果集中会返回<code>_count</code>。
-2、以上方法可自由组合且与之前的查询语句中的where, order, limit, skip等组合一起使用。 
+2、以上方法可自由组合且与之前的查询语句中的where, order, limit, skip等组合一起使用。
 3、因为返回格式不固定，故使用<code>findStatistics</code>来专门处理统计查询。</p>
 <h4 id="_39">统计查询方法<a class="headerlink" href="#_39" title="Permanent link">&para;</a></h4>
 <p>例如，如果要计算所有玩家的得分总和，那么代码如下：</p>
@@ -1841,7 +1841,7 @@ query.findStatistics(GameScore.class,new QueryListener&lt;JSONArray&gt;() {
             }else{
                 showToast(&quot;查询成功，无数据&quot;);
             }
-        }else{  
+        }else{
             Log.i(&quot;bmob&quot;,&quot;失败：&quot;+e.getMessage()+&quot;,&quot;+e.getErrorCode());
         }
     }
@@ -2092,7 +2092,7 @@ query.findObjects(new FindListener&lt;Person&gt;() {
 <strong>1、只有当缓存查询的条件一模一样时才会获取到缓存到本地的缓存数据。</strong>
 <strong>2、设置的默认的最大缓存时长为5小时。</strong></p>
 <h3 id="bql">BQL查询<a class="headerlink" href="#bql" title="Permanent link">&para;</a></h3>
-<p><code>Bmob Query Language</code>（简称 BQL） 是 Bmob 自 <code>BmobSDKV3.3.7</code> 版本开始，为查询 API 定制的一套类似 SQL 查询语法的子集和变种，主要目的是降低大家学习 Bmob 查询API 的成本，可以使用传统的 SQL 语法来查询 Bmob 应用内的数据。 </p>
+<p><code>Bmob Query Language</code>（简称 BQL） 是 Bmob 自 <code>BmobSDKV3.3.7</code> 版本开始，为查询 API 定制的一套类似 SQL 查询语法的子集和变种，主要目的是降低大家学习 Bmob 查询API 的成本，可以使用传统的 SQL 语法来查询 Bmob 应用内的数据。</p>
 <p>具体的 BQL 语法，请参考 <a href="http://doc.bmob.cn/other/bql/">Bmob Query Language 详细指南</a>。</p>
 <h4 id="bql_1">基本BQL查询<a class="headerlink" href="#bql_1" title="Permanent link">&para;</a></h4>
 <p>可以通过以下方法来进行SQL查询：
@@ -2806,7 +2806,7 @@ BmobQuery&lt;MyUser&gt; query = new BmobQuery&lt;MyUser&gt;();
 Post post = new Post();
 post.setObjectId(&quot;ESIt3334&quot;);
 //likes是Post表中的字段，用来存储所有喜欢该帖子的用户
-query.addWhereRelatedTo(&quot;likes&quot;, new BmobPointer(post));    
+query.addWhereRelatedTo(&quot;likes&quot;, new BmobPointer(post));
 query.findObjects(new FindListener&lt;MyUser&gt;() {
 
     @Override
@@ -2930,7 +2930,7 @@ query.findObjects(new FindListener&lt;Comment&gt;() {
 });
 </code></pre>
 
-<p>反之，不想匹配某个子查询，你可以使用<code>addWhereDoesNotMatchQuery</code>方法。 </p>
+<p>反之，不想匹配某个子查询，你可以使用<code>addWhereDoesNotMatchQuery</code>方法。</p>
 <p>比如<strong>查询不带图片的帖子的评论列表</strong>：</p>
 <pre><code class="java">BmobQuery&lt;Comment&gt; query = new BmobQuery&lt;Comment&gt;();
 BmobQuery&lt;Post&gt; innerQuery = new BmobQuery&lt;Post&gt;();
@@ -3576,7 +3576,7 @@ user.update(cur.getObjectId(),new UpdateListener() {
             if(e==null){
                 Log.i(&quot;bmob&quot;,&quot;取消&quot;+snsType+&quot;关联成功&quot;);
             }else{
-                int code =e.getErrorCode(); 
+                int code =e.getErrorCode();
                 if (code == 208) {// 208错误指的是没有绑定相应账户的授权信息
                     Log.i(&quot;smile&quot;,&quot;你没有关联该账号&quot;);
                 } else {
@@ -4269,24 +4269,24 @@ Bmob.getAllTableSchema(context, new QueryListListener&lt;BmobTableSchema&gt;() {
 <p>其中 <code>type</code> 指的是该列的类型， 而 <code>targetClass</code> 指的是指向的表名，只有在 type 为 Pointer 或者 Relation 时才有值。</p>
 <p>具体json格式如下,仅供参考：</p>
 <pre><code class="java"> {
-    className: &quot;Post&quot;, 
+    className: &quot;Post&quot;,
     fields: {
       ACL: {
         type: &quot;Object&quot;
-      }, 
+      },
       author: {
-        targetClass: &quot;_User&quot;, 
+        targetClass: &quot;_User&quot;,
         type: &quot;Pointer&quot;
-      }, 
+      },
       content: {
         type: &quot;String&quot;
-      }, 
+      },
       createdAt: {
         type: &quot;Date&quot;
-      }, 
+      },
       objectId: {
         type: &quot;String&quot;
-      }, 
+      },
       updatedAt: {
         type: &quot;Date&quot;
       }
@@ -4400,7 +4400,7 @@ Bmob.getAllTableSchema(context, new QueryListListener&lt;BmobTableSchema&gt;() {
  rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
 
-# 如果你需要兼容6.0系统，请不要混淆org.apache.http.legacy.jar 
+# 如果你需要兼容6.0系统，请不要混淆org.apache.http.legacy.jar
 -dontwarn android.net.compatibility.**
 -dontwarn android.net.http.**
 -dontwarn com.android.internal.http.multipart.**
