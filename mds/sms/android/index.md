@@ -40,58 +40,6 @@ class MySMSCodeListener implements SMSCodeListener{
 ```
 注: 如果用第二种方式初始化，需要相应的广播和短信权限，详见 BmobSMSDemo。
 
-## 请求发送自定义的短信内容
-
-### 使用场景
-
- 此方法允许开发者使用 Bmob 的短信功能灵活发送自定义的短信内容到用户的手机上，可运用于多种场景下，比如 `发送祝福短信、推送消息、通知`等
-
-
-### 使用前准备
-
-有两种方式可以使用自定义模板
-
-- 开发者可在Bmob后台提交身份证信息（`Bmob后台->账户管理->身份验证`），并经`Bmob官方审核`通过，可以自定义模板。
-- 不提交身份信息，直接提交短信模板，并经`Bmob官方审核`通过，可以使用该模板。
-
-
-### 短信模板需要符以下要求，否则模板审核不予通过
-
-
-**注意：请不要发送任何敏感内容，请不要定制广告、营销以诱导用户行为的信息。** 具体如下：
-
-
-- 不得包含敏感关键，[关键字列表文档下载](https://github.com/bmob/bmob-public-docs)，不得包含【】和 [] 
-- 带联系方式（电话、qq微信、邮箱地址）的短信。如：“目前我司推出xx产品最新优惠，联系陈生了解详情，电话123-1234-1234”;
-- 诱导用户行为，特别是带超链接。如“我司推出新作xxx游戏，下载链接http://xxx.com”等；
-
-发现上述情况，针对通过身份审核的开发者，第一次给予警告，第二次将直接关闭接口使用，针对未通过身份审核的开发者，短信模板审核不给予通过。
-
-### 调用示例
-
-```java
-SimpleDateFormat format =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-String sendTime = format.format(new Date());
-BmobSMS.requestSMS(context, number, "审核通过后的短信内容",sendTime,new RequestSMSCodeListener() {
-	
-	@Override
-	public void done(Integer smsId,BmobException ex) {
-		// TODO Auto-generated method stub
-		if(ex==null){//
-			Log.i("bmob","短信发送成功，短信id："+smsId);//用于查询本次短信发送详情
-		}else{
-			Log.i("bmob","errorCode = "+ex.getErrorCode()+",errorMsg = "+ex.getLocalizedMessage());
-		}
-	}
-});
-```
-
-**注意：**
-
-- 如果需要立即发送，sendTime设置为null(不是空字符串"");
-- sendTime的格式为 `yyyy-MM-dd HH:mm:ss`,如果sendTime的格式不正确或者是这个时间是过去的时间，那么短信会立即发送;
-- smsId可用于查询该条短信的发送状态。
-
 
 ## 请求发送短信验证码
 
