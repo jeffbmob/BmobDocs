@@ -2,17 +2,6 @@
 
 Bmob旨在让移动开发变得更简单。对于一些复杂的应用，您可能希望增加一些特有的业务逻辑，并能灵活掌控，Bmob云函数提供了这种灵活性，可以让您的代码直接在Bmob云上运行。一旦你在云端更新了代码，所有的移动应用都会立即自动更新，新功能的发布将会变得更加简单可控。
 
-## 开源案例
-
-为方便大家更好的使用云函数，Bmob为大家提供了一些常用模块，方便大家直接拿来使用的。
-
-
-- 对整个表进行排序：[https://github.com/bmob/bmob-cloudcode-demo-ranking/blob/master/order1.js](https://github.com/bmob/bmob-cloudcode-demo-ranking/blob/master/order1.js) 可结合定时任务使用
-
-- 获取某行数据对应排行的信息： [https://github.com/bmob/bmob-cloudcode-demo-ranking/blob/master/order2.js](https://github.com/bmob/bmob-cloudcode-demo-ranking/blob/master/order2.js)
-
-- 获取前N名数据排行信息：[https://github.com/bmob/bmob-cloudcode-demo-ranking/blob/master/order3.js](https://github.com/bmob/bmob-cloudcode-demo-ranking/blob/master/order3.js)
-
 
 在开发云函数时，希望大家能够先看看我们提供的编码规范文档：[http://doc.bmob.cn/cloud_function/web/norm/](http://doc.bmob.cn/cloud_function/web/norm/)
 
