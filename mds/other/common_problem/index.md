@@ -119,7 +119,7 @@ Bmob提供了一种非常简单的文件上传的方法：
 
 ---
 ** 能提供一个CSV文件参考下吗 **  
-[点击这里下载CSV文件模版](http://static.bmob.cn/new/developmentdoc/appdemo/bmobtest.csv)  
+[点击这里下载CSV文件模版](http://bmob.cn/sdk/standard.csv)  
 
 使用方法：Web后台->创建应用->创建表->导入数据->选择这个CSV文件
 

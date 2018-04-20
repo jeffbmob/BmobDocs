@@ -385,7 +385,11 @@
 										
 										<ul class="nav">
 											
-											<li class="active "><a href="#v35920180102">v3.5.9(2018/01/02)</a>
+											<li class="active "><a href="#v36020180321">v3.6.0(2018/03/21)</a>
+												
+											</li>
+												
+											<li class=""><a href="#v35920180102">v3.5.9(2018/01/02)</a>
 												
 											</li>
 												
@@ -716,9 +720,16 @@
                 <div class="wrap">
                     
 
+<h2 id="v36020180321">v3.6.0(2018/03/21)<a class="headerlink" href="#v36020180321" title="Permanent link">&para;</a></h2>
+<ol>
+<li>新增同步方法，满足少部分开发者的需求，需要单独开子线程运行；</li>
+<li>修复了自定义表名查询时缓存失效的bug；</li>
+<li>移除了统计功能需要的libBmobStat.so文件，对其他功能的使用透明，解决了在小米，vivo等手机的系统软件上报不安全的bug。
+注: 此次更新，对应开发者而已不用既有的代码，如无额外说明，每个版本都是保持向下兼容的。</li>
+</ol>
 <h2 id="v35920180102">v3.5.9(2018/01/02)<a class="headerlink" href="#v35920180102" title="Permanent link">&para;</a></h2>
 <ol>
-<li>SDK内部修改 
+<li>SDK内部修改
 注:此次更新，对应开发者而已不用既有的代码，如无额外说明，每个版本都是保持向下兼容的。</li>
 </ol>
 <h2 id="v35820171013">v3.5.8(2017/10/13)<a class="headerlink" href="#v35820171013" title="Permanent link">&para;</a></h2>
@@ -766,7 +777,7 @@
 <li>修复了一键注册登录的用户扩展字段信息没有保存到本地的bug；</li>
 <li>对文件上传到又拍云回调成功但返回的path为"null"的低概率情况加了判断并提示重传；</li>
 <li>修改了BmobQuery等部分细节代码；<br />
-注:此次更新开发者不用修改之前的常用代码 </li>
+注:此次更新开发者不用修改之前的常用代码</li>
 </ol>
 <h2 id="v35120160720">v3.5.1(2016/07/20)<a class="headerlink" href="#v35120160720" title="Permanent link">&para;</a></h2>
 <ol>
@@ -853,11 +864,11 @@
 </ol>
 <h2 id="v3422015727">v3.4.2(2015/7/27)<a class="headerlink" href="#v3422015727" title="Permanent link">&para;</a></h2>
 <ol>
-<li>新增获取表结构信息的方法 </li>
+<li>新增获取表结构信息的方法</li>
 </ol>
 <h2 id="v3412015710">v3.4.1(2015/7/10)<a class="headerlink" href="#v3412015710" title="Permanent link">&para;</a></h2>
 <ol>
-<li>短信服务允许自定义短信内容； </li>
+<li>短信服务允许自定义短信内容；</li>
 <li>新版文件服务新增获取文件地址的方法；</li>
 <li>新版文件服务新增文件删除功能；</li>
 <li>新旧文件服务同步兼容BmobFile对象；</li>
@@ -865,31 +876,31 @@
 </ol>
 <h2 id="v3402015616">v3.4.0(2015/6/16)<a class="headerlink" href="#v3402015616" title="Permanent link">&para;</a></h2>
 <ol>
-<li>短信验证统一采用BmobSMS类； </li>
+<li>短信验证统一采用BmobSMS类；</li>
 <li>修复其他bug。</li>
 </ol>
 <h2 id="v3392015612">v3.3.9(2015/6/12)<a class="headerlink" href="#v3392015612" title="Permanent link">&para;</a></h2>
 <ol>
-<li>新增短信验证API； </li>
-<li>用户登录新增多种登录方式：邮箱+密码、手机号码+密码、手机号码+短信验证码； </li>
+<li>新增短信验证API；</li>
+<li>用户登录新增多种登录方式：邮箱+密码、手机号码+密码、手机号码+短信验证码；</li>
 <li>修改第三方账号登录方式，并新增对微信登录的支持；</li>
 <li>修复自动更新组件多次点击忽略版本的更新按钮报错的bug。</li>
 </ol>
 <h2 id="v3382015521">v3.3.8(2015/5/21)<a class="headerlink" href="#v3382015521" title="Permanent link">&para;</a></h2>
 <ol>
 <li>addWhereEqualTo方法支持一对多关联关系查询；</li>
-<li>缓存查询方法允许单独使用； </li>
+<li>缓存查询方法允许单独使用；</li>
 <li>修复BQL查询设置缓存策略后查询出错的问题。</li>
 </ol>
 <h2 id="v3372015513">v3.3.7(2015/5/13)<a class="headerlink" href="#v3372015513" title="Permanent link">&para;</a></h2>
 <ol>
 <li>新增SQL语句查询，让查询更简单；</li>
-<li>解决新版文件管理处理本地缩略图时出现OOM的问题； </li>
+<li>解决新版文件管理处理本地缩略图时出现OOM的问题；</li>
 <li>解决新版文件管理提交缩略图任务时modelId无效的问题。</li>
 </ol>
 <h2 id="v3362015427">v3.3.6(2015/4/27)<a class="headerlink" href="#v3362015427" title="Permanent link">&para;</a></h2>
 <ol>
-<li>新增统计查询方法，可查询总和、平均值、最大值、最小值并支持分组和添加过滤条件。 </li>
+<li>新增统计查询方法，可查询总和、平均值、最大值、最小值并支持分组和添加过滤条件。</li>
 </ol>
 <h2 id="v3352015408">v3.3.5(2015/4/08)<a class="headerlink" href="#v3352015408" title="Permanent link">&para;</a></h2>
 <ol>
@@ -970,13 +981,13 @@
 <li>自动更新组件新增初始化创建AppVersion表，不再需要手动创建；</li>
 <li>自动更新组件新增强制更新和忽略版本更新功能；</li>
 <li>修复调用BmobUser的update(context)方法和BmobObject的save(context)方法报错的bug；</li>
-<li>修复其他bug。 </li>
+<li>修复其他bug。</li>
 </ol>
 <h2 id="v3222014915">v3.2.2(2014/9/15)<a class="headerlink" href="#v3222014915" title="Permanent link">&para;</a></h2>
 <ol>
-<li>修改V3.2.1版本文件上传出错的问题； </li>
+<li>修改V3.2.1版本文件上传出错的问题；</li>
 <li>更新Bmobpush到V0.3，增加推送服务稳定性；</li>
-<li>修复其他bug。 </li>
+<li>修复其他bug。</li>
 </ol>
 <h2 id="v3212014902">v3.2.1(2014/9/02)<a class="headerlink" href="#v3212014902" title="Permanent link">&para;</a></h2>
 <ol>
@@ -1122,18 +1133,18 @@
 <h2 id="v228_beta2014324">v2.2.8_Beta(2014/3/24)<a class="headerlink" href="#v228_beta2014324" title="Permanent link">&para;</a></h2>
 <ol>
 <li>修复保存文件失败的bug</li>
-<li>增加获取服务器时间的方法Bmob.getServerTime </li>
-<li>增加华为云推送功能 </li>
+<li>增加获取服务器时间的方法Bmob.getServerTime</li>
+<li>增加华为云推送功能</li>
 </ol>
 <h2 id="v227_beta2014107">v2.2.7_Beta(2014/1/07)<a class="headerlink" href="#v227_beta2014107" title="Permanent link">&para;</a></h2>
 <ol>
-<li>修复调用云端代码时BmobClientCallback不能引用的bug </li>
-<li>修复CountCallback不能引用的bug </li>
+<li>修复调用云端代码时BmobClientCallback不能引用的bug</li>
+<li>修复CountCallback不能引用的bug</li>
 </ol>
 <h2 id="v226_beta20131227">v2.2.6_Beta(2013/12/27)<a class="headerlink" href="#v226_beta20131227" title="Permanent link">&para;</a></h2>
 <ol>
 <li>修正无网络情况下，获取BmobFileUrl为null的bug</li>
-<li>改善Context为null时出现的bug 3.新增云端代码功能 </li>
+<li>改善Context为null时出现的bug 3.新增云端代码功能</li>
 </ol>
 <h2 id="v225_beta20131115">v2.2.5_Beta(2013/11/15)<a class="headerlink" href="#v225_beta20131115" title="Permanent link">&para;</a></h2>
 <ol>
@@ -1149,7 +1160,7 @@
 <h2 id="v223_beta2013927">v2.2.3_Beta(2013/9/27)<a class="headerlink" href="#v223_beta2013927" title="Permanent link">&para;</a></h2>
 <ol>
 <li>新增Count查询功能</li>
-<li>新增地理位置查询功能 </li>
+<li>新增地理位置查询功能</li>
 <li>修正BmobGeoPoint数据类型的存储格式</li>
 <li>修正上传文件失败的bug</li>
 </ol>
@@ -1160,17 +1171,17 @@
 </ol>
 <h2 id="v221_beta2013904">v2.2.1_Beta(2013/9/04)<a class="headerlink" href="#v221_beta2013904" title="Permanent link">&para;</a></h2>
 <ol>
-<li>修正一些崩溃的bug </li>
-<li>修正更新数据成功后返回的数据结构体 </li>
-<li>修正查询数据成功后返回的file、GeoPoint、Data等数据类型结构错误的bug </li>
-<li>修正无效objectId删除成功的bug </li>
-<li>修正分页查询数据不正确的bug </li>
-<li>修正未添加网络权限及无网络状态时引起崩溃的bug </li>
-<li>修正用户使用正确用户名、密码登陆失败的bug </li>
-<li>修改创建数据成功后返回的数据内容 </li>
-<li>新增查询数据默认的limit为100，最大limit值不可超过1000 </li>
-<li>新增查询数据时提供6种缓存策略的功能 </li>
-<li>增加服务器以扩大集群来支撑更大用户量，明显提高响应速度 </li>
+<li>修正一些崩溃的bug</li>
+<li>修正更新数据成功后返回的数据结构体</li>
+<li>修正查询数据成功后返回的file、GeoPoint、Data等数据类型结构错误的bug</li>
+<li>修正无效objectId删除成功的bug</li>
+<li>修正分页查询数据不正确的bug</li>
+<li>修正未添加网络权限及无网络状态时引起崩溃的bug</li>
+<li>修正用户使用正确用户名、密码登陆失败的bug</li>
+<li>修改创建数据成功后返回的数据内容</li>
+<li>新增查询数据默认的limit为100，最大limit值不可超过1000</li>
+<li>新增查询数据时提供6种缓存策略的功能</li>
+<li>增加服务器以扩大集群来支撑更大用户量，明显提高响应速度</li>
 </ol>
 <h2 id="v220_beta2013423">v2.2.0_Beta(2013/4/23)<a class="headerlink" href="#v220_beta2013423" title="Permanent link">&para;</a></h2>
 <ol>
