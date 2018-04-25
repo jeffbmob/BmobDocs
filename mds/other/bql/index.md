@@ -174,44 +174,6 @@ select * from Person where hobby all ('游泳','看书')
 
 **注：all 表示数组完全匹配。**
 
-### 子查询
-
-1、使用 `in `来做子查询，后面跟的可以是一个列表，例如 查询游戏名为地铁跑酷、部落冲突两种游戏的记录：
-
-```sql
-select * from GameScore where game in ('地铁跑酷','部落冲突')
-```
-当然，如果想查询的不在列表里，那可以使用`not in`:
-
-```sql
-select * from GameScore where game not in ('地铁跑酷','部落冲突')
-```
-
-2、`in`后面还可以是一个子查询:
-
-比如：要查询游戏得分大于10的玩家信息
-
-这里需要`username`的值必须要在子查询产生的数组中，因此,我在`GameScore`表中新建了一个`name`字段来表示玩家的姓名
-
-```sql
-select * from _User where username in (select name from GameScore where playScore>10)
-```
-比如：查询年龄大于20的玩家的游戏信息
-
-```sql
-select * from GameScore where name in (select username from _User where age>20)
-```
-
-3、子查询另一种常见形式：使用` = 或 != `后面跟一条查询语句：
-
-比如：查询游戏得分大于80的玩家
-
-```sql
-select * from _User where username =(select name from GameScore where playScore>10)
-select * from _User where username !=(select name from GameScore where playScore<=10)
-```
-
-**注：子查询的语句也受上限 1000 条记录的限制**
 
 ### 地理位置查询
 
