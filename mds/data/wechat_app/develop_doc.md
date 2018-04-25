@@ -484,14 +484,13 @@ function(err) {
 
 
 ## 小程序支付
-小程序支付只需发起请求获取微信需要的字段，这里用Bmob.Pay.wechatPay获取`nonceStr`,`packages`,`orderId`等相关信息。然后 wx.requestPayment弹窗支付页面，里面处理成功失败。 （Bmob的接口都是独立的，任何平台小程序都可以使用，只需要你的小程序微信商户平台开通了都支持。目前小程序支付Bmob平台不收取任何手续费，只要是Bmob平台付费会员都可使用。）
+小程序支付使用先在控制台填写商户号、商户支付密钥，发起请求获取微信需要的字段，这里用Bmob.Pay.wechatPay获取`nonceStr`,`packages`,`orderId`等相关信息。然后 wx.requestPayment弹窗支付页面，里面处理成功失败。 （Bmob的接口都是独立的，任何平台小程序都可以使用，只需要你的小程序微信商户平台开通了都支持。目前小程序支付Bmob平台不收取任何手续费，只要是Bmob平台付费会员都可使用。）
 
 
 ```
 var openId = wx.getStorageSync('openid');
 //传参数金额，名称，描述,openid
     Bmob.Pay.wechatPay(0.01, '哇哈哈1瓶', '哇哈哈饮料，杭州生产', openId).then(function (resp) {
-      console.log('resp');
       console.log(resp);
 
       that.setData({
@@ -536,6 +535,37 @@ var openId = wx.getStorageSync('openid');
 
 ```
 
+## 小程序退款
+
+ **参数说明：**
+
+| 参数       | 类型   | 必填 | 说明     |
+| ---------- | ------ | ---- | -------- |
+| order_no   | string | 是   | 订单号   |
+| refund_fee | float  | 是   | 退款金额 |
+| desc       | string | 是   | 退款备注 |
+
+**请求示例：**
+
+```
+var res = {
+        "order_no": "3a94dad09cef0697c87c58befc7jsapi",
+        "refund_fee": 0.1,
+        "desc": "退款",
+      }
+    Bmob.refund(res).then(function (obj) {
+      console.log(obj)
+    },
+      function (err) {
+        console.log('失败了', err)
+      });
+```
+
+
+
+## 小程序付款到零钱
+
+付款到零钱目前已经支持，常见使用场景是用户小程序里面提现，由于此接口用的人少，如需要使用可提交工单联系工作人员。
 
 ## 添加数据
 
@@ -1168,6 +1198,52 @@ function(error) {
     // 异常处理
 });
 ```
+
+### 批量删除示例
+
+```
+    var objects = new Array()
+    objects.push({ "id": "1e9b9a093e", "className": "diary" })
+
+    // 批量删除
+    Bmob.Object.destroyAll(objects).then(function () {
+      // 成功
+    },
+      function (error) {
+        // 异常处理
+      });
+```
+
+
+
+### 批量增加更新示例
+
+```
+// 创建Bmob.Object子类
+    var Diary = Bmob.Object.extend("diary");
+    var objects = new Array();
+    for (var i = 0; i < 5; i++) {
+      // 创建该类的一个实例
+      var diary = new Diary();
+      diary.set('title', 'aaaa')
+      diary.set('content', 'dfdfdjjj')
+      objects.push(diary)
+    }
+
+    // 批量创建（更新）
+    Bmob.Object.saveAll(objects).then(function (objects) {
+      // 成功
+      console.log("批量更新成功", objects);
+    },
+      function (error) {
+        // 异常处理
+        console.log("异常处理");
+      });
+      
+      修改传
+      diary.set('objectId', 'ba74dc1f09')
+```
+
 
 
 ## 数据关联

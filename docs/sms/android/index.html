@@ -367,19 +367,15 @@
 											</ul>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_1">请求发送自定义的短信内容</a></li>
+												<li><a class="itm-l2" href="#_1">请求发送短信验证码</a></li>
 											</ul>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_6">请求发送短信验证码</a></li>
+												<li><a class="itm-l2" href="#_3">购买事项</a></li>
 											</ul>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_8">购买事项</a></li>
-											</ul>
-											
-											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_9">发票事宜</a></li>
+												<li><a class="itm-l2" href="#_4">发票事宜</a></li>
 											</ul>
 											
 										</li>
@@ -442,47 +438,7 @@ class MySMSCodeListener implements SMSCodeListener{
 </code></pre>
 
 <p>注: 如果用第二种方式初始化，需要相应的广播和短信权限，详见 BmobSMSDemo。</p>
-<h2 id="_1">请求发送自定义的短信内容<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<h3 id="_2">使用场景<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
-<p>此方法允许开发者使用 Bmob 的短信功能灵活发送自定义的短信内容到用户的手机上，可运用于多种场景下，比如 <code>发送祝福短信、推送消息、通知</code>等</p>
-<h3 id="_3">使用前准备<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
-<p>有两种方式可以使用自定义模板</p>
-<ul>
-<li>开发者可在Bmob后台提交身份证信息（<code>Bmob后台-&gt;账户管理-&gt;身份验证</code>），并经<code>Bmob官方审核</code>通过，可以自定义模板。</li>
-<li>不提交身份信息，直接提交短信模板，并经<code>Bmob官方审核</code>通过，可以使用该模板。</li>
-</ul>
-<h3 id="_4">短信模板需要符以下要求，否则模板审核不予通过<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p><strong>注意：请不要发送任何敏感内容，请不要定制广告、营销以诱导用户行为的信息。</strong> 具体如下：</p>
-<ul>
-<li>不得包含敏感关键，<a href="https://github.com/bmob/bmob-public-docs">关键字列表文档下载</a>，不得包含【】和 [] </li>
-<li>带联系方式（电话、qq微信、邮箱地址）的短信。如：“目前我司推出xx产品最新优惠，联系陈生了解详情，电话123-1234-1234”;</li>
-<li>诱导用户行为，特别是带超链接。如“我司推出新作xxx游戏，下载链接http://xxx.com”等；</li>
-</ul>
-<p>发现上述情况，针对通过身份审核的开发者，第一次给予警告，第二次将直接关闭接口使用，针对未通过身份审核的开发者，短信模板审核不给予通过。</p>
-<h3 id="_5">调用示例<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<pre><code class="java">SimpleDateFormat format =new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
-String sendTime = format.format(new Date());
-BmobSMS.requestSMS(context, number, &quot;审核通过后的短信内容&quot;,sendTime,new RequestSMSCodeListener() {
-
-    @Override
-    public void done(Integer smsId,BmobException ex) {
-        // TODO Auto-generated method stub
-        if(ex==null){//
-            Log.i(&quot;bmob&quot;,&quot;短信发送成功，短信id：&quot;+smsId);//用于查询本次短信发送详情
-        }else{
-            Log.i(&quot;bmob&quot;,&quot;errorCode = &quot;+ex.getErrorCode()+&quot;,errorMsg = &quot;+ex.getLocalizedMessage());
-        }
-    }
-});
-</code></pre>
-
-<p><strong>注意：</strong></p>
-<ul>
-<li>如果需要立即发送，sendTime设置为null(不是空字符串"");</li>
-<li>sendTime的格式为 <code>yyyy-MM-dd HH:mm:ss</code>,如果sendTime的格式不正确或者是这个时间是过去的时间，那么短信会立即发送;</li>
-<li>smsId可用于查询该条短信的发送状态。</li>
-</ul>
-<h2 id="_6">请求发送短信验证码<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_1">请求发送短信验证码<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>通过 <code>requestSMSCode</code> 方式给绑定手机号的该用户发送指定短信模板的短信验证码：</p>
 <pre><code class="java">BmobSMS.requestSMSCode(context, &quot;11位手机号码&quot;, &quot;模板名称&quot;,new RequestSMSCodeListener() {
 
@@ -518,7 +474,7 @@ BmobSMS.requestSMS(context, number, &quot;审核通过后的短信内容&quot;,s
 <p>一天一个应用给同一手机号发送的短信不能超过10条，否则会报<code>10010</code>错误，其他错误码可查看：<a href="http://docs.bmob.cn/sms/Android/g_errorcode/doc/index.html">短信功能相关错误码</a> 。</p>
 </li>
 </ul>
-<h3 id="_7">验证验证码<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<h3 id="_2">验证验证码<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <p>通过<code>verifySmsCode</code>方式可验证该短信验证码：</p>
 <pre><code class="java">BmobSMS.verifySmsCode(context,&quot;11位手机号码&quot;, &quot;验证码&quot;, new VerifySMSCodeListener() {
 
@@ -542,12 +498,12 @@ BmobSMS.requestSMS(context, number, &quot;审核通过后的短信内容&quot;,s
 <li>计算得到的短信条数在本条短信发送成功后将会从你的账户剩余的短信条数中扣除。</li>
 <li>短信发送限制规则是1/分钟，5/小时，10/天。即对于一个应用来说，一天给同一手机号发送短信不能超过10条，一小时给同一手机号发送短信不能超过5条，一分钟给同一手机号发送短信不能超过1条。</li>
 </ul>
-<h2 id="_8">购买事项<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h2 id="_3">购买事项<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>短信条数只能输入整数，且不能少于1000条</p>
 <p><img alt="短信计费模式" src="http://bmob-file-service-t.b0.upaiyun.com/Doc_File/jfms.png" /></p>
 <p>进入账号控制台，财务/财务统计点击购买短信即可。</p>
 <p><img alt="购买短信" src="http://bmob-file-service-t.b0.upaiyun.com/Doc_File/14703632600603.jpg" /></p>
-<h2 id="_9">发票事宜<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<h2 id="_4">发票事宜<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>购买金额满100元可提供发票，1000元以内的到付，1000元以上（含1000元）包邮。</p>
 <p>登录后台，在 <code>财务</code> -&gt; <code>发票管理</code> 页面可点击申请开票。</p>
                 </div>
