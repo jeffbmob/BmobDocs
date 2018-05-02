@@ -395,80 +395,76 @@
 											</ul>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_7">子查询</a></li>
+												<li><a class="itm-l2" href="#_7">地理位置查询</a></li>
 											</ul>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_8">地理位置查询</a></li>
+												<li><a class="itm-l2" href="#_11">查询个数</a></li>
 											</ul>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_12">查询个数</a></li>
+												<li><a class="itm-l2" href="#_12">关系查询</a></li>
 											</ul>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_13">关系查询</a></li>
-											</ul>
-											
-											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_14">复合查询</a></li>
+												<li><a class="itm-l2" href="#_13">复合查询</a></li>
 											</ul>
 											
 										</li>
 									
-										<li class=""><a href="#_15">占位符</a>
+										<li class=""><a href="#_14">占位符</a>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_16">普通查询</a></li>
+												<li><a class="itm-l2" href="#_15">普通查询</a></li>
 											</ul>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_17">内置函数</a></li>
-											</ul>
-											
-										</li>
-									
-										<li class=""><a href="#_18">限定返回值</a>
-											
-										</li>
-									
-										<li class=""><a href="#_19">排序</a>
-											
-										</li>
-									
-										<li class=""><a href="#_20">统计查询</a>
-											
-											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_21">计算总和</a></li>
-											</ul>
-											
-											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_22">分组计算总和</a></li>
-											</ul>
-											
-											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_23">添加过滤条件</a></li>
-											</ul>
-											
-											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_24">统计分组记录数</a></li>
+												<li><a class="itm-l2" href="#_16">内置函数</a></li>
 											</ul>
 											
 										</li>
 									
-										<li class=""><a href="#_25">内置函数介绍</a>
+										<li class=""><a href="#_17">限定返回值</a>
+											
+										</li>
+									
+										<li class=""><a href="#_18">排序</a>
+											
+										</li>
+									
+										<li class=""><a href="#_19">统计查询</a>
+											
+											<ul class="nav nav-l2">
+												<li><a class="itm-l2" href="#_20">计算总和</a></li>
+											</ul>
+											
+											<ul class="nav nav-l2">
+												<li><a class="itm-l2" href="#_21">分组计算总和</a></li>
+											</ul>
+											
+											<ul class="nav nav-l2">
+												<li><a class="itm-l2" href="#_22">添加过滤条件</a></li>
+											</ul>
+											
+											<ul class="nav nav-l2">
+												<li><a class="itm-l2" href="#_23">统计分组记录数</a></li>
+											</ul>
+											
+										</li>
+									
+										<li class=""><a href="#_24">内置函数介绍</a>
 											
 											<ul class="nav nav-l2">
 												<li><a class="itm-l2" href="#bql">基本BQL查询用到的内置函数</a></li>
 											</ul>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_26">占位符查询用到的内置函数</a></li>
+												<li><a class="itm-l2" href="#_25">占位符查询用到的内置函数</a></li>
 											</ul>
 											
 										</li>
 									
-										<li class=""><a href="#_27">性能和建议</a>
+										<li class=""><a href="#_26">性能和建议</a>
 											
 										</li>
 									
@@ -659,35 +655,9 @@ select * from GameScore order by -playScore,+name
 </code></pre>
 
 <p><strong>注：all 表示数组完全匹配。</strong></p>
-<h3 id="_7">子查询<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<p>1、使用 <code>in</code>来做子查询，后面跟的可以是一个列表，例如 查询游戏名为地铁跑酷、部落冲突两种游戏的记录：</p>
-<pre><code class="sql">select * from GameScore where game in ('地铁跑酷','部落冲突')
-</code></pre>
-
-<p>当然，如果想查询的不在列表里，那可以使用<code>not in</code>:</p>
-<pre><code class="sql">select * from GameScore where game not in ('地铁跑酷','部落冲突')
-</code></pre>
-
-<p>2、<code>in</code>后面还可以是一个子查询:</p>
-<p>比如：要查询游戏得分大于10的玩家信息</p>
-<p>这里需要<code>username</code>的值必须要在子查询产生的数组中，因此,我在<code>GameScore</code>表中新建了一个<code>name</code>字段来表示玩家的姓名</p>
-<pre><code class="sql">select * from _User where username in (select name from GameScore where playScore&gt;10)
-</code></pre>
-
-<p>比如：查询年龄大于20的玩家的游戏信息</p>
-<pre><code class="sql">select * from GameScore where name in (select username from _User where age&gt;20)
-</code></pre>
-
-<p>3、子查询另一种常见形式：使用<code>= 或 !=</code>后面跟一条查询语句：</p>
-<p>比如：查询游戏得分大于80的玩家</p>
-<pre><code class="sql">select * from _User where username =(select name from GameScore where playScore&gt;10)
-select * from _User where username !=(select name from GameScore where playScore&lt;=10)
-</code></pre>
-
-<p><strong>注：子查询的语句也受上限 1000 条记录的限制</strong></p>
-<h3 id="_8">地理位置查询<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<h3 id="_7">地理位置查询<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
 <p>我们可以通过 BQL 进行地理位置查询。</p>
-<h4 id="_9">附近的人<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
+<h4 id="_8">附近的人<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h4>
 <p>使用<code>near</code>来查询附近的人</p>
 <p>比如我想查询指定地理位置附近的玩家（从近到远排序），假设 <code>gps</code> 字段是 <code>BmobGeoPoint</code>类型：</p>
 <pre><code class="sql">select * from GameScore where gps near [112.934755,24.52065]
@@ -699,19 +669,19 @@ select * from _User where username !=(select name from GameScore where playScore
 </code></pre>
 
 <p><strong>注：只有在地理位置信息查询里才可以使用 <code>[longitude, latitude]</code>这样的语法。在其他查询里将被作为数组类型。</strong></p>
-<h4 id="_10">限定搜索范围<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h4>
+<h4 id="_9">限定搜索范围<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
 <p>为了限定搜索的最大距离，还可以使用 <code>max distance 单位</code>来限定，比如,搜索附近1公里内的人：</p>
 <pre><code class="java">select * from GameScore where gps near [112.934755,24.52065] max 1 km
 
 </code></pre>
 
 <p><strong>注：单位包括 miles（英里）、radians（弧度），默认是弧度。</strong></p>
-<h4 id="_11">查询矩形范围<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h4>
+<h4 id="_10">查询矩形范围<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h4>
 <p>如果想查询某个矩形框内的对象，可以使用<code>within [西南坐标] and [东北坐标]</code>的语法：</p>
 <pre><code class="sql">select * from GameScore where gps within [102.934755,24.52065] and [112.934755,24.52065]
 </code></pre>
 
-<h3 id="_12">查询个数<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<h3 id="_11">查询个数<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
 <p>使用 <code>count</code> 查询来返回符合查询条件的数目。</p>
 <p>比如:查询整张表的记录数：</p>
 <pre><code class="sql">select count(*) from GameScore
@@ -732,7 +702,7 @@ select * from _User where username !=(select name from GameScore where playScore
 
 </code></pre>
 
-<h3 id="_13">关系查询<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<h3 id="_12">关系查询<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
 <p>有如下几种方式来查询对象之间的关系数据 </p>
 <p>1、如果您想获取对象，而这个对象的一个字段对应了另一个对象, 您可以用一个 <code>where</code> 查询, 自己构造一个 <code>Pointer</code> 函数, 和其他数据类型一样。</p>
 <p>例如： <code>Weibo</code>类中有一个<code>User</code>（继承自BmobUser）类型的<code>author</code>字段表示这条微博的发送方，现在你想查询当前用户发布的所有微博信息，那么可以这样写：</p>
@@ -766,7 +736,7 @@ select * from _User where username !=(select name from GameScore where playScore
 <pre><code class="sql">select include weibo.author,* from Comment
 </code></pre>
 
-<h3 id="_14">复合查询<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<h3 id="_13">复合查询<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
 <p>使用 <code>and</code> 和 <code>or</code>进行复合查询</p>
 <p>比如：查询游戏得分在10-15之间的数据,可以使用<code>and</code>查询:</p>
 <pre><code class="sql">select * from GameScore where playScore&gt;10 and playScore&lt;=15
@@ -780,14 +750,14 @@ select * from _User where username !=(select name from GameScore where playScore
 <pre><code class="sql">select * from GameScore where (playScore&gt;10 and playScore&lt;=15) or playScore=5
 </code></pre>
 
-<h2 id="_15">占位符<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
+<h2 id="_14">占位符<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
 <p>查询条件<code>where</code>和 <code>limit</code> 子句支持占位符，也就是可以用问号 ? 替代值，值的列表通过 SDK 提供的方法传入，具体请参考各 SDK 用法。</p>
-<h3 id="_16">普通查询<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
+<h3 id="_15">普通查询<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
 <p>例如：</p>
 <pre><code class="sql">select * from GameScore where name=? and playScore&gt;? limit ?,?
 </code></pre>
 
-<h3 id="_17">内置函数<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
+<h3 id="_16">内置函数<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
 <p>占位符查询中用到的内置函数，请看最后的 <a href="../../bql/index.html?menukey=otherdoc&amp;key=bql#占位符查询用到的内置函数">占位符查询用到的内置函数</a>。</p>
 <p>例如：</p>
 <pre><code class="java">
@@ -806,7 +776,7 @@ select * from GameScore where createdAt &gt; date(?) and player = pointer(?,?) a
 </code></pre>
 
 <p><strong>注：我们推荐使用占位符的方式来使用 BQL，查询语句可以通过预编译得到缓存，降低 BQL 的转换开销。</strong></p>
-<h2 id="_18">限定返回值<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h2>
+<h2 id="_17">限定返回值<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h2>
 <p>通过 <code>limit</code> 语句来限定返回结果大小，比如限定返回 10 个：</p>
 <pre><code class="sql">select * from GameScore limit 10
 </code></pre>
@@ -816,7 +786,7 @@ select * from GameScore where createdAt &gt; date(?) and player = pointer(?,?) a
 </code></pre>
 
 <p><strong>注：如果查询语句没有设定 limit ，默认的 limit 是 100 而且最大的 limit 是 1000。</strong></p>
-<h2 id="_19">排序<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h2>
+<h2 id="_18">排序<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h2>
 <p>通过 <code>order</code> 语句来排序，<code>order</code> 语句只能出现在最后，不能在 <code>where</code> 和 <code>limit</code> 之前。</p>
 <p>比如：按照得分降序排列（得分高的在前）：</p>
 <pre><code class="sql">select * from GameScore order by playScore desc
@@ -841,25 +811,25 @@ select * from GameScore where createdAt &gt; date(?) and player = pointer(?,?) a
 </code></pre>
 
 <p><strong>注：没有写上明确的加号或者减号的字段，将根据最后的 desc 或者 asc 来决定采用升序还是降序。</strong></p>
-<h2 id="_20">统计查询<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h2>
+<h2 id="_19">统计查询<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h2>
 <p>统计查询只适用于 <code>Number</code> 类型的列，支持 <code>sum</code> (计算总和), <code>average</code> (计算平均值), <code>max</code> (计算最大值), <code>min</code> (计算最小值)</p>
 <p>举几个例子（以sum求和）:</p>
-<h3 id="_21">计算总和<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h3>
+<h3 id="_20">计算总和<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h3>
 <p>比如：查询<code>GameScore</code>表所有玩家的得分总和:</p>
 <pre><code class="sql">select sum(playScore) from GameScore
 </code></pre>
 
-<h3 id="_22">分组计算总和<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h3>
+<h3 id="_21">分组计算总和<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h3>
 <p>比如：按玩家分组，获取每个玩家的总得分：</p>
 <pre><code class="sql">select sum(playScore) from GameScore group by name
 </code></pre>
 
-<h3 id="_23">添加过滤条件<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h3>
+<h3 id="_22">添加过滤条件<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h3>
 <p>比如 按玩家分组，获取每个玩家的总得分，并且总得分大于100的：</p>
 <pre><code class="sql">select sum(playScore) from GameScore group by name having _sumPlayScore &gt; 100
 </code></pre>
 
-<h3 id="_24">统计分组记录数<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h3>
+<h3 id="_23">统计分组记录数<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h3>
 <p>同时支持返回每个组用于计算总和的总数：</p>
 <pre><code class="sql">select sum(playScore),count(*) from GameScore group by name having _sumPlayScore &gt; 100
 </code></pre>
@@ -867,7 +837,7 @@ select * from GameScore where createdAt &gt; date(?) and player = pointer(?,?) a
 <p><strong>注：</strong></p>
 <p><strong>1、查询语句中含有<code>sum</code>或 <code>group by</code>的时候不支持返回表中的其他列，只返回group by后面接的列名、sum的列名为 <code>(_sum+(首字母大写的列名))</code> 以及有count(*)会返回的 <code>_count</code>等数据。所以只应该用于统计的功能时候使用。</strong></p>
 <p><strong>2、其他关键字和sum的使用类似，只需要以上的<code>sum</code>换为<code>average</code>,<code>max</code>, <code>min</code>，其中<code>average</code>返回的平均值列名为：<code>(_avg+(首字母大写的列名))</code>。</strong></p>
-<h2 id="_25">内置函数介绍<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h2>
+<h2 id="_24">内置函数介绍<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h2>
 <p>BQL提供了一些<code>内置函数</code>来方便地创建 <code>pointer</code>、<code>geopoint</code>、<code>date</code>、<code>file</code>等类型：</p>
 <h3 id="bql">基本BQL查询用到的内置函数<a class="headerlink" href="#bql" title="Permanent link">&para;</a></h3>
 <table>
@@ -901,7 +871,7 @@ select * from GameScore where createdAt &gt; date(?) and player = pointer(?,?) a
 </tbody>
 </table>
 <hr />
-<h3 id="_26">占位符查询用到的内置函数<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h3>
+<h3 id="_25">占位符查询用到的内置函数<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h3>
 <p>如果使用占位符查询，比较特殊，其内置函数的形式如下</p>
 <table>
 <thead>
@@ -967,7 +937,7 @@ String sql = select * from GameScore where player = pointer('_User', &quot;+&quo
 <p><strong>注：</strong></p>
 <p><strong>1、如果不使用<code>内置函数</code>，你也使用 <a href="../../restful/developdoc/index.html?menukey=develop_doc&amp;key=develop_restful#数据类型" title="Rest API文档">Rest API文档</a>定义的 JSON 对象来创建特定类型,不过这样写相对来说比较繁琐。</strong></p>
 <p><strong>2、占位符查询中如果要用到内置函数，其形式必须为上述列出的，最后的可变参数会自动替换类型中的<code>?</code>。</strong></p>
-<h2 id="_27">性能和建议<a class="headerlink" href="#_27" title="Permanent link">&para;</a></h2>
+<h2 id="_26">性能和建议<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h2>
 <p>BQL 最终还是转换成 <a href="../../restful/developdoc/index.html?menukey=develop_doc&amp;key=develop_restful" title="Rest API文档">Rest API文档</a> 里查询部分提到的各种 where 条件，因为多了一层转换，理论上会比直接使用 where 查询慢一点。并且 BQL 对长度有所限制，要求在 4096 字节以内。</p>
 <p>此外，我们推荐查询语句都采用占位符的方式，使用占位符的查询语句将有机会被缓存复用，避免重复解释的开销。</p>
                 </div>
