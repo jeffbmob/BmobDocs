@@ -1,6 +1,35 @@
-# SDK使用文档
+## SDK使用文档
+
+## 安装使用
+
+### 下载
+
+> https://github.com/bmob/hydrogen-js-sdk/
+
+### 安装使用
+
+ **简介：**
+
+1. 整个SDK，就dist目录下Bmob.*.js 这个文件即可使用全部功能
+2. 目前支持H5、小程序、weex等常见JavaScript引擎
 
 
+
+**引入：**
+
+```
+var Bmob = require('../dist/Bmob-1.0.1.min.js');
+```
+
+
+
+### **初始化**
+
+```
+Bmob.initialize("你的Application ID", "你的REST API Key");
+```
+
+> 接下来就可参照下面的文档使用
 
 ## 用户操作
 
@@ -131,7 +160,7 @@ Bmob.User.signOrLoginByMobilePhone(phone,smsCode).then(res => {
 {"code":207,"error":"code error."}
 ```
 
-###查询用户
+### 查询用户
 
  **简介：**
 
@@ -215,7 +244,6 @@ Bmob.User.requestEmailVerify('bmob2018@bmob.cn').then(res => {
 
 共提供了3种方法，分别是email重置、短信验证码重置、旧密码重置。
 
-
 Eamil密码重置
 
  **请求描述：**
@@ -233,10 +261,9 @@ Eamil密码重置
 
  **参数说明：**
 
-| 参数      | 类型   | 必填 | 说明     |
-| ---------| ------ | ---- | -------- |
-| email    | string | 是   | 邮箱地址 |
-
+| 参数  | 类型   | 必填 | 说明     |
+| ----- | ------ | ---- | -------- |
+| email | string | 是   | 邮箱地址 |
 
 **请求示例：**
 
@@ -266,11 +293,12 @@ Bmob.requestPasswordReset(data).then(res => {
 
 **参数说明：**
 
-| 参数      | 类型   | 必填 | 说明     |
-| ---------| ------ | ---- | -------- |
-| password    | string | 是   | 新密码 |
+| 参数     | 类型   | 必填 | 说明   |
+| -------- | ------ | ---- | ------ |
+| password | string | 是   | 新密码 |
 
 **请求示例：**
+
 ```
 let smsCode= 'smsCode'
 let data = {
@@ -282,12 +310,14 @@ Bmob.resetPasswordBySmsCode(smsCode,data).then(res => {
   console.log(err)
 })
 ```
+
 **返回示例:**
 
-
-    {
-      "msg": "ok"
-    }
+```
+{
+  "msg": "ok"
+}
+```
 
 提供旧密码方式安全修改用户密码
 
@@ -297,12 +327,13 @@ Bmob.resetPasswordBySmsCode(smsCode,data).then(res => {
 注意：仍然需要传入 X-Bmob-Session-Token，也就是登录用户才可以修改自己的密码。
 **参数说明：**
 
-| 参数      | 类型   | 必填 | 说明     |
-| ---------| ------ | ---- | -------- |
-| oldPassword    | string | 是   | 旧密码 |
-| newPassword    | string | 是   | 新密码 |
+| 参数        | 类型   | 必填 | 说明   |
+| ----------- | ------ | ---- | ------ |
+| oldPassword | string | 是   | 旧密码 |
+| newPassword | string | 是   | 新密码 |
 
 **请求示例：**
+
 ```
 let objectId ='objectId'
 let data = {
@@ -318,10 +349,11 @@ Bmob.updateUserPassword(objectId,data).then(res => {
 
 **返回示例:**
 
-
-    {
-      "msg": "ok"
-    }
+```
+{
+  "msg": "ok"
+}
+```
 
 ### APP推送
 
@@ -331,24 +363,25 @@ Bmob.updateUserPassword(objectId,data).then(res => {
 
  **参数说明：**
 
-| 参数     | 类型   | 必填 | 说明   |
-| -------- | ------ | ---- | ------ |
+| 参数 | 类型   | 必填 | 说明                   |
+| ---- | ------ | ---- | ---------------------- |
 | data | object | 是   | 根据不同的需求进行定制 |
 
 **请求示例：**
 
+```
+let data = {
+  data: {
+alert: "Hello From Bmob."
+  }
+}
 
-    let data = {
-      data: {
-    alert: "Hello From Bmob."
-      }
-    }
-    
-    Bmob.push(data).then(res => {
-      console.log(res)
-    }).catch(err => {
-      console.log(err)
-    })
+Bmob.push(data).then(res => {
+  console.log(res)
+}).catch(err => {
+  console.log(err)
+})
+```
 
 **返回示例:**
 
@@ -411,19 +444,18 @@ query.get('objectId').then(res => {
 | --------- | ------ | ---- | -------- |
 | tableName | string | 是   | 数据表名 |
 
-
 **请求示例：**
 
-
-    const query = Bmob.Query('tableName');
-    query.set("name","fff")
-    query.set("cover","1111")
-    query.save().then(res => {
-      console.log(res)
-    
-    }).catch(err => {
-      console.log(err)
-    })
+```
+const query = Bmob.Query('tableName');
+query.set("name","Bmob")
+query.set("cover","后端云")
+query.save().then(res => {
+  console.log(res)
+}).catch(err => {
+  console.log(err)
+})
+```
 
 **返回示例:**
 
@@ -446,7 +478,6 @@ query.get('objectId').then(res => {
 | --------- | ------ | ---- | -------- |
 | tableName | string | 是   | 数据表名 |
 | objectId  | string | 是   | 记录 ID  |
-
 
 **请求示例：**
 
@@ -471,7 +502,6 @@ query.get('objectId').then(res => {
 }
 ```
 
-
 ### 删除字段的值
 
  **简介：**
@@ -484,7 +514,6 @@ query.get('objectId').then(res => {
 | --------- | ------ | ---- | -------- |
 | tableName | string | 是   | 数据表名 |
 | objectId  | string | 是   | 记录 ID  |
-
 
 **请求示例：**
 
@@ -507,7 +536,6 @@ query.get('objectId').then(res => {
 }
 ```
 
-
 ### 删除一行记录
 
  **简介：**
@@ -521,29 +549,31 @@ query.get('objectId').then(res => {
 | tableName | string | 是   | 数据表名 |
 | objectId  | string | 是   | 记录 ID  |
 
-
 **请求示例：**
 
-    const query = Bmob.Query('tableName');
-    query.destroy('objectId').then(res => {
-      console.log(res)
-    }).catch(err => {
-      console.log(err)
-    })
+```
+const query = Bmob.Query('tableName');
+query.destroy('objectId').then(res => {
+  console.log(res)
+}).catch(err => {
+  console.log(err)
+})
+```
 
 or
 
-
-    const query = Bmob.Query('tableName');
-    query.get('objectId').then(res => {
-      res.destroy().then(res => {
-    console.log(res)
-      }).ctach(err => {
-    console.log(err)
-      })
-    }).catch(err => {
-      console.log(err)
-    })
+```
+const query = Bmob.Query('tableName');
+query.get('objectId').then(res => {
+  res.destroy().then(res => {
+console.log(res)
+  }).ctach(err => {
+console.log(err)
+  })
+}).catch(err => {
+  console.log(err)
+})
+```
 
 **返回示例:**
 
@@ -553,6 +583,31 @@ or
 }
 ```
 
+### 查询所有数据
+
+ **简介：**
+
+返回你表的数据列表，默认创建时间排序，默认取100条数据，下面文档可以增加条件。
+
+ **参数说明：**
+
+| 参数      | 类型   | 必填 | 说明           |
+| --------- | ------ | ---- | -------------- |
+| tableName | string | 是   | 数据表名       |
+| res       | string | 是   | 返回的数据集合 |
+
+**请求示例：**
+
+```
+const query = Bmob.Query("tableName");
+query.find().then(res => {
+    console.log(res)
+});
+```
+
+**返回： **
+
+表中数据
 
 ### 条件查询
 
@@ -562,8 +617,8 @@ or
 | --------- | ------ | ---- | -------- |
 | tableName | string | 是   | 数据表名 |
 
-
 **请求示例：**
+
 ```
 // 如果要查询某个属性等于某个值，示例代码如下：
 query.equalTo("isLike", "==", 100);
@@ -582,22 +637,27 @@ query.equalTo("createdAt", ">" "2018-08-21 18:02:52");
 */
 
 ```
+
 两条查询语句一起写，就相当于AND查询，如下示例代码，查询一个月的数据：
+
 ```
 query.equalTo("createdAt", ">", "2018-04-01 00:00:00");
 query.equalTo("createdAt", "<", "2018-05-01 00:00:00");
 
 // 因为createdAt updatedAt服务器自动生成的时间，在服务器保存的是精确到微秒值的时间，所以基于时间类型比较的值要加1秒。
 
+
 ```
 
 一个完整的例子
+
 ```
 const query = Bmob.Query("tableName");
-query.equalTo("title", "hello");
+query.equalTo("title","==", "hello");
 query.find().then(res => {
     console.log(res)
 });
+
 ```
 
 **或查询**
@@ -614,9 +674,11 @@ query.find().then(res => {
   // 返回 isLike > 150 or isLike < 5 的值
   console.log(res)
 });
+
 ```
 
 **查询指定列**
+
 ```
 const query = Bmob.Query("tableName");
 // 只返回select的字段值
@@ -625,23 +687,53 @@ query.find().then(res => {
   // 返回成功
   console.log(res)
 });
+
 ```
 
+**复杂查询**
+
+如果你想查询某一字段值在某一集合中的记录的话，可以使用`containedIn`方法，如获取`"Bmob"、"Codenow"、"JS"`这三位玩家的记录信息，那么示例代码如下
+
+```
+// 第一个参数是字段名称，第二个参数是数组
+query.containedIn("playerName", ["Bmob", "Codenow", "JS"]);
+
+```
+
+相反地，你可以使用`notContainedIn`方法来查询在集合外的目标对象。
+
+如果想要查询含有某一特定属性的对象，可以使用`exists`。相对地，如果你想获取没有这一特定属性的对象，你可以使用`doesNotExist`，示例代码如下：
+
+```
+// 查询含有score属性的对象
+query.exists("score");
+
+// 查询不含有score属性的对象
+query.doesNotExist("score");
+
+```
 
 **分页查询**
 
 有时，在数据比较多的情况下，你希望查询出的符合要求的所有数据能按照多少条为一页来显示，这时可以使用`limit`方法来限制查询结果的数据条数来进行分页。默认情况下，Limit的值为10，最大有效设置值1000（设置的数值超过1000还是视为1000）。
+
 ```
 // 返回最多10条数据
 query.limit(10);
+
 ```
+
 在数据较多的情况下，在`limit`的基础上分页显示数据是比较合理的解决办法，`skip`方法可以做到跳过查询的前多少条数据来实现分页查询的功能。默认情况下`skip`的值为10。
+
 ```
 query.skip(10); // skip the first 10 results
+
 ```
+
 **结果排序**
 
 我们可以对返回的结果进行排序（只支持`number`，`date`，`string`类型的排序），示例代码如下：
+
 ```
 // 对score字段升序排列
 query.order("score");
@@ -651,16 +743,19 @@ query.order("-score");
 
 // 多个字段进行排序
 query.order("-score","name");
+
 ```
 
 **统计记录数量**
 
 如果你只是想统计满足`query`的结果集到底有多条记录，你可以使用`count`方法。如为了获得diary表的记录数量，示例代码如下：
+
 ```
 const query = Bmob.Query('diary');
 query.count().then(res => {
   console.log(`公有${res}条记录`)
 });
+
 ```
 
 ## 数据库批量操作
@@ -694,6 +789,7 @@ query.find().then(todos => {
     console.log(err)
   });
 })
+
 ```
 
 **返回示例:**
@@ -720,32 +816,32 @@ query.find().then(todos => {
     }
   }
 ]
+
 ```
 
 ### 批量增加
 
  **简介：**
 
-通过查询条件查询0条记录，然后模拟假数据
+传入一个Query的数组，进行批量保存
 
 ```
-const query = Bmob.Query('tableName');
-// 设置一个不存在的条件，查询出0条数据
-query.equalTo("createdAt", "<", "1971-04-01 00:00:00");
-query.find().then(todos => {
-  //模拟50条数据
-  for (let index = 0; index < 50; index++) {
-    todos.push({})
-  }
-  todos.set('aab', "Bmob后端云");
-  todos.set('bb', 'Bmob后端云');
-  todos.saveAll().then(res => {
-    // 成功批量修改
-    console.log(res,'ok')
-  }).catch(err => {
-    console.log(err)
-  });
-})
+const queryArray = new Array();
+// 构造含有50个对象的数组
+for(var i = 0 ; i < 50 ; i++){
+  var queryObj = Bmob.Query('tableName');
+  queryObj.set('columnName','abc' + i);
+  queryArray.push(queryObj);
+}
+
+
+// 传入刚刚构造的数组
+Bmob.Query('tableName').saveAll(queryArray).then(result => {
+  console.log(result);
+}).catch(err => {
+  console.log(err);
+});
+
 ```
 
 **返回与批量修改一致: **
@@ -773,6 +869,7 @@ query.find().then(todos => {
     console.log(err)
   });
 })
+
 ```
 
 **返回示例:**
@@ -799,6 +896,7 @@ query.find().then(todos => {
     }
   }
 ]
+
 ```
 
 
@@ -831,6 +929,7 @@ query.find().then(res => {
   }).catch(err => {
     console.log(err)
   })
+
 ```
 
 **返回示例:**
@@ -852,6 +951,7 @@ query.find().then(res => {
     ...
 }
 
+
 ```
 
 #### 添加Pointer类型
@@ -872,6 +972,7 @@ query.get('objectId').then(res => {
 }).catch(err => {
   console.log(err)
 })
+
 ```
 
 
@@ -880,19 +981,22 @@ query.get('objectId').then(res => {
 
 为了帮你存储数组类数据，有三种操作你可以原子性地改动一个数组，这需要一个给定的 key：
 
--  `add`在一个数组的末尾加入一个给定的对象。
+- `add`在一个数组的末尾加入一个给定的对象。
 - `addUnique`只会把原本不存在的对象加入数组，所以加入的位置没有保证。
-比如, 我们想在数组"DiaryType"中加入日记类型：
+  比如, 我们想在数组"DiaryType"中加入日记类型：
 
 **添加数组：**
+
 ```
 const query = Bmob.Query('tableName')
 query.add("DiaryType", ["public"]);
 query.addUnique("DiaryType", ["secret"]);
 query.save();
+
 ```
 
 **更新数组：**
+
 ```
 const query = Bmob.Query('tableName')
 query.get('ObjectId').then(res => {
@@ -900,16 +1004,18 @@ query.get('ObjectId').then(res => {
   res.addUnique("DiaryType", ["secret"]);
   res.save();
 })
+
 ```
 
-
 **删除数组：**
+
 ```
 const query = Bmob.Query('tableName')
 query.get('ObjectId').then(res => {
   res.remove("DiaryType", ["secret"]);
   res.save();
 })
+
 ```
 
 ## 云函数使用
@@ -941,6 +1047,7 @@ Bmob.functions(params.funcName,params.data).then(function (response) {
 	console.log(error);
 });
 
+
 ```
 
 **云函数示例:**
@@ -955,6 +1062,7 @@ Bmob.functions(params.funcName,params.data).then(function (response) {
 	    response.end('输入错误，请重新输入');
     }  
 
+
 ```
 
 **返回示例:**
@@ -964,20 +1072,18 @@ Bmob.functions(params.funcName,params.data).then(function (response) {
 	result: "欢迎使用Bmob"
 }
 
-```
 
-### 
+```
 
 ## 文件
 
 ### WEB文件上传
 
-
  **参数说明：**
 
-| 参数     | 类型   | 必填 | 说明   |
-| -------- | ------ | ---- | ------ |
-| fileName | string | 是   | 文件名(带后缀) |
+| 参数     | 类型   | 必填 | 说明                   |
+| -------- | ------ | ---- | ---------------------- |
+| fileName | string | 是   | 文件名(带后缀)         |
 | file     | Object | 是   | 相应的文本或者二进制流 |
 
 **web请求示例：**
@@ -985,8 +1091,11 @@ Bmob.functions(params.funcName,params.data).then(function (response) {
 ```
 // 在页面中创建一个 file input来允许用户选择磁盘上的文件
 <input type="file" id="profilePhotoFileUpload"  multiple="multiple" >
+
 ```
+
 然后，在一个处理onchange的函数里，将文件加入上传队列进行批量操作：
+
 ```
 const fileUploadControl = document.getElementById('profilePhotoFileUpload');
 fileUploadControl.onchange = () => {
@@ -1000,11 +1109,13 @@ fileUploadControl.onchange = () => {
     console.log(res);
   })
 }
+
 ```
 
 **返回示例:**
+
 ```
- ["http://bmob-cdn-15009.b0.upaiyun.com/2018/05/02/f4e60e8d40b7c20b8031bae55a837875.js", "http://bmob-cdn-15009.b0.upaiyun.com/2018/05/02/1d39af8b40b8ede28098a9d4067b5ced.png"]
+["{"cdn":"upyun","filename":"abc.jpg","url":"http://…2018/05/07/e65172f540195fe880043cc74236e397.jpg"}", "{"cdn":"upyun","filename":"abc.jpg","url":"http://…2018/05/07/5670bf6740385bca802f9c33beb69ab9.jpg"}"]
 
 ```
 
@@ -1034,7 +1145,7 @@ upload:function(){
           console.log(res.length);
           console.log(res);
         })
-       
+
       }
     })
   }
@@ -1043,24 +1154,32 @@ upload:function(){
 **返回示例:**
 
 ```
- ["http://bmob-cdn-15009.b0.upaiyun.com/2018/05/02/f4e60e8d40b7c20b8031bae55a837875.js", "http://bmob-cdn-15009.b0.upaiyun.com/2018/05/02/1d39af8b40b8ede28098a9d4067b5ced.png"]
+["{"cdn":"upyun","filename":"abc.jpg","url":"http://…2018/05/07/e65172f540195fe880043cc74236e397.jpg"}", "{"cdn":"upyun","filename":"abc.jpg","url":"http://…2018/05/07/5670bf6740385bca802f9c33beb69ab9.jpg"}"]
+
+备注：
+上传文件写入Bmob File字段，上面选择了2张图片，所以返回2个File对象，如果需要写到数据库，字段，一个File字段只能写入一张图，例如下面这样
+
+res.set('files',res[0])
+
+这里的0指的是第一个对象，默认如果不是批量上传传一张图，可以直接res[0]写入到file类型里面
+
 
 ```
 
-### 
+
 
 
 
 ### 文件删除
 
-
  **参数说明：**
 
-| 参数     | 类型           | 必填 | 说明   |
-| -------- | ------------  | ---- | ------ |
-| url     | string或array  | 是   | 上传文件时返回的url |
+| 参数 | 类型          | 必填 | 说明                |
+| ---- | ------------- | ---- | ------------------- |
+| url  | string或array | 是   | 上传文件时返回的url |
 
 **请求示例：**
+
 ```
 // 传入string是单个文件删除，传入array是批量删除
 const del = Bmob.File();
@@ -1070,17 +1189,22 @@ del.destroy(val).then(res => {
 }).catch(err => {
   console.log(err)
 })  
+
 ```
+
 **返回示例:**
+
 ```
 {
   "msg": "ok"
 }
+
 ```
 
 
 
-## 小程序操作 ##
+## 小程序操作
+
 ### 小程序一键登录
 
 **简介：**
@@ -1101,6 +1225,7 @@ Bmob.User.auth().then(res => {
     }).catch(err => {
       console.log(err)
     });
+
 ```
 
 **返回示例:**
@@ -1114,6 +1239,7 @@ Bmob.User.auth().then(res => {
     "updatedAt":"2018-04-19 17:26:48",
     "username":"aaaaaa"
 }
+
 ```
 
 
@@ -1128,6 +1254,7 @@ Bmob.User.auth().then(res => {
 
 ```
  <button open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+
 ```
 
 > js：
@@ -1141,6 +1268,7 @@ getUserInfo: function(e) {
       hasUserInfo: true
     })
   }
+
 ```
 
 > wxml显示
@@ -1148,6 +1276,7 @@ getUserInfo: function(e) {
 ```
 <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+
 ```
 
  **参数说明：**
@@ -1162,17 +1291,19 @@ Bmob.User.upInfo(e.detail.userInfo).then(result => {
     }).catch(err => {
       console.log(err)
     })
+
 ```
 
 **返回示例:**
 
 ```
 {"updatedAt":"2018-05-02 14:43:26"}
+
 ```
 
 
 
-### 生成二维码 ###
+### 生成二维码
 
 **简介：**
 
@@ -1182,28 +1313,30 @@ Bmob.User.upInfo(e.detail.userInfo).then(result => {
 
 Bmob.generateCode 参数列表
 
-| 键 | 值 |参数说明 |
-| --------- | ----------------- | ------------ |
-| path      | pages/index/index | 页面路径，支持参数 |
-| width     |        430        | 二维码宽度，这个参数微信规定不能少于180 |
-| interface |        a\b\c      | 对应微信二维码abc方案 |
-| scene     |        Bmob       | 微信B方案才需要此值 |
-| type      |        0/1        | 默认0，返回二维码base64数据.如果为1则服务端返回为二维码网络路径 |
+| 键        | 值                | 参数说明                                                     |
+| --------- | ----------------- | ------------------------------------------------------------ |
+| path      | pages/index/index | 页面路径，支持参数                                           |
+| width     | 430               | 二维码宽度，这个参数微信规定不能少于180                      |
+| interface | a\b\c             | 对应微信二维码abc方案                                        |
+| scene     | Bmob              | 微信B方案才需要此值                                          |
+| type      | 0/1               | 默认0，返回二维码base64数据.如果为1则服务端返回为二维码网络路径 |
 
 更多微信官方小程序码介绍 [微信官方小程序码介绍](https://mp.weixin.qq.com/debug/wxadoc/dev/api/qrcode.html "微信官方小程序码介绍")
 
 **请求示例：**
 
-    let qrData = { path: 'path', width: width, type: 1 }
-    Bmob.generateCode(qrData).then(function (res) {
-    	console.log(res);
-    })
-    .catch(function (err) {
-    	console.log(err);
-    });
+```
+let qrData = { path: 'path', width: width, type: 1 }
+Bmob.generateCode(qrData).then(function (res) {
+	console.log(res);
+})
+.catch(function (err) {
+	console.log(err);
+});
+
+```
 
 **返回示例:**
-
 
 ```
 {
@@ -1211,9 +1344,11 @@ Bmob.generateCode 参数列表
 	filename:"code.jpg"
 	url:"http://qrCodeImageURL.jpg"
 }
+
 ```
 
-### 获取access_token ###
+### 获取access_token
+
 **简介：**
 
 微信access_token，业务场景,当其他平台需要使用你小程序的token，并不想与Bmob的平台冲突，可以通过此API实现
@@ -1224,21 +1359,27 @@ Bmob.generateCode 参数列表
 
 **请求示例：**
 
-    Bmob.getAccessToken().then(function (response) {
-    	console.log(response);
-    })
-    .catch(function (error) {
-    	console.log(error);
-    });
+```
+Bmob.getAccessToken().then(function (response) {
+	console.log(response);
+})
+.catch(function (error) {
+	console.log(error);
+});
+
+```
 
 **返回示例:**
 
+```
+{
+	access_token: 'access_token'
+}
 
-    {
-    	access_token: 'access_token'
-    }
+```
 
-### 小程序模版消息 ###
+### 小程序模版消息
+
 **简介：**
 
 小程序模板消息，通过传入模版，设置模版信息，需要在模版中设置多个参数(openId,templateId,formId)
@@ -1249,34 +1390,38 @@ Bmob.generateCode 参数列表
 
 **请求示例：**
 
-    let modelData = {
-        "touser": "open_Id",
-        "template_id": "template_id",
-        "page": "index",
-        "form_id":"form_Id",
-        "data": {
-    	    "keyword1": {
-    		    "value": "SDK测试内容",
-    		    "color": "#173177"
-    		},
-    	    "keyword2": {
-    	    	"value": "2018年04月18日 16:30"
-    	    },
-    	    "keyword3": {
-    	    	"value": "Bmob科技"
-    	    }
-    	}
-    	,"emphasis_keyword": ""
-    }
-    
-    Bmob.sendWeAppMessage(modelData).then(function (response) {
-    	console.log(response);
-    }).catch(function (error) {
-    	console.log(error);
-    });
-****
+```
+let modelData = {
+    "touser": "open_Id",
+    "template_id": "template_id",
+    "page": "index",
+    "form_id":"form_Id",
+    "data": {
+	    "keyword1": {
+		    "value": "SDK测试内容",
+		    "color": "#173177"
+		},
+	    "keyword2": {
+	    	"value": "2018年04月18日 16:30"
+	    },
+	    "keyword3": {
+	    	"value": "Bmob科技"
+	    }
+	}
+	,"emphasis_keyword": ""
+}
 
-###  小程序付款到零钱##
+Bmob.sendWeAppMessage(modelData).then(function (response) {
+	console.log(response);
+}).catch(function (error) {
+	console.log(error);
+});
+
+```
+
+------
+
+### 小程序付款到零钱
 
 付款到零钱目前已经支持，常见使用场景是用户小程序里面提现，由于此接口用的人少，如需要使用可提交工单联系工作人员。
 
@@ -1291,8 +1436,6 @@ Bmob.generateCode 参数列表
 1. 需企业用户提前开通微信支付
 2. 填写支付商户id到Bmob控制台
 3. 开通Bmob专业版或以上版本（可开通试用，工单联系）
-
-
 
 **参数说明：**
 
@@ -1339,11 +1482,12 @@ var openId = wx.getStorageSync('openid');
       console.log('服务端返回失败');
       console.log(err);
     });
+
 ```
 
 
 
-### 小程序退款 ###
+### 小程序退款
 
 **简介：**
 
@@ -1351,35 +1495,41 @@ var openId = wx.getStorageSync('openid');
 
 **参数说明：**
 
-| 参数      | 类型   | 必填 | 说明     |
-| --------- | ------ | ---- | -------- |
-| order_no | string | 是   | 订单编号 |
-| refund_fee  | number | 是   | 退款金额  |
-| desc  | string | 是   | 描述  |
+| 参数       | 类型   | 必填 | 说明     |
+| ---------- | ------ | ---- | -------- |
+| order_no   | string | 是   | 订单编号 |
+| refund_fee | number | 是   | 退款金额 |
+| desc       | string | 是   | 描述     |
 
 **请求示例：**
 
-    let data = {
-    	order_no: "order_no",
-    	refund_fee: fee,
-    	desc:"退款"
-    }
-    Bmob.refund(data).then(function (response) {
-    	console.log(response);
-    })
-    .catch(function (error) {
-    	console.log(error);
-    });
+```
+let data = {
+	order_no: "order_no",
+	refund_fee: fee,
+	desc:"退款"
+}
+Bmob.refund(data).then(function (response) {
+	console.log(response);
+})
+.catch(function (error) {
+	console.log(error);
+});
+
+```
 
 **返回示例:**
 
+```
+{
+	code: 107,
+	error: "content is empty."
+}
 
-    {
-    	code: 107,
-    	error: "content is empty."
-    }
+```
 
-### 微信主人通知 ###
+### 微信主人通知
+
 **简介：**
 
 微信主动推送通知，业务场景：比如你有APP，有人下单了，或者有人留言了。你可以收到微信推送通知。每日限制50条，如需更多，请工单联系客服
@@ -1399,42 +1549,48 @@ var openId = wx.getStorageSync('openid');
 
 **请求示例：**
 
-    let temp = {
-      touser: "openid",
-      template_id:"template_id",
-      url: "http://www.bmob.cn/",
-      data: {
-    		first: {
-    			value: "您好，Restful 失效，请登录控制台查看。",
-    			color: "#c00"
-    		},
-    		keyword1: {
-    			value: "Restful 失效"
-    		},
-    		keyword2: {
-    			value: "2017-07-03 16:13:01"
-    		},
-    		keyword3: {
-    			value: "高"
-    		},
-    		remark: {
-    			value: "如果您十分钟内再次收到此信息，请及时处理。"
-    		}
-      	}
-    }
-    
-    Bmob.notifyMsg(temp).then(function (response) {
-    console.log(response);
-    })
-    .catch(function (error) {
-    console.log(error);
-    });
+```
+let temp = {
+  touser: "openid",
+  template_id:"template_id",
+  url: "http://www.bmob.cn/",
+  data: {
+		first: {
+			value: "您好，Restful 失效，请登录控制台查看。",
+			color: "#c00"
+		},
+		keyword1: {
+			value: "Restful 失效"
+		},
+		keyword2: {
+			value: "2017-07-03 16:13:01"
+		},
+		keyword3: {
+			value: "高"
+		},
+		remark: {
+			value: "如果您十分钟内再次收到此信息，请及时处理。"
+		}
+  	}
+}
+
+Bmob.notifyMsg(temp).then(function (response) {
+console.log(response);
+})
+.catch(function (error) {
+console.log(error);
+});
+
+```
 
 **返回示例:**
 
-    {
-    	msg: "ok"
-    }
+```
+{
+	msg: "ok"
+}
+
+```
 
 #### 提供模板
 
@@ -1448,9 +1604,10 @@ var openId = wx.getStorageSync('openid');
 客户信息：{{customerInfo.DATA}}
 {{orderItemName.DATA}}：{{orderItemData.DATA}}
 {{remark.DATA}}
+
 ```
 
-2. 系统报警通知（template_id：`-ERkPwp0ntimqH39bggQc_Pj55a18CYLpj-Ert8-c8Y` ）
+1. 系统报警通知（template_id：`-ERkPwp0ntimqH39bggQc_Pj55a18CYLpj-Ert8-c8Y` ）
 
 ```
 {{first.DATA}}
@@ -1458,18 +1615,20 @@ var openId = wx.getStorageSync('openid');
 报警时间：{{keyword2.DATA}}
 报警级别：{{keyword3.DATA}}
 {{remark.DATA}}
+
 ```
 
-3. 购买成功通知（template_id：`Mbk3kYqRGkL98ch6Lie4XSXtOsxXj2SC0SRQXd89G1Y `）
+1. 购买成功通知（template_id：`Mbk3kYqRGkL98ch6Lie4XSXtOsxXj2SC0SRQXd89G1Y `）
 
 ```
 您好，您已购买成功。
 
 商品信息：{{name.DATA}}
 {{remark.DATA}}
+
 ```
 
-4. 审核结果通知（template_id：`aNNNmi7WK4kohleWhCkDRKJiHOZnIpkrhXx5XPx4dx0` ）
+1. 审核结果通知（template_id：`aNNNmi7WK4kohleWhCkDRKJiHOZnIpkrhXx5XPx4dx0` ）
 
 ```
 {{first.DATA}}
@@ -1477,6 +1636,7 @@ var openId = wx.getStorageSync('openid');
 审核状态：{{keyword2.DATA}}
 审核时间：{{keyword3.DATA}}
 {{remark.DATA}}
+
 ```
 
 
@@ -1513,6 +1673,7 @@ Bmob提供了数据实时功能，当开发者监听某个变化事件，例如�
 
 ```
 let BmobSocketIo =new Bmob.Socket()
+
 ```
 
 ### 订阅事件
@@ -1523,6 +1684,7 @@ let BmobSocketIo =new Bmob.Socket()
 
 ```
 BmobSocketIo.updateTable("GameScore");
+
 ```
 
 #### 订阅行更新的事件
@@ -1532,6 +1694,7 @@ BmobSocketIo.updateTable("GameScore");
 ```
 BmobSocketIo.updateRow("GameScore","3342e40e4f");
 
+
 ```
 
 #### 订阅行删除的事件
@@ -1540,6 +1703,7 @@ BmobSocketIo.updateRow("GameScore","3342e40e4f");
 
 ```
 BmobSocketIo.deleteRow("GameScore","1256e40e4f");
+
 
 ```
 
@@ -1552,6 +1716,7 @@ BmobSocketIo.deleteRow("GameScore","1256e40e4f");
 ```
 BmobSocketIo.unsubUpdateTable("GameScore");
 
+
 ```
 
 #### 取消订阅行更新的事件
@@ -1561,6 +1726,7 @@ BmobSocketIo.unsubUpdateTable("GameScore");
 ```
 BmobSocketIo.unsubUpdateRow("GameScore","3342e40e4f");
 
+
 ```
 
 #### 取消订阅行删除的事件
@@ -1569,6 +1735,7 @@ BmobSocketIo.unsubUpdateRow("GameScore","3342e40e4f");
 
 ```
 BmobSocketIo.unsubDeleteRow("GameScore","1256e40e4f");
+
 
 ```
 
@@ -1585,6 +1752,7 @@ tablename为更新的表，data为服务端返回的更新数据。
       //业务逻辑的代码
    };
 
+
 ```
 
 #### 监听行更新的事件
@@ -1596,6 +1764,7 @@ tablename为更新的表，objectId为更新行的objectId，data为服务端返
       //业务逻辑的代码
    };
 
+
 ```
 
 #### 监听行删除的事件
@@ -1606,6 +1775,7 @@ tablename为更新的表，objectId为更新行的objectId，data为服务端返
    BmobSocketIo.onDeleteRow = function(tablename,objectId,data) {    
       //业务逻辑的代码
    };
+
 
 ```
 
@@ -1619,69 +1789,80 @@ tablename为更新的表，objectId为更新行的objectId，data为服务端返
 
 
 
-## 短信服务操作 ##
+## 短信服务操作
 
-### 请求短信验证码 ###
+### 请求短信验证码
+
 **简介：**
 
 使用特定的模板请求验证码，如果没有在管理后台创建好模板，可使用默认的模板，Bmob 默认的模板是: 您的验证码是%smscode%，有效期为%ttl%分钟。您正在使用%appname%的验证码
 
 **参数说明：**
 
-| 参数      | 类型   | 必填 | 说明     |
-| --------- | ------ | ---- | -------- |
-| mobilePhoneNumber | string | 是   | 手机号 |
-| template  | string | 否   | 模板信息  |
+| 参数              | 类型   | 必填 | 说明     |
+| ----------------- | ------ | ---- | -------- |
+| mobilePhoneNumber | string | 是   | 手机号   |
+| template          | string | 否   | 模板信息 |
 
 **请求示例：**
 
-    let params = {
-    	mobilePhoneNumber: 'mobilePhoneNumber' //string
-    }
-    Bmob.requestSmsCode(params).then(function (response) {
-    	console.log(response);
-    })
-    .catch(function (error) {
-    	console.log(error);
-    });
+```
+let params = {
+	mobilePhoneNumber: 'mobilePhoneNumber' //string
+}
+Bmob.requestSmsCode(params).then(function (response) {
+	console.log(response);
+})
+.catch(function (error) {
+	console.log(error);
+});
+
+```
 
 **返回示例:**
 
+```
+{
+	smsId: smsId
+}
 
-    {
-    	smsId: smsId
-    }
+```
 
-### 验证短信验证码 ###
+### 验证短信验证码
+
 **简介：**
 
 通过以下接口，你可以验证用户输入的验证码是否是有效。
 
 **参数说明：**
 
-| 参数      | 类型   | 必填 | 说明     |
-| --------- | ------ | ---- | -------- |
+| 参数    | 类型   | 必填 | 说明           |
+| ------- | ------ | ---- | -------------- |
 | smsCode | string | 是   | 手机短信验证码 |
 
 **请求示例：**
 
-    let smsCode = 'smsCode'
-    Bmob.verifySmsCode(smsCode).then(function (response) {
-    	console.log(response);
-    })
-    .catch(function (error) {
-    	console.log(error);
-    });
+```
+let smsCode = 'smsCode'
+Bmob.verifySmsCode(smsCode).then(function (response) {
+	console.log(response);
+})
+.catch(function (error) {
+	console.log(error);
+});
+
+```
 
 **返回示例:**
 
-
-    成功
-    {
-        "msg":"ok"
-    }
-    失败
-    {
-    	code: 301,
-    	error: "手机号码必须是11位的数字"
-    }
+```
+成功
+{
+    "msg":"ok"
+}
+失败
+{
+	code: 301,
+	error: "手机号码必须是11位的数字"
+}
+```
