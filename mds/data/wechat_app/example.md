@@ -4,4 +4,6 @@ wechatApp快速入门相关源码:[http://www.bmob.cn/sdk/bmob-wechatApp-v0.3.zi
 
 
 
+2018年起建议开发使用全新混合SDK
 
+https://github.com/bmob/hydrogen-js-sdk/

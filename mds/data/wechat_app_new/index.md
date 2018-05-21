@@ -168,7 +168,63 @@ Bmob.User.signOrLoginByMobilePhone(phone,smsCode).then(res => {
 {"code":207,"error":"code error."}
 ```
 
-###查询用户
+
+
+### 更新用户缓存
+
+**简介：**
+
+通过用户名密码登陆，登陆成功后会在本地缓存保存用户的信息
+
+ **参数说明：**
+
+| 参数     | 类型   | 必填 | 说明     |
+| -------- | ------ | ---- | -------- |
+| objectId | string | 是   | objectId |
+
+**请求示例：**
+
+```
+ Bmob.User.updateStorage('objectId').then(res => {
+   console.log(res)
+ }).catch(err => {
+  console.log(err)
+});
+```
+
+**返回示例:**
+
+```
+成功：
+{
+    "createdAt":"2018-04-19 17:26:45",
+    "objectId":"X43SIIIH",
+    "sessionToken":"cc4fbcfd40583af980f4e6e52085adbf",
+    "updatedAt":"2018-04-19 17:26:48",
+    "username":"aaaaaa"
+}
+```
+
+
+
+### 用户表权限
+
+ **简介： **
+
+用户表属于系统表，默认情况下，接口只能查询。如需修改或删除，请登录当前用户，即可修改或删除当前用户资料。
+
+当然了，你也可以直接把`MasterKey`传入到`X-Bmob-Master-Key`中, 这个就可以实现在不需要提供`SessionToken`的情形下更新和删除用户了，但希望只在开发环境下使用，不要把`MasterKey`发布出去。
+
+传入MasterKey方式：
+
+```
+//初始化时，多传入一个参数
+Bmob.initialize("你的Application ID", "你的REST API Key", "你的MasterKey");
+```
+
+
+
+### 查询用户
 
  **简介：**
 
@@ -523,6 +579,17 @@ query.get('objectId').then(res => {
 **请求示例：**
 
 ```
+ 方式一：
+ const query = Bmob.Query('tableName');
+ query.set('id', 'objectId') //需要修改的objectId
+ query.set('nickName', 'Bmob后端云')
+ query.save().then(res => {
+ console.log(res)
+ }).catch(err => {
+ console.log(err)
+ })
+或者
+方式二：
 const query = Bmob.Query('tableName');
 query.get('objectId').then(res => {
   console.log(res)
@@ -651,7 +718,55 @@ query.find().then(res => {
 
 表中数据
 
-### 条件查询
+
+
+### 字段数组操作
+
+为了帮你存储数组类数据，有三种操作你可以原子性地改动一个数组，这需要一个给定的 key：
+
+- `add`在一个数组的末尾加入一个给定的对象。
+- `addUnique`只会把原本不存在的对象加入数组，所以加入的位置没有保证。
+  比如, 我们想在数组"DiaryType"中加入日记类型：
+
+**添加数组：**
+
+```
+const query = Bmob.Query('tableName')
+query.add("DiaryType", ["public"]);
+query.addUnique("DiaryType", ["secret"]);
+query.save();
+
+
+```
+
+**更新数组：**
+
+```
+const query = Bmob.Query('tableName')
+query.get('ObjectId').then(res => {
+  res.add("DiaryType", ["public"]);
+  res.addUnique("DiaryType", ["secret"]);
+  res.save();
+})
+
+
+```
+
+**删除数组：**
+
+```
+const query = Bmob.Query('tableName')
+query.get('ObjectId').then(res => {
+  res.remove("DiaryType", ["secret"]);
+  res.save();
+})
+
+
+```
+
+## 
+
+## 条件查询
 
  **参数说明：**
 
@@ -697,7 +812,7 @@ query.find().then(res => {
 });
 ```
 
-**或查询**
+### **或查询**
 
 你可以使用`or`方法操作或查询，示例代码如下：
 
@@ -713,7 +828,8 @@ query.find().then(res => {
 });
 ```
 
-**查询指定列**
+### **查询指定列**
+
 ```
 const query = Bmob.Query("tableName");
 // 只返回select的字段值
@@ -724,7 +840,7 @@ query.find().then(res => {
 });
 ```
 
-**复杂查询**
+### **复杂查询**
 
 如果你想查询某一字段值在某一集合中的记录的话，可以使用`containedIn`方法，如获取`"Bmob"、"Codenow"、"JS"`这三位玩家的记录信息，那么示例代码如下
 ```
@@ -742,8 +858,7 @@ query.exists("score");
 query.doesNotExist("score");
 ```
 
-
-**分页查询**
+### **分页查询**
 
 有时，在数据比较多的情况下，你希望查询出的符合要求的所有数据能按照多少条为一页来显示，这时可以使用`limit`方法来限制查询结果的数据条数来进行分页。默认情况下，Limit的值为10，最大有效设置值1000（设置的数值超过1000还是视为1000）。
 ```
@@ -754,9 +869,10 @@ query.limit(10);
 ```
 query.skip(10); // skip the first 10 results
 ```
-**结果排序**
+### **结果排序**
 
 我们可以对返回的结果进行排序（只支持`number`，`date`，`string`类型的排序），示例代码如下：
+
 ```
 // 对score字段升序排列
 query.order("score");
@@ -768,15 +884,17 @@ query.order("-score");
 query.order("-score","name");
 ```
 
-**统计记录数量**
+### **统计记录数量**
 
 如果你只是想统计满足`query`的结果集到底有多条记录，你可以使用`count`方法。如为了获得diary表的记录数量，示例代码如下：
 ```
 const query = Bmob.Query('diary');
 query.count().then(res => {
-  console.log(`公有${res}条记录`)
+  console.log(`共有${res}条记录`)
 });
 ```
+
+## 
 
 ## 数据库批量操作
 
@@ -995,7 +1113,7 @@ query.get('c02b7b018f').then(res => {
 
 ```
 
-###Relation的使用
+### Relation的使用
 
 **简介：**
 
@@ -1044,43 +1162,69 @@ query.relation('_User').then(res => {
 })
 ```
 
+## 地理位置
 
+### 创建地理位置对象
 
-## 数组操作
-
-为了帮你存储数组类数据，有三种操作你可以原子性地改动一个数组，这需要一个给定的 key：
-
--  `add`在一个数组的末尾加入一个给定的对象。
--  `addUnique`只会把原本不存在的对象加入数组，所以加入的位置没有保证。
-  比如, 我们想在数组"DiaryType"中加入日记类型：
-
-**添加数组：**
 ```
-const query = Bmob.Query('tableName')
-query.add("DiaryType", ["public"]);
-query.addUnique("DiaryType", ["secret"]);
-query.save();
+const point = Bmob.GeoPoint({ latitude: 23.052033,longitude: 113.405447 })
 ```
 
-**更新数组：**
+### 查询地理位置
+
+为了限定搜索的最大距离范围，需要加入 `公里` 参数来限定，如果不加，则默认是100KM的半径。比如要找的半径在10公里内的话
+
 ```
-const query = Bmob.Query('tableName')
-query.get('ObjectId').then(res => {
-  res.add("DiaryType", ["public"]);
-  res.addUnique("DiaryType", ["secret"]);
-  res.save();
+const query = Bmob.Query("tableName");
+query.withinKilometers("字段名", point, 10);  //10指的是公里
+query.find().then(res => {
+	console.log(res)
+});
+```
+
+同样作查询寻找在一个特定的范围里面的对象也是可以的，为了找到在一个矩形区域里的对象，按下面的格式加入一个约束
+
+```
+const point = Bmob.GeoPoint({ latitude: 23.052033,longitude: 113.405447 })
+const point1 = Bmob.GeoPoint({ latitude: 23.052033,longitude: 113.405447 })
+const query = Bmob.Query("tableName");
+query.withinGeoBox("字段名", point, point1);  //制造一个矩形区域
+query.find().then(res => {
+	console.log(res)
+});
+```
+
+
+
+### 添加地理位置
+
+```
+const point = Bmob.GeoPoint({ latitude: 23.052033,longitude: 113.405447 })
+const query = Bmob.Query('tableName');
+query.set("字段名称",point)
+query.save().then(res => {
+  console.log(res)
+}).catch(err => {
+  console.log(err)
 })
 ```
 
 
-**删除数组：**
+
+### 修改地理位置
+
+
+
 ```
+const point = Bmob.GeoPoint({ latitude: 23.052033,longitude: 113.405447 })
 const query = Bmob.Query('tableName')
-query.get('ObjectId').then(res => {
-  res.remove("DiaryType", ["secret"]);
-  res.save();
+query.get('c02b7b018f').then(res => {
+  res.set('字段名称',point)
+  res.save()
 })
 ```
+
+
 
 ## 云函数使用
 
@@ -1136,7 +1280,7 @@ Bmob.functions(params.funcName,params.data).then(function (response) {
 
 ```
 
-##文件
+## 文件
 
 ### WEB文件上传
 
@@ -1259,6 +1403,18 @@ del.destroy(val).then(res => {
 
 
 ## 小程序操作 ##
+### 授权操作
+
+如小程序使用微信登陆、生成二维码、支付等需要微信的操作，请在Bmob授权后使用。
+
+登陆Bmob控制台->应用设置->应用配置
+
+> 如小程序只是操作数据库，不关联微信用户，无需授权即可使用。
+
+### 域名配置
+
+登陆Bmob控制台->应用设置->应用配置，把显示的域名填写到微信小程序平台
+
 ### 小程序一键登录
 
 **简介：**
@@ -1458,13 +1614,37 @@ Bmob.generateCode 参数列表
 
 ###  小程序付款到零钱##
 
+**简介：**
+
 付款到零钱目前已经支持，常见使用场景是用户小程序里面提现，由于此接口用的人少，如需要使用可提交工单联系工作人员。
+
+**注意事项：**
+
+此功能先看下自己微信支付支付有开通，默认是没开通的，微信18年的开通条件是
+
+**开通条件**
+需同时满足两个条件，才有开通该功能入口：
+1、T+0 （T日结算至基本账户），结算商户需满足两个条件：1、入驻满90天，2、截止今日往回推30天连续不间断保持有交易。
+2、其余结算周期的商户无限制，可立即前往【商户平台】->【产品中心】申请开通。
+注：连续30天交易无金额限制，请保持正常交易。
+
+**使用条件：**
+
+1. 需企业用户微信支付提前开通付款到零钱功能
+
+2. 填写支付商户密匙到Bmob控制台
+
+    
+
+
 
 ### 小程序支付
 
 **简介：**
 
 微信小程序支付，用户付款到微信支付账户。
+
+
 
 **使用条件：**
 

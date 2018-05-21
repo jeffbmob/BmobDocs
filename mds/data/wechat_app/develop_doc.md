@@ -565,7 +565,19 @@ var res = {
 
 ## 小程序付款到零钱
 
+**简介：**
+
 付款到零钱目前已经支持，常见使用场景是用户小程序里面提现，由于此接口用的人少，如需要使用可提交工单联系工作人员。
+
+**注意事项：**
+
+此功能先看下自己微信支付支付有开通，默认是没开通的，微信18年的开通条件是
+
+开通条件
+需同时满足两个条件，才有开通该功能入口：
+1、T+0 （T日结算至基本账户），结算商户需满足两个条件：1、入驻满90天，2、截止今日往回推30天连续不间断保持有交易。
+2、其余结算周期的商户无限制，可立即前往【商户平台】->【产品中心】申请开通。
+注：连续30天交易无金额限制，请保持正常交易。
 
 ## 添加数据
 
@@ -1750,7 +1762,26 @@ collection.reset([
 `userData`：每个微信用户的唯一标识，包括用户openId、expires_in、session_key（可选,自行创建，Object类型）
 我们会在下面的用例中详细介绍细节
 
-### 注册一（使用用户账号密码进行注册）
+### 注册一
+
+**登录注册集合类，接口默认第一次注册，否则返回用户信息**
+
+首先要在_User表新建一个用来存用户唯一标识的字段，例如：userData(Object类型)，然后在js中插入以下代码：
+
+V3.5 版本优化上面代码登陆只需在app.js 加入2行代码
+
+```
+onLaunch: function() {
+    var user = new Bmob.User() //实例化用户对象
+    user.auth()
+  },
+```
+
+> 2018-5-10号以后微信废除了`wx.getUserInfo` 方法，如需数据库保存用户昵称与头像，请看微信官方就教程更新到用户表。
+
+### 注册二
+
+**使用用户账号密码进行注册**
 
 通常你的app第一件要做的事情就是让用户进行注册，这里把用户密码设置为`Openid`，下面的代码展示了怎样进行微信注册的过程（包括获取用户的唯一标识）：
 
@@ -1803,87 +1834,9 @@ wx.login({
 
 你也可以使用`email`来作为用户名，只要求你的用户输入他们的`email`但是同时自动填充好`username`属性就可以了，`Bmob.User`会跟原来一样工作，我们会在下面的重设密码环节再次说明这个细节。
 
-### 注册二（登录注册集合类，接口默认第一次注册，否则返回用户信息）
-
-首先要在_User表新建一个用来存用户唯一标识的字段，例如：userData(Object类型)，然后在js中插入以下代码：
-
-```
-
-var user = new Bmob.User();//实例化
-
-wx.login({
-
-        success: function (res) {
-          user.loginWithWeapp(res.code).then(function (user) {
-            var openid = user.get("authData").weapp.openid;
-            console.log(user, 'user', user.id, res);
-            if (user.get("nickName")) {
-
-              // 第二次登录，打印用户之前保存的昵称
-              console.log(user.get("nickName"), 'res.get("nickName")');
-
-			  //更新openid
-              wx.setStorageSync('openid', openid)
-            } else {//注册成功的情况
-
-              var u = Bmob.Object.extend("_User");
-              var query = new Bmob.Query(u);
-              query.get(user.id, {
-                success: function (result) {
-                  wx.setStorageSync('own', result.get("uid"));
-                },
-                error: function (result, error) {
-                  console.log("查询失败");
-                }
-              });
+> 
 
 
-              //保存用户其他信息，比如昵称头像之类的
-              wx.getUserInfo({
-                success: function (result) {
-
-                  var userInfo = result.userInfo;
-                  var nickName = userInfo.nickName;
-                  var avatarUrl = userInfo.avatarUrl;
-
-                  var u = Bmob.Object.extend("_User");
-                  var query = new Bmob.Query(u);
-                  // 这个 id 是要修改条目的 id，你在生成这个存储并成功时可以获取到，请看前面的文档
-                  query.get(user.id, {
-                    success: function (result) {
-                      // 自动绑定之前的账号
-
-                      result.set('nickName', nickName);
-                      result.set("userPic", avatarUrl);
-                      result.set("openid", openid);
-                      result.save();
-
-                    }
-                  });
-
-                }
-              });
-
-
-            }
-
-          }, function (err) {
-            console.log(err, 'errr');
-          });
-
-        }
-      });
-    }
-
-
-```
-V3.5 版本优化上面代码登陆只需在app.js 加入2行代码
-```
-onLaunch: function() {
-    var user = new Bmob.User() //实例化用户对象
-    user.auth()
-  },
-```
 
 ### 登录（自有账户密码登录，适合APP迁移过来的用户）
 
@@ -1947,6 +1900,41 @@ Bmob.User.logOut();
 
 var currentUser = Bmob.User.current();  // this will now be null
 ```
+
+### 修改当前用户信息
+
+修改本地缓存信息
+
+```
+var User = Bmob.Object.extend("_User");
+var query = new Bmob.Query(User);
+// 这个 id 是要修改条目的 id，你在生成这个存储并成功时可以获取到，请看前面的文档
+query.get(objectId, {
+  success: function (result) {
+    // 回调中可以取得这个 diary 对象的一个实例，然后就可以修改它了
+    result.set('mobilePhoneNumber', phone);
+    result.save().then(function (res) {
+      // 修改本地缓存
+      var currentUser = Bmob.User.current();
+      if (currentUser) {
+        currentUser.set("mobilePhoneNumber", phone);
+        Bmob.User._saveCurrentUser(currentUser);
+      }
+      // The object was retrieved successfully.
+      common.showTip("修改手机号成功", "success", function () {
+        setTimeout(function () {
+          wx.navigateBack();
+        }, 1000)
+      });
+    }, function (err) {
+      // The object was retrieved successfully.
+      console.log(err)
+    });
+  })
+})
+```
+
+
 
 ### 用户对象的安全
 
