@@ -47,12 +47,12 @@
                   <li><s class="languageType"  style="background-position:left -52px;"></s><a href="./data/restful/index.html" class="intro" >Restful</a></li>
                   <li><s class="languageType"  style="background-position:left -80px;"></s><a href="./data/csharp/index.html" class="intro" >C#</a></li>
                   <li><s class="languageType" style="background-position:left -106px;"></s><a href="./data/javascript/index.html" class="intro" >JavaScript</a></li>
-                  <li><s class="languageType" style="background-position:left 216px;"></s><a href="./data/php/index.html" class="intro" >PHP</a></li>
+                  <li><s class="languageType" style="background-position:left 297px;"></s><a href="./data/php/index.html" class="intro" >PHP</a></li>
                   <li><s class="languageType"  style="background-position:left -214px;"></s><a href="./data/cocos2d-x/index.html" class="intro" >Cocos2d-x</a></li>
-                  <li><s class="languageType" style="background-position:left 243px;"></s><a href="./data/go/index.html" class="intro" >Go</a></li>
-                  <li><s class="languageType" style="background-position:left 56px;"></s><a href="./data/wechat_app/index.html" class="intro" >小程序</a></li>
-                  <li><s class="languageType" style="background-position:left 56px;"></s><a href="./data/wechat_app_new/index.html" class="intro" >小程序(新)</a></li>
-				  <li><s class="languageType" style="background-position:left 29px;"></s><a href="./data/wechat_app_new/index.html" class="intro" >快应用</a></li>
+                  <li><s class="languageType" style="background-position:left 324px;"></s><a href="./data/go/index.html" class="intro" >Go</a></li>
+                  <li><s class="languageType" style="background-position:left 110px;"></s><a href="./data/wechat_app/index.html" class="intro" >小程序</a></li>
+                  <li><s class="languageType" style="background-position:left 110px;"></s><a href="./data/wechat_app_new/index.html" class="intro" >小程序(新)</a></li>
+				  <li><s class="languageType" style="background-position:left 80px;"></s><a href="./data/wechat_app_new/index.html" class="intro" >快应用</a></li>
 				  <li><s class="languageType" style="background-position:left -106px;"></s><a href="./data/wechat_app_new/index.html" class="intro" >Nodejs</a></li>
 				  <li><s class="languageType" style="background-position:left -214px;"></s><a href="./data/wechat_app_new/index.html" class="intro" >Cocos Creator</a></li>
                 </ul>
@@ -72,8 +72,8 @@
                   <li><s class="languageType"  style="background-position:left -52px;"></s><a href="./cloud_function/restful/index.html" class="intro" >Restful</a></li>
                   <li><s class="languageType"  style="background-position:left -80px;"></s><a href="./cloud_function/csharp/index.html" class="intro" >C#</a></li>
                   <li><s class="languageType" style="background-position:left -106px;"></s><a href="./cloud_function/javascript/index.html" class="intro" >JavaScript</a></li>
-                  <li><s class="languageType" style="background-position:left 216px;"></s><a href="./cloud_function/php/index.html" class="intro" >PHP</a></li>
-                  <li><s class="languageType" style="background-position:left 81px;"></s><a href="./cloud_function/web/index.html" class="intro" >WEB</a></li>
+                  <li><s class="languageType" style="background-position:left 297px;"></s><a href="./cloud_function/php/index.html" class="intro" >PHP</a></li>
+                  <li><s class="languageType" style="background-position:left 135px;"></s><a href="./cloud_function/web/index.html" class="intro" >WEB</a></li>
                   <li></li>
                 </ul>
             </div>
@@ -90,8 +90,26 @@
                   <li><s class="languageType"></s><a href="./sms/android/index.html" class="intro" >Android</a></li>
                   <li><s class="languageType" style="background-position:left -26px;"></s><a href="./sms/ios/index.html" class="intro" >iOS</a></li>
                   <li><s class="languageType"  style="background-position:left -52px;"></s><a href="./sms/restful/index.html" class="intro" >Restful</a></li>
-                  <li><s class="languageType" style="background-position:left 216px;"></s><a href="./sms/php/index.html" class="intro" >PHP</a></li>
+                  <li><s class="languageType" style="background-position:left 297px;"></s><a href="./sms/php/index.html" class="intro" >PHP</a></li>
                   <li><s class="languageType" style="background-position:left -106px;"></s><a href="./sms/javascript/index.html" class="intro" >JavaScript</a></li>
+                  <li></li>
+                </ul>
+            </div>
+        </div><!--//item-inner-->
+    </div><!--//item-->
+	<div class="item item-blue col-md-4 col-sm-6 col-xs-6">
+        <div class="item-inner">
+            <div class="icon-holder">
+                <i class="icon o8"></i>
+            </div>
+            <h3 class="title">游戏实时后端</h3>
+            <div class="text-left">
+                <ul class="links">
+                  <li><s class="languageType" style="background-position:left 56px;"></s><a href="./game/unity/quick_start" class="intro" >Unity</a></li>
+                  <li><s class="languageType" style="background-position:left -214px;"></s><a href="./game/cocos_creator/quick_start" class="intro" >Cocos Creator</a></li>
+				  <li><s class="languageType" style="background-position:left 110px;"></s><a href="./game/wechat_games/quick_start" class="intro" >微信小游戏</a></li>
+				  <li><s class="languageType" style="background-position:left 28px;"></s><a href="./game/cloud_function/develop_doc" class="intro" >云函数</a></li>
+				  <li><s class="languageType" style="background-position:left 135px;"></s><a href="./game/classic_case" class="intro" >经典案例</a></li>
                   <li></li>
                 </ul>
             </div>
@@ -123,7 +141,7 @@
                   <li><s class="languageType"></s><a href="./push/android/index.html" class="intro" >Android</a></li>
                   <li><s class="languageType" style="background-position:left -26px;"></s><a href="./push/ios/index.html" class="intro" >iOS</a></li>
                   <li><s class="languageType"  style="background-position:left -52px;"></s><a href="./push/restful/index.html" class="intro" >Restful</a></li>
-                  <li><s class="languageType" style="background-position:left 216px;"></s><a href="./push/php/index.html" class="intro" >PHP</a></li>
+                  <li><s class="languageType" style="background-position:left 297px;"></s><a href="./push/php/index.html" class="intro" >PHP</a></li>
                   <li><s class="languageType" style="background-position:left -106px;"></s><a href="./push/javascript/index.html" class="intro" >JavaScript</a></li>
                   <li></li>
                 </ul>
