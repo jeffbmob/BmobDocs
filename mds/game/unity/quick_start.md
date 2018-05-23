@@ -30,7 +30,7 @@ score|int|65535|-|true|false|玩家分数
 
 ![Attr](https://bmob-cdn-14496.b0.upaiyun.com/2018/04/10/969d75ac40a48def80e1aaab031db534.jpg)
 
---
+----
 
 ### 云函数
 
@@ -41,7 +41,7 @@ score|int|65535|-|true|false|玩家分数
 
 ![Cloud](https://bmob-cdn-14496.b0.upaiyun.com/2018/04/10/f052c8d34011d16c8095bcf9cc6af519.jpg)
 
---
+----
 
 ### 服务器
 
@@ -53,7 +53,7 @@ score|int|65535|-|true|false|玩家分数
 
 ![Server](https://bmob-cdn-14496.b0.upaiyun.com/2018/04/10/e94ef77840c4c89380026a27ed36d695.jpg)
 
---
+----
 
 ### AppKey
 
