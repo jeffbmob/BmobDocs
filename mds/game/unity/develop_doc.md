@@ -255,12 +255,8 @@ playerCount 为需要设定的房间人数。
     
     //对收到云函数通知的处理,notify为byte[]
     void OnCloudNotify(byte[] notify){
-        console.log('onCloudNotify: ' + notify[0]);
-        switch (notify.shift()) {
-            case 1:
-                // TODO 对相应flag做出相应处理
-                break;
-        }
+        Debug.log('onCloudNotify: ' + notify[0]);
+        // TODO 对相应flag做出相应处理      
     }
 
 顺便一提，仅当云函数调用以下方法时，客户端才会通过 BmobGame.CloudNotifyListener 收到通知。
