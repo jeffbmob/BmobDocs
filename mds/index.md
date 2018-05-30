@@ -48,7 +48,7 @@
                   <li><s class="languageType"  style="background-position:left -80px;"></s><a href="./data/csharp/index.html" class="intro" >C#</a></li>
                   <li><s class="languageType" style="background-position:left -106px;"></s><a href="./data/javascript/index.html" class="intro" >JavaScript</a></li>
                   <li><s class="languageType" style="background-position:left 297px;"></s><a href="./data/php/index.html" class="intro" >PHP</a></li>
-                  <li><s class="languageType"  style="background-position:left -214px;"></s><a href="./data/cocos2d-x/" class="intro" >Cocos2d-x</a></li>
+                  <li><s class="languageType"  style="background-position:left -214px;"></s><a href="./data/cocos2d_x/index.html" class="intro" >Cocos2d-x</a></li>
                   <li><s class="languageType" style="background-position:left 324px;"></s><a href="./data/go/index.html" class="intro" >Go</a></li>
                   <li><s class="languageType" style="background-position:left 110px;"></s><a href="./data/wechat_app/index.html" class="intro" >小程序</a></li>
                   <li><s class="languageType" style="background-position:left 110px;"></s><a href="./data/wechat_app_new/index.html" class="intro" >小程序(新)</a></li>
