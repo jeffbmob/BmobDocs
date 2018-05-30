@@ -70,9 +70,7 @@ Bmob.Sms.verifySmsCode("131xxxxxxxx", 125466).then(function(obj) {
 
 ![短信计费模式][1]
 
-进入账号控制台，财务/财务统计点击购买短信即可。
-
-![购买短信][2]
+进入账号控制台，选择应用--> 短信 --> 点击充值即可。
 
 ### 发票事宜
 
@@ -90,4 +88,3 @@ Bmob.Sms.verifySmsCode("131xxxxxxxx", 125466).then(function(obj) {
 
 
   [1]: http://bmob-file-service-t.b0.upaiyun.com/Doc_File/jfms.png
-  [2]: http://bmob-file-service-t.b0.upaiyun.com/Doc_File/14703632600603.jpg
