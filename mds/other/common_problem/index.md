@@ -2991,5 +2991,8 @@ BmobInstallation *currentIntallation = [BmobInstallation currentInstallation];
 ** 购买源码 **
 在网址栏输入https://www.bmob.cn/shop/index或者在百度输入Bmob进行搜索，打开Bmob官网，点击源码栏目。这里都是基于Bmob后端云开发的完整项目，购买后即可获得项目源码，云数据库表设计和说明文档。
 
+![](https://upload-images.jianshu.io/upload_images/6673460-01e78f0c4d1f58b9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+购买源码后自动在Bmob控制台创建应用，你可以在源码一栏查看购买项目，下载源码和说明文档。
 
+** 注册账号，创建小程序 **
