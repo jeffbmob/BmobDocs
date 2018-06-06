@@ -2983,3 +2983,13 @@ BmobInstallation *currentIntallation = [BmobInstallation currentInstallation];
 
 不可以，只能使用自带的installation表来查询
 
+## 交易常见问题
+
+
+### 小程序部署
+
+** 购买源码 **
+在网址栏输入https://www.bmob.cn/shop/index或者在百度输入Bmob进行搜索，打开Bmob官网，点击源码栏目。这里都是基于Bmob后端云开发的完整项目，购买后即可获得项目源码，云数据库表设计和说明文档。
+
+
+
