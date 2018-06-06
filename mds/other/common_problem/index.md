@@ -3050,6 +3050,8 @@ SDK初始化完毕之后，就完成了整个项目的配置，这样就可以�
 
 ![](https://upload-images.jianshu.io/upload_images/6673460-9e11de21f04206b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+---
+
 ** 小程序支付 **
  
 需要你的小程序微信平台开通微信支付，然后在控制台应用配置中填写商户号、商户支付密钥，目前小程序支付Bmob平台不收取任何手续费，只要是Bmob平台付费会员，并且账号通过实名认证都可以使用。
