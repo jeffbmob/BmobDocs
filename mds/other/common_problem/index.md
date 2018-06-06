@@ -2985,7 +2985,6 @@ BmobInstallation *currentIntallation = [BmobInstallation currentInstallation];
 
 ## 交易常见问题
 
-
 ### 小程序部署
 
 ** 购买源码 **
