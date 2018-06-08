@@ -627,7 +627,7 @@
         //以下SDK开发者请根据需要自行选择
         //bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:
         //3.5.5：请务必查看下面注释[1]
-        compile 'cn.bmob.android:bmob-sdk:3.6.2'
+        compile 'cn.bmob.android:bmob-sdk:3.6.3'
 
         //bmob-push：Bmob的推送包
         compile 'cn.bmob.android:bmob-push:0.8'
@@ -643,7 +643,7 @@
 
 <p><strong>注：</strong></p>
 <p><strong>[1]、为了降低开发者的使用成本，自v3.4.7开始，同步提供<code>aar</code>格式的文件，此aar包含<code>libbmob.so、依赖jar包(okhttp、okio、rx、gson等)及自动更新组件所需要的资源文件</code></strong>。开发者再也不需要配置libbmob.so,不需要添加依赖jar，也不需要复制自动更新组件的资源文件啦，只需要添加以下依赖即可。<strong>如果开发者使用到其他包含了okhttp、okio、rxjava、rxandroid、gson的库，需要从这些库中exclude掉这些已包含在bmobsdk中的包</strong></p>
-<pre><code>compile 'cn.bmob.android:bmob-sdk:3.6.2'
+<pre><code>compile 'cn.bmob.android:bmob-sdk:3.6.3'
 </code></pre>
 <p>注：由于<code>PermissionManager权限管理类</code>需要依赖<code>support-v4:23.2.1</code>的jar包,导致开发者认为SDK依赖文件较多，故分离出SDK。开发者如果需要兼容Android6.0系统，可以在下载的SDK的官方Demo的<code>com.example.bmobexample.permission</code>包下面查看该类源码。</p>
 <p><strong>[2]、每个版本的im依赖特定版本的bmob-sdk：</strong></p>
