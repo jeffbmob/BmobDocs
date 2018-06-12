@@ -29,7 +29,7 @@ var Bmob = require('../dist/Bmob-1.0.1.min.js');
 Bmob.initialize("你的Application ID", "你的REST API Key");
 ```
 
-> 接下来就可参照下面的文档使用,
+
 >
 >  `nodejs`请使用源码引入 app.js ，初始化与其他一样
 
@@ -362,9 +362,9 @@ Eamil密码重置
 
  **参数说明：**
 
-| 参数  | 类型   | 必填 | 说明     |
-| ----- | ------ | ---- | -------- |
-| email | string | 是   | 邮箱地址 |
+| 参数      | 类型   | 必填 | 说明     |
+| ---------| ------ | ---- | -------- |
+| email    | string | 是   | 邮箱地址 |
 
 
 **请求示例：**
@@ -395,9 +395,9 @@ Bmob.requestPasswordReset(data).then(res => {
 
 **参数说明：**
 
-| 参数     | 类型   | 必填 | 说明   |
-| -------- | ------ | ---- | ------ |
-| password | string | 是   | 新密码 |
+| 参数      | 类型   | 必填 | 说明     |
+| ---------| ------ | ---- | -------- |
+| password    | string | 是   | 新密码 |
 
 **请求示例：**
 ```
@@ -426,10 +426,10 @@ Bmob.resetPasswordBySmsCode(smsCode,data).then(res => {
 注意：仍然需要传入 X-Bmob-Session-Token，也就是登录用户才可以修改自己的密码。
 **参数说明：**
 
-| 参数        | 类型   | 必填 | 说明   |
-| ----------- | ------ | ---- | ------ |
-| oldPassword | string | 是   | 旧密码 |
-| newPassword | string | 是   | 新密码 |
+| 参数      | 类型   | 必填 | 说明     |
+| ---------| ------ | ---- | -------- |
+| oldPassword    | string | 是   | 旧密码 |
+| newPassword    | string | 是   | 新密码 |
 
 **请求示例：**
 ```
@@ -460,8 +460,8 @@ Bmob.updateUserPassword(objectId,data).then(res => {
 
  **参数说明：**
 
-| 参数 | 类型   | 必填 | 说明                   |
-| ---- | ------ | ---- | ---------------------- |
+| 参数     | 类型   | 必填 | 说明   |
+| -------- | ------ | ---- | ------ |
 | data | object | 是   | 根据不同的需求进行定制 |
 
 **请求示例：**
@@ -1038,7 +1038,7 @@ query.find().then(todos => {
 
 ### Pointer的使用
 
-#### 查询Pointer
+#### 查询Pointer 关联表数据
 
 **简介：**
 
@@ -1082,6 +1082,24 @@ query.find().then(res => {
     },
     ...
 }
+
+```
+
+#### 查询 Pointer 字段类型相关数据
+
+简介：Pointer 类型在数据库是一个json数据类型，只需调用Pointer方法创建一个Pointer对象存入到字段中，如下：
+
+```
+//poiID User表Pointer对象
+const pointer = Bmob.Pointer('_User')
+const poiID = pointer.set('QdXD888B')
+
+const query = Bmob.Query('test')
+//userId 字段名称关联用户表 ，类型Pointer
+query.equalTo("userId","==", poiID);
+query.find().then(res => {
+  console.log(res)
+})
 
 ```
 
@@ -1161,6 +1179,243 @@ query.relation('_User').then(res => {
   console.log(res);
 })
 ```
+
+## 数据类型
+**Bmob后端云**有很多常见的数据类型，在查询、添加数据库的时候，经常需要了解数据类型结构。
+
+到现在为止我们只使用了可以被标准**JSON**编码的值，Bmob移动客户端SDK库同样支持日期,地理位置数据和指针数据、关系型数据。在REST API中，这些值都被编码了，同时有一个**"__type"**字段来标识出它们所属的类型，所以如果你采用正确的编码的话就可以读或者写这些字段了。
+
+### **Date**类型
+
+**Date**类型包含了一个"iso"字段存储了一个UTC时间戳,以ISO 8601格式和毫秒级的精度来存储时间:** YYYY-MM-DDTHH:MM:SS.MMMZ**，或者 **YYYY-MM-DDTHH:MM:SS**
+
+```
+{
+    "__type": "Date",
+    "iso": "2011-08-21 18:02:52"
+}
+```
+Date 与内置的 createdAt 字段和 updatedAt 字段相结合的时候特别有用，举个例子：为了找到在一个特殊时间创建的对象，只需要将Date编码在一个查询的where条件中:
+```
+let data = {
+    "__type": "Date",
+    "iso": "2011-08-21 18:02:52"
+}
+query.equalTo("data", ">", data);
+```
+### File类型
+
+File类型是在上传后返回的JSON数据再加一个Key为"__Type":"File", 用来保存到数据列为文件类型的值：
+
+```
+{
+    "__type": "File",
+    "group": "upyun",
+    "filename": "1.xml",
+    "url": "M00/01/14/sd2lkds0.xml"
+}
+```
+
+
+
+## 统计相关的查询
+Bmob的统计查询，提供以下关键字或其组合的查询操作：
+
+| Key        | Operation |
+| :----:  | :----:  |
+| groupby     | 分组操作 |
+| groupcount     | 返回每个分组的总记录 |
+| sum     | 计算总和 |
+| average     | 计算平均值 |
+| max     | 计算最大值 |
+| min     | 计算最小值 |
+| having     | 分组中的过滤条件 |
+
+
+为避免和用户创建的列名称冲突，Bmob约定以上统计关键字（sum, max, min)的查询结果值都用 `_(关键字)+首字母大写的列名` 的格式，如计算玩家得分列名称为score总和的操作，则返回的结果集会有一个列名为_sumScore。average返回的列为 `_avg+首字母大写的列名` ，有groupcount的情形下则返回_count。
+
+以上关键字除了groupcount是传Boolean值true或false，having传的是和where类似的json字符串，但having只应该用于过滤分组查询得到的结果集，即having只应该包含结果集中的列名如 `{"_sumScore":{"$gt":100}}` ，其他关键字必须是字符串而必须是表中包含的列名，多个列名用,分隔。
+
+以上关键字可以自由组合并可以与前面查询语句中的where, order, limit, skip等组合使用。
+
+比如，GameScore表是游戏玩家的信息和得分表，有playerName(玩家名称)、score(玩家得分)等你自己创建的列，还有Bmob的默认列objectId, createdAt, updatedAt,那么我们现在举例如何使用以上的查询关键字来作这个表的统计。 
+
+### 计算总和
+我们要计算GameScore表所有玩家的得分总和，sum后面只能拼接Number类型的列名，即要计算哪个列的值的总和，只对Number类型有效，多个Number列用,分隔，则查询如下：
+
+```    
+const query = Bmob.Query("GameScore");
+query.statTo("sum", "score");
+query.find().then(res => {
+  console.log(res)
+});
+
+```
+
+返回内容如下：
+
+```
+[
+	{
+		"_sumScore": 2398
+	}   
+]
+                  
+```
+
+### 分组计算总和
+比如我们以创建时间按天统计所有玩家的得分，并按时间降序, groupby后面只能拼接列名，如果该列是时间类型，则按天分组，其他类型，则按确定值分组:
+
+```
+const query = Bmob.Query("GameScore");
+query.statTo("sum", "score");
+query.statTo("groupby", "createdAt");
+query.statTo("order", "-createdAt");
+query.find().then(res => {
+  console.log(res)
+});
+```
+
+返回内容如下：
+
+```
+[
+	{
+		"_sumScore": 2398,
+		"createdAt": "2014-02-05"
+	},
+	{
+		"_sumScore": 1208,
+		"createdAt": "2014-01-01"
+	},
+]                 
+```
+
+### 多个分组并计算多个列的总和
+比如我们以创建时间按天和按玩家名称分组统计所有玩家的得分1，得分2的总和，并按得分1的总和降序, groupby后面只能拼接列名，如果该列是时间类型，则按天分组，其他类型，则按确定值分组:
+
+```
+const query = Bmob.Query("GameScore");
+query.statTo("sum", "score1, score2");
+query.statTo("groupby", "createdAt, playerName");
+query.statTo("order", "-_sumscore1");
+query.find().then(res => {
+  console.log(res)
+});
+```
+
+返回内容如下：
+
+```
+[
+	{
+		"_sumScore1": 399,
+		"_sumScore2": 120,
+		"playerName": "John"
+		"createdAt": "2014-02-05"
+	},
+	{
+		"_sumScore1": 299,
+		"_sumScore2": 250,
+		"playerName": "Bily"
+		"createdAt": "2014-02-05"
+	},
+	{
+		"_sumScore1": 99,
+		"_sumScore2": 450,
+		"playerName": "John"
+		"createdAt": "2014-02-01"
+	},
+]                 
+```
+
+### 分组计算总和并只返回满足条件的部分值
+比如我们以创建时间按天统计所有玩家的得分，并只返回某天的总得分大于2000的记录，并按时间降序，having是用于过滤部分结果，其中的_sumScore是 `_sum+首字母大写的列名` 的格式表示是计算这个列的总和的值:
+
+```
+const query = Bmob.Query("GameScore");
+query.statTo("sum", "score");
+query.statTo("having",{"_sumScore":{"$gt": 2000}});
+query.statTo("groupby", "createdAt");
+query.statTo("order", "-createdAt");
+query.find().then(res => {
+  console.log(res)
+});
+```
+
+返回内容如下：
+
+```
+[
+	{
+		"_sumScore": 2398,
+		"createdAt": "2014-02-05"
+	},
+]                 
+```
+
+### 分组计算总和并返回每个分组的记录数
+
+比如我们以创建时间按天统计所有玩家的得分和每一天有多少条玩家的得分记录，并按时间降序:
+
+```
+
+const query = Bmob.Query("GameScore");
+query.statTo("sum", "score");
+query.statTo("groupby", "createdAt");
+query.statTo("groupcount", "true");
+query.statTo("order", "createdAt");
+query.find().then(res => {
+  console.log(res)
+});    
+    
+```
+
+返回内容如下：
+
+```
+[
+	{
+		"_sumScore": 2398,
+		"_count": 10,
+		"createdAt": "2014-02-05"
+	},
+	{
+		"_sumScore": 100,
+		"_count": 2,
+		"createdAt": "2014-01-01"
+	},
+]                 
+```
+
+### 获取不重复的列值
+
+比如我们获取表中所有的唯一的score:
+
+```
+const query = Bmob.Query("GameScore");
+query.statTo("groupby", "score");
+query.find().then(res => {
+  console.log(res)
+});    
+    
+```
+
+返回内容如下：
+
+```
+[
+	{
+		"score": 78
+	},
+	{
+		"score": 89
+	}
+]                 
+```
+
+### 其他关键字
+average(计算平均值)， max(计算最大值)，min(计算最小值)和sum查询语句是类似的，只用把上面的例子中的sum替换为相应的average, max, min就可以了。
 
 ## 地理位置
 
@@ -1287,9 +1542,9 @@ Bmob.functions(params.funcName,params.data).then(function (response) {
 
  **参数说明：**
 
-| 参数     | 类型   | 必填 | 说明                   |
-| -------- | ------ | ---- | ---------------------- |
-| fileName | string | 是   | 文件名(带后缀)         |
+| 参数     | 类型   | 必填 | 说明   |
+| -------- | ------ | ---- | ------ |
+| fileName | string | 是   | 文件名(带后缀) |
 | file     | Object | 是   | 相应的文本或者二进制流 |
 
 **web请求示例：**
@@ -1378,9 +1633,9 @@ query.save().then(res => {
 
  **参数说明：**
 
-| 参数 | 类型          | 必填 | 说明                |
-| ---- | ------------- | ---- | ------------------- |
-| url  | string或array | 是   | 上传文件时返回的url |
+| 参数     | 类型           | 必填 | 说明   |
+| -------- | ------------  | ---- | ------ |
+| url     | string或array  | 是   | 上传文件时返回的url |
 
 **请求示例：**
 ```
@@ -1518,13 +1773,13 @@ Bmob.User.upInfo(e.detail.userInfo).then(result => {
 
 Bmob.generateCode 参数列表
 
-| 键        | 值                | 参数说明                                                     |
-| --------- | ----------------- | ------------------------------------------------------------ |
-| path      | pages/index/index | 页面路径，支持参数                                           |
-| width     | 430               | 二维码宽度，这个参数微信规定不能少于180                      |
-| interface | a\b\c             | 对应微信二维码abc方案                                        |
-| scene     | Bmob              | 微信B方案才需要此值                                          |
-| type      | 0/1               | 默认0，返回二维码base64数据.如果为1则服务端返回为二维码网络路径 |
+| 键 | 值 |参数说明 |
+| --------- | ----------------- | ------------ |
+| path      | pages/index/index | 页面路径，支持参数 |
+| width     |        430        | 二维码宽度，这个参数微信规定不能少于180 |
+| interface |        a\b\c      | 对应微信二维码abc方案 |
+| scene     |        Bmob       | 微信B方案才需要此值 |
+| type      |        0/1        | 默认0，返回二维码base64数据.如果为1则服务端返回为二维码网络路径 |
 
 更多微信官方小程序码介绍 [微信官方小程序码介绍](https://mp.weixin.qq.com/debug/wxadoc/dev/api/qrcode.html "微信官方小程序码介绍")
 
@@ -1549,7 +1804,42 @@ Bmob.generateCode 参数列表
 }
 ```
 
+### 检测违规内容
+
+**简介：**
+
+微信小程序检测违规内容
+
+**参数说明：**
+
+| 参数    | 类型   | 必填 | 说明                               |
+| ------- | ------ | ---- | ---------------------------------- |
+| content | string | 是   | 要检测的文本内容，长度不超过 500KB |
+
+**请求示例：**
+
+```
+let content = 'hello'
+Bmob.checkMsg(content).then(res => {
+	console.log(res)
+}).catch(err => {
+	console.log(err)
+})
+```
+
+**返回示例:**
+
+```
+正常：
+{"msg":"ok"}
+违规：
+{"code":10007,"error":"CheckMsg errcode:87014, err:risky content hint: [zLf1lA01758931]"}
+```
+
+### 
+
 ### 获取access_token ###
+
 **简介：**
 
 微信access_token，业务场景,当其他平台需要使用你小程序的token，并不想与Bmob的平台冲突，可以通过此API实现
@@ -1581,7 +1871,17 @@ Bmob.generateCode 参数列表
 
 **参数说明：**
 
-参数在模版信息中传入
+| 参数        | 类型   | 必填 |参数说明                                                     |
+| ----------- | ------ | ------------------------------------------------------------ |
+| touser      | string | 是 | 当前用户的`openid`                                           |
+| template_id | string | 是 |模板Id，登陆微信后台获取                                     |
+| page        | string | 是 |点击模板卡片后的跳转页面，仅限本小程序内的页面。支持带参数,（示例index?foo=bar）。该字段不填则模板无跳转。 |
+| form_id     | string | 是 |表单提交场景下，为 submit 事件带上的 [formId](https://developers.weixin.qq.com/miniprogram/dev/component/form.html)； 通过设置表单` report-submit` 属性 |
+| data        | json   | 是 |对应微信后台当前模板的格式编写                               |
+
+**定时发送：**
+
+有时我们需要手动发送，或者定时发送，这时可以通过云函数的定时任务来实现，代码在控制台云函数模板。
 
 **请求示例：**
 
@@ -1634,7 +1934,7 @@ Bmob.generateCode 参数列表
 
 2. 填写支付商户密匙到Bmob控制台
 
-    
+   
 
 
 
@@ -1711,11 +2011,11 @@ var openId = wx.getStorageSync('openid');
 
 **参数说明：**
 
-| 参数       | 类型   | 必填 | 说明     |
-| ---------- | ------ | ---- | -------- |
-| order_no   | string | 是   | 订单编号 |
-| refund_fee | number | 是   | 退款金额 |
-| desc       | string | 是   | 描述     |
+| 参数      | 类型   | 必填 | 说明     |
+| --------- | ------ | ---- | -------- |
+| order_no | string | 是   | 订单编号 |
+| refund_fee  | number | 是   | 退款金额  |
+| desc  | string | 是   | 描述  |
 
 **请求示例：**
 
@@ -1988,10 +2288,10 @@ tablename为更新的表，objectId为更新行的objectId，data为服务端返
 
 **参数说明：**
 
-| 参数              | 类型   | 必填 | 说明     |
-| ----------------- | ------ | ---- | -------- |
-| mobilePhoneNumber | string | 是   | 手机号   |
-| template          | string | 否   | 模板信息 |
+| 参数      | 类型   | 必填 | 说明     |
+| --------- | ------ | ---- | -------- |
+| mobilePhoneNumber | string | 是   | 手机号 |
+| template  | string | 否   | 模板信息  |
 
 **请求示例：**
 
@@ -2019,10 +2319,10 @@ tablename为更新的表，objectId为更新行的objectId，data为服务端返
 
 **参数说明：**
 
-| 参数              | 类型   | 必填 | 说明           |
-| ----------------- | ------ | ---- | -------------- |
-| smsCode           | string | 是   | 手机短信验证码 |
-| mobilePhoneNumber | string | 是   | 手机号码       |
+| 参数      | 类型   | 必填 | 说明     |
+| --------- | ------ | ---- | -------- |
+| smsCode | string | 是   | 手机短信验证码 |
+| mobilePhoneNumber | string | 是   | 手机号码 |
 
 **请求示例：**
 
