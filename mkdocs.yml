@@ -50,7 +50,9 @@ pages:
     - '快应用': 'data/wechat_app_new/index.md'
     - 'Nodejs': 'data/wechat_app_new/index.md'
     - 'Cocos Creator': 'data/wechat_app_new/index.md'
-    - '小程序(新)': 'data/wechat_app_new/index.md'
+    - '小程序(新)':
+        - '快速入门': 'data/wechat_app_new/rm.md'
+        - '开发文档': 'data/wechat_app_new/index.md'
 - '云函数':
     - 'Android': 'cloud_function/android/index.md'
     - 'iOS': 'cloud_function/ios/index.md'
@@ -82,6 +84,18 @@ pages:
     - 'PHP': 'sms/php/index.md'
     - 'JavaScript': 'sms/javascript/index.md'
     - 'RESTful': 'sms/restful/index.md'
+- '游戏实时后端':
+    - 'Unity':
+        - '快速入门': 'game/unity/quick_start.md'
+        - '开发文档': 'game/unity/develop_doc.md'
+    - 'Cocos Creator':
+        - '快速入门': 'game/cocos_creator/quick_start.md'
+        - '开发文档': 'game/cocos_creator/develop_doc.md'
+    - '微信小游戏':
+        - '快速入门': 'game/wechat_games/quick_start.md'
+        - '开发文档': 'game/wechat_games/develop_doc.md'
+    - '云函数': 'game/cloud_function/develop_doc.md'
+    - '经典案例': 'game/classic_case.md'
 - 'IM服务':
     - 'Android':
         - '开发文档': 'im/android/index.md'

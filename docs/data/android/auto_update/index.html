@@ -107,10 +107,10 @@
                                 </li>
 							
                             
-                                <li >
-                                    <a href="../../wechat_app_new/">小程序(新)</a>
+								<li >
+									<a href="../../wechat_app_new/rm/">小程序(新)</a>
                                 </li>
-							
+                            
                         </ul>
                     </li>
                 
@@ -196,6 +196,42 @@
                             
                                 <li >
                                     <a href="../../../sms/restful/">RESTful</a>
+                                </li>
+							
+                        </ul>
+                    </li>
+                
+              </li>
+            
+              <li class="pull-left">
+                
+					<!--<a href="">游戏实时后端</a>-->
+					<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">游戏实时后端 <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+								<li >
+									<a href="../../../game/unity/quick_start/">Unity</a>
+                                </li>
+                            
+                            
+								<li >
+									<a href="../../../game/cocos_creator/quick_start/">Cocos Creator</a>
+                                </li>
+                            
+                            
+								<li >
+									<a href="../../../game/wechat_games/quick_start/">微信小游戏</a>
+                                </li>
+                            
+                            
+                                <li >
+                                    <a href="../../../game/cloud_function/develop_doc/">云函数</a>
+                                </li>
+							
+                            
+                                <li >
+                                    <a href="../../../game/classic_case/">经典案例</a>
                                 </li>
 							
                         </ul>
@@ -350,6 +386,14 @@
 		
 				
 				
+				
+				
+				
+		
+	
+		
+				
+				
 		
 	
 		
@@ -475,10 +519,6 @@
 												
 											</li>
 												
-											<li class=""><a href="#_13">案例源码</a>
-												
-											</li>
-												
 										</ul>
 										
 									</li>
@@ -521,6 +561,8 @@
 						
 					
 				
+			
+		
 			
 		
 			
@@ -720,19 +762,21 @@
 <p>兼容了Android7.0中的FileProvider，具体用法如下：</p>
 <h3 id="1-androidmanifestxmlapplication">1 在AndroidManifest.xml中的Application标签下添加如下内容：<a class="headerlink" href="#1-androidmanifestxmlapplication" title="Permanent link">&para;</a></h3>
 <pre><code class="xml">&lt;provider
-    android:authorities=&quot;cn.bmob.update.fileprovider&quot;           android:name=&quot;android.support.v4.content.FileProvider&quot;
-    android:grantUriPermissions=&quot;true&quot;
-    android:exported=&quot;false&quot;&gt;
-    &lt;meta-data  
+    android:name=&quot;android.support.v4.content.FileProvider&quot;
+    android:authorities=&quot;此处填写你应用的包名&quot;
+    android:exported=&quot;false&quot;
+    android:grantUriPermissions=&quot;true&quot;&gt;
+    &lt;meta-data
         android:name=&quot;android.support.FILE_PROVIDER_PATHS&quot;
         android:resource=&quot;@xml/file_paths&quot; /&gt;
 &lt;/provider&gt;
+
 </code></pre>
 
 <h3 id="2-resxmlfile_pathsxmlapk">2 在res的xml目录下创建file_paths.xml文件，用来指定Apk文件下载的位置，参考如下：<a class="headerlink" href="#2-resxmlfile_pathsxmlapk" title="Permanent link">&para;</a></h3>
 <pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
 &lt;paths&gt;
-    &lt;external-path path=&quot;.&quot; name=&quot;external_storage_root&quot; /&gt;
+    &lt;external-path name=&quot;Download&quot; path=&quot;Download&quot;/&gt;
 &lt;/paths&gt;
 </code></pre>
 
@@ -851,8 +895,6 @@ UpdateStatus.Close      =8： 代表关闭对话框--&gt;只有在强制更新�
  &lt;!-- 设置应用渠道，如果应用不需要区分渠道，则建议删除此行 --&gt;
 &lt;meta-data android:name="BMOB_CHANNEL" android:value="bmob"/&gt;
 </code></pre>
-<h2 id="_13">案例源码<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
-<p>这里我们提供了一个使用BmobSDK自动更新功能的实例程序供大家参考。下载地址如下：<a href="https://github.com/bmob/bmob-android-demo-autoupdate">https://github.com/bmob/bmob-android-demo-autoupdate</a></p>
                 </div>
             </div>
         </div>

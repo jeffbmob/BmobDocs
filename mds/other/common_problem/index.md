@@ -2983,3 +2983,82 @@ BmobInstallation *currentIntallation = [BmobInstallation currentInstallation];
 
 不可以，只能使用自带的installation表来查询
 
+## 交易常见问题
+
+### 小程序部署
+
+** 购买源码 **
+
+在网址栏输入https://www.bmob.cn/shop/index或者在百度输入Bmob进行搜索，打开Bmob官网，点击源码栏目。这里都是基于Bmob后端云开发的完整项目，购买后即可获得项目源码，云数据库表设计和说明文档。
+
+![](https://upload-images.jianshu.io/upload_images/6673460-01e78f0c4d1f58b9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+购买源码后自动在Bmob控制台创建应用，你可以在源码一栏查看购买项目，下载源码和说明文档。
+
+---
+
+** 注册账号，创建小程序 **
+
+首先在微信公众平台注册一个账号，选择小程序，注册完之后就可以登录公众平台管理小程序了，包括小程序的命名，类型等。
+
+![](https://upload-images.jianshu.io/upload_images/6673460-144c391c4d136dfd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+---
+
+** 配置安全域名 **
+
+进入Bmob控制台找到对应的应用，点击应用进入设置->应用配置，你可以看到微信小程序服务器域名配置。
+
+![](https://upload-images.jianshu.io/upload_images/6673460-5d80883f7b4b8843.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+登录微信公众平台，在设置->开发配置里面把这上图几个域名填写到微信公众平台的服务器域名，设置https域名 ，如Bmob应用未开启文件独立域名，downloadFile合法域名可以不填写。
+ 
+![](https://upload-images.jianshu.io/upload_images/6673460-5db2f960dc745b55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+ 
+---
+ 
+** 授权小程序 **
+
+进入Bmob控制台找到对应的应用，点击应用进入设置->应用配置，你可以看到微信小程序帐号服务配置，点击立即授权，使用微信公众平台的管理员扫描二维码进行授权。
+
+![](https://upload-images.jianshu.io/upload_images/6673460-4ccb6d8e9bd43a75.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+进入微信公众平台，进入设置->开发设置，生成AppSecret(小程序密钥)，将密钥复制粘贴到上图的AppSecret输入栏，点击保存。
+
+![](https://upload-images.jianshu.io/upload_images/6673460-6adfb4551a55aaaf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+---
+
+** 初始化Bmob SDK **
+
+下载源码后用微信web开发者工具打开项目，输入AppID，点击确定，创建项目。然后在app.js中配置Application ID 和 REST API KEY，Application ID 和 REST API KEY在Bmob控制台应用设置->应用密钥
+
+![](https://upload-images.jianshu.io/upload_images/6673460-c3e1eee3ed46f805.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![](https://upload-images.jianshu.io/upload_images/6673460-2c6990ec75a3cf37.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+---
+
+** 上传代码 **
+
+SDK初始化完毕之后，就完成了整个项目的配置，这样就可以在微信web开发者工具上进行测试。如果项目测试完成之后，就可以将代码上传到微信公众平台进行审核。
+
+![](https://upload-images.jianshu.io/upload_images/6673460-1f1745a47e974417.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+上传完成之后在微信公众平台开发管理中就可以提交版本审核，审核通过之后该小程序就可以上线了。
+
+![](https://upload-images.jianshu.io/upload_images/6673460-9e11de21f04206b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+---
+
+** 小程序支付 **
+ 
+需要你的小程序微信平台开通微信支付，然后在控制台应用配置中填写商户号、商户支付密钥，目前小程序支付Bmob平台不收取任何手续费，只要是Bmob平台付费会员，并且账号通过实名认证都可以使用。
+
+![](https://upload-images.jianshu.io/upload_images/6673460-2320a2c782efec55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+
+
+
+

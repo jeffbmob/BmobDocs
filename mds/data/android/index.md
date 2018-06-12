@@ -79,17 +79,13 @@
 		//以下SDK开发者请根据需要自行选择
 		//bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:
 	    //3.5.5：请务必查看下面注释[1]
-		compile 'cn.bmob.android:bmob-sdk:3.5.5'
+		compile 'cn.bmob.android:bmob-sdk:3.6.3'
 	
 	    //bmob-push：Bmob的推送包
 	    compile 'cn.bmob.android:bmob-push:0.8'
 	
 		//bmob-im：Bmob的即时通讯包，注意每个版本的im依赖特定版本的bmob-sdk，具体的依赖关系可查看下面注释[2]
-		compile 'cn.bmob.android:bmob-im:2.0.5@aar'
-		compile 'cn.bmob.android:bmob-sdk:3.4.7-aar'
-	
-		//bmob-sms ：Bmob单独为短信服务提供的包
-	    compile 'cn.bmob.android:bmob-sms:1.0.1'
+		compile 'cn.bmob.android:bmob-im:2.1.0@aar'
 	
 		//如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
 		compile 'cn.bmob.android:http-legacy:1.0'
@@ -99,9 +95,9 @@
 
 **注：**
 
-**[1]、为了降低开发者的使用成本，自v3.4.7开始，同步提供`aar`格式的文件，此aar包含`libbmob.so、依赖jar包(okhttp、okio、rx、gson等)及自动更新组件所需要的资源文件`**。开发者再也不需要配置libbmob.so,不需要添加依赖jar，也不需要复制自动更新组件的资源文件啦，只需要添加以下依赖即可。
+**[1]、为了降低开发者的使用成本，自v3.4.7开始，同步提供`aar`格式的文件，此aar包含`libbmob.so、依赖jar包(okhttp、okio、rx、gson等)及自动更新组件所需要的资源文件`**。开发者再也不需要配置libbmob.so,不需要添加依赖jar，也不需要复制自动更新组件的资源文件啦，只需要添加以下依赖即可。**如果开发者使用到其他包含了okhttp、okio、rxjava、rxandroid、gson的库，需要从这些库中exclude掉这些已包含在bmobsdk中的包**
 
-	compile 'cn.bmob.android:bmob-sdk:3.5.0'
+	compile 'cn.bmob.android:bmob-sdk:3.6.3'
 
 注：由于`PermissionManager权限管理类`需要依赖`support-v4:23.2.1`的jar包,导致开发者认为SDK依赖文件较多，故分离出SDK。开发者如果需要兼容Android6.0系统，可以在下载的SDK的官方Demo的`com.example.bmobexample.permission`包下面查看该类源码。
 

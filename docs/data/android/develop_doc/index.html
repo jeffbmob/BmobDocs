@@ -107,10 +107,10 @@
                                 </li>
 							
                             
-                                <li >
-                                    <a href="../../wechat_app_new/">小程序(新)</a>
+								<li >
+									<a href="../../wechat_app_new/rm/">小程序(新)</a>
                                 </li>
-							
+                            
                         </ul>
                     </li>
                 
@@ -196,6 +196,42 @@
                             
                                 <li >
                                     <a href="../../../sms/restful/">RESTful</a>
+                                </li>
+							
+                        </ul>
+                    </li>
+                
+              </li>
+            
+              <li class="pull-left">
+                
+					<!--<a href="">游戏实时后端</a>-->
+					<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">游戏实时后端 <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+								<li >
+									<a href="../../../game/unity/quick_start/">Unity</a>
+                                </li>
+                            
+                            
+								<li >
+									<a href="../../../game/cocos_creator/quick_start/">Cocos Creator</a>
+                                </li>
+                            
+                            
+								<li >
+									<a href="../../../game/wechat_games/quick_start/">微信小游戏</a>
+                                </li>
+                            
+                            
+                                <li >
+                                    <a href="../../../game/cloud_function/develop_doc/">云函数</a>
+                                </li>
+							
+                            
+                                <li >
+                                    <a href="../../../game/classic_case/">经典案例</a>
                                 </li>
 							
                         </ul>
@@ -332,6 +368,14 @@
 				
 				
 				
+				
+				
+				
+				
+				
+		
+	
+		
 				
 				
 				
@@ -685,7 +729,7 @@
 												
 											</li>
 												
-											<li class=""><a href="#_120">数据实时同步</a>
+											<li class=""><a href="#_120">数据监听</a>
 												
 												<ul class="nav nav-l2">
 													<li><a class="itm-l2" href="#_121">开始连接</a></li>
@@ -821,6 +865,8 @@
 						
 					
 				
+			
+		
 			
 		
 			
@@ -3902,13 +3948,13 @@ BmobFile.deleteBatch(urls, new DeleteBatchListener() {
 <p><strong>注：</strong></p>
 <p><strong>1、文件的批量上传是BmobSDK_v3.2.7版本才提供的功能，如需使用，请更新版本;</strong>
 <strong>2、文件的下载和批量删除是BmobSDK_v3.4.6才提供的功能，如需使用，请更新版本。</strong></p>
-<h2 id="_120">数据实时同步<a class="headerlink" href="#_120" title="Permanent link">&para;</a></h2>
-<p><strong>数据实时同步是一个超酷的功能！</strong></p>
+<h2 id="_120">数据监听<a class="headerlink" href="#_120" title="Permanent link">&para;</a></h2>
+<p><strong>数据监听是一个超酷的功能！</strong></p>
 <p>SDK可以实现对数据表或行的监听，当这个表或者行的数据发生变化时，Bmob会立即将变化的信息告知SDK。
 这种服务非常适合做游戏开发（如，开发斗地主游戏，三个人同时监听一行数据的变化，任何一个人出牌都会将数据写入到这行数据中，其他人也就立即知道了）、群聊（一群人监听某个表的变化，任何人发言都会将数据写入到这个表中，其他人也可以立即知道了）等实时性要求很高的场景中。</p>
 <p>为方便大家快速了解数据的实时同步服务，我们提供了一个简单的应用实例（ <a href="https://github.com/bmob/bmob-android-demo-realtime-data">https://github.com/bmob/bmob-android-demo-realtime-data</a> ）供大家参考。</p>
 <h3 id="_121">开始连接<a class="headerlink" href="#_121" title="Permanent link">&para;</a></h3>
-<p>使用数据实时功能，首先需要创建<code>BmobRealTimeData</code>对象,然后调用<code>start</code>方法连接服务器。</p>
+<p>使用数据监听功能，首先需要创建<code>BmobRealTimeData</code>对象,然后调用<code>start</code>方法连接服务器。</p>
 <pre><code class="java">BmobRealTimeData rtd = new BmobRealTimeData();
 rtd.start(new ValueEventListener() {
     @Override
