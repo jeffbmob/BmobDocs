@@ -1,15 +1,18 @@
 ## 引入SDK
-下载 Unity SDK;
-将 **BmobGameUnitySDKvx.x.x_xxxxxx.unitypackage** Import 到Unity内;
+
+- 下载 Unity SDK;
+- 将 **BmobGameUnitySDKvx.x.x_xxxxxx.unitypackage** Import 到Unity内;
 
 
 ## 初始化SDK
+
 在第一个场景的start方法中对SDK进行初始化，BGSAppKey在BGS游戏官网管理后台的游戏设置 > 应用密钥。
 
     BmobGame.Init (this, BGSAppKey); // APPID
 
 
 ## 更新帧
+
 选一个贯穿全局的对象，在**Update**方法中调用下句。
     
     BmobGame.UpdateFrame ();
@@ -18,6 +21,7 @@
 
 
 ## 注册房间动态监听器
+
 须在加入房间 JoinRoom **之前**注册，才能保证不遗漏房间信息。
     
     // action: 事件编号，见文档最下方常量的房间动态监听器 action 类型 
@@ -435,7 +439,7 @@ playerCount 为需要设定的房间人数。
 
 ## 附录
 
-###房间逻辑流程图
+### 房间逻辑流程图
 ![此处输入图片的描述](http://bmob-cdn-15075.b0.upaiyun.com/2018/05/21/2812fc16409b2ab18070b26e228a91d2.png)
 
 ### 常量
