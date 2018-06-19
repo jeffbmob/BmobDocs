@@ -539,14 +539,30 @@
 												
 											</li>
 												
-											<li class=""><a href="#_24">附录</a>
+											<li class=""><a href="#http">Http接口管理房间</a>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_25">房间逻辑流程图</a></li>
+													<li><a class="itm-l2" href="#_24">创建房间</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_26">常量</a></li>
+													<li><a class="itm-l2" href="#_25">销毁房间</a></li>
+												</ul>
+												
+												<ul class="nav nav-l2">
+													<li><a class="itm-l2" href="#_26">踢出玩家</a></li>
+												</ul>
+												
+											</li>
+												
+											<li class=""><a href="#_27">附录</a>
+												
+												<ul class="nav nav-l2">
+													<li><a class="itm-l2" href="#_28">房间逻辑流程图</a></li>
+												</ul>
+												
+												<ul class="nav nav-l2">
+													<li><a class="itm-l2" href="#_29">常量</a></li>
 												</ul>
 												
 											</li>
@@ -629,7 +645,7 @@ void OnCreateRoom(int code, string err, string address, int port, int roomId, st
     // TODO 记录返回的信息
 }
 
-BmobGame.CreateRoom (this, playerCount, new BmobGame.CreateRoomListener (OnCreateRoom));
+BmobGame.CreateRoom (this, playerCount, new                     BmobGame.CreateRoomListener (OnCreateRoom));
 </code></pre>
 <p>创建房间成功时，服务器会自动调用云函数 Room.java 的 <strong>onCreate</strong> 方法。</p>
 <h2 id="_5">销毁房间<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
@@ -706,6 +722,8 @@ BmobGame.EditMyStatus(string name, object value);
  信息为byte数组形式，建议把数组的第一位作为自定义的交互事件类型flag，后面的为要交互的数据。</p>
 <pre><code>BmobGame.SendTransferToAllExceptSelf(byte[] bs);
 </code></pre>
+<p>​  <br />
+​    </p>
 <h3 id="_14">通知云函数<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
 <p>调用云函数代码，action 为云函数中的方法名，content 为传入该云函数方法的参数，byte[]类型。
 例如action传入A，则对应云函数 Play.java 中的 onAction_A 方法。</p>
@@ -816,10 +834,116 @@ BmobGame.RegistOfflineListener (this.mOfflineListener);
 }
 </code></pre>
 <hr />
-<h2 id="_24">附录<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h2>
-<h3 id="_25">房间逻辑流程图<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h3>
+<h2 id="http">Http接口管理房间<a class="headerlink" href="#http" title="Permanent link">&para;</a></h2>
+<h3 id="_24">创建房间<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>Url</code>:  <strong>https://gameapi.bmob.cn/client/room?oper=create</strong></li>
+<li><code>Headers</code>: 
+    <strong>X-BGS-VER</strong> = <strong>1</strong>
+    <strong>X-BGS-ID</strong> = <strong>官网后台-应用密钥-AppKey</strong>
+    Content-Type: application/json</li>
+<li><code>Body</code>:</li>
+</ul>
+<pre><code>    {
+        &quot;userId&quot;: &quot;房主Id&quot;,
+        &quot;playerCount&quot;: 房间人数
+    }
+</code></pre>
+
+<ul>
+<li>返回值：</li>
+</ul>
+<pre><code>成功：
+    {
+        &quot;code&quot;: 200,
+        &quot;data&quot;: {
+            &quot;address&quot;: &quot;服务器地址&quot;,
+            &quot;roomInfo&quot;: {
+                &quot;joinKey&quot;: &quot;加入房间需要的key&quot;,
+                &quot;masterKey&quot;: &quot;销毁房间、踢人需要的key&quot;,
+                &quot;ports&quot;: {
+                    &quot;tcp&quot;: tcp通信端口,
+                    &quot;udp&quot;: udp通信端口,
+                    &quot;websocket&quot;: web socket通信端口
+                },
+                &quot;rid&quot;: 房间号
+            }
+        }
+    }
+失败：
+    {
+        &quot;code&quot;: xxx,
+        &quot;data&quot;: &quot;错误原因&quot;
+    }
+</code></pre>
+
+<h3 id="_25">销毁房间<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h3>
+<p>请求到
+- <code>Url</code>:  <strong>https://gameapi.bmob.cn/client/room?oper=destroy</strong>
+- <code>Headers</code>: 
+    <strong>X-BGS-VER</strong> = <strong>1</strong>
+    <strong>X-BGS-ID</strong> = <strong>官网后台-应用密钥-AppKey</strong>
+    Content-Type: application/json
+- <code>Body</code>:</p>
+<pre><code>    {
+        &quot;roomId&quot;: 房间号,
+        &quot;userId&quot;: &quot;房主Id&quot;,
+        &quot;address&quot;: &quot;创建房间时返回的服务器地址&quot;,
+        &quot;masterKey&quot;: &quot;创建房间时返回的房间masterKey&quot;
+    }
+</code></pre>
+
+<ul>
+<li>返回值：</li>
+</ul>
+<pre><code>成功：
+    {
+        &quot;code&quot;: 200,
+        &quot;data&quot;: &quot;OK&quot;
+    }
+失败：
+    {
+        &quot;code&quot;: xxx,
+        &quot;data&quot;: &quot;错误原因&quot;
+    }
+</code></pre>
+
+<h3 id="_26">踢出玩家<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h3>
+<p>请求到
+- <code>Url</code>:  <strong>https://gameapi.bmob.cn/client/room?oper=kick</strong>
+- <code>Headers</code>: 
+    <strong>X-BGS-VER</strong> = <strong>1</strong>
+    <strong>X-BGS-ID</strong> = <strong>官网后台-应用密钥-AppKey</strong>
+    Content-Type: application/json
+- <code>Body</code>:</p>
+<pre><code>    {
+        &quot;roomId&quot;: 房间号,
+        &quot;userId&quot;: &quot;房主Id&quot;,
+        &quot;address&quot;: &quot;创建房间时返回的服务器地址&quot;,
+        &quot;masterKey&quot;: &quot;创建房间时返回的房间masterKey&quot;,
+        &quot;playerNo&quot;: 需要踢出的玩家的座位号
+    }
+</code></pre>
+
+<ul>
+<li>返回值：</li>
+</ul>
+<pre><code>成功：
+    {
+        &quot;code&quot;: 200,
+        &quot;data&quot;: &quot;OK&quot;
+    }
+失败：
+    {
+        &quot;code&quot;: xxx,
+        &quot;data&quot;: &quot;错误原因&quot;
+    }
+</code></pre>
+
+<h2 id="_27">附录<a class="headerlink" href="#_27" title="Permanent link">&para;</a></h2>
+<h3 id="_28">房间逻辑流程图<a class="headerlink" href="#_28" title="Permanent link">&para;</a></h3>
 <p><img alt="此处输入图片的描述" src="http://bmob-cdn-15075.b0.upaiyun.com/2018/05/21/2812fc16409b2ab18070b26e228a91d2.png" /></p>
-<h3 id="_26">常量<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h3>
+<h3 id="_29">常量<a class="headerlink" href="#_29" title="Permanent link">&para;</a></h3>
 <h4 id="action">房间动态监听器 action 类型<a class="headerlink" href="#action" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
@@ -877,7 +1001,7 @@ BmobGame.RegistOfflineListener (this.mOfflineListener);
 </tr>
 </tbody>
 </table>
-<h4 id="_27">玩家状态类型<a class="headerlink" href="#_27" title="Permanent link">&para;</a></h4>
+<h4 id="_30">玩家状态类型<a class="headerlink" href="#_30" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
 <tr>
