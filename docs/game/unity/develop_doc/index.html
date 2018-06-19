@@ -838,10 +838,14 @@ BmobGame.RegistOfflineListener (this.mOfflineListener);
 <h3 id="_24">创建房间<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>Url</code>:  <strong>https://gameapi.bmob.cn/client/room?oper=create</strong></li>
-<li><code>Headers</code>: 
-    <strong>X-BGS-VER</strong> = <strong>1</strong>
-    <strong>X-BGS-ID</strong> = <strong>官网后台-应用密钥-AppKey</strong>
-    Content-Type: application/json</li>
+<li><code>Headers</code>: </li>
+</ul>
+<pre><code>    X-BGS-VER = 1
+    X-BGS-ID = 官网后台-应用密钥-AppKey
+    Content-Type: application/json
+</code></pre>
+
+<ul>
 <li><code>Body</code>:</li>
 </ul>
 <pre><code>    {
@@ -880,11 +884,15 @@ BmobGame.RegistOfflineListener (this.mOfflineListener);
 <h3 id="_25">销毁房间<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h3>
 <p>请求到
 - <code>Url</code>:  <strong>https://gameapi.bmob.cn/client/room?oper=destroy</strong>
-- <code>Headers</code>: 
-    <strong>X-BGS-VER</strong> = <strong>1</strong>
-    <strong>X-BGS-ID</strong> = <strong>官网后台-应用密钥-AppKey</strong>
+- <code>Headers</code>: </p>
+<pre><code>    X-BGS-VER = 1
+    X-BGS-ID = 官网后台-应用密钥-AppKey
     Content-Type: application/json
-- <code>Body</code>:</p>
+</code></pre>
+
+<ul>
+<li><code>Body</code>:</li>
+</ul>
 <pre><code>    {
         &quot;roomId&quot;: 房间号,
         &quot;userId&quot;: &quot;房主Id&quot;,
@@ -911,11 +919,15 @@ BmobGame.RegistOfflineListener (this.mOfflineListener);
 <h3 id="_26">踢出玩家<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h3>
 <p>请求到
 - <code>Url</code>:  <strong>https://gameapi.bmob.cn/client/room?oper=kick</strong>
-- <code>Headers</code>: 
-    <strong>X-BGS-VER</strong> = <strong>1</strong>
-    <strong>X-BGS-ID</strong> = <strong>官网后台-应用密钥-AppKey</strong>
+- <code>Headers</code>: </p>
+<pre><code>    X-BGS-VER = 1
+    X-BGS-ID = 官网后台-应用密钥-AppKey
     Content-Type: application/json
-- <code>Body</code>:</p>
+</code></pre>
+
+<ul>
+<li><code>Body</code>:</li>
+</ul>
 <pre><code>    {
         &quot;roomId&quot;: 房间号,
         &quot;userId&quot;: &quot;房主Id&quot;,
