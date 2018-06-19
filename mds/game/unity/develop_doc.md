@@ -1,9 +1,9 @@
-##引入SDK
+## 引入SDK
 下载 Unity SDK;
 将 **BmobGameUnitySDKvx.x.x_xxxxxx.unitypackage** Import 到Unity内;
 
 
-##初始化SDK
+## 初始化SDK
 在第一个场景的start方法中对SDK进行初始化，BGSAppKey在BGS游戏官网管理后台的游戏设置 > 应用密钥。
 
     BmobGame.Init (this, BGSAppKey); // APPID
@@ -312,9 +312,12 @@ playerCount 为需要设定的房间人数。
 
 - `Url`:  **https://gameapi.bmob.cn/client/room?oper=create**
 - `Headers`: 
-    **X-BGS-VER** = **1**
-    **X-BGS-ID** = **官网后台-应用密钥-AppKey**
+```
+	X-BGS-VER = 1
+    X-BGS-ID = 官网后台-应用密钥-AppKey
     Content-Type: application/json
+```
+
 - `Body`:
 
 ```
@@ -357,9 +360,12 @@ playerCount 为需要设定的房间人数。
 请求到
 - `Url`:  **https://gameapi.bmob.cn/client/room?oper=destroy**
 - `Headers`: 
-    **X-BGS-VER** = **1**
-    **X-BGS-ID** = **官网后台-应用密钥-AppKey**
+```
+	X-BGS-VER = 1
+    X-BGS-ID = 官网后台-应用密钥-AppKey
     Content-Type: application/json
+```
+
 - `Body`:
 
 ```
@@ -392,9 +398,12 @@ playerCount 为需要设定的房间人数。
 请求到
 - `Url`:  **https://gameapi.bmob.cn/client/room?oper=kick**
 - `Headers`: 
-    **X-BGS-VER** = **1**
-    **X-BGS-ID** = **官网后台-应用密钥-AppKey**
-    Content-Type: application/json
+```
+	X-BGS-VER = 1
+	X-BGS-ID = 官网后台-应用密钥-AppKey
+	Content-Type: application/json
+```
+
 - `Body`:
 
 ```
@@ -456,7 +465,8 @@ playerCount 为需要设定的房间人数。
 | PlayerStatus_GameOut  |    该位置上有玩家，已经在游戏中被淘汰    |
 | PlayerStatus_Offline  | 该位置上有玩家，已经在游戏中，但是掉线了 |
 
-####游戏内的 action 类型
+
+#### 游戏内的 action 类型
 
 |           名称            |      含义      |
 | :-----------------------: | :------------: |
