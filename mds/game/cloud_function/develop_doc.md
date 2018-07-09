@@ -6,6 +6,28 @@
 
 ---
 
+## 开发环境
+
+### IDE
+
+建议使用`Eclipse`，也可以用AS、Sublime等支持Java语言的IDE
+
+### Jar文件
+
+[下载地址](//game.bmob.cn/static/BmobGameSDKCloud.jar)
+
+### 步骤
+
+1. 在Eclipse创建一个java项目
+2. 在该项目下，如果没有的话，创建src、libs文件夹
+3. 将从管理后台复制的Room、Player代码，或者demo带的cloud文件夹里的java文件，添加到src文件夹下，包名为**cn.bmob.gamesdk.server.custom**
+4. 将下载的Jar文件，拖到libs文件夹下
+5. 右键点击项目 > `Build Path` > `Configure Build Path`，左侧选择` Java Build Path`，右侧选项卡选择 `Libraries`，点击 `Add JARs...` ，找到jar文件，保存
+6. 在Room.java、Player.java文件内编辑代码，此时就有代码提示了
+7. 将两个文件的代码都复制到管理后台后，点击保存(不是复制一个文件点击保存一次)
+
+---
+
 ## Room.java
 
 继承自 `RoomBase.class` , 作用是管理、监控房间的生命周期
@@ -49,7 +71,7 @@ arraycopy|参考System|-|复制数组
 :----:|:----:|:----:
 onCreate|房间被创建时|将房间的 `id`、`joinKey`等保存到 `Bmob数据库`，可进行好友对战、匹配对战
 onGameStart|所有玩家均已准备，游戏开始时|初始化物品数量和位置、安全区的位置
-onTick|游戏中，以每秒多次的频率调用(取决于每秒帧率配置)|实现安全区、轰炸区等游戏设定
+onTick|游戏中，以每秒多次的频率调用(取决于每秒帧率配置)|实现安全区、轰炸区等游戏设定，需要加上 `@BmobGameSDKHook` 注解
 onDestroy|房间被销毁时|将房间信息从 `Bmob数据库` 删除
 
 ---
@@ -96,7 +118,7 @@ onLeave|玩家主动退出房间时|操作Bmob数据库
 onReady|玩家在房间内准备时|-
 onUnready|玩家取消准备|-
 onGameStart|本轮游戏开始|初始化玩家属性
-onTick|游戏开始后以一定频率被调用|更新安全区位置和半径、发送通知
+onTick|游戏开始后以一定频率被调用|更新安全区位置和半径、发送通知，需要加上 `@BmobGameSDKHook` 注解
 onGameOver|游戏结束|保存游戏记录到Bmob数据库
 onOffline|玩家掉线|可通知其它玩家
 onReconn|玩家重连|更新一些自定义数据到本玩家，并通知其它玩家
@@ -170,3 +192,52 @@ onKicked|玩家被踢出房间|-
     public strictfp void onAction_Damage(byte[] damage) {
         // 使用setHp修改被击中玩家的血量，如果<=0，则判定死亡，通知所有用户
     }
+
+---
+
+## Bmob
+
+### 初始化
+
+建议在Room.java文件内，添加一个static代码块进行初始化
+
+```
+package cn.bmob.gamesdk.server.custom;
+
+import cn.bmob.gamesdk.server.api.Bmob;
+
+public class Room extends RoomBase {
+
+	static {
+		Bmob.init("Bmob AppKey", "Bmob Restful Key");
+	}
+    
+	...
+}
+
+```
+
+
+### 操作数据库
+
+- 请参考 [Bmob Java云函数](http://doc.bmob.cn/cloud_function/java/) 的 `modules.oData` 
+
+- 示例：在房间创建时，自动往数据库添加房间数据
+
+```
+...
+public class Room extends RoomBase {
+	public volatile String mRoomObjectId;
+	
+	@Override
+	public void onCreate() {
+		mRoomObjectId = Bmob.getInstance().insert("Room", JSON.toJson(//
+				"rid", roomId, // 房间Id
+				"joinKey", joinKey, // 加入房间需要的Key
+				"master", new BmobObject.BmobPointer("_User", masterId), // 房主Pointer类型
+				"masterKey", masterKey, // 房主密钥
+				"isPublic", false // 房间是否开放匹配，默认不开放
+				)).jsonData.getString("objectId");
+	}
+...
+```
