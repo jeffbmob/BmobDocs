@@ -438,26 +438,54 @@
 							
 								
 									
-										<li class="active "><a href="#roomjava">Room.java</a>
+										<li class="active "><a href="#_1">开发环境</a>
+											
+											<ul class="nav nav-l2">
+												<li><a class="itm-l2" href="#ide">IDE</a></li>
+											</ul>
+											
+											<ul class="nav nav-l2">
+												<li><a class="itm-l2" href="#jar">Jar文件</a></li>
+											</ul>
+											
+											<ul class="nav nav-l2">
+												<li><a class="itm-l2" href="#_2">步骤</a></li>
+											</ul>
+											
+										</li>
+									
+										<li class=""><a href="#roomjava">Room.java</a>
 											
 										</li>
 									
 										<li class=""><a href="#playerjava">Player.java</a>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_1">获取属性</a></li>
+												<li><a class="itm-l2" href="#_3">获取属性</a></li>
 											</ul>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_2">修改属性</a></li>
+												<li><a class="itm-l2" href="#_4">修改属性</a></li>
 											</ul>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_3">监听属性变化</a></li>
+												<li><a class="itm-l2" href="#_5">监听属性变化</a></li>
 											</ul>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_4">处理客户端行为</a></li>
+												<li><a class="itm-l2" href="#_6">处理客户端行为</a></li>
+											</ul>
+											
+										</li>
+									
+										<li class=""><a href="#bmob">Bmob</a>
+											
+											<ul class="nav nav-l2">
+												<li><a class="itm-l2" href="#_7">初始化</a></li>
+											</ul>
+											
+											<ul class="nav nav-l2">
+												<li><a class="itm-l2" href="#_8">操作数据库</a></li>
 											</ul>
 											
 										</li>
@@ -489,6 +517,22 @@
 <li>缝合了Bmob数据服务，可以快速进行Bmob数据库的增删查改，其中 <code>Bmob.class</code> 的用法与 <a href="http://doc.bmob.cn/cloud_function/java/">Bmob Java云函数</a> 的 <code>modules.oData</code> 完全一致</li>
 </ul>
 <p>主要需要开发者实现的有 <code>Room.java</code>、<code>Player.java</code></p>
+<hr />
+<h2 id="_1">开发环境<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="ide">IDE<a class="headerlink" href="#ide" title="Permanent link">&para;</a></h3>
+<p>建议使用<code>Eclipse</code>，也可以用AS、Sublime等支持Java语言的IDE</p>
+<h3 id="jar">Jar文件<a class="headerlink" href="#jar" title="Permanent link">&para;</a></h3>
+<p><a href="//game.bmob.cn/static/BmobGameSDKCloud.jar">下载地址</a></p>
+<h3 id="_2">步骤<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<ol>
+<li>在Eclipse创建一个java项目</li>
+<li>在该项目下，如果没有的话，创建src、libs文件夹</li>
+<li>将从管理后台复制的Room、Player代码，或者demo带的cloud文件夹里的java文件，添加到src文件夹下，包名为<strong>cn.bmob.gamesdk.server.custom</strong></li>
+<li>将下载的Jar文件，拖到libs文件夹下</li>
+<li>右键点击项目 &gt; <code>Build Path</code> &gt; <code>Configure Build Path</code>，左侧选择<code>Java Build Path</code>，右侧选项卡选择 <code>Libraries</code>，点击 <code>Add JARs...</code> ，找到jar文件，保存</li>
+<li>在Room.java、Player.java文件内编辑代码，此时就有代码提示了</li>
+<li>将两个文件的代码都复制到管理后台后，点击保存(不是复制一个文件点击保存一次)</li>
+</ol>
 <hr />
 <h2 id="roomjava">Room.java<a class="headerlink" href="#roomjava" title="Permanent link">&para;</a></h2>
 <p>继承自 <code>RoomBase.class</code> , 作用是管理、监控房间的生命周期</p>
@@ -654,7 +698,7 @@
 <tr>
 <td align="center">onTick</td>
 <td align="center">游戏中，以每秒多次的频率调用(取决于每秒帧率配置)</td>
-<td align="center">实现安全区、轰炸区等游戏设定</td>
+<td align="center">实现安全区、轰炸区等游戏设定，需要加上 <code>@BmobGameSDKHook</code> 注解</td>
 </tr>
 <tr>
 <td align="center">onDestroy</td>
@@ -808,7 +852,7 @@
 <tr>
 <td align="center">onTick</td>
 <td align="center">游戏开始后以一定频率被调用</td>
-<td align="center">更新安全区位置和半径、发送通知</td>
+<td align="center">更新安全区位置和半径、发送通知，需要加上 <code>@BmobGameSDKHook</code> 注解</td>
 </tr>
 <tr>
 <td align="center">onGameOver</td>
@@ -839,7 +883,7 @@
 3. 监听属性变化
 4. 处理客户端事件</p>
 <p><strong>这些方法都需要加上 <code>@BmobGameSDKHook</code> 注解</strong></p>
-<h3 id="_1">获取属性<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<h3 id="_3">获取属性<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <ul>
 <li>要求该属性的Editable为true，也就是允许客户端修改的属性</li>
 <li>需用public、native修饰该方法</li>
@@ -852,7 +896,7 @@
 <pre><code>@BmobGameSDKHook
 public native float[] getPosition();
 </code></pre>
-<h3 id="_2">修改属性<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<h3 id="_4">修改属性<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <ul>
 <li>要求该属性的Editable为false，也就是不允许客户端修改的属性</li>
 <li>需用public、native修饰该方法</li>
@@ -865,7 +909,7 @@ public native float[] getPosition();
 <pre><code>@BmobGameSDKHook
 public native void setHp(int hp);
 </code></pre>
-<h3 id="_3">监听属性变化<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="_5">监听属性变化<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <ul>
 <li>要求该属性的Editable为true，也就是允许客户端修改的属性</li>
 <li>需用public、strictfp修饰该方法</li>
@@ -880,7 +924,7 @@ public strictfp void onUpdate_Position() {
     // TODO 与当前安全区进行计算，是否扣除玩家血量
 }
 </code></pre>
-<h3 id="_4">处理客户端行为<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<h3 id="_6">处理客户端行为<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <ul>
 <li>需用public、strictfp修饰该方法</li>
 <li>返回类型为void</li>
@@ -893,6 +937,50 @@ public strictfp void onUpdate_Position() {
 public strictfp void onAction_Damage(byte[] damage) {
     // 使用setHp修改被击中玩家的血量，如果&lt;=0，则判定死亡，通知所有用户
 }
+</code></pre>
+<hr />
+<h2 id="bmob">Bmob<a class="headerlink" href="#bmob" title="Permanent link">&para;</a></h2>
+<h3 id="_7">初始化<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>建议在Room.java文件内，添加一个static代码块进行初始化</p>
+<pre><code>package cn.bmob.gamesdk.server.custom;
+
+import cn.bmob.gamesdk.server.api.Bmob;
+
+public class Room extends RoomBase {
+
+    static {
+        Bmob.init(&quot;Bmob AppKey&quot;, &quot;Bmob Restful Key&quot;);
+    }
+
+    ...
+}
+
+</code></pre>
+
+<h3 id="_8">操作数据库<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>请参考 <a href="http://doc.bmob.cn/cloud_function/java/">Bmob Java云函数</a> 的 <code>modules.oData</code> </p>
+</li>
+<li>
+<p>示例：在房间创建时，自动往数据库添加房间数据</p>
+</li>
+</ul>
+<pre><code>...
+public class Room extends RoomBase {
+    public volatile String mRoomObjectId;
+
+    @Override
+    public void onCreate() {
+        mRoomObjectId = Bmob.getInstance().insert(&quot;Room&quot;, JSON.toJson(//
+                &quot;rid&quot;, roomId, // 房间Id
+                &quot;joinKey&quot;, joinKey, // 加入房间需要的Key
+                &quot;master&quot;, new BmobObject.BmobPointer(&quot;_User&quot;, masterId), // 房主Pointer类型
+                &quot;masterKey&quot;, masterKey, // 房主密钥
+                &quot;isPublic&quot;, false // 房间是否开放匹配，默认不开放
+                )).jsonData.getString(&quot;objectId&quot;);
+    }
+...
 </code></pre>
                 </div>
             </div>
