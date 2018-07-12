@@ -459,15 +459,15 @@
 											</ul>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_11">内置方法</a></li>
+												<li><a class="itm-l2" href="#_13">内置方法</a></li>
 											</ul>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_12">示例</a></li>
+												<li><a class="itm-l2" href="#_14">示例</a></li>
 											</ul>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_13">注意事项</a></li>
+												<li><a class="itm-l2" href="#_15">注意事项</a></li>
 											</ul>
 											
 										</li>
@@ -1479,6 +1479,28 @@ isWechatRequest(String token, Request request)
 <pre><code>    String Encode(byte[] data)
     byte[] Decode(String str)
 </code></pre>
+<h3 id="email">Email<a class="headerlink" href="#email" title="Permanent link">&para;</a></h3>
+<p>构造方法：</p>
+<pre><code>        // host: 邮件服务商的地址，例如qq邮箱为smtp.qq.com
+        // port: 邮件服务商的端口号，例如qq邮箱为465
+        // email: 用于发送邮件的邮箱地址
+        // password: 邮箱密码，请注意很多邮件服务商不允许直接使用登陆密码，需要另外申请
+        Email(String host, int port, String email, String password)
+</code></pre>
+
+<h3 id="_11">类变量<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<pre><code>        // 修改邮件的发送方名称
+        String username
+</code></pre>
+
+<h3 id="_12">类方法<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<pre><code>        // email: 接受方的邮件地址
+        // title: 邮件标题
+        // body: 邮件内容
+        // 返回值的jsonData.getIntValue(&quot;code&quot;) == 200时为发送成功
+        HttpResponse send(String email, String title, String body)
+</code></pre>
+
 <h3 id="crypto">Crypto<a class="headerlink" href="#crypto" title="Permanent link">&para;</a></h3>
 <p>静态方法：</p>
 <pre><code>    String Encode(String algorithm, String content)
@@ -1518,7 +1540,7 @@ isWechatRequest(String token, Request request)
     String Encode(byte[] bytes)
     byte[] EncodeToBytes(byte[] bytes)
 </code></pre>
-<h2 id="_11">内置方法<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<h2 id="_13">内置方法<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
 <pre><code>    long getTime() // 获取当前毫秒
     String fmt(String, Object...) // 格式化
     JSON.toJson(Object...) // Json化
@@ -1527,7 +1549,7 @@ isWechatRequest(String token, Request request)
     boolean isStrEmpty(String) // 判断字符串是否为空
     arraycopy(Object from, int fromOffset, Object to, int toOffset, int length) // 复制数组内容
 </code></pre>
-<h2 id="_12">示例<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<h2 id="_14">示例<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
 <p>案例主要放在了Github: <strong><a href="https://github.com/bmob/BmobJavaCloud/tree/master/samples">Bmob云函数案例</a></strong></p>
 <ul>
 <li>
@@ -1593,7 +1615,7 @@ else {
 </code></pre>
 </li>
 </ul>
-<h2 id="_13">注意事项<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<h2 id="_15">注意事项<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
 <ul>
 <li>
 <p>如果你编写的Java云函数经常发生运行超时、上下行超流量、滥用内存等现象，官方将会自动封停你的云函数功能，修改后向客服申请方可继续使用</p>
