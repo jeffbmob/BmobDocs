@@ -662,15 +662,14 @@ curl -X [method] \
 </li>
 <li>
 <p>代码不能包含以下关键字：(保存代码时有错误提醒)</p>
-<pre><code>Class
-File
-System
-...
-</code></pre>
 </li>
-<li>
-<p>需要获取当前毫秒时，可用 <code>getTime()</code> 、<code>new java.util.Date().getTime()</code> 替代 <code>System.currentTimeMillis()</code></p>
-</li>
+</ul>
+<p>Class
+    File
+    System
+    ...</p>
+<ul>
+<li>需要获取当前毫秒时，可用 <code>getTime()</code> 、<code>new java.util.Date().getTime()</code> 替代 <code>System.currentTimeMillis()</code></li>
 <li>如果确实需要用到被禁止使用的关键字，例如查询"File"表，可用"F"+"ile"的形式拼接</li>
 <li>不可包含<code>/**/</code>注释，如需注释，请用 <code>//</code></li>
 <li>仅可写一个Java的方法，不能写多个方法、类变量、静态变量等</li>
@@ -1029,16 +1028,17 @@ response.send(
 <li>内存块是以 <strong>应用为单位</strong> 分配的，也就是允许一个应用下 <strong>跨Java云函数</strong> 同时进行读写</li>
 <li>目前内存大小统一为 <strong>64kb/App</strong>(有可能变动)，可以通过 <code>modules.oMemory.MemorySize</code> 获取</li>
 <li>下面的方法除 <code>clean</code> 之外，分为 <code>当作byte数组</code> 和 <code>当作Map</code> 使用两种方式，这两种方式 <strong>不能混用</strong> ，如果你的应用选择将内存转为Map类型使用，就不能再用byte数组类型的接口操作内存，否则会出现异常</li>
-<li>以下均为 <code>modules.oMemory</code> 的方法<pre><code>// 把内存当作byte数组使用，往内存写byte数组
-// buff: 写入内容
-// buffOffset: 写入内容内偏移值
-// memoryOffset: 内存偏移值
-// length: 写入长度
-// return 是否写入成功(超出授予的内存大小，即返回失败)
-public native boolean write(byte[] buff, int buffOffset, int memoryOffset,
-        int length);
-
-// 把内存当作byte数组使用，读取内存
+<li>以下均为 <code>modules.oMemory</code> 的方法</li>
+</ul>
+<p>// 把内存当作byte数组使用，往内存写byte数组
+    // buff: 写入内容
+    // buffOffset: 写入内容内偏移值
+    // memoryOffset: 内存偏移值
+    // length: 写入长度
+    // return 是否写入成功(超出授予的内存大小，即返回失败)
+    public native boolean write(byte[] buff, int buffOffset, int memoryOffset,
+            int length);</p>
+<pre><code>// 把内存当作byte数组使用，读取内存
 public native boolean read(byte[] buff, int memoryOffset, int buffOffset,
         int length);
 
@@ -1070,8 +1070,7 @@ public native boolean writeByte(int index, byte b);
 // 把内存当作Map类型操作, 读取一个byte
 public native byte readByte(int index);
 </code></pre>
-</li>
-</ul>
+<p>​                </p>
 <h4 id="_8">日志输出<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h4>
 <p>以下均为 <code>modules.oLog</code> 的方法：</p>
 <pre><code>    // 设置需要输出的日志级别
@@ -1282,6 +1281,66 @@ isWechatRequest(String token, Request request)
 <td align="center">地理位置在矩形范围内</td>
 </tr>
 <tr>
+<td align="center">addWhereContainedIn(String key, Object... objs)</td>
+<td align="center">值在列表内</td>
+</tr>
+<tr>
+<td align="center">addWhereContainedInArray(String key,JSONArray arr)</td>
+<td align="center">值在列表内</td>
+</tr>
+<tr>
+<td align="center">addWhereNotContainedIn(String key,Object... objs)</td>
+<td align="center">值不在列表内</td>
+</tr>
+<tr>
+<td align="center">addWhereNotContainedInArray(String key,JSONArray arr)</td>
+<td align="center">值不在列表内</td>
+</tr>
+<tr>
+<td align="center">addWhereContainsAll(String key, Object... objs)</td>
+<td align="center">列表包含全部项</td>
+</tr>
+<tr>
+<td align="center">addWhereContainsAllInArray(String key,JSONArray arr)</td>
+<td align="center">列表包含全部项</td>
+</tr>
+<tr>
+<td align="center">addWhereStrContains(String key, String keyWord)</td>
+<td align="center">String类型模糊查询</td>
+</tr>
+<tr>
+<td align="center">addWhereMatchesQuery(String key,JSONObject innerQuery, String innerKey)</td>
+<td align="center">某项符合子查询</td>
+</tr>
+<tr>
+<td align="center">addWhereDoesNotMatchQuery(String key,JSONObject innerQuery, String innerKey)</td>
+<td align="center">某项不符合子查询</td>
+</tr>
+<tr>
+<td align="center">addWhereMatchesQuery(String key,Querier innerQuery, String innerKey)</td>
+<td align="center">某项符合子查询</td>
+</tr>
+<tr>
+<td align="center">addWhereDoesNotMatchQuery(String key,Querier innerQuery, String innerKey)</td>
+<td align="center">某项不符合子查询</td>
+</tr>
+<tr>
+<td align="center">addWhereInQuery(String key, JSONObject inQuery)</td>
+<td align="center">某项包含在子查询</td>
+</tr>
+<tr>
+<td align="center">addWhereNotInQuery(String key,JSONObject inQuery)</td>
+<td align="center">某项不包含在子查询</td>
+</tr>
+<tr>
+<td align="center">addWhereInQuery(String key, Querier querier)</td>
+<td align="center">某项包含在子查询</td>
+</tr>
+<tr>
+<td align="center">addWhereNotInQuery(String key, Querier querier)</td>
+<td align="center">某项不包含在子查询</td>
+</tr>
+<tr>
 <td align="center">count(int)</td>
 <td align="center">统计接口: 返回数量</td>
 </tr>
@@ -1375,6 +1434,8 @@ isWechatRequest(String token, Request request)
     JSONArray toArray(Object... objs)
     JSONObject strsToJson(String... kNvs)
     JSONObject toJson(Object... kNvs)
+    boolean sort(List array, String keys)
+    boolean clean(Map json, String rules);
 </code></pre>
 <h3 id="jsonobject">JSONObject<a class="headerlink" href="#jsonobject" title="Permanent link">&para;</a></h3>
 <p>类方法：</p>
@@ -1463,6 +1524,9 @@ isWechatRequest(String token, Request request)
 <p>构造方法：</p>
 <pre><code>    BmobGeoPoint(double longitude, double latitude)
 </code></pre>
+<p>静态方法：</p>
+<pre><code>    double CalcuDistance(double lat1, double lng1, double lat2, double lng2)
+</code></pre>
 <h3 id="aes">AES<a class="headerlink" href="#aes" title="Permanent link">&para;</a></h3>
 <p>静态方法：</p>
 <pre><code>    byte[] aes(byte[] str, byte[] key, byte[] iv, boolean eOd, String keyAlgorithm, String cipherAlgorithm)
@@ -1481,26 +1545,23 @@ isWechatRequest(String token, Request request)
 </code></pre>
 <h3 id="email">Email<a class="headerlink" href="#email" title="Permanent link">&para;</a></h3>
 <p>构造方法：</p>
-<pre><code>        // host: 邮件服务商的地址，例如qq邮箱为smtp.qq.com
-        // port: 邮件服务商的端口号，例如qq邮箱为465
-        // email: 用于发送邮件的邮箱地址
-        // password: 邮箱密码，请注意很多邮件服务商不允许直接使用登陆密码，需要另外申请
-        Email(String host, int port, String email, String password)
+<pre><code>    // host: 邮件服务商的地址，例如qq邮箱为smtp.qq.com
+    // port: 邮件服务商的端口号，例如qq邮箱为465
+    // email: 用于发送邮件的邮箱地址
+    // password: 邮箱密码，请注意很多邮件服务商不允许直接使用登陆密码，需要另外申请
+    Email(String host, int port, String email, String password)
 </code></pre>
-
 <h3 id="_11">类变量<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
-<pre><code>        // 修改邮件的发送方名称
-        String username
+<pre><code>    // 修改邮件的发送方名称
+    String username
 </code></pre>
-
 <h3 id="_12">类方法<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
-<pre><code>        // email: 接受方的邮件地址
-        // title: 邮件标题
-        // body: 邮件内容
-        // 返回值的jsonData.getIntValue(&quot;code&quot;) == 200时为发送成功
-        HttpResponse send(String email, String title, String body)
+<pre><code>    // email: 接受方的邮件地址
+    // title: 邮件标题
+    // body: 邮件内容
+    // 返回值的jsonData.getIntValue("code") == 200时为发送成功
+    HttpResponse send(String email, String title, String body)
 </code></pre>
-
 <h3 id="crypto">Crypto<a class="headerlink" href="#crypto" title="Permanent link">&para;</a></h3>
 <p>静态方法：</p>
 <pre><code>    String Encode(String algorithm, String content)
@@ -1549,11 +1610,12 @@ isWechatRequest(String token, Request request)
     boolean isStrEmpty(String) // 判断字符串是否为空
     arraycopy(Object from, int fromOffset, Object to, int toOffset, int length) // 复制数组内容
 </code></pre>
+<p>​               </p>
 <h2 id="_14">示例<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
 <p>案例主要放在了Github: <strong><a href="https://github.com/bmob/BmobJavaCloud/tree/master/samples">Bmob云函数案例</a></strong></p>
 <ul>
-<li>
-<p><strong>场景1</strong>:</p>
+<li><strong>场景1</strong>:</li>
+</ul>
 <p>用户在app提交了反馈，参数有"userObjectId"、"title"、"content"、"type"，需要保存到FeedBack表</p>
 <pre><code>JSONObject params = request.getParams();
 String title = params.getString("title");
@@ -1579,7 +1641,7 @@ response.send(
     ).stringData
 );
 </code></pre>
-</li>
+<ul>
 <li>
 <p><strong>场景2</strong>:</p>
 <p>查询Feedback表中，type为1、title字段不为空，且创建时间在12小时以内的最新10条数据，并只需要反馈content和对应user的用户名</p>
