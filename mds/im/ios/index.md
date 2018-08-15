@@ -1,5 +1,7 @@
 ## 下载iOS_Demo
 
+> IM Demo 仅供学习交流使用
+
 [点击这里下载demo（iOS）源码](https://github.com/pzee/BmobIM-Demo)
 
 Bmob即时聊天demo包含了一个完整的即时通讯的App，功能包括：
