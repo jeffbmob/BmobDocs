@@ -39,9 +39,8 @@ pages:
         - '快速入门': 'data/restful/index.md'
         - '开发文档': 'data/restful/develop_doc.md'
     - 'JavaScript':
-        - '快速入门': 'data/javascript/index.md'
-        - '开发文档': 'data/javascript/develop_doc.md'
-        - '示例/功能': 'data/javascript/example.md'
+        - '快速入门': 'data/wechat_app_new/rm.md'
+        - '开发文档': 'data/wechat_app_new/index.md'
     - 'Cocos2D-X': 'data/cocos2d_x/index.md'
     - '小程序':
         - '快速入门': 'data/wechat_app/index.md'
