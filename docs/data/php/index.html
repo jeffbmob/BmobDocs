@@ -522,7 +522,7 @@
 <pre><code>class BmobConfig{
     const APPID = '';       //替换后台&quot;应用密钥&quot;中的Application ID
     const RESTKEY = '';     //后台&quot;应用密钥&quot;中的REST API Key
-    const BMOBURL = 'https://api.bmob.cn/1/';   //保持不变
+    const BMOBURL = 'https://api2.bmob.cn/1/';   //保持不变
 
 }
 </code></pre>
@@ -535,41 +535,41 @@ include_once 'lib/BmobUser.class.php';
 try {
     /*
      *  BmobObject 的例子
-    */  
+    */
     $bmobObj = new BmobObject(&quot;GameScore&quot;);
     $res=$bmobObj-&gt;create(array(&quot;score&quot;=&gt;80,&quot;playerName&quot;=&gt;&quot;game&quot;)); //添加对象
     $res=$bmobObj-&gt;get(&quot;bd89c6bce9&quot;); // 获取id为bd89c6bce9的对象
     $res=$bmobObj-&gt;get(); //获取所有对象
     //更新对象bd89c6bce9, 任何您未指定的key都不会更改,所以您可以只更新对象数据的一个子集
-    $res=$bmobObj-&gt;update(&quot;bd89c6bce9&quot;, array(&quot;score&quot;=&gt;60,&quot;playerName&quot;=&gt;&quot;game&quot;));  
+    $res=$bmobObj-&gt;update(&quot;bd89c6bce9&quot;, array(&quot;score&quot;=&gt;60,&quot;playerName&quot;=&gt;&quot;game&quot;));
     $res=$bmobObj-&gt;delete(&quot;bd89c6bce9&quot;); //删除对象bd89c6bce9
     //对象的查询,这里是表示查找playerName为&quot;game&quot;的对象，只返回２个结果
-    $res=$bmobObj-&gt;get(&quot;&quot;,array('where={&quot;playerName&quot;:&quot;game&quot;}','limit=2')); 
+    $res=$bmobObj-&gt;get(&quot;&quot;,array('where={&quot;playerName&quot;:&quot;game&quot;}','limit=2'));
     //id为bd89c6bce9的field score数值减2
-    $res=$bmobObj-&gt;increment(&quot;bd89c6bce9&quot;,&quot;score&quot;,array(-2)); 
+    $res=$bmobObj-&gt;increment(&quot;bd89c6bce9&quot;,&quot;score&quot;,array(-2));
     //id为bd89c6bce9的field score数值加2
-    $res=$bmobObj-&gt;increment(&quot;bd89c6bce9&quot;,&quot;score&quot;,array(2)); 
+    $res=$bmobObj-&gt;increment(&quot;bd89c6bce9&quot;,&quot;score&quot;,array(2));
 
     /*
      *  BmobUser 的例子
-     */ 
+     */
     $bmobUser = new BmobUser();
     //用户注册, 其中username和password为必填字段
-    $res = $bmobUser-&gt;register(array(&quot;username&quot;=&gt;&quot;cooldude117&quot;, &quot;password&quot;=&gt;&quot;p_n7!-e8&quot;, &quot;phone&quot;=&gt;&quot;415-392-0202&quot;, &quot;email&quot;=&gt;&quot;bmobtest111@126.com&quot;)); 
+    $res = $bmobUser-&gt;register(array(&quot;username&quot;=&gt;&quot;cooldude117&quot;, &quot;password&quot;=&gt;&quot;p_n7!-e8&quot;, &quot;phone&quot;=&gt;&quot;415-392-0202&quot;, &quot;email&quot;=&gt;&quot;bmobtest111@126.com&quot;));
     //用户登录, 第一个参数为用户名,第二个参数为密码
-    $res = $bmobUser-&gt;login(&quot;cooldude117&quot;,&quot;p_n7!-e8&quot;); 
+    $res = $bmobUser-&gt;login(&quot;cooldude117&quot;,&quot;p_n7!-e8&quot;);
     // 获取id为415b8fe99a用户的信息
-    $res = $bmobUser-&gt;get(&quot;415b8fe99a&quot;); 
+    $res = $bmobUser-&gt;get(&quot;415b8fe99a&quot;);
     $res = $bmobUser-&gt;get(); // 获取所有用户的信息
     $res = $bmobUser-&gt;update(&quot;415b8fe99a&quot;, &quot;050391db407114d9801c8f2788c6b25a&quot;, array(&quot;phone&quot;=&gt;&quot;02011111&quot;)); // 更新用户的信息
     // 请求重设密码,前提是用户将email与他们的账户关联起来
     $res = $bmobUser-&gt;requestPasswordReset(&quot;bmobtest111@126.com&quot;);
     // 删除id为415b8fe99a的用户, 第一参数是用户id, 第二个参数为sessiontoken,在用户登录或注册后获取, 必填
-    $res = $bmobUser-&gt;delete(&quot;415b8fe99a&quot;, &quot;050391db407114d9801c8f2788c6b25a&quot;); 
+    $res = $bmobUser-&gt;delete(&quot;415b8fe99a&quot;, &quot;050391db407114d9801c8f2788c6b25a&quot;);
 
     /*
      *  BmobCloudCode 的例子
-     */ 
+     */
     //调用名字为getMsgCode的云端代码
     $cloudCode = new BmobCloudCode('getMsgCode');
     //传入参数name，其值为bmob
