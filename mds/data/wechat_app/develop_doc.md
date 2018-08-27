@@ -108,7 +108,7 @@ ps:最近小程序也推出了显示H5页面，如果需要使用，可开通FTP
 微信access_token，业务场景,当其他平台需要使用你小程序的token，并不想与Bmob的平台冲突，可以通过此API实现
 ```
 curl --request GET \
-  --url https://api.bmob.cn/1/wechatApp/getAccessToken \
+  --url https://api2.bmob.cn/1/wechatApp/getAccessToken \
   --header 'content-type: application/json' \
   --header 'x-bmob-application-id: ' \
   --header 'x-bmob-rest-api-key: ' \
@@ -167,7 +167,7 @@ curl --request GET \
 
 ```
 curl --request POST \
-  --url http://api.bmob.cn/1/wechatApp/notifyMsg \
+  --url http://api2.bmob.cn/1/wechatApp/notifyMsg \
   --header 'content-type: application/json' \
   --header 'x-bmob-application-id: ' \
   --header 'x-bmob-rest-api-key: ' \
@@ -411,7 +411,7 @@ var sessionKey="xTlW5jfSUP3Kx0vC5PJbmw==";
 Restful
 ```
 curl -X POST \
-  http://api.bmob.cn/1/wechatApp/SendWeAppMessage \
+  http://api2.bmob.cn/1/wechatApp/SendWeAppMessage \
   -H 'cache-control: no-cache' \
   -H 'content-type: application/json' \
   -H 'x-bmob-application-id: XXX' \
@@ -1251,7 +1251,7 @@ function(error) {
         // 异常处理
         console.log("异常处理");
       });
-      
+
       修改传
       diary.set('objectId', 'ba74dc1f09')
 ```
@@ -1834,7 +1834,7 @@ wx.login({
 
 你也可以使用`email`来作为用户名，只要求你的用户输入他们的`email`但是同时自动填充好`username`属性就可以了，`Bmob.User`会跟原来一样工作，我们会在下面的重设密码环节再次说明这个细节。
 
-> 
+>
 
 
 
