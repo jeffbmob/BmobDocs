@@ -13,29 +13,48 @@
 1. 整个SDK，就dist目录下Bmob.*.js 这个文件即可使用全部功能
 2. 目前支持微信小程序、H5、快应用、游戏Cocos、混合App等
 
+**ps：这不只是微信小程序SDK，是跨平台SDK，相关平台都是引入**`Bmob-x.x.x.min.js`
 
+---
 
 **引入：**
 
+压缩包引入
+
 ```
-var Bmob = require('../dist/Bmob-1.0.1.min.js');
+var Bmob = require('../dist/Bmob-x.x.x.min.js');
+```
+或者源码引入（nodejs必须源码引入）
+
+```
+var Bmob = require('./src/lib/app.js');
 ```
 
 
 
-### **初始化**
+### 初始化
 
 ```
 Bmob.initialize("你的Application ID", "你的REST API Key");
 ```
 
 
->
->  `nodejs`请使用源码引入 app.js ，初始化与其他一样
+
+或者包引入方式
+
+安装
 
 ```
-var Bmob = require('./src/lib/app.js');
+npm install hydrogen-js-sdk
 ```
+
+引入
+
+```
+import Bmob from "hydrogen-js-sdk";
+```
+
+使用ES6前端相关框架，建议使用此方式引入。快应用由于网络包不支持npm，暂时不支持npm
 
 
 
@@ -222,6 +241,18 @@ Bmob.User.signOrLoginByMobilePhone(phone,smsCode).then(res => {
 Bmob.initialize("你的Application ID", "你的REST API Key", "你的MasterKey");
 ```
 
+### 退出登录
+
+ **简介：**
+
+执行退出函数，会退出登录状态，并清理本地全部缓存
+
+**请求示例：**
+
+```
+Bmob.User.logout()
+```
+
 
 
 ### 查询用户
@@ -309,7 +340,7 @@ emailVerified 字段有 3 种状态可以考虑：
 
 **missing** : 用户(User)对象已经被创建，但应用设置并没有开启邮件验证功能； 或者用户(User)对象没有email邮箱。
 
-发送到用户邮箱验证的邮件会在一周内失效
+发送到用户邮箱验证的邮件会在一周内失效，此功能由于邮件滥发，目前已是收费服务，如需验证，请工单联系
 
  **参数说明：**
 
@@ -1690,6 +1721,44 @@ query.save().then(res => {
 })
 ```
 
+### 图片缩略图
+
+图片文件服务由第三方厂商又拍云提供 ， 只需要在文件上传成功返回的url后面拼接特定参数即可实现缩放，缩略图，加水印等效果，[如图](http://bmob-cdn-9200.b0.upaiyun.com/2017/04/25/f24b9ef540f1aeb680ebe01ba8543d9f.png!/scale/80/watermark/text/5rC05Y2wCg==)，具体可参考[这里](http://docs.upyun.com/cloud/image/) 。
+
+### 视频缩略图
+
+有时候视频需要动态截取缩略图，可以使用以下接口
+
+**请求参数**
+
+| 参数              		| 类型   	| 必选	| 说明                                    			|
+|-----------------------|-----------|-------|---------------------------------------------------|
+| source 				| string 	| 是  | 视频的存储地址					|
+| save_as 				| string 	| 是  | 截图保存地址					|
+| point   				| string 	| 是  | 截图时间点，格式为 `HH:MM:SS`					|
+
+```
+curl -X POST \
+  http://api2.bmob.cn/2/cdnVedioSnapshot \
+  -H 'content-type: application/json' \
+  -H 'x-bmob-application-id: xxx' \
+  -H 'x-bmob-rest-api-key: xxx' \
+  -d '{"source": "https://bmob-cdn-80.b0.upaiyun.com/2018/08/17/f4ca5b26305348c88ae70818982c1168.mp4", "save_as": "https://bmob-cdn-80.b0.upaiyun.com/f4ca5b26305348c88ae70818982c1161.jpg", "point": "00:00:05"}'
+  
+//{"source": "<视频的存储地址>", "point": "<时间点>", "save_as": "<截图保存地址>"}
+```
+
+**响应**
+
+| 参数        		| 说明         	|
+|:------------------|---------------|
+| status_code   	| 状态码        	|
+| message       	| 返回信息      	|
+| content_type  	| 截图类型       |
+| content_length	| 截图大小      	|
+| save_as       	| 截图保存地址   	|
+
+
 ### 文件删除
 
 
@@ -1974,7 +2043,7 @@ Bmob.checkMsg(content).then(res => {
     });
 ****
 
-###  小程序付款到零钱##
+###  小程序付款到零钱
 
 **简介：**
 
@@ -2208,6 +2277,8 @@ var openId = wx.getStorageSync('openid');
 ### 小程序下载域名
 
 由于最近微信封了~~*.upaiyun.com~~ 域名，如果你没做文件下载功能，只是显示图片，可以不填写。如果你需要做下载功能，在应用设置里面，可以开启独立域名， 开启后，填写到微信平台就好了，当然有时候你想用自己的域名，也是可以的，可以工单联系我们。
+
+
 
 ### 小程序客服消息
 
