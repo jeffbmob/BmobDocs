@@ -73,7 +73,7 @@
                   <li><s class="languageType"  style="background-position:left -80px;"></s><a href="./cloud_function/csharp/index.html" class="intro" >C#</a></li>
                   <li><s class="languageType" style="background-position:left -106px;"></s><a href="./cloud_function/javascript/index.html" class="intro" >JavaScript</a></li>
                   <li><s class="languageType" style="background-position:left 297px;"></s><a href="./cloud_function/php/index.html" class="intro" >PHP</a></li>
-                  <li><s class="languageType" style="background-position:left 135px;"></s><a href="./cloud_function/web/index.html" class="intro" >WEB</a></li>
+                  <li><s class="languageType" style="background-position:left 135px;"></s><a href="./cloud_function/web/index.html" class="intro" >WEB(Node)</a></li>
                   <li><s class="languageType" style="background-position:left 135px;"></s><a href="./cloud_function/java/index.html" class="intro" >WEB(Java)</a></li>
                 </ul>
             </div>

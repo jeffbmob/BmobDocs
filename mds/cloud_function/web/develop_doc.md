@@ -1464,7 +1464,53 @@ http.post(options, function(error, res, body) {
 
 ```
 
+
+
+
+
+## 异步对象Async/Await
+
+**Async/Await** 很方便解决nodejs异步网络请求问题，下面是引入对象，如需更多了解，可以查阅Nodejs官方文档
+
+```
+// 多个函数从上到下依次执行,相互之间没有数据交互
+function onRequest(request, response, modules) {
+    var async = require('async'); 
+    var task1 =function(callback){
+ 
+		console.log("task1");
+		callback(null,"task1")
+	}
+ 
+	var task2 =function(callback){
+ 
+		console.log("task2");
+		callback(null,"task2")
+	}
+ 
+	var task3 =function(callback){
+ 
+		console.log("task3");
+		callback(null,"task3")
+	}
+ 
+	async.series([task1,task2,task3],function(err,result){
+ 
+		console.log("series");
+ 
+		if (err) {
+			response.send(err);
+		}
+ 
+		response.send(result);
+	})
+}
+```
+
+
+
 ## 事件对象
+
 oEvent，也就是eventproxy模块，解决异步回调的问题。
 
 更多的功能详细参考：[https://github.com/JacksonTian/eventproxy](https://github.com/JacksonTian/eventproxy)
@@ -1615,7 +1661,10 @@ function onRequest(request, response, modules) {
 
 ## 云函数调试工具
 
+1. ### 网页在线调试工具
+
 为方便开发者调试云函数，Bmob为开发者提供了便捷的云端调试工具，你可以直接在云函数的编辑页面下对编写的代码进行调试，如实现从Bar表中查找指定objectId号（SDK中上传参数）的数据，你可以在云函数中实现如下：
+
 ```
 function onRequest(request, response, modules) {
   var db = modules.oData;
@@ -1631,6 +1680,18 @@ function onRequest(request, response, modules) {
 调试时，你在云端调试工具中输入参数名为objectId，参数值为你想要查询的信息，如下图，即可查看到调试结果。
 
 ![](image/ydts.png)
+
+
+
+2. ### 命令调试工具 Bmobup
+
+   有时我们开发的云函数，可能上百行代码，在网页不太方便，这时我们可以使用自己习惯的开发工具来编写代码，通过**Bmobup**命令来调试上传，Bmob平台Node、Java云函数本地开发调试工具,增加云函数开发效率，支持`Mac`,`Windows`,`liunx`系统 。它的流程会把你本地写的代码，提交到Bmob应用云函数并返回结果。
+
+项目地址：
+
+https://github.com/bmob/bmobup
+
+
 
 ## 错误对象
 
@@ -1650,4 +1711,18 @@ function onRequest(request, response, modules) {
 }
 ```
 
+## 日志对象
 
+oLog 是一个日志对象，当程序调试时，可以把对应变量的值写入日志表。
+
+
+
+```
+function onRequest(request, response, modules) {
+    var oLog = modules.oLog;
+    oLog.log("Bmob你好，这是一条日志")
+}
+
+```
+
+代码执行后，会在应用生成一个表，名称**oLog**，点击即可查看日志
