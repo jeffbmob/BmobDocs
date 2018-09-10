@@ -16,6 +16,7 @@ Language选择Swift
 从官网下载最新的[BmobSDK](https://www.bmob.cn/sdk/Bmob_SDK_iOS_v1.4.1.zip),解压导入项目。
 
 添加依赖库文件:
+
 - Foundation.framework
 - CoreLocation.framework
 - Security.framework
@@ -31,6 +32,8 @@ Language选择Swift
 - libsqlite3.tbd
 - libc++.tbd
 - libWeChatSDK.a(如果需要使用支付功能，必须导入，可从微信开放平台下载最新的)
+- photos.framework
+
 
 添加完成后，应该像这个样子
 
