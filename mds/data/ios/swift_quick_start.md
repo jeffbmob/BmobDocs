@@ -13,7 +13,7 @@ Language选择Swift
 ![](image/Swift_BmobSDK_02.png)
 
 ## 设置BmobSDK
-从官网下载最新的[BmobSDK](https://www.bmob.cn/sdk/Bmob_SDK_iOS_v1.4.1.zip),解压导入项目。
+从官网下载最新的[BmobSDK](https://bmob.cn/sdk/Bmob_iOS_SDK_v2.3.0-20180411.zip),解压导入项目。
 
 添加依赖库文件:
 
@@ -47,7 +47,7 @@ target "xxxxxx" do
 platform:ios,"8.0"
 use_frameworks!
 
-pod 'BmobSDK','~>1.7.0'
+pod 'BmobSDK'
 
 
 end
@@ -62,23 +62,27 @@ end
 
 完成之后，你就可以删除test.m文件了,然后在 BmobSwift-Bridging-Header.h 中引入
 
+
 ```
 #import <BmobSDK/Bmob.h>
 ```
+
 
 ## 测试CURD功能
 
 在AppDelegate.swift注册申请的AppKey
 
+
 ```
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
 
-        Bmob.registerWithAppKey("xxxxx")
+        Bmob.register(WithAppKey: "xxxxx")
 
         return true
     }
 ```
+
 
 在ViewController.swift 中添加函数
 
@@ -143,6 +147,8 @@ func update() {
     }
 ```
 
+
+
 ```
 //删除方法
     func deleteGameScore()  {
@@ -155,8 +161,8 @@ func update() {
             }
         }
     }
-    
- ```
+```
+
 
 
 
