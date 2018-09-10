@@ -551,7 +551,7 @@
 <p>Language选择Swift</p>
 <p><img alt="" src="../image/Swift_BmobSDK_02.png" /></p>
 <h2 id="bmobsdk">设置BmobSDK<a class="headerlink" href="#bmobsdk" title="Permanent link">&para;</a></h2>
-<p>从官网下载最新的<a href="https://www.bmob.cn/sdk/Bmob_SDK_iOS_v1.4.1.zip">BmobSDK</a>,解压导入项目。</p>
+<p>从官网下载最新的<a href="https://bmob.cn/sdk/Bmob_iOS_SDK_v2.3.0-20180411.zip">BmobSDK</a>,解压导入项目。</p>
 <p>添加依赖库文件:</p>
 <ul>
 <li>Foundation.framework</li>
@@ -579,7 +579,7 @@ Podfile 文件的内容可以写成</p>
 platform:ios,&quot;8.0&quot;
 use_frameworks!
 
-pod 'BmobSDK','~&gt;1.7.0'
+pod 'BmobSDK'
 
 
 end
@@ -598,7 +598,7 @@ end
 <pre><code>    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -&gt; Bool {
         // Override point for customization after application launch.
 
-        Bmob.registerWithAppKey(&quot;xxxxx&quot;)
+        Bmob.register(WithAppKey: &quot;xxxxx&quot;)
 
         return true
     }
@@ -659,19 +659,19 @@ func update() {
     }
 </code></pre>
 
-<p>```
-//删除方法
+<pre><code>//删除方法
     func deleteGameScore()  {
-        let  gamescore:BmobObject = BmobObject(outDatatWithClassName: "GameScore", objectId: "4faf28f4dd")
+        let  gamescore:BmobObject = BmobObject(outDatatWithClassName: &quot;GameScore&quot;, objectId: &quot;4faf28f4dd&quot;)
         gamescore.deleteInBackgroundWithBlock { (isSuccessful, error) in
             if error != nil{
-                print("error is (error.localizedDescription)")
+                print(&quot;error is \(error.localizedDescription)&quot;)
             }else{
-                print("success")
+                print(&quot;success&quot;)
             }
         }
-    }</p>
-<p>```</p>
+    }
+</code></pre>
+
 <h2 id="_2">案例源码<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p><a href="https://github.com/bmob/bmob-ios-demo/blob/master/SwiftDemo.zip" title="点击下载源码">点击下载源码</a></p>
                 </div>
