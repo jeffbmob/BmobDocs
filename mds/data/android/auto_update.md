@@ -20,11 +20,14 @@ res文件夹下载地址：[https://www.bmob.cn/static/res.zip](https://www.bmob
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
 <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+<uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"></uses-permission>
 ```
 
 说明：
 - android.permission.WRITE_EXTERNAL_STORAGE 权限允许将下载的apk保存到sd卡中。
 - android.permission.ACCESS_NETWORK_STATE 权限允许检查网络状态，从而根据不同网络环境决定何种下载策略,务必添加该权限。
+- android.permission.REQUEST_INSTALL_PACKAGES 权限适配Android8.0的安装权限管理
+
 
 2.添加渠道到<application>标签下： 
 
