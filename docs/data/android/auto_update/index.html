@@ -599,11 +599,13 @@
 <pre><code class="xml">&lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;&gt;&lt;/uses-permission&gt;
 &lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot;&gt;&lt;/uses-permission&gt;
 &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;&gt;&lt;/uses-permission&gt;
+&lt;uses-permission android:name=&quot;android.permission.REQUEST_INSTALL_PACKAGES&quot;&gt;&lt;/uses-permission&gt;
 </code></pre>
 
 <p>说明：
 - android.permission.WRITE_EXTERNAL_STORAGE 权限允许将下载的apk保存到sd卡中。
-- android.permission.ACCESS_NETWORK_STATE 权限允许检查网络状态，从而根据不同网络环境决定何种下载策略,务必添加该权限。</p>
+- android.permission.ACCESS_NETWORK_STATE 权限允许检查网络状态，从而根据不同网络环境决定何种下载策略,务必添加该权限。
+- android.permission.REQUEST_INSTALL_PACKAGES 权限适配Android8.0的安装权限管理</p>
 <p>2.添加渠道到<application>标签下： </p>
 <pre><code class="xml">&lt;meta-data android:value=&quot;Channel ID&quot; android:name=&quot;BMOB_CHANNEL&quot;/&gt;
 </code></pre>
