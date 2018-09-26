@@ -482,46 +482,28 @@
 
 <h1 id="android">短信服务 Android 开发文档<a class="headerlink" href="#android" title="Permanent link">&para;</a></h1>
 <hr />
-<p>除了与用户相关的包括一键注册，手机号码登录等操作外，Bmob 还推出了单独的短信验证码服务。 在实际的应用中，开发者希望能够通过短信验证的方式来与用户进行某些重要操作的确认，你就可以在用户验证过手机号码的前提下，使用 Bmob 提供的短信验证码服务(<code>Bmob SMS SDK</code>)。</p>
+<p>除了与用户相关的包括一键注册，手机号码登录等操作外，Bmob 还推出了单独的短信验证码服务。 在实际的应用中，开发者希望能够通过短信验证的方式来与用户进行某些重要操作的确认，你就可以在用户验证过手机号码的前提下，使用 Bmob 提供的短信验证码服务。</p>
 <p>每个 Bmob 帐户有 30 条免费 (分别为SDK短信 15 条、RestApi短信 15 条) 的短信用于测试。超出免费条数后，需要购买短信条数才能继续使用。</p>
 <p>默认使用 【比目科技】 作为签名，可以在控制台创建自定义短信模板进行修改。</p>
 <p>下面是使用方法：</p>
 <h2 id="sms">SMS初始化<a class="headerlink" href="#sms" title="Permanent link">&para;</a></h2>
-<p>此短信SDK可单独使用，调用如下方法完成 SDK 的初始化：</p>
-<p>方法 1：默认的初始化</p>
-<pre><code class="java">BmobSMS.initialize(context, Bmob_Application_ID);
-
-</code></pre>
-
-<p>方法 2：从v1.2.0开始，提供了对应的接口回调，收到短信验证码能读取到验证码，读取后能自动填入EditText，能提高用户体验，你需要传对应的接口参数：</p>
-<pre><code class="java">BmobSMS.initialize(context,Bmob_Application_ID，new MySMSCodeListener());
-
-class MySMSCodeListener implements SMSCodeListener{
-
-        @Override
-        public void onReceive(String content) {
-            if(et_smscode != null){
-                et_smscode.setText(content);
-            }
-        }
-
-    }
-
-</code></pre>
-
-<p>注: 如果用第二种方式初始化，需要相应的广播和短信权限，详见 BmobSMSDemo。</p>
+<p>SMS功能位于Bmob Data SDK，请参考数据服务文档导入即可。</p>
 <h2 id="_1">请求发送短信验证码<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>通过 <code>requestSMSCode</code> 方式给绑定手机号的该用户发送指定短信模板的短信验证码：</p>
-<pre><code class="java">BmobSMS.requestSMSCode(context, &quot;11位手机号码&quot;, &quot;模板名称&quot;,new RequestSMSCodeListener() {
-
+<pre><code class="java">/**
+ * TODO template 如果是自定义短信模板，此处替换为你在控制台设置的自定义短信模板名称；如果没有对应的自定义短信模板，则使用默认短信模板。
+ */
+BmobSMS.requestSMSCode(phone, &quot;DataSDK&quot;, new QueryListener&lt;Integer&gt;() {
     @Override
-    public void done(Integer smsId,BmobException ex) {
-        // TODO Auto-generated method stub
-        if(ex==null){//验证码发送成功
-            Log.i(&quot;bmob&quot;, &quot;短信id：&quot;+smsId);//用于查询本次短信发送详情
+    public void done(Integer smsId, BmobException e) {
+        if (e == null) {
+            mTvInfo.append(&quot;发送验证码成功，短信ID：&quot; + smsId + &quot;\n&quot;);
+        } else {
+            mTvInfo.append(&quot;发送验证码失败：&quot; + e.getErrorCode() + &quot;-&quot; + e.getMessage() + &quot;\n&quot;);
         }
     }
 });
+
 </code></pre>
 
 <p>短信默认模板：</p>
@@ -548,15 +530,26 @@ class MySMSCodeListener implements SMSCodeListener{
 </ul>
 <h3 id="_2">验证验证码<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <p>通过<code>verifySmsCode</code>方式可验证该短信验证码：</p>
-<pre><code class="java">BmobSMS.verifySmsCode(context,&quot;11位手机号码&quot;, &quot;验证码&quot;, new VerifySMSCodeListener() {
-
+<pre><code class="java">BmobSMS.verifySmsCode(phone, code, new UpdateListener() {
     @Override
-    public void done(BmobException ex) {
-        // TODO Auto-generated method stub
-        if(ex==null){//短信验证码已验证成功
-            Log.i(&quot;bmob&quot;, &quot;验证通过&quot;);
-        }else{
-            Log.i(&quot;bmob&quot;, &quot;验证失败：code =&quot;+ex.getErrorCode()+&quot;,msg = &quot;+ex.getLocalizedMessage());
+    public void done(BmobException e) {
+        if (e == null) {
+            mTvInfo.append(&quot;验证码验证成功，您可以在此时进行绑定操作！\n&quot;);
+            User user = BmobUser.getCurrentUser(User.class);
+            user.setMobilePhoneNumber(phone);
+            user.setMobilePhoneNumberVerified(true);
+            user.update(new UpdateListener() {
+                @Override
+                public void done(BmobException e) {
+                    if (e == null) {
+                        mTvInfo.append(&quot;绑定手机号码成功&quot;);
+                    } else {
+                        mTvInfo.append(&quot;绑定手机号码失败：&quot; + e.getErrorCode() + &quot;-&quot; + e.getMessage());
+                    }
+                }
+            });
+        } else {
+            mTvInfo.append(&quot;验证码验证失败：&quot; + e.getErrorCode() + &quot;-&quot; + e.getMessage() + &quot;\n&quot;);
         }
     }
 });
