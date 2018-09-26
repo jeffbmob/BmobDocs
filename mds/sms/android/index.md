@@ -2,7 +2,7 @@
 
 ------
 
-除了与用户相关的包括一键注册，手机号码登录等操作外，Bmob 还推出了单独的短信验证码服务。 在实际的应用中，开发者希望能够通过短信验证的方式来与用户进行某些重要操作的确认，你就可以在用户验证过手机号码的前提下，使用 Bmob 提供的短信验证码服务(`Bmob SMS SDK`)。
+除了与用户相关的包括一键注册，手机号码登录等操作外，Bmob 还推出了单独的短信验证码服务。 在实际的应用中，开发者希望能够通过短信验证的方式来与用户进行某些重要操作的确认，你就可以在用户验证过手机号码的前提下，使用 Bmob 提供的短信验证码服务。
 
 每个 Bmob 帐户有 30 条免费 (分别为SDK短信 15 条、RestApi短信 15 条) 的短信用于测试。超出免费条数后，需要购买短信条数才能继续使用。
 
@@ -12,50 +12,27 @@
 
 ## SMS初始化
 
-此短信SDK可单独使用，调用如下方法完成 SDK 的初始化：
-
-方法 1：默认的初始化
-
-```java
-BmobSMS.initialize(context, Bmob_Application_ID);
-
-```
-
-方法 2：从v1.2.0开始，提供了对应的接口回调，收到短信验证码能读取到验证码，读取后能自动填入EditText，能提高用户体验，你需要传对应的接口参数：
-
-```java
-BmobSMS.initialize(context,Bmob_Application_ID，new MySMSCodeListener());
-
-class MySMSCodeListener implements SMSCodeListener{
-
-		@Override
-		public void onReceive(String content) {
-			if(et_smscode != null){
-				et_smscode.setText(content);
-			}
-		}
-		
-	}
-
-```
-注: 如果用第二种方式初始化，需要相应的广播和短信权限，详见 BmobSMSDemo。
-
+SMS功能位于Bmob Data SDK，请参考数据服务文档导入即可。
 
 ## 请求发送短信验证码
 
 通过 `requestSMSCode` 方式给绑定手机号的该用户发送指定短信模板的短信验证码：
 
 ```java
-BmobSMS.requestSMSCode(context, "11位手机号码", "模板名称",new RequestSMSCodeListener() {
-			
-	@Override
-	public void done(Integer smsId,BmobException ex) {
-		// TODO Auto-generated method stub
-		if(ex==null){//验证码发送成功
-			Log.i("bmob", "短信id："+smsId);//用于查询本次短信发送详情
-		}
-	}
+/**
+ * TODO template 如果是自定义短信模板，此处替换为你在控制台设置的自定义短信模板名称；如果没有对应的自定义短信模板，则使用默认短信模板。
+ */
+BmobSMS.requestSMSCode(phone, "DataSDK", new QueryListener<Integer>() {
+    @Override
+    public void done(Integer smsId, BmobException e) {
+        if (e == null) {
+            mTvInfo.append("发送验证码成功，短信ID：" + smsId + "\n");
+        } else {
+            mTvInfo.append("发送验证码失败：" + e.getErrorCode() + "-" + e.getMessage() + "\n");
+        }
+    }
 });
+
 ```
 
 短信默认模板：
@@ -83,17 +60,28 @@ BmobSMS.requestSMSCode(context, "11位手机号码", "模板名称",new RequestS
 通过`verifySmsCode`方式可验证该短信验证码：
 
 ```java
-BmobSMS.verifySmsCode(context,"11位手机号码", "验证码", new VerifySMSCodeListener() {
-			
-	@Override
-	public void done(BmobException ex) {
-		// TODO Auto-generated method stub
-		if(ex==null){//短信验证码已验证成功
-			Log.i("bmob", "验证通过");
-		}else{
-			Log.i("bmob", "验证失败：code ="+ex.getErrorCode()+",msg = "+ex.getLocalizedMessage());
-		}
-	}
+BmobSMS.verifySmsCode(phone, code, new UpdateListener() {
+    @Override
+    public void done(BmobException e) {
+        if (e == null) {
+            mTvInfo.append("验证码验证成功，您可以在此时进行绑定操作！\n");
+            User user = BmobUser.getCurrentUser(User.class);
+            user.setMobilePhoneNumber(phone);
+            user.setMobilePhoneNumberVerified(true);
+            user.update(new UpdateListener() {
+                @Override
+                public void done(BmobException e) {
+                    if (e == null) {
+                        mTvInfo.append("绑定手机号码成功");
+                    } else {
+                        mTvInfo.append("绑定手机号码失败：" + e.getErrorCode() + "-" + e.getMessage());
+                    }
+                }
+            });
+        } else {
+            mTvInfo.append("验证码验证失败：" + e.getErrorCode() + "-" + e.getMessage() + "\n");
+        }
+    }
 });
 ```
 
@@ -122,3 +110,5 @@ BmobSMS.verifySmsCode(context,"11位手机号码", "验证码", new VerifySMSCod
 
   [1]: http://bmob-file-service-t.b0.upaiyun.com/Doc_File/jfms.png
   [2]: http://bmob-file-service-t.b0.upaiyun.com/Doc_File/14703632600603.jpg
+
+
