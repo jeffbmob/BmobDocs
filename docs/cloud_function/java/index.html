@@ -544,7 +544,7 @@
 <h3 id="restful-api">Restful API<a class="headerlink" href="#restful-api" title="Permanent link">&para;</a></h3>
 <ol>
 <li>
-<p>调用 <code>api.bmob.cn</code> ，与调用NodeJS版云函数的方式 <strong>完全相同</strong>。这种方式下，服务器会 <strong>自动判断语言</strong>，但 <strong>限制 <code>Method</code> 为 <code>Post</code> 且 <code>Content-Type</code> 为 <code>application/json</code></strong></p>
+<p>调用 <code>api2.bmob.cn</code> ，与调用NodeJS版云函数的方式 <strong>完全相同</strong>。这种方式下，服务器会 <strong>自动判断语言</strong>，但 <strong>限制 <code>Method</code> 为 <code>Post</code> 且 <code>Content-Type</code> 为 <code>application/json</code></strong></p>
 </li>
 <li>
 <p>调用 <code>javacloud.bmob.cn</code> ，调用方式基本相同，这种方式 <strong>仅可调用Java云函数</strong>，但 <strong>不限制 <code>Method</code> 和 <code>Content-Type</code></strong></p>
@@ -554,7 +554,7 @@ curl -X POST \
     -H "X-Bmob-REST-API-Key: Your REST API Key" \
     -H "Content-Type: application/json" \
     -d '{"name": "zwr"}' \
-    https://api.bmob.cn/1/functions/[function name]
+    https://api2.bmob.cn/1/functions/[function name]
 
 // 使用Appid + RestKey请求javacloud.bmob.cn域名(仅支持Java云函数)
 curl -X [method] \
