@@ -1449,7 +1449,7 @@ http('https://www.bmob.cn', function (error, res, body) {
 var http = modules.oHttp;
 
 var options = {
-  "url": 'https://api.bmob.cn/1/classes/GameScore',
+  "url": 'https://api2.bmob.cn/1/classes/GameScore',
   "headers": {
     'X-Bmob-Application-Id': 'Your Application ID',
 	'X-Bmob-REST-API-Key': 'Your REST API Key',

@@ -14,7 +14,7 @@
 
 **请求**
 
-- url ：https://api.bmob.cn/1/requestSmsCode
+- url ：https://api2.bmob.cn/1/requestSmsCode
 
 - method ：POST
 
@@ -57,7 +57,7 @@ curl -X POST \
   -H "X-Bmob-REST-API-Key: Your REST API Key"        \
   -H "Content-Type: application/json" \
   -d '{"mobilePhoneNumber": "186xxxxxxxx"}' \
-  https://api.bmob.cn/1/requestSmsCode
+  https://api2.bmob.cn/1/requestSmsCode
 ```
 
 成功返回，短信验证码ID，可用于后面使用查询短信状态接口来查询该短信验证码是否发送成功和是否验证过：
@@ -76,7 +76,7 @@ curl -X POST \
   -H "X-Bmob-REST-API-Key: Your REST API Key"        \
   -H "Content-Type: application/json" \
   -d '{"mobilePhoneNumber": "186xxxxxxxx", "template":"注册模板"}' \
-  https://api.bmob.cn/1/requestSmsCode
+  https://api2.bmob.cn/1/requestSmsCode
 ```
 
 成功返回，短信验证码ID，可用于后面使用查询短信状态接口来查询该短信验证码是否发送成功和是否验证过：
@@ -95,7 +95,7 @@ curl -X POST \
 
 **请求**
 
-- url ：https://api.bmob.cn/1/verifySmsCode/smsCode(用户收到的6位短信验证码)
+- url ：https://api2.bmob.cn/1/verifySmsCode/smsCode(用户收到的6位短信验证码)
 
 - method ：POST
 
@@ -137,7 +137,7 @@ curl -X POST \
   -H "X-Bmob-REST-API-Key: Your REST API Key"        \
   -H "Content-Type: application/json" \
   -d '{"mobilePhoneNumber": "186xxxxxxxx"}' \
-  https://api.bmob.cn/1/verifySmsCode/876845
+  https://api2.bmob.cn/1/verifySmsCode/876845
 ```
 
 
