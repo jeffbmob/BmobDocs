@@ -963,28 +963,6 @@ query._extraOptions = {"sum":"score"};
 
 ```
 
-#### 分组计算总和
-比如我们以创建时间按天统计所有玩家的得分，并按时间降序, groupby后面只能拼接列名，如果该列是时间类型，则按天分组，其他类型，则按确定值分组:
-
-```
-query._extraOptions = {"sum":"score","groupby":"createdAt"};
-query.ascending("createdAt");
-```
-
-返回内容如下：
-
-```
-[
-	{
-		"_sumScore": 2398,
-		"createdAt": "2014-02-05"
-	},
-	{
-		"_sumScore": 1208,
-		"createdAt": "2014-01-01"
-	},
-]
-```
 
 
 ## 修改数据
