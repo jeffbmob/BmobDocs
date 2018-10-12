@@ -1901,8 +1901,7 @@ bmobQuery.findObjects(new FindListener&lt;Person&gt;() {
 例：
 计算玩家得分表（GameScore）中列名为score的总和，那么返回的结果集会有一个列名为<code>_sumScore</code>，
 若设置了setHasGroupCount（true）,则结果集中会返回<code>_count</code>。
-2、以上方法可自由组合且与之前的查询语句中的where, order, limit, skip等组合一起使用。
-3、因为返回格式不固定，故使用<code>findStatistics</code>来专门处理统计查询。</p>
+2、因为返回格式不固定，故使用<code>findStatistics</code>来专门处理统计查询。</p>
 <h4 id="_39">统计查询方法<a class="headerlink" href="#_39" title="Permanent link">&para;</a></h4>
 <p>例如，如果要计算所有玩家的得分总和，那么代码如下：</p>
 <pre><code class="java">BmobQuery&lt;GameScore&gt; query = new BmobQuery&lt;GameScore&gt;();
