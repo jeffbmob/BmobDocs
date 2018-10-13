@@ -1593,7 +1593,7 @@ query.destroy('objectId').then(res =&gt; {
 query.get('objectId').then(res =&gt; {
   res.destroy().then(res =&gt; {
 console.log(res)
-  }).ctach(err =&gt; {
+  }).catch(err =&gt; {
 console.log(err)
   })
 }).catch(err =&gt; {
