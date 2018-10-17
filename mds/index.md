@@ -75,6 +75,7 @@
                   <li><s class="languageType" style="background-position:left 297px;"></s><a href="./cloud_function/php/index.html" class="intro" >PHP</a></li>
                   <li><s class="languageType" style="background-position:left 135px;"></s><a href="./cloud_function/web/index.html" class="intro" >WEB</a></li>
                   <li><s class="languageType" style="background-position:left 135px;"></s><a href="./cloud_function/java/index.html" class="intro" >WEB(Java)</a></li>
+				  <li><s class="languageType" style="background-position:left 135px;"></s><a href="./cloud_function/python/index.html" class="intro" >Python</a></li>
                 </ul>
             </div>
         </div><!--//item-inner-->
