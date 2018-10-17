@@ -56,6 +56,7 @@ pages:
     - 'Android': 'cloud_function/android/index.md'
     - 'iOS': 'cloud_function/ios/index.md'
     - 'Java': 'cloud_function/java/index.md'
+    - 'Python': 'cloud_function/python/index.md'
     - 'C#': 'cloud_function/csharp/index.md'
     - 'PHP': 'cloud_function/php/index.md'
     - 'JavaScript': 'cloud_function/javascript/index.md'

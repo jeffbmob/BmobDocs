@@ -112,6 +112,12 @@
     </url>
         
     <url>
+     <loc>/cloud_function/python/</loc>
+     <lastmod>2018-10-17</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
      <loc>/cloud_function/csharp/</loc>
      <lastmod>2018-10-17</lastmod>
      <changefreq>daily</changefreq>
