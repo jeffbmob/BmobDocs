@@ -52,6 +52,7 @@ pages:
     - '小程序(新)':
         - '快速入门': 'data/wechat_app_new/rm.md'
         - '开发文档': 'data/wechat_app_new/index.md'
+    - 'Kotlin': 'data/kotlin/index.md'
 - '云函数':
     - 'Android': 'cloud_function/android/index.md'
     - 'iOS': 'cloud_function/ios/index.md'

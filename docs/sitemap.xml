@@ -89,6 +89,12 @@
      <changefreq>daily</changefreq>
     </url>
         
+    <url>
+     <loc>/data/kotlin/</loc>
+     <lastmod>2018-10-24</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
     
 
     

@@ -55,6 +55,7 @@
 				  <li><s class="languageType" style="background-position:left 80px;"></s><a href="./data/wechat_app_new/index.html" class="intro" >快应用</a></li>
 				  <li><s class="languageType" style="background-position:left -106px;"></s><a href="./data/wechat_app_new/index.html" class="intro" >Nodejs</a></li>
 				  <li><s class="languageType" style="background-position:left -214px;"></s><a href="./data/wechat_app_new/index.html" class="intro" >Cocos Creator</a></li>
+				  <li><s class="languageType" style="background-position:left 135px;"></s><a href="./data/kotlin/index.html" class="intro" >Kotlin</a></li>
                 </ul>
             </div>
         </div><!--//item-inner-->
