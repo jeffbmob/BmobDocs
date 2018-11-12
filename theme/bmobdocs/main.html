@@ -16,10 +16,7 @@
         
         <script type="text/javascript" src="//game.bmob.cn/static/doc_union.js"></script>
 
-        {%- block htmltitle %}
-            <title>{{ config.site_name }}</title>
-        {%- endblock %}
-
+        <title>{% if page and page.title and not page.is_homepage %}{{ page.title }} - {% endif %}{{ config.site_name }}</title>
         {%- block styles %}
             <link href="{{ base_url }}/css/bootstrap-custom.min.css" rel="stylesheet">
             <link href="{{ base_url }}/css/font-awesome-4.5.0.css" rel="stylesheet">
