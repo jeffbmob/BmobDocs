@@ -112,7 +112,7 @@ pages:
     - 'JavaScript': 'push/javascript/index.md'
     - 'RESTful': 'push/restful/index.md'
 - '其他':
-    - '常见问题':['other/common_problem/index.md','bmob-常见问题'] 
+    - '常见问题': ['other/common_problem/index.md','bmob-常见问题'] 
     - '错误码': 'other/error_code/index.md'
     - '数据安全': 'other/data_safety/index.md'
     - 'BQL': 'other/bql/index.md'
