@@ -4,13 +4,16 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta content="Bmob,BmobCloud,bomb,BaaS,mBaaS,PaaS,Serverless,FaaS,Function as a Service,Backend as a Service,serverless computing,cloud function,后端云,bmob后端云,小程序云,小程序后端,云数据库,云存储,文件存储,云函数,云端代码,定时任务,游戏后端,游戏云,用户系统,无服务器函数,移动开发,app开发,小程序开发,云端一体化,互联网中间件" name="keywords"/>
+            <meta content="国内首家专注于移动应用Serverless云服务的平台,Bmob后端云让移动开发更简单,全方位一体化的后端服务平台" name="description"/>
             
             
             
             <link rel="shortcut icon" href="../../../img/favicon.ico">
         
         <script type="text/javascript" src="//game.bmob.cn/static/doc_union.js"></script>
-            <title>Bmob文档中心</title>
+
+        <title>开发文档 - Bmob文档中心</title>
             <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
             <link href="../../../css/font-awesome-4.5.0.css" rel="stylesheet">
             <link href="../../../css/base.css" rel="stylesheet">
@@ -113,6 +116,11 @@
 									<a href="../../wechat_app_new/rm/">小程序(新)</a>
                                 </li>
                             
+                            
+                                <li >
+                                    <a href="../../kotlin/">Kotlin</a>
+                                </li>
+							
                         </ul>
                     </li>
                 
@@ -137,6 +145,11 @@
                             
                                 <li >
                                     <a href="../../../cloud_function/java/">Java</a>
+                                </li>
+							
+                            
+                                <li >
+                                    <a href="../../../cloud_function/python/">Python</a>
                                 </li>
 							
                             
@@ -364,9 +377,11 @@
 				
 				
 				
+				
 		
 	
 		
+				
 				
 				
 				
@@ -840,6 +855,8 @@
 									</li>
 								
 							
+						
+					
 						
 					
 						
@@ -1899,8 +1916,7 @@ bmobQuery.findObjects(new FindListener&lt;Person&gt;() {
 例：
 计算玩家得分表（GameScore）中列名为score的总和，那么返回的结果集会有一个列名为<code>_sumScore</code>，
 若设置了setHasGroupCount（true）,则结果集中会返回<code>_count</code>。
-2、以上方法可自由组合且与之前的查询语句中的where, order, limit, skip等组合一起使用。
-3、因为返回格式不固定，故使用<code>findStatistics</code>来专门处理统计查询。</p>
+2、因为返回格式不固定，故使用<code>findStatistics</code>来专门处理统计查询。</p>
 <h4 id="_39">统计查询方法<a class="headerlink" href="#_39" title="Permanent link">&para;</a></h4>
 <p>例如，如果要计算所有玩家的得分总和，那么代码如下：</p>
 <pre><code class="java">BmobQuery&lt;GameScore&gt; query = new BmobQuery&lt;GameScore&gt;();

@@ -708,7 +708,7 @@ or
     query.get('objectId').then(res => {
       res.destroy().then(res => {
     console.log(res)
-      }).ctach(err => {
+      }).catch(err => {
     console.log(err)
       })
     }).catch(err => {
@@ -1329,7 +1329,6 @@ Bmob的统计查询，提供以下关键字或其组合的查询操作：
 
 以上关键字除了groupcount是传Boolean值true或false，having传的是和where类似的json字符串，但having只应该用于过滤分组查询得到的结果集，即having只应该包含结果集中的列名如 `{"_sumScore":{"$gt":100}}` ，其他关键字必须是字符串而必须是表中包含的列名，多个列名用,分隔。
 
-以上关键字可以自由组合并可以与前面查询语句中的where, order, limit, skip等组合使用。
 
 比如，GameScore表是游戏玩家的信息和得分表，有playerName(玩家名称)、score(玩家得分)等你自己创建的列，还有Bmob的默认列objectId, createdAt, updatedAt,那么我们现在举例如何使用以上的查询关键字来作这个表的统计。 
 
@@ -1356,130 +1355,6 @@ query.find().then(res => {
                   
 ```
 
-### 分组计算总和
-比如我们以创建时间按天统计所有玩家的得分，并按时间降序, groupby后面只能拼接列名，如果该列是时间类型，则按天分组，其他类型，则按确定值分组:
-
-```
-const query = Bmob.Query("GameScore");
-query.statTo("sum", "score");
-query.statTo("groupby", "createdAt");
-query.statTo("order", "-createdAt");
-query.find().then(res => {
-  console.log(res)
-});
-```
-
-返回内容如下：
-
-```
-[
-	{
-		"_sumScore": 2398,
-		"createdAt": "2014-02-05"
-	},
-	{
-		"_sumScore": 1208,
-		"createdAt": "2014-01-01"
-	},
-]                 
-```
-
-### 多个分组并计算多个列的总和
-比如我们以创建时间按天和按玩家名称分组统计所有玩家的得分1，得分2的总和，并按得分1的总和降序, groupby后面只能拼接列名，如果该列是时间类型，则按天分组，其他类型，则按确定值分组:
-
-```
-const query = Bmob.Query("GameScore");
-query.statTo("sum", "score1, score2");
-query.statTo("groupby", "createdAt, playerName");
-query.statTo("order", "-_sumscore1");
-query.find().then(res => {
-  console.log(res)
-});
-```
-
-返回内容如下：
-
-```
-[
-	{
-		"_sumScore1": 399,
-		"_sumScore2": 120,
-		"playerName": "John"
-		"createdAt": "2014-02-05"
-	},
-	{
-		"_sumScore1": 299,
-		"_sumScore2": 250,
-		"playerName": "Bily"
-		"createdAt": "2014-02-05"
-	},
-	{
-		"_sumScore1": 99,
-		"_sumScore2": 450,
-		"playerName": "John"
-		"createdAt": "2014-02-01"
-	},
-]                 
-```
-
-### 分组计算总和并只返回满足条件的部分值
-比如我们以创建时间按天统计所有玩家的得分，并只返回某天的总得分大于2000的记录，并按时间降序，having是用于过滤部分结果，其中的_sumScore是 `_sum+首字母大写的列名` 的格式表示是计算这个列的总和的值:
-
-```
-const query = Bmob.Query("GameScore");
-query.statTo("sum", "score");
-query.statTo("having",{"_sumScore":{"$gt": 2000}});
-query.statTo("groupby", "createdAt");
-query.statTo("order", "-createdAt");
-query.find().then(res => {
-  console.log(res)
-});
-```
-
-返回内容如下：
-
-```
-[
-	{
-		"_sumScore": 2398,
-		"createdAt": "2014-02-05"
-	},
-]                 
-```
-
-### 分组计算总和并返回每个分组的记录数
-
-比如我们以创建时间按天统计所有玩家的得分和每一天有多少条玩家的得分记录，并按时间降序:
-
-```
-
-const query = Bmob.Query("GameScore");
-query.statTo("sum", "score");
-query.statTo("groupby", "createdAt");
-query.statTo("groupcount", "true");
-query.statTo("order", "createdAt");
-query.find().then(res => {
-  console.log(res)
-});    
-    
-```
-
-返回内容如下：
-
-```
-[
-	{
-		"_sumScore": 2398,
-		"_count": 10,
-		"createdAt": "2014-02-05"
-	},
-	{
-		"_sumScore": 100,
-		"_count": 2,
-		"createdAt": "2014-01-01"
-	},
-]                 
-```
 
 ### 获取不重复的列值
 

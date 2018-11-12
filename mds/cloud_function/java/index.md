@@ -18,7 +18,7 @@ Http请求|Secret Key|所有平台适用，可用浏览器打开
 
 ### Restful API
 
-1. 调用 `api.bmob.cn` ，与调用NodeJS版云函数的方式 **完全相同**。这种方式下，服务器会 **自动判断语言**，但 **限制 `Method` 为 `Post` 且 `Content-Type` 为 `application/json`**
+1. 调用 `api2.bmob.cn` ，与调用NodeJS版云函数的方式 **完全相同**。这种方式下，服务器会 **自动判断语言**，但 **限制 `Method` 为 `Post` 且 `Content-Type` 为 `application/json`**
 
 2. 调用 `javacloud.bmob.cn` ，调用方式基本相同，这种方式 **仅可调用Java云函数**，但 **不限制 `Method` 和 `Content-Type`**
 
@@ -28,7 +28,7 @@ Http请求|Secret Key|所有平台适用，可用浏览器打开
 			-H "X-Bmob-REST-API-Key: Your REST API Key" \
 			-H "Content-Type: application/json" \
 			-d '{"name": "zwr"}' \
-			https://api.bmob.cn/1/functions/[function name]
+			https://api2.bmob.cn/1/functions/[function name]
 
 		// 使用Appid + RestKey请求javacloud.bmob.cn域名(仅支持Java云函数)
 		curl -X [method] \

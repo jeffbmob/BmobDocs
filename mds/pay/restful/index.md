@@ -36,7 +36,7 @@ trade_no：支付宝或微信返回的订单号
 
 **请求**
 
-- url ：https://api.bmob.cn/1/pay/out_trade_no
+- url ：https://api2.bmob.cn/1/pay/out_trade_no
 
 - method ：GET
 
@@ -78,7 +78,7 @@ Content-Type: application/json
 curl -X GET \
   -H "X-Bmob-Application-Id: Your Application ID"          \
   -H "X-Bmob-REST-API-Key: Your REST API Key"        \
-  https://api.bmob.cn/1/pay/9f392618f449a71c6fcfdee38d2b29e4
+  https://api2.bmob.cn/1/pay/9f392618f449a71c6fcfdee38d2b29e4
 ```
 
 其返回值：

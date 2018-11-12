@@ -4,13 +4,16 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta content="Bmob,BmobCloud,bomb,BaaS,mBaaS,PaaS,Serverless,FaaS,Function as a Service,Backend as a Service,serverless computing,cloud function,后端云,bmob后端云,小程序云,小程序后端,云数据库,云存储,文件存储,云函数,云端代码,定时任务,游戏后端,游戏云,用户系统,无服务器函数,移动开发,app开发,小程序开发,云端一体化,互联网中间件" name="keywords"/>
+            <meta content="国内首家专注于移动应用Serverless云服务的平台,Bmob后端云让移动开发更简单,全方位一体化的后端服务平台" name="description"/>
             
             
             
             <link rel="shortcut icon" href="../../img/favicon.ico">
         
         <script type="text/javascript" src="//game.bmob.cn/static/doc_union.js"></script>
-            <title>Bmob文档中心</title>
+
+        <title>RESTful - Bmob文档中心</title>
             <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
             <link href="../../css/font-awesome-4.5.0.css" rel="stylesheet">
             <link href="../../css/base.css" rel="stylesheet">
@@ -113,6 +116,11 @@
 									<a href="../../data/wechat_app_new/rm/">小程序(新)</a>
                                 </li>
                             
+                            
+                                <li >
+                                    <a href="../../data/kotlin/">Kotlin</a>
+                                </li>
+							
                         </ul>
                     </li>
                 
@@ -137,6 +145,11 @@
                             
                                 <li >
                                     <a href="../../cloud_function/java/">Java</a>
+                                </li>
+							
+                            
+                                <li >
+                                    <a href="../../cloud_function/python/">Python</a>
                                 </li>
 							
                             
@@ -362,9 +375,11 @@
 				
 				
 				
+				
 		
 	
 		
+				
 				
 				
 				
@@ -563,7 +578,7 @@
         &quot;deviceType&quot;: &quot;ios&quot;,
         &quot;deviceToken&quot;: &quot;abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789&quot;
       }' \
-  https://api.bmob.cn/1/installations
+  https://api2.bmob.cn/1/installations
 </code></pre>
 
 <h3 id="android-installationid">保存Android设备的 installationId<a class="headerlink" href="#android-installationid" title="Permanent link">&para;</a></h3>
@@ -576,7 +591,7 @@
         &quot;deviceType&quot;: &quot;android&quot;,
         &quot;installationId&quot;: &quot;12345678-4312-1234-1234-1234567890ab&quot;
       }' \
-  https://api.bmob.cn/1/installations
+  https://api2.bmob.cn/1/installations
 </code></pre>
 
 <h3 id="windows-phone-notificationuri">保存Windows Phone设备的 notificationUri<a class="headerlink" href="#windows-phone-notificationuri" title="Permanent link">&para;</a></h3>
@@ -589,7 +604,7 @@
         &quot;deviceType&quot;: &quot;windows phone&quot;,
         &quot;notificationUri&quot;: &quot;https://hk1.notify.live.net/unthrottledthirdparty/01.00/AQHgHh6EuwNtTa1TbwvaAjnmAgAAAAADEAAAAAQUZm52OkZDM0U5RDkxQzIzREJBNDYFBkFTRUEwMQ&quot;
       }' \
-  https://api.bmob.cn/1/installations
+  https://api2.bmob.cn/1/installations
 </code></pre>
 
 <h2 id="_3">订阅频道和退订<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
@@ -606,7 +621,7 @@
           &quot;Mets&quot;
         ]
       }' \
-  https://api.bmob.cn/1/installations/mrmBZvsErB
+  https://api2.bmob.cn/1/installations/mrmBZvsErB
 </code></pre>
 
 <p>订阅一个新频道，不覆盖已订阅的频道：</p>
@@ -615,7 +630,7 @@
   -H &quot;X-Bmob-REST-API-Key: Your REST API Key&quot;        \
   -H &quot;Content-Type: application/json&quot; \
   -d '{&quot;channels&quot;:{&quot;__op&quot;:&quot;AddUnique&quot;,&quot;objects&quot;:[&quot;Giants&quot;]}}' \
-  https://api.bmob.cn/1/installations/mrmBZvsErB
+  https://api2.bmob.cn/1/installations/mrmBZvsErB
 </code></pre>
 
 <h3 id="_5">退订频道<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
@@ -624,7 +639,7 @@
   -H &quot;X-Bmob-REST-API-Key: Your REST API Key&quot;        \
   -H &quot;Content-Type: application/json&quot; \
   -d '{&quot;channels&quot;:{&quot;__op&quot;:&quot;Remove&quot;,&quot;objects&quot;:[&quot;Giants&quot;，&quot;Mets&quot;]}}' \
-  https://api.bmob.cn/1/installations/mrmBZvsErB
+  https://api2.bmob.cn/1/installations/mrmBZvsErB
 </code></pre>
 
 <h2 id="_6">推送消息<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
@@ -633,7 +648,7 @@
 <p><strong>请求</strong></p>
 <ul>
 <li>
-<p>url ： https://api.bmob.cn/1/push</p>
+<p>url ： https://api2.bmob.cn/1/push</p>
 </li>
 <li>
 <p>method ：POST</p>
@@ -660,7 +675,7 @@ Content-Type: application/json
           &quot;alert&quot;: &quot;Hello From Bmob.&quot;
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
 
 <h3 id="_8">组播推送消息<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
@@ -677,7 +692,7 @@ Content-Type: application/json
           &quot;alert&quot;: &quot;Hello From Bmob.&quot;
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
 
 <p>或者更简便的方式</p>
@@ -691,7 +706,7 @@ Content-Type: application/json
           &quot;alert&quot;: &quot;Hello From Bmob.&quot;
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
 
 <h3 id="_9">多播推送消息<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
@@ -710,7 +725,7 @@ Content-Type: application/json
             &quot;alert&quot;: &quot;Hello From Bmob.&quot;
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
 
 <h4 id="_11">根据查询条件做推送<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h4>
@@ -726,7 +741,7 @@ Content-Type: application/json
           &quot;alert&quot;: &quot;Willie Hayes injured by own pop fly.&quot;
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
 
 <p>请注意，where 条件查询的都是 installations 表。这里是假设 installations 表存储了 scores 的布尔属性，你可以像查询普通对象一样构造where查询</p>
@@ -743,7 +758,7 @@ Content-Type: application/json
           &quot;alert&quot;: &quot;Your suitcase has been filled with tiny robots!&quot;
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
 
 <pre><code>curl -X POST \
@@ -758,7 +773,7 @@ Content-Type: application/json
           &quot;alert&quot;: &quot;Your suitcase has been filled with tiny apples!&quot;
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
 
 <p>Windows Phone平台的推送分三种格式：</p>
@@ -776,7 +791,7 @@ Content-Type: application/json
            &quot;wpAlert&quot;: &quot;TextBoxValue2&quot;
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
 
 <p>b.推送Toast通知：</p>
@@ -794,7 +809,7 @@ Content-Type: application/json
           &quot;wp&quot;: 2
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
 
 <p>c.推送磁贴通知：</p>
@@ -816,7 +831,7 @@ Content-Type: application/json
           &quot;wp&quot;: 1
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
 
 <h4 id="_13">根据地理信息位置做推送<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h4>
@@ -843,7 +858,7 @@ Content-Type: application/json
           &quot;alert&quot;: &quot;Free hotdogs at the bmob concession stand!&quot;
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
 
 <p>上面的例子假设 installation 有个 user 属性指向_User 表的记录，并且用户有个 location 属性是 GeoPoint 类型，我们就可以根据地理信息位置做推送。</p>
@@ -861,7 +876,7 @@ Content-Type: application/json
           &quot;alert&quot;: &quot;Hello From Bmob.&quot;
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
 
 <p>发送给iOS单个客户端</p>
@@ -877,7 +892,7 @@ Content-Type: application/json
           &quot;aps&quot;:{&quot;alert&quot;:&quot;cashi&quot;,&quot;badge&quot;:1,&quot;sound&quot;:&quot;default&quot;}
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
 
 <p>发送给Windows Phone单个客户端Toast通知</p>
@@ -895,7 +910,7 @@ Content-Type: application/json
           &quot;wp&quot;: 2
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
 
 <h2 id="_15">发送选项设置<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
@@ -931,7 +946,7 @@ Content-Type: application/json
           &quot;title&quot;: &quot;Mets Score!&quot;
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
 
 <p>当然，你也可以在data字典对象中定制自己的字段来推送消息，但推送到消息不显示在 Andoid 系统的通知栏中，而是执行应用程序预定义的逻辑，Android或iOS的接收消息文档中对此有说明，iOS只有当用户从通知中打开应用，才能访问data的数据，Android将提供这个数据在action Intent应用之后将提供这个数据,</p>
@@ -950,7 +965,7 @@ Content-Type: application/json
           &quot;newsItem&quot;: &quot;Man bites dog&quot;
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
 
 <h3 id="_17">设置消息过期时间<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
@@ -965,7 +980,7 @@ Content-Type: application/json
           &quot;alert&quot;: &quot;Season tickets on sale until December  4, 2013&quot;
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
 
 <p>也可以是相对时间（根据push_time做定期推送，从push_time时间开始算起，直到expiration_interval时间后过期），下面的请求表示消息将在2012-01-28 00:51:13这个时间点开始推送，直到7天后过期:</p>
@@ -980,7 +995,7 @@ Content-Type: application/json
           &quot;alert&quot;: &quot;Season tickets on sale until December  4, 2013&quot;
         }
       }' \
-  https://api.bmob.cn/1/push
+  https://api2.bmob.cn/1/push
 </code></pre>
                 </div>
             </div>

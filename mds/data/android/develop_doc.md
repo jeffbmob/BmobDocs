@@ -1086,8 +1086,7 @@ bmobQuery.findObjects(new FindListener<Person>() {
 例：
 计算玩家得分表（GameScore）中列名为score的总和，那么返回的结果集会有一个列名为`_sumScore`，
 若设置了setHasGroupCount（true）,则结果集中会返回`_count`。
-2、以上方法可自由组合且与之前的查询语句中的where, order, limit, skip等组合一起使用。
-3、因为返回格式不固定，故使用`findStatistics`来专门处理统计查询。
+2、因为返回格式不固定，故使用`findStatistics`来专门处理统计查询。
 
 #### 统计查询方法
 
