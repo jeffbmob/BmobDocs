@@ -152,6 +152,23 @@ class Page(object):
     def __init__(self, title, path, url_context, config):
 
         self._title = title
+
+        self.htmlTitle = ""
+        if path.find("data/") != -1:
+            self.htmlTitle = "数据存储•"+title+" – Bmob后端云"
+        elif path.find("cloud_function/") != -1:
+            self.htmlTitle = "云函数•"+title+" – Bmob后端云"
+        elif path.find("sms/") != -1:
+            self.htmlTitle = "短信服务•"+title+" – Bmob后端云"
+        elif path.find("game/") != -1:
+            self.htmlTitle = "游戏实时后端•"+title+" – Bmob后端云"
+        elif path.find("im/") != -1:
+            self.htmlTitle = "即时通讯•"+title+" – Bmob后端云"
+        elif path.find("push/") != -1:
+            self.htmlTitle = "推送服务•"+title+" – Bmob后端云"
+        elif path.find("other/") != -1:
+            self.htmlTitle = title+" – Bmob后端云"
+
         self.abs_url = utils.get_url_path(path, config['use_directory_urls'])
         self.active = False
         self.url_context = url_context

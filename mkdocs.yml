@@ -97,7 +97,7 @@ pages:
         - '开发文档': 'game/wechat_games/develop_doc.md'
     - '云函数': 'game/cloud_function/develop_doc.md'
     - '经典案例': 'game/classic_case.md'
-- 'IM服务':
+- '即时通讯':
     - 'Android':
         - '开发文档': 'im/android/index.md'
         - '类库文档': 'im/android/class_doc.md'
