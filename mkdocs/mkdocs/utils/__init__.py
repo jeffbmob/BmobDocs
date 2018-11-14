@@ -210,6 +210,47 @@ def get_url_path(path, use_directory_urls=True):
         return url[:-len('index.html')]
     return url
 
+def get_html_title_class(title, path):
+    if path.find("data/") != -1 and path.find("/wechat_app_new/") != -1 :
+        return "JavaScript & 快应用 & Nodejs & Cocos Creator & 小程序(新)"
+    elif path.find("/wechat_app/") != -1 :
+        return "小程序"
+    elif path.find("/android/") != -1:
+        return "Android"
+    elif path.find("/ios/") != -1:
+        return "iOS"
+    elif path.find("/csharp/") != -1:
+        return "C#"
+    elif path.find("/php/") != -1:
+        return "PHP"
+    elif path.find("/go/") != -1:
+        return "GO"
+    elif path.find("/restful/") != -1:
+        return "REST API"
+    elif path.find("/kotlin/") != -1:
+        return "Kotlin"
+    elif path.find("/cocos2d_x/") != -1:
+        return "Cocos2D-X"        
+    elif path.find("/web/") != -1:
+        return "Web"
+    elif path.find("/cocos_creator/") != -1:
+        return "Cocos Creator"
+    elif path.find("/wechat_games/") != -1:
+        return "微信小游戏"
+    elif path.find("/cloud_function/") != -1:
+        return "云函数"
+    elif path.find("game/classic_case.md") != -1:
+        return "经典案例"
+    elif path.find("other/common_problem/index.md") != -1:
+        return "常见问题"
+    elif path.find("other/error_code/index.md") != -1:
+        return "错误码"
+    elif path.find("other/data_safety/index.md") != -1:
+        return "数据安全"
+    elif path.find("other/bql/index.md") != -1:
+        return "BQL"
+
+    return ""
 
 def is_homepage(path):
     return os.path.splitext(path)[0] == 'index'

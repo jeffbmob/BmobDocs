@@ -20,7 +20,8 @@
             <!--
             <title>{% if page and page.title and not page.is_homepage %}{{ page.title }} - {% endif %}{{ config.site_name }}</title>
             -->
-            <title>{% if page and page.title and not page.is_homepage %}{{ page.htmlTitle }} {% endif %}</title>            
+            {% if page and page.title and not page.is_homepage %}<title>{{ page.htmlTitle }} </title>  {% endif %}      
+            {% if page.is_homepage %}<title>{{ config.site_name }} </title>  {% endif %}                   
         {%- endblock %}
 
 

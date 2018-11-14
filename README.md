@@ -21,5 +21,7 @@
 
 这块显示的对应模板是theme/bmobdocs/main.html中的<title>
 
+mkdocs的源码要生效，需要复制到python的mkdocs的文件夹下
+
 
 
