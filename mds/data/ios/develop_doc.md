@@ -2181,7 +2181,7 @@ NSLog(@"上传进度%.2f",progress);
 ```
 
 ### 以分片的方式上传文件
-分片上传文件和上传整个文件的机制有所不同，是先把整个文件进行分片（256KB一片），然后再进行一片一片的上传（具体实现可查看[RestAPI文档](https://docs.bmob.cn/data/Restful/b_developdoc/doc/index.html#文件管理)）。当文件以分片的方式上传到Bmob服务器时，具有几种优势：
+分片上传文件和上传整个文件的机制有所不同，是先把整个文件进行分片（256KB一片），然后再进行一片一片的上传（具体实现可查看[RestAPI文档](https://docs.bmob.cn/data/REST API/b_developdoc/doc/index.html#文件管理)）。当文件以分片的方式上传到Bmob服务器时，具有几种优势：
 
 1. 适合于尺寸较大的文件传输，通过切片来避免单个HTTP数据量过大而导致连接超时；
 

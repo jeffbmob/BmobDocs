@@ -12,7 +12,7 @@
 Python云函数允许以以下方式调用：
 
 - Http直接请求
-- Restful接口
+- REST API接口
 - Android SDK
 - iOS SDK、
 - 微信小程序
@@ -32,7 +32,7 @@ Http请求|Secret Key|所有平台适用，可用浏览器打开
 
 
 
-### Restful API
+### REST API API
 
 1. 调用 `api.bmob.cn` ，与调用Java、NodeJS版云函数的方式 **完全相同**。这种方式下，服务器会 **自动判断语言**，但 **限制 `Method` 为 `Post` 且 `Content-Type` 为 `application/json`**
 
@@ -278,7 +278,7 @@ sendSMSCode(mobile, template)|HttpResponse|发送某模版的短信验证码
 verifySMSCode(mobile, smsCode)|HttpResponse|验证短信验证码
 payQuery(orderId)|HttpResponse|查询支付订单
 cloudCode(funcName, body = None)|HttpResponse|调用云函数
-getDBTime()|获取Restful服务器的时间
+getDBTime()|获取REST API服务器的时间
 batch(requests, isTransaction = None)|HttpResponse|批量请求
 
 ---

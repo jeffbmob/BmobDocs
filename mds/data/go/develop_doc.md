@@ -1,7 +1,7 @@
 ## 简介
 
 Bmob平台为您的移动应用提供了一个完整的后端解决方案，我们提供轻量级的SDK开发包，让开发者以最小的配置和最简单的方式使用Bmob平台提供的服务，进而完全消除开发者编写服务器代码以及维护服务器的操作。
-Go SDK封装了Bmob RESTful API，但并不包含功能封装，如果需要调用具体的功能，请参考官方RESTful API开发文档[http://docs.bmob.cn/data/Restful/b_developdoc/doc/index.html](http://docs.bmob.cn/data/Restful/b_developdoc/doc/index.html)
+Go SDK封装了Bmob REST API API，但并不包含功能封装，如果需要调用具体的功能，请参考官方REST API API开发文档[http://docs.bmob.cn/data/REST API/b_developdoc/doc/index.html](http://docs.bmob.cn/data/REST API/b_developdoc/doc/index.html)
 
 ## 快速入门
 
@@ -16,11 +16,11 @@ Go SDK封装了Bmob RESTful API，但并不包含功能封装，如果需要调�
 请大家在使用Bmob开发应用程序之前，仔细阅读“数据与安全”的文档：[http://docs.bmob.cn/other/Other/m_bql/doc/index.html](http://docs.bmob.cn/other/Other/m_bql/doc/index.html)
 
 ## 数据类型
-除了JSON标准里定义的数据类型外，还支持Bmob自定义的数据类型：[http://docs.bmob.cn/data/Restful/b_developdoc/doc/index.html#对象](http://docs.bmob.cn/data/Restful/b_developdoc/doc/index.html#对象)
+除了JSON标准里定义的数据类型外，还支持Bmob自定义的数据类型：[http://docs.bmob.cn/data/REST API/b_developdoc/doc/index.html#对象](http://docs.bmob.cn/data/REST API/b_developdoc/doc/index.html#对象)
 这些类型操作相关的基本数据结构在types.go中定义，由于JSON是schema-less的，你可以只填充必要的字段来完成操作
 
-## RESTful请求
-一次典型的RESTFul请求如下：
+## REST API请求
+一次典型的REST API请求如下：
 ```
   header, err := bmob.DoRestReq(appConfig,
     bmob.RestRequest{
@@ -40,7 +40,7 @@ Go SDK封装了Bmob RESTful API，但并不包含功能封装，如果需要调�
 ```
 参数：
 * appConfig - 保存了APP相关的key等信息
-* RestRequest - 使用Bmob RESTful API 所需的信息： {方法， url， sessionToken}， 数据类型， body
+* RestRequest - 使用Bmob REST API API 所需的信息： {方法， url， sessionToken}， 数据类型， body
 * respDst - 用于保存解析后的response
 返回值：
 * header - http.Header， 请求返回的标准HTTP头
@@ -85,5 +85,5 @@ type MyRes struct {
   bmob.ImageResponse
 }
 ```
-这个结构体可以解析标准的RESTful响应和Image请求相关的响应
+这个结构体可以解析标准的REST API响应和Image请求相关的响应
 

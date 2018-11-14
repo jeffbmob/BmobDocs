@@ -121,7 +121,7 @@ curl --request GET \
 
 支持2种调用方法
 1.小程序
-2.restful
+2.REST API
 
 1.小程序`Bmob.sendMasterMessage`调用主人通知接口
 ```
@@ -133,11 +133,11 @@ curl --request GET \
             "url": "https://www.bmob.cn/",
             "data": {
               "first": {
-                "value": "您好，Restful 失效，请登录控制台查看。",
+                "value": "您好，REST API 失效，请登录控制台查看。",
                 "color": "#c00"
               },
               "keyword1": {
-                "value": "Restful 失效"
+                "value": "REST API 失效"
               },
               "keyword2": {
                 "value": "2017-07-03 16:13:01"
@@ -163,7 +163,7 @@ curl --request GET \
 
 
 
-2.restful调用方式
+2.REST API调用方式
 
 ```
 curl --request POST \
@@ -177,11 +177,11 @@ curl --request POST \
    "url": "http://www.bmob.cn/",
    "data": {
        "first": {
-           "value": "您好，Restful 失效，请登录控制台查看。",
+           "value": "您好，REST API 失效，请登录控制台查看。",
            "color": "#c00"
        },
        "keyword1": {
-           "value": "Restful 失效"
+           "value": "REST API 失效"
        },
        "keyword2": {
            "value": "2017-07-03 16:13:01"
@@ -405,10 +405,10 @@ var sessionKey="xTlW5jfSUP3Kx0vC5PJbmw==";
 小程序模板消息首先是通过获取`access_token`来发送。access_token有效期2小时。
 
 * ##### 模板消息支持2种方式调用。
-* 1.Restful
+* 1.REST API
 * 2.小程序
 
-Restful
+REST API
 ```
 curl -X POST \
   http://api2.bmob.cn/1/wechatApp/SendWeAppMessage \
@@ -437,7 +437,7 @@ curl -X POST \
 }'
 ```
 
-Restful主要用在一些特殊情况，例如审核后给用户发送一个通知，定时发通知等这种要配合云逻辑或自己服务端来使用。
+REST API主要用在一些特殊情况，例如审核后给用户发送一个通知，定时发通知等这种要配合云逻辑或自己服务端来使用。
 
 
 小程序内部调用比较常用，使用门槛低

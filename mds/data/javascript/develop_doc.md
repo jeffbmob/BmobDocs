@@ -1607,5 +1607,5 @@ query.find({
 
 ## 错误代码详细说明
 
-[错误码列表](http://docs.bmob.cn/data/Restful/g_errorcode/doc/index.html "错误码列表")
+[错误码列表](http://docs.bmob.cn/data/REST API/g_errorcode/doc/index.html "错误码列表")
 
