@@ -26,7 +26,7 @@ curl -X GET http://cloud.bmob.cn/0348d0c262bc91d9/test?name=jeff
 0348d0c262bc91d9：应用的Secret Key。
 test：云函数的名称
 name=jeff: 传入一个参数，名称是name，值是jeff
-与restful不同，无需再传其它诸如app id等请求头。
+与REST API不同，无需再传其它诸如app id等请求头。
 
 ### 以Post的方式调用云函数
 下面展示了以Post的方式调用云函数：
@@ -40,7 +40,7 @@ curl -X POST \
 0348d0c262bc91d9：应用的Secret Key。
 test：云函数的名称
 name=jeff: 传入一个参数，名称是name，值是jeff
-与restful不同，无需再传其它诸如app id等请求头。
+与REST API不同，无需再传其它诸如app id等请求头。
 
 ## 转为套餐后调用云函数的方式
 
@@ -62,7 +62,7 @@ curl -X GET http://cloud-xxxxx.bmobapp.com/test?name=jeff
 cloud-xxxxx.bmobapp.com：该应用的云函数专属域名，其中xxxxx为上节“获取应用的id值”所获取的id值。
 test：云函数的名称。
 name=jeff: 传入一个参数，名称是name，值是jeff。
-与restful不同，无需再传其它诸如app id等请求头。
+与REST API不同，无需再传其它诸如app id等请求头。
 
 ### Post的方式调用云函数
 下面展示了以Post的方式调用云函数：
@@ -76,7 +76,7 @@ curl -X POST \
 cloud-xxxxx.bmobapp.com：该应用的云函数专属域名，其中xxxxx为上节“获取应用的id值”所获取的id值。
 test：云函数的名称
 name=jeff: 传入一个参数，名称是name，值是jeff
-与restful不同，无需再传其它诸如app id等请求头。
+与REST API不同，无需再传其它诸如app id等请求头。
 
 ## 云函数模块解释
 
@@ -86,7 +86,7 @@ name=jeff: 传入一个参数，名称是name，值是jeff
 
 request模块用于获取传入的参数。由于现在调用云函数有两种方式（get和post），所以获取传入的参数的方式需要使用不同的方法。
 
-**注意，当通过android，ios等客户端sdk调用云函数，或者通过restful api的方式调用云函数，都是采用post的方式。**
+**注意，当通过android，ios等客户端sdk调用云函数，或者通过REST API api的方式调用云函数，都是采用post的方式。**
 
 #### get方式
 用get方式调用云函数，例如：
@@ -143,7 +143,7 @@ modules是Bmob云函数提供给大家的各种对象处理的模块，包括数
   //下面进行其他操作
 ```
 
-** 这里需要说明一点的是：云函数对数据格式的封装遵循RestApi的规则，如果在查看过程中有什么疑问，请移步到[RestApi开发文档](http://doc.bmob.cn/data/restful/develop_doc/)。 **
+** 这里需要说明一点的是：云函数对数据格式的封装遵循RestApi的规则，如果在查看过程中有什么疑问，请移步到[RestApi开发文档](http://doc.bmob.cn/data/Restful/develop_doc/)。 **
 
 ## 数据库对象
 
@@ -259,7 +259,7 @@ function onRequest(request, response, modules) {
 }
 ```
 
-其中，`count`为标识位，具体原因大家可以参考Restapi说明文档：[http://doc.bmob.cn/data/restful/develop_doc/#_31](http://doc.bmob.cn/data/restful/develop_doc/#_31)。
+其中，`count`为标识位，具体原因大家可以参考Restapi说明文档：[http://doc.bmob.cn/data/Restful/develop_doc/#_31](http://doc.bmob.cn/data/Restful/develop_doc/#_31)。
 
 ### 修改数据
 ```

@@ -91,7 +91,7 @@ content：发送的内容，String。
 
 #### 云函数的基本知识
 
-对于一些复杂的应用，您可能希望增加一些特有的业务逻辑，并能灵活掌控，Bmob 云函数提供了这种灵活性，可以让您的代码直接在 Bmob云上运行, 通过SDK（Android，iOS），restful api或者任何http的方式调用，即可获取结果数据。
+对于一些复杂的应用，您可能希望增加一些特有的业务逻辑，并能灵活掌控，Bmob 云函数提供了这种灵活性，可以让您的代码直接在 Bmob云上运行, 通过SDK（Android，iOS），REST API api或者任何http的方式调用，即可获取结果数据。
 
 云函数的编码采用nodejs语法，简单易用。在云函数的编辑器中，系统默认生成了云函数的入口函数function onRequest(request, response, modules)，你可以根据自己的需求实现业务逻辑代码。 
 

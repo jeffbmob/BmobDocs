@@ -2071,11 +2071,11 @@ var openId = wx.getStorageSync('openid');
       url: "http://www.bmob.cn/",
       data: {
     		first: {
-    			value: "您好，Restful 失效，请登录控制台查看。",
+    			value: "您好，REST API 失效，请登录控制台查看。",
     			color: "#c00"
     		},
     		keyword1: {
-    			value: "Restful 失效"
+    			value: "REST API 失效"
     		},
     		keyword2: {
     			value: "2017-07-03 16:13:01"

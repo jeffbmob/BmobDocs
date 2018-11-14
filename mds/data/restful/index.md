@@ -34,7 +34,7 @@ curl -X POST \
 
 ### RestAPI调试工具
 
-这里给大家介绍一个简单的工具chrome浏览器的插件[postman](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?utm_source=chrome-ntp-icon "Postman")，方便调试Restful。操作界面如下所示：
+这里给大家介绍一个简单的工具chrome浏览器的插件[postman](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?utm_source=chrome-ntp-icon "Postman")，方便调试REST API。操作界面如下所示：
 
 ![](image/postman.png)
 
