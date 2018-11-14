@@ -1864,7 +1864,7 @@ js的调用请使用bmob提供的js sdk，在sdk中已经解决了这个问题
 **  如何在线测试RestApi **  
 使用Chrome浏览器的Postman插件就可以进行调试了。[点击链接Postman下载地址](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?utm_source=chrome-ntp-icon)。  
 
-界面效果[点击这里查看](http://docs.bmob.cn/REST API/faststart/index.html?menukey=fast_start&key=start_REST API#RestAPI调试工具)。
+界面效果[点击这里查看](http://docs.bmob.cn/Restful/faststart/index.html?menukey=fast_start&key=start_restful#RestAPI调试工具)。
 
 ---
 ** Postman发起数据请求没有反应 **  
@@ -2314,7 +2314,7 @@ db.updateUserByObjectId({"objectId":request.body.objectId.toString() ,data: {"ch
 
 ** containedIn在云函数里面是什么指令 **
 
-对应为 [REST API开发文档](http://doc.bmob.cn/data/REST API/develop_doc/) 查询小节里面的 $in 查询，你可以参考REST API文档，在where条件中使用就可以了。
+对应为 [REST API开发文档](http://doc.bmob.cn/data/Restful/develop_doc/) 查询小节里面的 $in 查询，你可以参考REST API文档，在where条件中使用就可以了。
 
 ---
 

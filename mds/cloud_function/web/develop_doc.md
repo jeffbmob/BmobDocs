@@ -143,7 +143,7 @@ modules是Bmob云函数提供给大家的各种对象处理的模块，包括数
   //下面进行其他操作
 ```
 
-** 这里需要说明一点的是：云函数对数据格式的封装遵循RestApi的规则，如果在查看过程中有什么疑问，请移步到[RestApi开发文档](http://doc.bmob.cn/data/REST API/develop_doc/)。 **
+** 这里需要说明一点的是：云函数对数据格式的封装遵循RestApi的规则，如果在查看过程中有什么疑问，请移步到[RestApi开发文档](http://doc.bmob.cn/data/Restful/develop_doc/)。 **
 
 ## 数据库对象
 
@@ -259,7 +259,7 @@ function onRequest(request, response, modules) {
 }
 ```
 
-其中，`count`为标识位，具体原因大家可以参考Restapi说明文档：[http://doc.bmob.cn/data/REST API/develop_doc/#_31](http://doc.bmob.cn/data/REST API/develop_doc/#_31)。
+其中，`count`为标识位，具体原因大家可以参考Restapi说明文档：[http://doc.bmob.cn/data/Restful/develop_doc/#_31](http://doc.bmob.cn/data/Restful/develop_doc/#_31)。
 
 ### 修改数据
 ```

@@ -2107,7 +2107,7 @@ Content-Type: application/json
 }
 ```
 
-其中 **mobilePhoneNumber** 就是手机号码，而 **smsCode** 是使用 [请求短信验证码API](/REST API/developdoc/index.html?menukey=develop_doc&key=develop_REST API#请求短信验证码 "请求短信验证码API")发送到用户手机上的 6位验证码字符串。如果是新用户且不传入 username，默认用户名将是手机号码。
+其中 **mobilePhoneNumber** 就是手机号码，而 **smsCode** 是使用 [请求短信验证码API](/Restful/developdoc/index.html?menukey=develop_doc&key=develop_restful#请求短信验证码 "请求短信验证码API")发送到用户手机上的 6位验证码字符串。如果是新用户且不传入 username，默认用户名将是手机号码。
 
 **成功时响应**
 
@@ -2167,7 +2167,7 @@ curl -X POST \
 
 另外，username 支持传入_User表的username或email或mobilePhoneNumber字段的值，作为登录的扩展功能，以实现邮箱和密码、手机号和密码登录功能。
 
-除了有用户名或邮箱或手机号码和密码登录的功能，[Bmob](http://www.bmob.cn/ "Bmob移动后端云服务平台") 还支持使用手机号码和验证码一键快速登录的功能，而 **smsCode** 是使用 [请求短信验证码API](http://docs.bmob.cn/sms/REST API/b_developdoc/doc/index.html "请求短信验证码API")发送到用户手机上的 6位验证码字符串：
+除了有用户名或邮箱或手机号码和密码登录的功能，[Bmob](http://www.bmob.cn/ "Bmob移动后端云服务平台") 还支持使用手机号码和验证码一键快速登录的功能，而 **smsCode** 是使用 [请求短信验证码API](http://docs.bmob.cn/sms/Restful/b_developdoc/doc/index.html "请求短信验证码API")发送到用户手机上的 6位验证码字符串：
 
 **请求**
 
@@ -2596,7 +2596,7 @@ curl -X POST \
 
 **请求描述**
 
-如果用户有绑定了手机号码，就可以通过手机验证码短信来实现使用手机号码找回密码的功能，先调用 [请求短信验证码API](/REST API/developdoc/index.html?menukey=develop_doc&key=develop_REST API#请求短信验证码 "请求短信验证码API")会将验证码发送到用户手机上，用户收到验证码并输入后，调用PUT /1/resetPasswordBySmsCode/smsCode 来为用户设置新的密码。
+如果用户有绑定了手机号码，就可以通过手机验证码短信来实现使用手机号码找回密码的功能，先调用 [请求短信验证码API](/Restful/developdoc/index.html?menukey=develop_doc&key=develop_restful#请求短信验证码 "请求短信验证码API")会将验证码发送到用户手机上，用户收到验证码并输入后，调用PUT /1/resetPasswordBySmsCode/smsCode 来为用户设置新的密码。
 
 **请求**
 
