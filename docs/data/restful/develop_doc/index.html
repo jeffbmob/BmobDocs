@@ -12,7 +12,11 @@
             <link rel="shortcut icon" href="../../../img/favicon.ico">
         
         <script type="text/javascript" src="//game.bmob.cn/static/doc_union.js"></script>
+            <!--
             <title>开发文档 - Bmob文档中心</title>
+            -->
+            <title>数据存储 &middot; REST API – Bmob后端云 </title>        
+            
             <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
             <link href="../../../css/font-awesome-4.5.0.css" rel="stylesheet">
             <link href="../../../css/base.css" rel="stylesheet">
@@ -77,7 +81,7 @@
                             
                             
 								<li class="active">
-									<a href="../">RESTful</a>
+									<a href="../">REST API</a>
                                 </li>
                             
                             
@@ -168,7 +172,7 @@
 							
                             
                                 <li >
-                                    <a href="../../../cloud_function/restful/">RESTful</a>
+                                    <a href="../../../cloud_function/restful/">REST API</a>
                                 </li>
 							
                             
@@ -209,7 +213,7 @@
 							
                             
                                 <li >
-                                    <a href="../../../sms/restful/">RESTful</a>
+                                    <a href="../../../sms/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -255,9 +259,9 @@
             
               <li class="pull-left">
                 
-					<!--<a href="">IM服务</a>-->
+					<!--<a href="">即时通讯</a>-->
 					<li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">IM服务 <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">即时通讯 <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             
 								<li >
@@ -302,7 +306,7 @@
 							
                             
                                 <li >
-                                    <a href="../../../push/restful/">RESTful</a>
+                                    <a href="../../../push/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -367,7 +371,7 @@
 				
 				
 				
-					<div class="code-title">RESTful</div>
+					<div class="code-title">REST API</div>
 				
 				
 				
@@ -2907,7 +2911,7 @@ Content-Type: application/json
 }
 </code></pre>
 
-<p>其中 <strong>mobilePhoneNumber</strong> 就是手机号码，而 <strong>smsCode</strong> 是使用 <a href="../../../restful/developdoc/index.html?menukey=develop_doc&amp;key=develop_restful#请求短信验证码" title="请求短信验证码API">请求短信验证码API</a>发送到用户手机上的 6位验证码字符串。如果是新用户且不传入 username，默认用户名将是手机号码。</p>
+<p>其中 <strong>mobilePhoneNumber</strong> 就是手机号码，而 <strong>smsCode</strong> 是使用 <a href="../../../Restful/developdoc/index.html?menukey=develop_doc&amp;key=develop_restful#请求短信验证码" title="请求短信验证码API">请求短信验证码API</a>发送到用户手机上的 6位验证码字符串。如果是新用户且不传入 username，默认用户名将是手机号码。</p>
 <p><strong>成功时响应</strong></p>
 <ul>
 <li>
@@ -3368,7 +3372,7 @@ Content-Type: application/json
 
 <h4 id="_58">使用短信验证码进行密码重置<a class="headerlink" href="#_58" title="Permanent link">&para;</a></h4>
 <p><strong>请求描述</strong></p>
-<p>如果用户有绑定了手机号码，就可以通过手机验证码短信来实现使用手机号码找回密码的功能，先调用 <a href="../../../restful/developdoc/index.html?menukey=develop_doc&amp;key=develop_restful#请求短信验证码" title="请求短信验证码API">请求短信验证码API</a>会将验证码发送到用户手机上，用户收到验证码并输入后，调用PUT /1/resetPasswordBySmsCode/smsCode 来为用户设置新的密码。</p>
+<p>如果用户有绑定了手机号码，就可以通过手机验证码短信来实现使用手机号码找回密码的功能，先调用 <a href="../../../Restful/developdoc/index.html?menukey=develop_doc&amp;key=develop_restful#请求短信验证码" title="请求短信验证码API">请求短信验证码API</a>会将验证码发送到用户手机上，用户收到验证码并输入后，调用PUT /1/resetPasswordBySmsCode/smsCode 来为用户设置新的密码。</p>
 <p><strong>请求</strong></p>
 <ul>
 <li>
@@ -4355,8 +4359,8 @@ curl -X PUT \
 <li>如果不加任何距离范围限制，则默认是100公里的半径范围。</li>
 </ol>
 <h2 id="app_1">app服务<a class="headerlink" href="#app_1" title="Permanent link">&para;</a></h2>
-<p>通过app restful api，你可以查看，创建或编辑你的app，在用户管理后台也实现了这样的功能。通过验证你的bmob email账号和密码，你可以获取所有的app信息，创建一个新的app或者修改旧的app的信息。</p>
-<p>app restful api的验证流程和其它restful api有点不一样。在验证的时候，不是验证你的app key，而是验证账号的登录信息。头部 <strong>X-Bmob-Email</strong> 代表登录用的email，头部 <strong>X-Bmob-Password</strong> 代表登录用的密码。</p>
+<p>通过app REST API api，你可以查看，创建或编辑你的app，在用户管理后台也实现了这样的功能。通过验证你的bmob email账号和密码，你可以获取所有的app信息，创建一个新的app或者修改旧的app的信息。</p>
+<p>app REST API api的验证流程和其它REST API api有点不一样。在验证的时候，不是验证你的app key，而是验证账号的登录信息。头部 <strong>X-Bmob-Email</strong> 代表登录用的email，头部 <strong>X-Bmob-Password</strong> 代表登录用的密码。</p>
 <h3 id="app_2">获取app信息<a class="headerlink" href="#app_2" title="Permanent link">&para;</a></h3>
 <p><strong>请求描述</strong></p>
 <p>可以获取一个账号下所有app的信息或者某个app的信息，如下。</p>
@@ -4559,7 +4563,7 @@ X-Bmob-Password: Your Account Password
 </code></pre>
 
 <h2 id="_79">数据表<a class="headerlink" href="#_79" title="Permanent link">&para;</a></h2>
-<p>通过数据表的restful api，你可以查看，创建或编辑你的表结构，在用户管理后台的数据浏览页面也实现了这样的功能。</p>
+<p>通过数据表的REST API api，你可以查看，创建或编辑你的表结构，在用户管理后台的数据浏览页面也实现了这样的功能。</p>
 <p>注意，调用数据表相关的api，必须指定Master Key。</p>
 <h3 id="app_5">获取app表的信息<a class="headerlink" href="#app_5" title="Permanent link">&para;</a></h3>
 <p><strong>请求描述</strong></p>
@@ -4955,7 +4959,7 @@ X-Bmob-REST-API-Key: Your REST API Key
 
 <p>timestamp为时间戳，datetime为格式化的日期。</p>
 <h2 id="_85">错误码<a class="headerlink" href="#_85" title="Permanent link">&para;</a></h2>
-<p>参照<a href="../../../other/error_code/#restapi">所有平台错误码列表</a> 中的Restful部分。</p>
+<p>参照<a href="../../../other/error_code/#restapi">所有平台错误码列表</a> 中的REST API部分。</p>
                 </div>
             </div>
         </div>

@@ -12,7 +12,11 @@
             <link rel="shortcut icon" href="../../img/favicon.ico">
         
         <script type="text/javascript" src="//game.bmob.cn/static/doc_union.js"></script>
+            <!--
             <title>常见问题 - Bmob文档中心</title>
+            -->
+            <title>常见问题 – Bmob后端云 </title>        
+            
             <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
             <link href="../../css/font-awesome-4.5.0.css" rel="stylesheet">
             <link href="../../css/base.css" rel="stylesheet">
@@ -77,7 +81,7 @@
                             
                             
 								<li >
-									<a href="../../data/restful/">RESTful</a>
+									<a href="../../data/restful/">REST API</a>
                                 </li>
                             
                             
@@ -168,7 +172,7 @@
 							
                             
                                 <li >
-                                    <a href="../../cloud_function/restful/">RESTful</a>
+                                    <a href="../../cloud_function/restful/">REST API</a>
                                 </li>
 							
                             
@@ -209,7 +213,7 @@
 							
                             
                                 <li >
-                                    <a href="../../sms/restful/">RESTful</a>
+                                    <a href="../../sms/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -255,9 +259,9 @@
             
               <li class="pull-left">
                 
-					<!--<a href="">IM服务</a>-->
+					<!--<a href="">即时通讯</a>-->
 					<li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">IM服务 <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">即时通讯 <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             
 								<li >
@@ -302,7 +306,7 @@
 							
                             
                                 <li >
-                                    <a href="../../push/restful/">RESTful</a>
+                                    <a href="../../push/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -491,7 +495,7 @@
 											</ul>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#restful">Restful</a></li>
+												<li><a class="itm-l2" href="#rest-api">REST API</a></li>
 											</ul>
 											
 										</li>
@@ -594,10 +598,10 @@ Bmob采用南北双线，多路分流的方式，将服务器部署在国内外�
 2.Cocos2d-x和Unity两种主流的游戏引擎<br />
 3.Js支持HTML5移动开发<br />
 4.C#、php、Java支持PC端开发<br />
-5.Restful开放API接口（可使用任何语言开发）</p>
+5.REST API开放API接口（可使用任何语言开发）</p>
 <hr />
 <p><strong> 不同SDK的数据是否打通 </strong>
-当然！本质上，所有的SDK都是基于Restful开发，数据是完全打通的。</p>
+当然！本质上，所有的SDK都是基于REST API开发，数据是完全打通的。</p>
 <hr />
 <p><strong> 我想迁移数据到Bmob,但是user表如何迁移呢 </strong><br />
 调用restapi的注册接口来插入数据就行</p>
@@ -684,7 +688,7 @@ Bmob没有提供直接获取密码的方法。如果直接可以获取密码的�
 可以</p>
 <hr />
 <p><strong> 我想在eclipse用Java web开发，使用struts2框架，然后后台数据库用bmob可以实现吗，需要下载什么东西 </strong><br />
-可以使用java sdk或者自己封装，通过https调用restful接口</p>
+可以使用java sdk或者自己封装，通过https调用REST API接口</p>
 <hr />
 <p><strong> web端上传文件最大支持多少 </strong><br />
 控制台上传的文件最大为50M</p>
@@ -696,13 +700,13 @@ Web操作是这样的，但你可以用SDK，通过代码来实现数据的关�
 不支持，可以自己编写脚本完成。</p>
 <hr />
 <p><strong> http请求如何访问Bmob </strong><br />
-可以使用restful接口进行访问。</p>
+可以使用REST API接口进行访问。</p>
 <hr />
 <p><strong> ie8下引用 bmob-min.js 出现 “缺少标识符、字符串或数字” 错误 </strong><br />
 ie8不支持html5</p>
 <hr />
 <p><strong> angularJS如何与bmob配合使用 </strong><br />
-可以使用我们的JS SDK或者是使用angularJS的网络请求使用restful接口进行请求</p>
+可以使用我们的JS SDK或者是使用angularJS的网络请求使用REST API接口进行请求</p>
 <hr />
 <p><strong> 登录问题 能否实现只有通过验证的用户才能登 </strong><br />
 登陆成功之后，你再获取当前的登陆信息，判断这个verified字段是否为true，这样就可以实现你的想法了。</p>
@@ -717,7 +721,7 @@ ie8不支持html5</p>
 不能修改，考虑发布后的APP会由于修改表名和列名而造成无法使用的问题。开发过程中可以通过删除再创建达到目的。</p>
 <hr />
 <p><strong> 可以在PC端写tool来操作服务器数据? </strong><br />
-可以，使用restful接口</p>
+可以，使用REST API接口</p>
 <hr />
 <p><strong> API请求数是实时统计更新的吗？ </strong><br />
 不是的，API请求数一天统计一次，每天凌晨3点进行统计。</p>
@@ -1541,20 +1545,20 @@ c#没有进行用户缓存</p>
 可以使用文件上传来存储～</p>
 <hr />
 <p><strong> 如何通过SDK删除用户表_User的数据 </strong><br />
-可以通过调用restful接口+master key来完成删除用户</p>
+可以通过调用REST API接口+master key来完成删除用户</p>
 <hr />
 <p><strong> C#SDK，使用Find功能，我自己封装一层查询的方法，想要获得bool的返回值，应该怎么实现 </strong><br />
 不能返回，只能使用回调，因为Find方法是异步执行的．</p>
 <hr />
 <p><strong> 请问在c#sdk可以使用master key吗？还是说要自己重新写？ </strong><br />
-不可以直接使用的，只有Restful api可以使用master key，你可以使用C#的http请求api来调用restful api</p>
+不可以直接使用的，只有REST API api可以使用master key，你可以使用C#的http请求api来调用REST API api</p>
 <hr />
 <p><strong> Bmob如何实现两张表的关联呢? <br />
 比如我需要将User表与Role表进行关联，登录用户后，系统可以通过User的帐号来获取与之相应的Role表里面的信息？ </strong><br />
 可以，用列的pointer或者relation类型，具体用法看文档</p>
 <hr />
 <p><strong> Unity可以使用短信验证么，为什么找不到API </strong><br />
-可以使用Unity的网络访问接口，调用restful来使用短信验证～</p>
+可以使用Unity的网络访问接口，调用REST API来使用短信验证～</p>
 <hr />
 <p><strong> bmob sdk for unity3D 在unity3d5.3 下转il2cpp无法使用<br />
 用 unity3D 5.3 打il2cpp 转c++ 后会报错：<br />
@@ -1691,10 +1695,10 @@ this.AddResource =function(resource){
 用bmob的nodejs模块</p>
 <hr />
 <p><strong> JS如果想产生多行数据保存到表中怎么办? </strong><br />
-一次只能保存一条数据，多条数据需要使用批量操作，可以使用restful接口</p>
+一次只能保存一条数据，多条数据需要使用批量操作，可以使用REST API接口</p>
 <hr />
 <p><strong> js sdk中有更新某个表某个字段所有值的函数吗 </strong><br />
-没有的，只能一个个更新，restful有一个批量更新的接口，但是每次最多只能操作50条数据</p>
+没有的，只能一个个更新，REST API有一个批量更新的接口，但是每次最多只能操作50条数据</p>
 <hr />
 <p><strong> JavaScript 传输数据时，自动加密了吗？ </strong><br />
 Bmob所有SDK的通讯过程都进行了加密。</p>
@@ -1709,7 +1713,7 @@ JS有推送功能，可以查看推送文档。</p>
 用框架集成到一个页面，例如angularjs 的ng-view。不然只能哪里用到，哪里调用</p>
 <hr />
 <p><strong> JS SDK可以增加模糊查询吗 </strong><br />
-目前JS并没有该接口，可使用JS的网络访问接口调用restful api实现，restful api中含有模糊查询的功能。</p>
+目前JS并没有该接口，可使用JS的网络访问接口调用REST API api实现，REST API api中含有模糊查询的功能。</p>
 <hr />
 <p><strong> 我需要将数据加密后再保存到Bmob表吗？ </strong><br />
 所有SDK到服务器之间的数据都是经过对称加密算法加密后传输的。</p>
@@ -1756,7 +1760,7 @@ Bmob暂时没有事务操作，你要想同时更新两个表的话，可以使�
 <p>** test.php出现unauthorized
 下载sdk之后，修改了配置文件的Application ID和REST API Key
 运行test.php出现BmobException: [0]: unauthorized 
-app id 或 restful key不正确</p>
+app id 或 REST API key不正确</p>
 <hr />
 <p><strong> php 这边可以插入关联对象吗？ </strong><br />
 现在官方有生成关联对象的方法 ：
@@ -1782,7 +1786,7 @@ PHP是我们官方出的SDK，你还可以根据restapi文档开发更多的SDK�
 <hr />
 <p><strong> 实时数据是什么原理？是客户端轮询吗？ </strong><br />
 客户端与服务器维护了一个长连接，有消息时由服务端主动推送消息</p>
-<h3 id="restful">Restful<a class="headerlink" href="#restful" title="Permanent link">&para;</a></h3>
+<h3 id="rest-api">REST API<a class="headerlink" href="#rest-api" title="Permanent link">&para;</a></h3>
 <p><strong> RestApi 如何进行ACL查询呢？比如有一张表，设置了某条数据，某个用户才能读取查看，那该用户如何获取该条数据呢使用RestApi </strong><br />
 普通的查询就可以获取了，只要设置了ACL，其它使用就是正常的读写，如果没有权限会有提示</p>
 <hr />
@@ -1790,7 +1794,7 @@ PHP是我们官方出的SDK，你还可以根据restapi文档开发更多的SDK�
 keyOfFile表示你存文件的那个表的字段名，group填个group1就可以了</p>
 <hr />
 <p><strong> STM32主板上其他模块获取到的数据怎么通过GPRS上传到服务器上 </strong><br />
-得看你的板子是否支持https请求，如果支持https请求则可以直接使用restful接口进行上传</p>
+得看你的板子是否支持https请求，如果支持https请求则可以直接使用REST API接口进行上传</p>
 <hr />
 <p><strong> RESTAPI 的文档中提到了发送请求创建ACL规则时的body内容，请问发送该请求时的url是什么？ </strong><br />
 访问哪张表，就给那张表的acl字段进行更新就可以了</p>
@@ -1876,7 +1880,7 @@ js的调用请使用bmob提供的js sdk，在sdk中已经解决了这个问题</
 <hr />
 <p><strong>  如何在线测试RestApi </strong><br />
 使用Chrome浏览器的Postman插件就可以进行调试了。<a href="https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?utm_source=chrome-ntp-icon">点击链接Postman下载地址</a>。  </p>
-<p>界面效果<a href="http://docs.bmob.cn/restful/faststart/index.html?menukey=fast_start&amp;key=start_restful#RestAPI调试工具">点击这里查看</a>。</p>
+<p>界面效果<a href="http://docs.bmob.cn/Restful/faststart/index.html?menukey=fast_start&amp;key=start_restful#RestAPI调试工具">点击这里查看</a>。</p>
 <hr />
 <p><strong> Postman发起数据请求没有反应 </strong><br />
 首先先检查本地网络，通常是因为本地网络或者Postman没有成功发出数据请求，其次可以打开<a href="https://api2.bmob.cn/">https://api2.bmob.cn/</a>查看是否能打开进行测试。</p>
@@ -2014,13 +2018,13 @@ response.send('data2');
 <p>不能这样取，只能取一次，然后再取一次，不能在里面for循环</p>
 <hr />
 <p><strong> 云函数可以查询支付订单吗？返回订单结果和数额之类的，有相关函数吗 </strong><br />
-可以使用云函数去调用restful接口来查询</p>
+可以使用云函数去调用REST API接口来查询</p>
 <hr />
 <p><strong> 云函数可以实现抓取别的网页信息吗？比如说，我客户端去请求云函数，让云函数实现抓取某个咨询网站的信息 </strong><br />
 可以，使用云函数的http请求抓取即可。</p>
 <hr />
 <p><strong> 请问云函数可以发送短信吗？ </strong><br />
-可以通过云函数调用restful接口来实现。</p>
+可以通过云函数调用REST API接口来实现。</p>
 <hr />
 <p><strong> 云函数更新用户表错误，但是最后返回的err包含错误信息<br />
 {"code":206,"message":"User cannot be altered without sessionToken Error."} </strong>  </p>
@@ -2064,7 +2068,7 @@ functions.run({
 <p>可以</p>
 <hr />
 <p><strong> 云函数如何进行模糊查询 </strong>  </p>
-<p>调用restful的模糊查询接口</p>
+<p>调用REST API的模糊查询接口</p>
 <hr />
 <p><strong> 云函数能引入第三方模块吗？如underscore </strong>  </p>
 <p>不可以，如要使用第三方模块，可考虑使用窗口服务。</p>
@@ -2088,7 +2092,7 @@ functions.run({
 <p>需要先将表的所有值查询下来，然后遍历去删除，具体参考文档的查询及删除对象章节</p>
 <hr />
 <p><strong> 怎么在云端调用 获取短信验证码、验证短信验证码 </strong></p>
-<p>使用云函数进行http请求，请求RESTful接口即可</p>
+<p>使用云函数进行http请求，请求REST API接口即可</p>
 <hr />
 <p><strong> 云端如何自定义返回数据 </strong></p>
 <p>定义好格式后以JSON形式返回</p>
@@ -2121,7 +2125,7 @@ functions.run({
 <p>可以在连上VPN时ping https://api2.bmob.cn/看看能否ping通，有可能是VPN屏蔽了</p>
 <hr />
 <p><strong> 云函数中where条件怎么表示!=？ </strong></p>
-<p>您好，可以参考restful文档中的查询数据中的条件查询，大概的形式为"type":{"$ne":"delete"}</p>
+<p>您好，可以参考REST API文档中的查询数据中的条件查询，大概的形式为"type":{"$ne":"delete"}</p>
 <hr />
 <p><strong> 如何更新1000条以上的记录 </strong></p>
 <p>可以采用分页，先取1000条数据进行更新，再取1000条之后的数据接着更新</p>
@@ -2132,7 +2136,7 @@ functions.run({
 即可使用全局cookie，后面的链接就不需要手动输入cookie了。</p>
 <hr />
 <p><strong> JavaScript能调用云函数吗（xx平台能调用云函数） </strong></p>
-<p>只要支持https请求就可以通过restful来调用云函数，部分sdk直接封装了调用云函数的接口，具体可以查看云函数文档。</p>
+<p>只要支持https请求就可以通过REST API来调用云函数，部分sdk直接封装了调用云函数的接口，具体可以查看云函数文档。</p>
 <hr />
 <p><strong> 请问云端new Date()如何获取和createTime里面一样的时间 </strong></p>
 <p>createAt这个属性是特殊字段，为了节约HTTP流量，我们没有进行特殊字段类型处理，直接返回string类型。你在云函数里面new Date()获取的是一样的时间，因为服务器的时间是保持一致的。至于两者的数据格式问题，你可以自行处理。</p>
@@ -2169,7 +2173,7 @@ db.updateUserByObjectId({&quot;objectId&quot;:request.body.objectId.toString() ,
 
 <hr />
 <p><strong> containedIn在云函数里面是什么指令 </strong></p>
-<p>对应为 <a href="http://doc.bmob.cn/data/restful/develop_doc/">RESTful开发文档</a> 查询小节里面的 $in 查询，你可以参考restful文档，在where条件中使用就可以了。</p>
+<p>对应为 <a href="http://doc.bmob.cn/data/Restful/develop_doc/">REST API开发文档</a> 查询小节里面的 $in 查询，你可以参考REST API文档，在where条件中使用就可以了。</p>
 <hr />
 <p><strong> 如何在云函数中计算两个时间的时间差 </strong></p>
 <pre><code>var lastDate;//一定要是Date哦

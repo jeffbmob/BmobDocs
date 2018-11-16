@@ -12,7 +12,11 @@
             <link rel="shortcut icon" href="../../../img/favicon.ico">
         
         <script type="text/javascript" src="//game.bmob.cn/static/doc_union.js"></script>
+            <!--
             <title>开发文档 - Bmob文档中心</title>
+            -->
+            <title>云函数 &middot; Web – Bmob后端云 </title>        
+            
             <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
             <link href="../../../css/font-awesome-4.5.0.css" rel="stylesheet">
             <link href="../../../css/base.css" rel="stylesheet">
@@ -77,7 +81,7 @@
                             
                             
 								<li >
-									<a href="../../../data/restful/">RESTful</a>
+									<a href="../../../data/restful/">REST API</a>
                                 </li>
                             
                             
@@ -168,7 +172,7 @@
 							
                             
                                 <li >
-                                    <a href="../../restful/">RESTful</a>
+                                    <a href="../../restful/">REST API</a>
                                 </li>
 							
                             
@@ -209,7 +213,7 @@
 							
                             
                                 <li >
-                                    <a href="../../../sms/restful/">RESTful</a>
+                                    <a href="../../../sms/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -255,9 +259,9 @@
             
               <li class="pull-left">
                 
-					<!--<a href="">IM服务</a>-->
+					<!--<a href="">即时通讯</a>-->
 					<li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">IM服务 <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">即时通讯 <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             
 								<li >
@@ -302,7 +306,7 @@
 							
                             
                                 <li >
-                                    <a href="../../../push/restful/">RESTful</a>
+                                    <a href="../../../push/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -776,7 +780,7 @@
 0348d0c262bc91d9：应用的Secret Key。
 test：云函数的名称
 name=jeff: 传入一个参数，名称是name，值是jeff
-与restful不同，无需再传其它诸如app id等请求头。</p>
+与REST API不同，无需再传其它诸如app id等请求头。</p>
 <h3 id="post">以Post的方式调用云函数<a class="headerlink" href="#post" title="Permanent link">&para;</a></h3>
 <p>下面展示了以Post的方式调用云函数：</p>
 <pre><code>curl -X POST \
@@ -789,7 +793,7 @@ name=jeff: 传入一个参数，名称是name，值是jeff
 0348d0c262bc91d9：应用的Secret Key。
 test：云函数的名称
 name=jeff: 传入一个参数，名称是name，值是jeff
-与restful不同，无需再传其它诸如app id等请求头。</p>
+与REST API不同，无需再传其它诸如app id等请求头。</p>
 <h2 id="_3">转为套餐后调用云函数的方式<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>bmob允许以http的方式直接调用云函数。</p>
 <h3 id="id">获取应用的id值<a class="headerlink" href="#id" title="Permanent link">&para;</a></h3>
@@ -804,7 +808,7 @@ name=jeff: 传入一个参数，名称是name，值是jeff
 cloud-xxxxx.bmobapp.com：该应用的云函数专属域名，其中xxxxx为上节“获取应用的id值”所获取的id值。
 test：云函数的名称。
 name=jeff: 传入一个参数，名称是name，值是jeff。
-与restful不同，无需再传其它诸如app id等请求头。</p>
+与REST API不同，无需再传其它诸如app id等请求头。</p>
 <h3 id="post_1">Post的方式调用云函数<a class="headerlink" href="#post_1" title="Permanent link">&para;</a></h3>
 <p>下面展示了以Post的方式调用云函数：</p>
 <pre><code>curl -X POST \
@@ -817,12 +821,12 @@ name=jeff: 传入一个参数，名称是name，值是jeff。
 cloud-xxxxx.bmobapp.com：该应用的云函数专属域名，其中xxxxx为上节“获取应用的id值”所获取的id值。
 test：云函数的名称
 name=jeff: 传入一个参数，名称是name，值是jeff
-与restful不同，无需再传其它诸如app id等请求头。</p>
+与REST API不同，无需再传其它诸如app id等请求头。</p>
 <h2 id="_4">云函数模块解释<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>从云函数的入口方法function onRequest(request, response, modules)可知，云函数包含三个模块，分别是request模块、response模块和modules模块。</p>
 <h3 id="request">request模块<a class="headerlink" href="#request" title="Permanent link">&para;</a></h3>
 <p>request模块用于获取传入的参数。由于现在调用云函数有两种方式（get和post），所以获取传入的参数的方式需要使用不同的方法。</p>
-<p><strong>注意，当通过android，ios等客户端sdk调用云函数，或者通过restful api的方式调用云函数，都是采用post的方式。</strong></p>
+<p><strong>注意，当通过android，ios等客户端sdk调用云函数，或者通过REST API api的方式调用云函数，都是采用post的方式。</strong></p>
 <h4 id="get_2">get方式<a class="headerlink" href="#get_2" title="Permanent link">&para;</a></h4>
 <p>用get方式调用云函数，例如：</p>
 <pre><code>curl -X GET http://cloud.bmob.cn/0348d0c262bc91d9/test?name=jeff
@@ -868,7 +872,7 @@ name=jeff: 传入一个参数，名称是name，值是jeff
   //下面进行其他操作
 </code></pre>
 
-<p><strong> 这里需要说明一点的是：云函数对数据格式的封装遵循RestApi的规则，如果在查看过程中有什么疑问，请移步到<a href="http://doc.bmob.cn/data/restful/develop_doc/">RestApi开发文档</a>。 </strong></p>
+<p><strong> 这里需要说明一点的是：云函数对数据格式的封装遵循RestApi的规则，如果在查看过程中有什么疑问，请移步到<a href="http://doc.bmob.cn/data/Restful/develop_doc/">RestApi开发文档</a>。 </strong></p>
 <h2 id="_5">数据库对象<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>数据库操作的简单实例如下：</p>
 <pre><code>function onRequest(request, response, modules) {
@@ -968,7 +972,7 @@ name=jeff: 传入一个参数，名称是name，值是jeff
 }
 </code></pre>
 
-<p>其中，<code>count</code>为标识位，具体原因大家可以参考Restapi说明文档：<a href="http://doc.bmob.cn/data/restful/develop_doc/#_31">http://doc.bmob.cn/data/restful/develop_doc/#_31</a>。</p>
+<p>其中，<code>count</code>为标识位，具体原因大家可以参考Restapi说明文档：<a href="http://doc.bmob.cn/data/Restful/develop_doc/#_31">http://doc.bmob.cn/data/Restful/develop_doc/#_31</a>。</p>
 <h3 id="_9">修改数据<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
 <pre><code>update({
   &quot;table&quot;:&quot;XXX&quot;,             //表名

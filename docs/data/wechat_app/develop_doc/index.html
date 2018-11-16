@@ -12,7 +12,11 @@
             <link rel="shortcut icon" href="../../../img/favicon.ico">
         
         <script type="text/javascript" src="//game.bmob.cn/static/doc_union.js"></script>
+            <!--
             <title>开发文档 - Bmob文档中心</title>
+            -->
+            <title>数据存储 &middot; 小程序 – Bmob后端云 </title>        
+            
             <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
             <link href="../../../css/font-awesome-4.5.0.css" rel="stylesheet">
             <link href="../../../css/base.css" rel="stylesheet">
@@ -77,7 +81,7 @@
                             
                             
 								<li >
-									<a href="../../restful/">RESTful</a>
+									<a href="../../restful/">REST API</a>
                                 </li>
                             
                             
@@ -168,7 +172,7 @@
 							
                             
                                 <li >
-                                    <a href="../../../cloud_function/restful/">RESTful</a>
+                                    <a href="../../../cloud_function/restful/">REST API</a>
                                 </li>
 							
                             
@@ -209,7 +213,7 @@
 							
                             
                                 <li >
-                                    <a href="../../../sms/restful/">RESTful</a>
+                                    <a href="../../../sms/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -255,9 +259,9 @@
             
               <li class="pull-left">
                 
-					<!--<a href="">IM服务</a>-->
+					<!--<a href="">即时通讯</a>-->
 					<li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">IM服务 <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">即时通讯 <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             
 								<li >
@@ -302,7 +306,7 @@
 							
                             
                                 <li >
-                                    <a href="../../../push/restful/">RESTful</a>
+                                    <a href="../../../push/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -984,7 +988,7 @@
 <p>微信主动推送通知，业务场景：比如你有APP，有人下单了，或者有人留言了。你可以收到微信推送通知。</p>
 <p>支持2种调用方法
 1.小程序
-2.restful</p>
+2.REST API</p>
 <p>1.小程序<code>Bmob.sendMasterMessage</code>调用主人通知接口</p>
 <pre><code>
 成功后发送主人模板消息，这个只需把openid改正确即可接收到， Bmob后端云公众号回复openid
@@ -994,11 +998,11 @@
             &quot;url&quot;: &quot;https://www.bmob.cn/&quot;,
             &quot;data&quot;: {
               &quot;first&quot;: {
-                &quot;value&quot;: &quot;您好，Restful 失效，请登录控制台查看。&quot;,
+                &quot;value&quot;: &quot;您好，REST API 失效，请登录控制台查看。&quot;,
                 &quot;color&quot;: &quot;#c00&quot;
               },
               &quot;keyword1&quot;: {
-                &quot;value&quot;: &quot;Restful 失效&quot;
+                &quot;value&quot;: &quot;REST API 失效&quot;
               },
               &quot;keyword2&quot;: {
                 &quot;value&quot;: &quot;2017-07-03 16:13:01&quot;
@@ -1021,7 +1025,7 @@
 
 </code></pre>
 
-<p>2.restful调用方式</p>
+<p>2.REST API调用方式</p>
 <pre><code>curl --request POST \
   --url http://api2.bmob.cn/1/wechatApp/notifyMsg \
   --header 'content-type: application/json' \
@@ -1033,11 +1037,11 @@
    &quot;url&quot;: &quot;http://www.bmob.cn/&quot;,
    &quot;data&quot;: {
        &quot;first&quot;: {
-           &quot;value&quot;: &quot;您好，Restful 失效，请登录控制台查看。&quot;,
+           &quot;value&quot;: &quot;您好，REST API 失效，请登录控制台查看。&quot;,
            &quot;color&quot;: &quot;#c00&quot;
        },
        &quot;keyword1&quot;: {
-           &quot;value&quot;: &quot;Restful 失效&quot;
+           &quot;value&quot;: &quot;REST API 失效&quot;
        },
        &quot;keyword2&quot;: {
            &quot;value&quot;: &quot;2017-07-03 16:13:01&quot;
@@ -1273,10 +1277,10 @@ function onRequest(request, response, modules) {
 <li>
 <h5 id="2">模板消息支持2种方式调用。<a class="headerlink" href="#2" title="Permanent link">&para;</a></h5>
 </li>
-<li>1.Restful</li>
+<li>1.REST API</li>
 <li>2.小程序</li>
 </ul>
-<p>Restful</p>
+<p>REST API</p>
 <pre><code>curl -X POST \
   http://api2.bmob.cn/1/wechatApp/SendWeAppMessage \
   -H 'cache-control: no-cache' \
@@ -1304,7 +1308,7 @@ function onRequest(request, response, modules) {
 }'
 </code></pre>
 
-<p>Restful主要用在一些特殊情况，例如审核后给用户发送一个通知，定时发通知等这种要配合云逻辑或自己服务端来使用。</p>
+<p>REST API主要用在一些特殊情况，例如审核后给用户发送一个通知，定时发通知等这种要配合云逻辑或自己服务端来使用。</p>
 <p>小程序内部调用比较常用，使用门槛低</p>
 <pre><code>var currentUser = Bmob.User.current();
 var temp = {

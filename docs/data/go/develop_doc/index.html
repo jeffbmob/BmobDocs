@@ -12,7 +12,11 @@
             <link rel="shortcut icon" href="../../../img/favicon.ico">
         
         <script type="text/javascript" src="//game.bmob.cn/static/doc_union.js"></script>
+            <!--
             <title>开发文档 - Bmob文档中心</title>
+            -->
+            <title>数据存储 &middot; GO – Bmob后端云 </title>        
+            
             <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
             <link href="../../../css/font-awesome-4.5.0.css" rel="stylesheet">
             <link href="../../../css/base.css" rel="stylesheet">
@@ -77,7 +81,7 @@
                             
                             
 								<li >
-									<a href="../../restful/">RESTful</a>
+									<a href="../../restful/">REST API</a>
                                 </li>
                             
                             
@@ -168,7 +172,7 @@
 							
                             
                                 <li >
-                                    <a href="../../../cloud_function/restful/">RESTful</a>
+                                    <a href="../../../cloud_function/restful/">REST API</a>
                                 </li>
 							
                             
@@ -209,7 +213,7 @@
 							
                             
                                 <li >
-                                    <a href="../../../sms/restful/">RESTful</a>
+                                    <a href="../../../sms/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -255,9 +259,9 @@
             
               <li class="pull-left">
                 
-					<!--<a href="">IM服务</a>-->
+					<!--<a href="">即时通讯</a>-->
 					<li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">IM服务 <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">即时通讯 <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             
 								<li >
@@ -302,7 +306,7 @@
 							
                             
                                 <li >
-                                    <a href="../../../push/restful/">RESTful</a>
+                                    <a href="../../../push/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -477,7 +481,7 @@
 												
 											</li>
 												
-											<li class=""><a href="#restful">RESTful请求</a>
+											<li class=""><a href="#rest-api">REST API请求</a>
 												
 											</li>
 												
@@ -534,7 +538,7 @@
 
 <h2 id="_1">简介<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>Bmob平台为您的移动应用提供了一个完整的后端解决方案，我们提供轻量级的SDK开发包，让开发者以最小的配置和最简单的方式使用Bmob平台提供的服务，进而完全消除开发者编写服务器代码以及维护服务器的操作。
-Go SDK封装了Bmob RESTful API，但并不包含功能封装，如果需要调用具体的功能，请参考官方RESTful API开发文档<a href="http://docs.bmob.cn/data/Restful/b_developdoc/doc/index.html">http://docs.bmob.cn/data/Restful/b_developdoc/doc/index.html</a></p>
+Go SDK封装了Bmob REST API API，但并不包含功能封装，如果需要调用具体的功能，请参考官方REST API API开发文档<a href="http://docs.bmob.cn/data/Restful/b_developdoc/doc/index.html">http://docs.bmob.cn/data/Restful/b_developdoc/doc/index.html</a></p>
 <h2 id="_2">快速入门<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>建议您在阅读本开发文档之前，先阅读我们提供的 <a href="https://github.com/bmob/bmob-go-sdk/tree/master/doc_quickstart">go快速入门文档</a>，便于您后续的开发。</p>
 <h2 id="_3">应用程序<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
@@ -544,8 +548,8 @@ Go SDK封装了Bmob RESTful API，但并不包含功能封装，如果需要调�
 <h2 id="_5">数据类型<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>除了JSON标准里定义的数据类型外，还支持Bmob自定义的数据类型：<a href="http://docs.bmob.cn/data/Restful/b_developdoc/doc/index.html#对象">http://docs.bmob.cn/data/Restful/b_developdoc/doc/index.html#对象</a>
 这些类型操作相关的基本数据结构在types.go中定义，由于JSON是schema-less的，你可以只填充必要的字段来完成操作</p>
-<h2 id="restful">RESTful请求<a class="headerlink" href="#restful" title="Permanent link">&para;</a></h2>
-<p>一次典型的RESTFul请求如下：</p>
+<h2 id="rest-api">REST API请求<a class="headerlink" href="#rest-api" title="Permanent link">&para;</a></h2>
+<p>一次典型的REST API请求如下：</p>
 <pre><code>  header, err := bmob.DoRestReq(appConfig,
     bmob.RestRequest{
       bmob.BaseReq{
@@ -565,7 +569,7 @@ Go SDK封装了Bmob RESTful API，但并不包含功能封装，如果需要调�
 
 <p>参数：
 <em> appConfig - 保存了APP相关的key等信息
-</em> RestRequest - 使用Bmob RESTful API 所需的信息： {方法， url， sessionToken}， 数据类型， body
+</em> RestRequest - 使用Bmob REST API API 所需的信息： {方法， url， sessionToken}， 数据类型， body
 <em> respDst - 用于保存解析后的response
 返回值：
 </em> header - http.Header， 请求返回的标准HTTP头
@@ -603,7 +607,7 @@ type TestDataRes struct {
 }
 </code></pre>
 
-<p>这个结构体可以解析标准的RESTful响应和Image请求相关的响应</p>
+<p>这个结构体可以解析标准的REST API响应和Image请求相关的响应</p>
                 </div>
             </div>
         </div>

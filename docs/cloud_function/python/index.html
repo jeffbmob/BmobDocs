@@ -12,7 +12,11 @@
             <link rel="shortcut icon" href="../../img/favicon.ico">
         
         <script type="text/javascript" src="//game.bmob.cn/static/doc_union.js"></script>
+            <!--
             <title>Python - Bmob文档中心</title>
+            -->
+            <title>云函数 &middot;  – Bmob后端云 </title>        
+            
             <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
             <link href="../../css/font-awesome-4.5.0.css" rel="stylesheet">
             <link href="../../css/base.css" rel="stylesheet">
@@ -77,7 +81,7 @@
                             
                             
 								<li >
-									<a href="../../data/restful/">RESTful</a>
+									<a href="../../data/restful/">REST API</a>
                                 </li>
                             
                             
@@ -168,7 +172,7 @@
 							
                             
                                 <li >
-                                    <a href="../restful/">RESTful</a>
+                                    <a href="../restful/">REST API</a>
                                 </li>
 							
                             
@@ -209,7 +213,7 @@
 							
                             
                                 <li >
-                                    <a href="../../sms/restful/">RESTful</a>
+                                    <a href="../../sms/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -255,9 +259,9 @@
             
               <li class="pull-left">
                 
-					<!--<a href="">IM服务</a>-->
+					<!--<a href="">即时通讯</a>-->
 					<li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">IM服务 <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">即时通讯 <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             
 								<li >
@@ -302,7 +306,7 @@
 							
                             
                                 <li >
-                                    <a href="../../push/restful/">RESTful</a>
+                                    <a href="../../push/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -528,7 +532,7 @@
 <p>Python云函数允许以以下方式调用：</p>
 <ul>
 <li>Http直接请求</li>
-<li>Restful接口</li>
+<li>REST API接口</li>
 <li>Android SDK</li>
 <li>iOS SDK、</li>
 <li>微信小程序</li>
@@ -565,7 +569,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="restful-api">Restful API<a class="headerlink" href="#restful-api" title="Permanent link">&para;</a></h3>
+<h3 id="rest-api-api">REST API API<a class="headerlink" href="#rest-api-api" title="Permanent link">&para;</a></h3>
 <ol>
 <li>
 <p>调用 <code>api.bmob.cn</code> ，与调用Java、NodeJS版云函数的方式 <strong>完全相同</strong>。这种方式下，服务器会 <strong>自动判断语言</strong>，但 <strong>限制 <code>Method</code> 为 <code>Post</code> 且 <code>Content-Type</code> 为 <code>application/json</code></strong></p>
@@ -949,7 +953,7 @@ response.send(
 </tr>
 <tr>
 <td align="center">getDBTime()</td>
-<td align="center">获取Restful服务器的时间</td>
+<td align="center">获取REST API服务器的时间</td>
 <td align="center"></td>
 </tr>
 <tr>
