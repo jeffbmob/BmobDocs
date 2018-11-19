@@ -2529,35 +2529,52 @@ Boolean sex = (Boolean) BmobUser.getObjectByKey("sex");
 
 #### 同步本地缓存的用户信息
 
-场景：用户已经登录的情况下，如果后端的用户信息有修改(如在控制台修改)，此时如果能同步下最新的用户信息并写到本地缓存中就会很方便，不用重新去登录。
-
-**自`V3.5.7`版本开始，SDK新增了`BmobUser.fetchUserJsonInfo(FetchUserInfoListener)`方法解决了用户信息的同步需求。**
+**自`v3.6.8-rc1`版本开始，SDK新增了同步控制台最新用户信息到本地缓存的用户信息和获取控制台最新用户信息的接口，不用重新登录。**
 
 具体用法如下
 
 ```java
 
-    /**
-     * 更新本地用户信息
-     * 注意：需要先登录，否则会报9024错误
-     *
-     * @see cn.bmob.v3.helper.ErrorCode#E9024S
-     */
-    private void fetchUserInfo() {
-        BmobUser.fetchUserJsonInfo(new FetchUserInfoListener<String>() {
-            @Override
-            public void done(String s, BmobException e) {
-                if (e == null) {
-                    log("Newest UserInfo is " + s);
-                } else {
-                    log(e);
-                }
+   /**
+ * 同步控制台数据到缓存中
+ * @param view
+ */
+private void fetchUserInfo(final View view) {
+    BmobUser.fetchUserInfo(new FetchUserInfoListener<BmobUser>() {
+        @Override
+        public void done(BmobUser user, BmobException e) {
+            if (e == null) {
+                final MyUser myUser = BmobUser.getCurrentUser(MyUser.class);
+                Snackbar.make(view, "更新用户本地缓存信息成功："+myUser.getUsername()+"-"+myUser.getAge(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("error",e.getMessage());
+                Snackbar.make(view, "更新用户本地缓存信息失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
             }
-        });
-    }
+        }
+    });
+}
+```
+```
+/**
+ * 获取控制台最新数据
+ * @param view
+ */
+private void fetchUserJsonInfo(final View view) {
+    BmobUser.fetchUserJsonInfo(new FetchUserInfoListener<String>() {
+        @Override
+        public void done(String json, BmobException e) {
+            if (e == null) {
+                Log.e("success",json);
+                Snackbar.make(view, "获取控制台最新数据成功："+json, Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("error",e.getMessage());
+                Snackbar.make(view, "获取控制台最新数据失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 
 ```
-
 
 ### 更新用户
 
