@@ -156,7 +156,24 @@ Android6.0中，`Notification.setLatestEventInfo()`方法被移除，替代的�
 	Notification notification = builder.build();
 	notificationManager.notify(0, notification);
 ```
+## Android P 网络配置
+在 res 下新建一个 xml 目录，然后创建一个名为 network_security_config.xml 文件 ，该文件内容如下：
+```
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>
+```
+然后在 AndroidManifest.xml application 标签内应用上面的xml配置：
+```
+    <application
+    ···
+        android:networkSecurityConfig="@xml/network_security_config"
+    ···
+        >
 
+    </application>
+```
 ## 对象
 
 一个数据对象（APP中创建的BmobObject类的子类）对应于Bmob后台的一个数据表。
