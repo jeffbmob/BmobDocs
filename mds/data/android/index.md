@@ -60,7 +60,7 @@
 2. 在`app`的`build.gradle`文件中添加`compile依赖文件`：
 ```
 android {
-		useLibrary 'org.apache.http.legacy'
+    useLibrary 'org.apache.http.legacy'
 }
 ```
 ```
