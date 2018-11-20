@@ -1,3 +1,15 @@
+## v3.6.8-rc2(2018/11/20)
+```
+1、升级SDK依赖的RxJava1、RxAndroid1到RxJava2、RxAndroid2，由于rxjava1到rxjava2的代码修改较大，若在项目中使用了rxjava的开发者需要做较多的改动。
+2、升级SDK依赖的Gson、Okio到了最新版本。
+3、将SDK依赖的RxJava、RxAndroid、Gson、Okio从远程仓库中剔除，由开发者自行导入依赖，用于解决依赖库的冲突问题。
+4、修复SDK在Android P网络请求中的CLEARTEXT communication to host not permitted by network错误，需要在res下的xml文件夹中进行相关配置。
+5、为适配Android P将support包迁移为androidx包，并将目标SDK版本改为28，已达到各大应用市场的上传要求。
+6、BmobUser.fetchUserInfo获取最新控制台用户信息的同时，增加了更新本地用户缓存的功能；但BmobUser.fetchUserJsonInfo只是获取最新控制台用户信息JSON格式，没有更新本地用户缓存的功能。
+7、修复了Bmob.resetDomain重置域名无效的问题，Bmob.resetDomain需要放置在SDK初始化代码之前。
+8、此次版本改动较大，有问题可直接提交工单询问，我们会不断优化SDK为开发者们服务。
+```
+
 ## v3.6.6(2018/09/14)
 1. 修复部分Bug。
 ## v3.6.5(2018/07/09)
