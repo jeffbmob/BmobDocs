@@ -36,7 +36,7 @@
 
 请按照如下两个步骤进行：
 
-1. 在 `Project` 的 `build.gradle` 文件中添加 `Bmob的maven仓库地址`，示例如下：（**注意文字说明部分**）：
+1. 在 `Project` 的 `build.gradle` 文件中添加 `Bmob的maven仓库地址`：
 ```
 	buildscript {
 	    repositories {
@@ -57,38 +57,17 @@
 ```
 
 
-2. 在`app`的`build.gradle`文件中添加`compile依赖文件`,示例如下：（**注意文字说明部分**）：
+2. 在`app`的`build.gradle`文件中添加`compile依赖文件`：
 
 ```
-	apply plugin: 'com.android.application'
-	
-	android {
-	    compileSdkVersion 22
-	    buildToolsVersion '22.0.1'
-	
-		**兼容Android6.0系统所需，如果这句话报错，可在dependencies标签下使用compile 'cn.bmob.android:http-legacy:1.0'**
-	    useLibrary 'org.apache.http.legacy'
-	
-	    ...
-	}
-	
-	
 	dependencies {
-	    compile fileTree(dir: 'libs', include: ['*.jar'])
-	
-		//以下SDK开发者请根据需要自行选择
-		//bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:
-	    //3.5.5：请务必查看下面注释[1]
-		compile 'cn.bmob.android:bmob-sdk:3.6.3'
-	
-	    //bmob-push：Bmob的推送包
-	    compile 'cn.bmob.android:bmob-push:0.8'
-	
-		//bmob-im：Bmob的即时通讯包，注意每个版本的im依赖特定版本的bmob-sdk，具体的依赖关系可查看下面注释[2]
-		compile 'cn.bmob.android:bmob-im:2.1.0@aar'
-	
-		//如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
-		compile 'cn.bmob.android:http-legacy:1.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'cn.bmob.android:bmob-sdk:3.6.8-rc1'
+    implementation 'cn.bmob.android:http-legacy:1.0'
+    implementation "io.reactivex.rxjava2:rxjava:2.2.2"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'com.squareup.okio:okio:2.1.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
 	}
 
 ```
