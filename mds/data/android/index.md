@@ -63,7 +63,7 @@ android {
     useLibrary 'org.apache.http.legacy'
 }
 ```
-```
+```gradle
 	dependencies {
     	implementation 'cn.bmob.android:bmob-sdk:3.6.8-rc2'
     	implementation "io.reactivex.rxjava2:rxjava:2.2.2"
