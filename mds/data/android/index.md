@@ -65,7 +65,6 @@ android {
 ```
 ```
 	dependencies {
-    	implementation fileTree(include: ['*.jar'], dir: 'libs')
     	implementation 'cn.bmob.android:bmob-sdk:3.6.8-rc2'
     	implementation "io.reactivex.rxjava2:rxjava:2.2.2"
     	implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
