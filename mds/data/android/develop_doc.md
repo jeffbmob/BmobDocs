@@ -10,153 +10,51 @@ Bmob平台为您的移动应用提供了一个完整的后端解决方案，我�
 在使用SDK过程中，如果一些Api如查询是高频代码，可以把一些重复的样板代码抽出来，并在AndroidStudio中设置模板，即可实现快速输入，能提高编码效率，效果如下：
 
 ![](http://i.imgur.com/zjm4Avx.gif)
-## 数据迁移
-从v3.6.7开始，数据SDK新增了能重新设置请求域名的Api，类似数据迁移，调用方式如下：
 
-		Bmob.resetDomain("http://open-vip.bmob.cn/8/");
-
-其中，参数为开发者的域名，调用后的所有请求都指向新的域名。
+## 重置域名
+从v3.6.7开始，数据服务SDK新增了能重新设置请求域名的API，需要在初始化SDK前调用：
+```Java
+Bmob.resetDomain("http://open-vip.bmob.cn/8/");
 ```
+其中，参数为开发者的域名，调用后的所有请求都指向新的域名。
+```Java
 http://open-vip.bmob.cn/8/
 此域名目前仅为企业版用户使用！
 ```
+## 数据迁移
+在应用设置-套餐升级-应用套餐类型，购买了企业Pro版的用户，可以提交工单通知工作人员进行数据迁移。
 
 ## 海外加速
 
-如果您不是使用迁移服务的用户,但仅仅想使用海外加速功能的话，就需要在初始化sdk后就调用resetDomain方法(建议在Application中做)，传的参数也是上面数据迁移例子中的openvip域名。
+在应用设置-套餐升级，购买了海外节点加速功能的用户，可以提高海外访问速度。
 
 
-## 统计SDK(暂不维护)
-从v3.5.2开始，把统计SDK集成到了数据服务SDK，上传应用不再需要额外集成统计SDK，低于此版本的可以去控制台的应用官网下载。
-### 添加方法
+## 统计功能
+从v3.5.2开始，数据服务SDK新增了统计功能。
+从v3.6.0开始，数据服务SDK移除了统计功能。
 
-
-- 确保项目有`INTERNET`和`READ_PHONE_STATE`权限
+- 应用权限
 
 		<uses-permission android:name="android.permission.INTERNET" />
 		<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-- 在初始化方法中传一个渠道参数(不传默认没开启统计功能)
+- 渠道设置
 
-		Bmob.initialize(this,APPID,"Bmob");
-- 将libs文件夹内的BmobStat.jar文件添加进项目（AS选择远程依赖可以忽略，本地依赖需要指定libs文件夹，Eclipse中放进libs即可）；
+		Bmob.initialize(this,APPID,"BMOB");
 
 
-## 兼容Android6.0系统
+## 系统兼容
+### Android 6.0
+- 添加对Apache的HTTP-client支持
+Android6.0版本开始移除了对Apache的HTTP Client的支持，需要在`app`的`build.gradle`文件添加配置:
 
-自`v3.4.6`版本开始，Bmob提供了一些新的方法和工具类来帮助开发者为自己的应用兼容Android6.0系统。
-
-### 添加对Apache的HTTP-client支持
-
-Android6.0版本移除了对Appache的HTTP client的支持，因此，需要添加`org.apache.http.legacy.jar`包，请参照如下方式添加：
-
-  1.Eclipse
-
-	你需要在Eclipse工程的项目根目录中新建libs文件夹，将org.apache.http.legacy.jar包，添加到libs文件夹中
-
-  2.AndroidStudio
-
-   你需要在`app`的`build.gradle`文件添加配置信息useLibrary 'org.apache.http.legacy'声明编译时依赖
-
-		android {
-			compileSdkVersion 23
-			buildToolsVersion "23.0.2"
-			useLibrary 'org.apache.http.legacy'
-		}
-
-**注：如果在build.gradle文件中`useLibrary 'org.apache.http.legacy'`这句话报错，可将该jar直接放到libs目录下即可。**
-
-### 运行时权限管理
-
-Android6.0中对特定的权限进行了动态授权的方式，需要在运行时用户手动授予，如果用户拒绝后再次申请还可以向用户弹框说明权限的作用，用户点击确认后再去申请。
-
-因此，我们提供了一个权限管理的工具类`PermissionManager(cn.bmob.v3.helper)`，具体使用如下：
-
-**注：在`v3.4.6`的BmobSDK内部集成`PermissionManager`类，自`v3.4.7`以后的SDK内部将不再提供该类，开发者可以在下载的配套官方Demo的`com.example.bmobexample.permission`包下面查看该类源码。**
-
-1.构建`PermissionManager`对象
-
-    PermissionManager helper;
-	helper = PermissionManager.with(MainActivity.this)
-			//添加权限请求码
-            .addRequestCode(MainActivity.REQUEST_CODE_CAMERA)
-			//设置权限，可以添加多个权限
-            .permissions(Manifest.permission.CAMERA)
-			//设置权限监听器
-            .setPermissionsListener(new PermissionListener() {
-
-                @Override
-                public void onGranted() {
-					//当权限被授予时调用
-                   Toast.makeText(MainActivity.this, "Camera Permission granted",Toast.LENGTH_LONG).show();
-                }
-
-                @Override
-                public void onDenied() {
-					//用户拒绝该权限时调用
-                   Toast.makeText(MainActivity.this, "Camera Permission denied",Toast.LENGTH_LONG).show();
-                }
-
-                @Override
-                public void onShowRationale(String[] permissions) {
-					//当用户拒绝某权限时并点击`不再提醒`的按钮时，下次应用再请求该权限时，需要给出合适的响应（比如,给个展示对话框来解释应用为什么需要该权限）
-                    Snackbar.make(btn_camera, "需要相机权限去拍照", Snackbar.LENGTH_INDEFINITE)
-                            .setAction("ok", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-									//必须调用该`setIsPositive(true)`方法
-                                    helper.setIsPositive(true);
-                                    helper.request();
-                                }
-                            }).show();
-                }
-            })
-			//请求权限
-			.request();
-
-注：
-
-- `with`方法可以传入Activity或者Fragment；
-- `addRequestCode`方法传入请求码，用于区分各种不同的权限申请；
-- `permissions`方法传入的是你所要请求的权限，支持可变参数，可以批量申请权限；
-- `PermissionListener`接口回调的三个方法：
-   - onGranted()会在权限申请通过后被调用；
-   - onDenied()在权限申请被拒绝时被调用
-   - onShowRationale()方法中你可以弹对话框向用户解释权限的作用，不过记得要调用`setIsPositive(true)`。
-- `request`方法用来请求权限申请
-
-2.覆写`onRequestPermissionsResult`方法
-
-	@Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_CODE_CAMERA:
-                helper.onPermissionResult(permissions, grantResults);
-                break;
-        }
-    }
-
-### Notification变更
-
-Android6.0中，`Notification.setLatestEventInfo()`方法被移除，替代的方案是用Notification.Builder来构建通知，对此SDK提供了`NotificationCompat(cn.bmob.v3.helper)`类来做版本兼容（与`android.support.v4.app`包下的NotificationCompat用法一样）。
-
-参照代码如下：
-
+```gradle
+android {
+	useLibrary 'org.apache.http.legacy'
+}
 ```
-	NotificationManager notificationManager = (NotificationManager) mContext
-			.getSystemService(Context.NOTIFICATION_SERVICE);
-	PendingIntent pi = PendingIntent.getActivity(mContext, 0,
-			new Intent(MainActivity.this, MainActivity.class), 0);
-	NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
-			.setTicker("更新啦")
-			.setContentTitle("标题")
-			.setContentText("内容")
-			.setSmallIcon(R.drawable.ic_launcher);
-	Notification notification = builder.build();
-	notificationManager.notify(0, notification);
-```
-## Android P 网络配置
+
+### Android P 网络配置
 在 res 下新建一个 xml 目录，然后创建一个名为 network_security_config.xml 文件 ，该文件内容如下：
 ```
 <?xml version="1.0" encoding="utf-8"?>
