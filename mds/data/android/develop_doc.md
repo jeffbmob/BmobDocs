@@ -65,77 +65,37 @@ android {
 然后在 AndroidManifest.xml application 标签内应用上面的xml配置：
 ```
     <application
-    ···
-        android:networkSecurityConfig="@xml/network_security_config"
-    ···
-        >
-
+        android:networkSecurityConfig="@xml/network_security_config">
     </application>
 ```
-## 对象
+## 对象类型
 
-一个数据对象（APP中创建的BmobObject类的子类）对应于Bmob后台的一个数据表。
+所有对象类型都继承于基本对象类型BmobObject，一个数据对象对应于Bmob控制台一张数据表中的一条数据。
 
-### 数据对象
 
-Bmob存储的数据是建立在BmobObject基础上的，所以任何要保存的数据对象必须继承自BmobObject类(不建议用抽象类去继承BmobObject或者定义父类然后在子类中写bean，这样也解析不了，一般不会这么用，一个bean类对应一张表，类似使用ORM库)。BmobObject类本身包含objectId、createdAt、updatedAt、ACL四个默认的属性，objectId是数据的唯一标示，相当于数据库中表的主键，createdAt是数据的创建时间，updatedAt是数据的最后修改时间，ACL是数据的操作权限。
+### 基本对象类型
 
-如，你的游戏中使用GameScore表来记录玩家的比分信息，其中表的字段有：score（分数）、playerName（玩家名字）、isPay(是否付费玩家)、pic（玩家头像）属性，那么这个数据对象为如下定义：
+BmobObject
 
-```java
-//必须要继承自BmobObject类
-public class GameScore extends BmobObject{
+|属性|解释|
+|-----|-----|
+|objectId|数据唯一标志|
+|createdAt|数据创建时间|
+|updatedAt|数据更新时间|
+|ACL|数据控制访问权限|
 
-	private String playerName;
-	private Integer score;
-	private Boolean isPay;
-    private BmobFile pic;
-	// 仅在客户端使用，不希望被gson序列化提交到后端云，记得用transient修饰
-	private transient Integer count;
 
-	public String getPlayerName() {
-		return playerName;
-	}
 
-	public void setPlayerName(String playerName) {
-		this.playerName = playerName;
-	}
+### 特殊对象类型
 
-	public Integer getScore() {
-		return score;
-	}
+|类型|解释|
+|-----|-----|
+|BmobUser|对应控制台_User用户表|
+|BmobInstallation|对应控制台_Installation设备表|
+|BmobRole|对应控制台_Role角色表|
 
-	public void setScore(Integer score) {
-		this.score = score;
-	}
 
-	public Boolean getIsPay() {
-		return isPay;
-	}
 
-	public void setIsPay(Boolean isPay) {
-		this. isPay = isPay;
-	}
-
-    public BmobFile getPic() {
-		return pic;
-	}
-
-	public void setPic(BmobFile pic) {
-		this.pic = pic;
-	}
-}
-```
-
-需要注意的是：
-
- - JavaBean不需要对`objectId、createdAt、updatedAt、ACL`四个属性进行定义。
- - 不少开发者会没有注意到createdAt和updatedAt属性中的字母d，写成createAt和updateAt。
- - 尽可能使用Integer、Boolean，而不是int、boolean，也就是选择包装类，而不是使用基本数据类型（这两者的区别大家可以看这篇文章：http://www.cnblogs.com/shenliang123/archive/2011/10/27/2226903.html）
-
-### 特殊对象
-
-为了提供更好的服务，BmobSDK中提供了`BmobUser、BmobInstallation、BmobRole`三个特殊的BmobObject对象来完成不同的功能，在这里我们统一称为特殊对象。
 
  - `BmobUser`对象主要是针对应用中的用户功能而提供的，它对应着web端的User表，使用BmobUser对象可以很方便的在应用中实现用户的注册、登录、邮箱验证等功能，具体的使用方法可查看文档的[`用户管理`](http://doc.bmob.cn/data/android/develop_doc/#_71)部分。
 
