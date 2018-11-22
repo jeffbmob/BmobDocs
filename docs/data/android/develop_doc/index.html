@@ -493,14 +493,14 @@
 												
 											</li>
 												
-											<li class=""><a href="#_9">对象</a>
+											<li class=""><a href="#_9">对象类型</a>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_10">数据对象</a></li>
+													<li><a class="itm-l2" href="#_10">基本对象类型</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_11">特殊对象</a></li>
+													<li><a class="itm-l2" href="#_11">特殊对象类型</a></li>
 												</ul>
 												
 											</li>
@@ -963,71 +963,63 @@ Android6.0版本开始移除了对Apache的HTTP Client的支持，需要在<code
 
 <p>然后在 AndroidManifest.xml application 标签内应用上面的xml配置：</p>
 <pre><code>    &lt;application
-    ···
-        android:networkSecurityConfig=&quot;@xml/network_security_config&quot;
-    ···
-        &gt;
-
+        android:networkSecurityConfig=&quot;@xml/network_security_config&quot;&gt;
     &lt;/application&gt;
 </code></pre>
 
-<h2 id="_9">对象<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
-<p>一个数据对象（APP中创建的BmobObject类的子类）对应于Bmob后台的一个数据表。</p>
-<h3 id="_10">数据对象<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
-<p>Bmob存储的数据是建立在BmobObject基础上的，所以任何要保存的数据对象必须继承自BmobObject类(不建议用抽象类去继承BmobObject或者定义父类然后在子类中写bean，这样也解析不了，一般不会这么用，一个bean类对应一张表，类似使用ORM库)。BmobObject类本身包含objectId、createdAt、updatedAt、ACL四个默认的属性，objectId是数据的唯一标示，相当于数据库中表的主键，createdAt是数据的创建时间，updatedAt是数据的最后修改时间，ACL是数据的操作权限。</p>
-<p>如，你的游戏中使用GameScore表来记录玩家的比分信息，其中表的字段有：score（分数）、playerName（玩家名字）、isPay(是否付费玩家)、pic（玩家头像）属性，那么这个数据对象为如下定义：</p>
-<pre><code class="java">//必须要继承自BmobObject类
-public class GameScore extends BmobObject{
-
-    private String playerName;
-    private Integer score;
-    private Boolean isPay;
-    private BmobFile pic;
-    // 仅在客户端使用，不希望被gson序列化提交到后端云，记得用transient修饰
-    private transient Integer count;
-
-    public String getPlayerName() {
-        return playerName;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-
-    public Integer getScore() {
-        return score;
-    }
-
-    public void setScore(Integer score) {
-        this.score = score;
-    }
-
-    public Boolean getIsPay() {
-        return isPay;
-    }
-
-    public void setIsPay(Boolean isPay) {
-        this. isPay = isPay;
-    }
-
-    public BmobFile getPic() {
-        return pic;
-    }
-
-    public void setPic(BmobFile pic) {
-        this.pic = pic;
-    }
-}
-</code></pre>
-
-<p>需要注意的是：</p>
-<ul>
-<li>JavaBean不需要对<code>objectId、createdAt、updatedAt、ACL</code>四个属性进行定义。</li>
-<li>不少开发者会没有注意到createdAt和updatedAt属性中的字母d，写成createAt和updateAt。</li>
-<li>尽可能使用Integer、Boolean，而不是int、boolean，也就是选择包装类，而不是使用基本数据类型（这两者的区别大家可以看这篇文章：http://www.cnblogs.com/shenliang123/archive/2011/10/27/2226903.html）</li>
-</ul>
-<h3 id="_11">特殊对象<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
-<p>为了提供更好的服务，BmobSDK中提供了<code>BmobUser、BmobInstallation、BmobRole</code>三个特殊的BmobObject对象来完成不同的功能，在这里我们统一称为特殊对象。</p>
+<h2 id="_9">对象类型<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<p>所有对象类型都继承于基本对象类型BmobObject，一个数据对象对应于Bmob控制台一张数据表中的一条数据。</p>
+<h3 id="_10">基本对象类型<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p>BmobObject</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>objectId</td>
+<td>数据唯一标志</td>
+</tr>
+<tr>
+<td>createdAt</td>
+<td>数据创建时间</td>
+</tr>
+<tr>
+<td>updatedAt</td>
+<td>数据更新时间</td>
+</tr>
+<tr>
+<td>ACL</td>
+<td>数据控制访问权限</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_11">特殊对象类型<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BmobUser</td>
+<td>对应控制台_User用户表</td>
+</tr>
+<tr>
+<td>BmobInstallation</td>
+<td>对应控制台_Installation设备表</td>
+</tr>
+<tr>
+<td>BmobRole</td>
+<td>对应控制台_Role角色表</td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li>
 <p><code>BmobUser</code>对象主要是针对应用中的用户功能而提供的，它对应着web端的User表，使用BmobUser对象可以很方便的在应用中实现用户的注册、登录、邮箱验证等功能，具体的使用方法可查看文档的<a href="http://doc.bmob.cn/data/android/develop_doc/#_71"><code>用户管理</code></a>部分。</p>
