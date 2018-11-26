@@ -1,3 +1,7 @@
+## v3.6.8-rc3(2018/11/26)
+1、修复RxJava不能传递空值的bug。
+2、删除了无效的API接口，例如发送自定义内容短信等。
+
 ## v3.6.8-rc2(2018/11/20)
 
 1、升级SDK依赖的RxJava1、RxAndroid1到RxJava2、RxAndroid2，由于rxjava1到rxjava2的代码修改较大，若在项目中使用了rxjava的开发者需要做较多的改动。

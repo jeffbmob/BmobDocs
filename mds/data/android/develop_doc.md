@@ -6,71 +6,9 @@ Bmob平台为您的移动应用提供了一个完整的后端解决方案，我�
 
 建议您在阅读本开发文档之前，先阅读我们提供的 [Android快速入门文档](http://doc.bmob.cn/data/android/)，便于您后续的开发。<br>
 如果开发者想使用不同历史版本的SDK，可以移步[历史版本的github仓库](https://github.com/bmob/bmob-android-sdk-release/releases)，选择使用各个历史版本。
-## 模板代码
-在使用SDK过程中，如果一些Api如查询是高频代码，可以把一些重复的样板代码抽出来，并在AndroidStudio中设置模板，即可实现快速输入，能提高编码效率，效果如下：
 
-![](http://i.imgur.com/zjm4Avx.gif)
-
-## 重置域名
-从v3.6.7开始，数据服务SDK新增了能重新设置请求域名的API，需要在初始化SDK前调用：
-```Java
-Bmob.resetDomain("http://open-vip.bmob.cn/8/");
-```
-其中，参数为开发者的域名，调用后的所有请求都指向新的域名。
-```Java
-http://open-vip.bmob.cn/8/
-此域名目前仅为企业版用户使用！
-```
-## 数据迁移
-在应用设置-套餐升级-应用套餐类型，购买了企业Pro版的用户，可以提交工单通知工作人员进行数据迁移。
-
-## 海外加速
-
-在应用设置-套餐升级，购买了海外节点加速功能的用户，可以提高海外访问速度。
-
-
-## 统计功能
-从v3.5.2开始，数据服务SDK新增了统计功能。
-从v3.6.0开始，数据服务SDK移除了统计功能。
-
-- 应用权限
-
-		<uses-permission android:name="android.permission.INTERNET" />
-		<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
-- 渠道设置
-
-		Bmob.initialize(this,APPID,"BMOB");
-
-
-## 系统兼容
-### Android 6.0
-- 添加对Apache的HTTP-client支持
-Android6.0版本开始移除了对Apache的HTTP Client的支持，需要在`app`的`build.gradle`文件添加配置:
-
-```gradle
-android {
-	useLibrary 'org.apache.http.legacy'
-}
-```
-
-### Android P 网络配置
-在 res 下新建一个 xml 目录，然后创建一个名为 network_security_config.xml 文件 ，该文件内容如下：
-```
-<?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
-    <base-config cleartextTrafficPermitted="true" />
-</network-security-config>
-```
-然后在 AndroidManifest.xml application 标签内应用上面的xml配置：
-```
-    <application
-        android:networkSecurityConfig="@xml/network_security_config">
-    </application>
-```
 ## 对象类型
 
-所有对象类型都继承于基本对象类型BmobObject，一个数据对象对应于Bmob控制台一张数据表中的一条数据。
 
 
 ### 基本对象类型
@@ -84,470 +22,411 @@ BmobObject
 |updatedAt|数据更新时间|
 |ACL|数据控制访问权限|
 
+### 自定义对象类型
+所有自定义对象类型都继承于基本对象类型BmobObject，一个数据对象对应于Bmob控制台一张数据表中的一条数据。
+```
+/**
+ * Created on 2018/11/22 10:41
+ *
+ * @author zhangchaozhou
+ */
+public class Category extends BmobObject {
+
+
+    /**
+     * 类别名称
+     */
+    private String name;
+
+    /**
+     * 类别解释
+     */
+    private String desc;
+    /**
+     * 类别排名
+     */
+    private Integer sequence;
+
+
+    public String getName() {
+        return name;
+    }
+
+    public Category setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public Category setDesc(String desc) {
+        this.desc = desc;
+        return this;
+    }
+
+    public Integer getSequence() {
+        return sequence;
+    }
+
+    public Category setSequence(Integer sequence) {
+        this.sequence = sequence;
+        return this;
+    }
+}
+
+```
+
+|继承类|例子|解释|
+|-----|-----|----|
+|自定义类名|Category|对应控制台的表名|
+|扩展字段名|name|对应控制台该表的字段名|
 
 
 ### 特殊对象类型
 
-|类型|解释|
-|-----|-----|
-|BmobUser|对应控制台_User用户表|
-|BmobInstallation|对应控制台_Installation设备表|
-|BmobRole|对应控制台_Role角色表|
+|类型|解释|功能|
+|-----|-----|----|
+|BmobUser|对应控制台_User用户表|可以实现用户的注册、登录、短信验证、邮箱验证等功能。|
+|BmobInstallation|对应控制台_Installation设备表|可以实现将自定义的消息推送给不同的设备终端等操作。|
+|BmobRole|对应控制台_Role角色表|可以配合ACL进行权限访问控制和角色管理。|
+|开发者自己创建|对应控制台_Article图文消息表|可以进行静态网页加载。|
 
 
+## 字段数据类型
 
+Bmob支持的数据类型：
 
- - `BmobUser`对象主要是针对应用中的用户功能而提供的，它对应着web端的User表，使用BmobUser对象可以很方便的在应用中实现用户的注册、登录、邮箱验证等功能，具体的使用方法可查看文档的[`用户管理`](http://doc.bmob.cn/data/android/develop_doc/#_71)部分。
-
- - `BmobInstallation`对象主要用于应用的安装设备管理中，它对应着web端的Installation表，任何安装了你应用的设备都会在此表中产生一条数据标示该设备。结合Bmob提供的推送功能，还可以实现将自定义的消息推送给不同的设备终端，具体的使用方法可查看[`消息推送开发文档`](http://doc.bmob.cn/push/android/)。
-
- - `BmobRole`对象主要用于角色管理，对应用于Web端的Role表，具体的使用方法可查看文档的[`ACL和角色`](http://doc.bmob.cn/data/android/develop_doc/#acl)部分。
-
-## 数据类型
-
-目前为止，Bmob支持的数据类型：String、Integer、Float、Short、Byte、Double、Character、Boolean、Object、Array。
-同时也支持BmobObject、BmobDate、BmobGeoPoint、BmobFile特有的数据类型。
-
-以下为Web端类型与SDK端支持的JAVA类型对应表：
-
-|Web端类型|支持的JAVA类型|说明|
+|控制台类型|支持的JAVA类型|说明|
 |:---|:---|:---|
-|Number	 |Integer、Float、Short、Byte、Double、Character|对应数据库的Number类型|
+|String|String|字符串类型|
+|Boolean|Boolean|布尔类型|
+|Object|Object|对象类型|
+|Number	 |Integer、Float、Short、Byte、Double、Character|对应数据库的Number类型，要求是封装类|
 |Array	 |List|数组类型|
 |File  	 |BmobFile|Bmob特有类型，用来标识文件类型|
 |GeoPoint|BmobGeoPoint|Bmob特有类型，用来标识地理位置|
 |Date    |BmobDate|Bmob特有类型，用来标识日期类型|
-|Pointer |特定对象|Bmob特有类型，用来标识指针类型|
+|Pointer |特定的继承自BmobObject的对象|Bmob特有类型，用来标识指针类型|
 |Relation|BmobRelation|Bmob特有类型，用来标识数据关联|
 
-**注：不能使用int、float、short byte、double、character等基本数据类型。`**
 
-## 类名和表名的关系
 
-- Bmob官方推荐类名和表名完全一致的映射使用方式， 即如，上面的GameScore类，它在后台对应的表名也是GameScore（区分大小写）。
-- 如果你希望表名和类名并不相同，如表名为T_a_b，而类名还是GameScore，那么你可以使用BmobObject提供的setTableName("表名")的方法，
 
-示例代码如下：
-
-```java
-//这时候实际操作的表是T_a_b
-public class GameScore extends BmobObject{
-	private String playerName;
-	private Integer score;
-	private Boolean isPay;
-    private BmobFile pic;
-
-	public GameScore() {
-		this.setTableName("T_a_b");
-	}
-
-	public String getPlayerName() {
-		return playerName;
-	}
-	//其他方法，见上面的代码
-}
-```
-当然了，除了在构造函数中直接调用setTableName方法之外，你还可以在GameScore的实例中动态调用setTableName方法。
-
-### 查询自定义表名的数据
-
-如果您使用了setTableName方法来自定义表名，那么在对该表进行数据查询的时候必须使用以下方法。`需要注意的是查询的结果是JSONArray,需要自行解析JSONArray中的数据`。
-
-```java
-/**
- * 查询数据
- */
-public void queryData(){
-	BmobQuery query =new BmobQuery("Person");
-	query.addWhereEqualTo("age", 25);
-	query.setLimit(2);
-	query.order("createdAt");
-	//v3.5.0版本提供`findObjectsByTable`方法查询自定义表名的数据
-	query.findObjectsByTable(new QueryListener<JSONArray>() {
-		@Override
-		public void done(JSONArray ary, BmobException e) {
-			if(e==null){
-				Log.i("bmob","查询成功："+ary.toString());
-			}else{
-				Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-			}
-		}
-	});
-}
-```
-
-**自定义表名情况下的更新、删除数据和普通的更新、删除数据方式一样，没有变化。为方便大家了解学习，我们提供了一个关于自定义表名情况下增删改查数据的Demo，下载地址是：[https://github.com/bmob/bmob-android-demo-dynamic-tablename](https://github.com/bmob/bmob-android-demo-dynamic-tablename)。**
 
 ## 添加数据
 
-添加数据使用BmobObject对象的`save`方法，就可以将当前对象的内容保存到Bmob服务端。
-例如，你现在要保存一条游戏分数的记录，代码如下：
+添加一条类别数据：
 
 ```java
-GameScore gameScore = new GameScore();
-//注意：不能调用gameScore.setObjectId("")方法
-gameScore.setPlayerName("比目");
-gameScore.setScore(89);
-gameScore.setIsPay(false);
-gameScore.save(new SaveListener<String>() {
-
-	@Override
-	public void done(String objectId, BmobException e) {
-		if(e==null){
-			toast("创建数据成功：" + objectId);
-		}else{
-			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
-})
+/**
+ * 新增一个对象
+ */
+private void save() {
+    Category category = new Category();
+    category.setName("football");
+    category.setDesc("足球");
+    category.setSequence(1);
+    category.save(new SaveListener<String>() {
+        @Override
+        public void done(String objectId, BmobException e) {
+            if (e == null) {
+                mObjectId = objectId;
+                Snackbar.make(mBtnSave, "新增成功：" + mObjectId, Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnSave, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
-运行以上代码，如果添加成功，你可以在Bmob提供的后台的数据浏览中看到类似这样的结果：
-
-```java
-objectId: "0c6db13c", score: 89, playerName: "比目", isPay: false,createdAt:"2013-09-27 10:32:54", updatedAt:"2013-09-27 10:32:54"
-```
-
-**这里需要注意的是：**
-1. 如果服务器端不存在GameScore表，那么系统将自动建表，并插入数据。
-2. 如果服务器端已经存在GameScore表，和相应的score、playerName、isPay字段，那么你此时添加的数据和数据类型也应该和服务器端的表结构一致，否则会保存数据失败。
-3. 每个BmobObject对象都有几个默认的键(数据列)是不需要开发者指定的，`objectId`是每个保存成功数据的唯一标识符。`createdAt`和`updatedAt`代表每个对象(每条数据)在服务器上创建和最后修改的时间。这些键(数据列)的创建和数据内容是由服务器端自主来完成的。`因此，使用save和insert方法时,不需要调用setObjectId方法，否则会出现提示：“It is a reserved field: objectId(105)”--表明objectId为系统保留字段，不允许修改。`。
 
 ## 更新数据
 
-更新一个对象也是非常简单。例如：将GameScore表中objectId为`0c6db13c`的游戏分数修改为77.
+更新一条类别数据，根据objectId来更新：
 
 ```java
-GameScore gameScore = new GameScore();
-gameScore.setScore(77);
-gameScore.update("0c6db13c", new UpdateListener() {
-
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			Log.i("bmob","更新成功");
-		}else{
-			Log.i("bmob","更新失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
-});
-```
-
-**自`V3.4.4`版本开始，SDK提供了另一种方法来更新数据，通过调用`Bmobobject`类中的`setValue（key，value）`方法，只需要传入key及想要更新的值即可**
-
-举例，说明如下：
-
-```java
-public class Person extends BmobObject {
-	private BmobUser user;	//BmobObject类型
-	private BankCard cards;	//Object类型
-	private Integer age;	//Integer类型
-	private Boolean gender; //Boolean类型
-	...
-	getter、setter方法
+/**
+ * 更新一个对象
+ */
+private void update() {
+    Category category = new Category();
+    category.setSequence(2);
+    category.update(mObjectId, new UpdateListener() {
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnUpdate, "更新成功", Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnUpdate, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
 }
-
-其中BankCard类结构如下：
-
-public class BankCard{
-	private String cardNumber;
-	private String bankName;
-	public BankCard(String bankName, String cardNumber){
-		this.bankName = bankName;
-		this.cardNumber = cardNumber;
-	}
-	...
-	getter、setter方法
-}
-
-```
-
-```java
-Person p2=new Person();
-//更新BmobObject的值
-//	p2.setValue("user", BmobUser.getCurrentUser(this, MyUser.class));
-//更新Object对象
-p2.setValue("bankCard",new BankCard("农行", "农行账号"));
-//更新Object对象的值
-//p2.setValue("bankCard.bankName","建行");
-//更新Integer类型
-//p2.setValue("age",11);
-//更新Boolean类型
-//p2.setValue("gender", true);
-p2.update(objectId, new UpdateListener() {
-
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			Log.i("bmob","更新成功");
-		}else{
-			Log.i("bmob","更新失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
-
-});
-
-```
-
-**注意：修改数据只能通过objectId来修改，目前不提供查询条件方式的修改方法。**
-
-### 原子计数器
-
-很多应用可能会有计数器功能的需求，比如文章点赞的功能，如果大量用户并发操作，用普通的更新方法操作的话，会存在数据不一致的情况。
-
-为此，Bmob提供了原子计数器来保证原子性的修改某一**数值字段**的值。注意：原子计数器只能对应用于Web后台的Number类型的字段，即JavaBeans数据对象中的Integer对象类型（**不要用int类型**）。
-
-```java
-gameScore.increment("score"); // 分数递增1
-gameScore.update(updateListener);
-```
-
-您还可以通过`increment(key, amount)`方法来递增或递减任意幅度的数字
-
-```java
-gameScore.increment("score", 5); // 分数递增5
-//gameScore.increment("score", -5); // 分数递减5
-gameScore.update(updateListener);
 ```
 
 ## 删除数据
 
-从服务器删除对象。例如：将GameScore表中objectId为`dd8e6aff28`的数据删除。
+删除一条类别数据，根据objectId来删除：
 
 ```java
-GameScore gameScore = new GameScore();
-gameScore.setObjectId("dd8e6aff28");
-gameScore.delete(new UpdateListener() {
+/**
+ * 删除一个对象
+ */
+private void delete() {
+    Category category = new Category();
+    category.delete(mObjectId, new UpdateListener() {
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnDelete, "删除成功", Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnDelete, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			Log.i("bmob","成功");
-		}else{
-			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
-});
 ```
 
-**注意：删除数据只能通过objectId来删除，目前不提供查询条件方式的删除方法。**
 
-### 删除字段的值
-
-你可以在一个对象中删除一个字段的值，通过`remove`操作：
-
-```java
-GameScore gameScore = new GameScore();
-gameScore.setObjectId("dd8e6aff28");
-gameScore.remove("score");	// 删除GameScore对象中的score字段
-gameScore.update(new UpdateListener() {
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			Log.i("bmob","成功");
-		}else{
-			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
-});
-```
 
 ## 批量数据操作
-自2017年04月起，为了提供更稳定的服务，后端启用了QPS限制，所以推荐采用批量数据操作来解决如果需要在循环里多次提交请求但是后端返回QPS达到限制的报错。
+为了提供更稳定的服务，后端启用了QPS限制，推荐采用批量数据操作来替换在循环里多次提交请求的操作，否则会返回QPS达到限制的报错。
 
-自`v3.5.0`开始,新增`BmobBatch`批量操作类，`支持批量添加、批量更新、批量删除的三种操作的同步提交`，且批量添加的请求返回objectId字段。
+BmobBatch：
 
-在BmobObject对象中提供了三种用于批量操作的方法，分别是`insertBatch`、`updateBatch`、`deleteBatch`,批量添加、更新、删除。
+|方法|功能|
+|-----|-----|
+|insertBatch|批量添加数据|
+|updateBatch|批量更新数据|
+|deleteBatch|批量删除数据|
+
+自`v3.5.0`开始，新增`BmobBatch`批量操作类，`支持批量添加、批量更新、批量删除的三种操作的同步提交`，且批量添加的请求返回objectId字段。
+
 
 ### 批量添加
 
 ```java
-List<BmobObject> persons = new ArrayList<BmobObject>();
-for (int i = 0; i < 3; i++) {
-	Person person = new Person();
-	person.setName("张三 "+i);
-	persons.add(person);
-}
-//第一种方式:v3.5.0之前的版本
-new BmobObject().insertBatch(this, persons, new SaveListener() {
-	@Override
-	public void onSuccess() {
-		toast("批量添加成功");
-	}
-	@Override
-	public void onFailure(int code, String msg) {
-		toast("批量添加失败:"+msg);
-	}
-});
-//第二种方式：v3.5.0开始提供
-new BmobBatch().insertBatch(persons).doBatch(new QueryListListener<BatchResult>() {
+/**
+ * 新增多条数据
+ */
+private void save() {
+    List<BmobObject> categories = new ArrayList<>();
+    for (int i = 0; i < 3; i++) {
+        Category category = new Category();
+        category.setName("category" + i);
+        category.setDesc("类别" + i);
+        category.setSequence(i);
+        categories.add(category);
+    }
+    new BmobBatch().insertBatch(categories).doBatch(new QueryListListener<BatchResult>() {
 
-			@Override
-			public void done(List<BatchResult> o, BmobException e) {
-				if(e==null){
-					for(int i=0;i<o.size();i++){
-						BatchResult result = o.get(i);
-						BmobException ex =result.getError();
-						if(ex==null){
-							log("第"+i+"个数据批量添加成功："+result.getCreatedAt()+","+result.getObjectId()+","+result.getUpdatedAt());
-						}else{
-							log("第"+i+"个数据批量添加失败："+ex.getMessage()+","+ex.getErrorCode());
-						}
-					}
-				}else{
-					Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-				}
-			}
-		});
+        @Override
+        public void done(List<BatchResult> results, BmobException e) {
+            if (e == null) {
+                for (int i = 0; i < results.size(); i++) {
+                    BatchResult result = results.get(i);
+                    BmobException ex = result.getError();
+                    if (ex == null) {
+                        Snackbar.make(mBtnSave, "第" + i + "个数据批量添加成功：" + result.getCreatedAt() + "," + result.getObjectId() + "," + result.getUpdatedAt(), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        Snackbar.make(mBtnSave, "第" + i + "个数据批量添加失败：" + ex.getMessage() + "," + ex.getErrorCode(), Snackbar.LENGTH_LONG).show();
+
+                    }
+                }
+            } else {
+                Snackbar.make(mBtnSave, "失败：" + e.getMessage() + "," + e.getErrorCode(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+
 ```
 
 ### 批量更新
 
 ```java
-List<BmobObject> persons = new ArrayList<BmobObject>();
-Person p1 = new Person();
-p1.setObjectId("e51d651c22");
-p1.setAge(25);
-Person p2 = new Person();
-p2.setObjectId("3f70a922c4");
-p2.setAge(26);
-p2.setGender(false);
-Person p3 = new Person();
-p3.setObjectId("08fdd55765");
-p3.setAge(27);
+/**
+ * 更新多条数据
+ */
+private void update() {
 
-persons.add(p1);
-persons.add(p2);
-persons.add(p3);
+    List<BmobObject> categories = new ArrayList<>();
 
-//第一种方式：v3.5.0之前的版本
-new BmobObject().updateBatch(this, persons, new UpdateListener() {
-	@Override
-	public void onSuccess() {
-		toast("批量更新成功");
-	}
-	@Override
-	public void onFailure(int code, String msg) {
-		toast("批量更新失败:"+msg);
-	}
-});
+    Category category = new Category();
+    category.setObjectId("此处填写对应的需要修改数据的objectId");
+    category.setName("name" + System.currentTimeMillis());
+    category.setDesc("类别" + System.currentTimeMillis());
 
-//第二种方式：v3.5.0开始提供
-new BmobBatch().updateBatch(persons).doBatch(new QueryListListener<BatchResult>() {
+    Category category1 = new Category();
+    category1.setObjectId("此处填写对应的需要修改数据的objectId");
+    category1.setName("name" + System.currentTimeMillis());
+    category1.setDesc("类别" + System.currentTimeMillis());
 
-			@Override
-			public void done(List<BatchResult> o, BmobException e) {
-				if(e==null){
-					for(int i=0;i<o.size();i++){
-						BatchResult result = o.get(i);
-						BmobException ex =result.getError();
-						if(ex==null){
-							log("第"+i+"个数据批量更新成功："+result.getUpdatedAt());
-						}else{
-							log("第"+i+"个数据批量更新失败："+ex.getMessage()+","+ex.getErrorCode());
-						}
-					}
-				}else{
-					Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-				}
-			}
-		});
+    Category category2 = new Category();
+    category2.setObjectId("此处填写对应的需要修改数据的objectId");
+    category2.setName("name" + System.currentTimeMillis());
+    category2.setDesc("类别" + System.currentTimeMillis());
+
+    categories.add(category);
+    categories.add(category1);
+    categories.add(category2);
+
+    new BmobBatch().updateBatch(categories).doBatch(new QueryListListener<BatchResult>() {
+
+        @Override
+        public void done(List<BatchResult> results, BmobException e) {
+            if (e == null) {
+                for (int i = 0; i < results.size(); i++) {
+                    BatchResult result = results.get(i);
+                    BmobException ex = result.getError();
+                    if (ex == null) {
+                        Snackbar.make(mBtnUpdate, "第" + i + "个数据批量更新成功：" + result.getCreatedAt() + "," + result.getObjectId() + "," + result.getUpdatedAt(), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        Snackbar.make(mBtnUpdate, "第" + i + "个数据批量更新失败：" + ex.getMessage() + "," + ex.getErrorCode(), Snackbar.LENGTH_LONG).show();
+
+                    }
+                }
+            } else {
+                Snackbar.make(mBtnUpdate, "失败：" + e.getMessage() + "," + e.getErrorCode(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+
 ```
 
 ### 批量删除
 
-```
-List<BmobObject> persons = new ArrayList<BmobObject>();
-Person p1 = new Person();
-p1.setObjectId("38ea274d0c");
-Person p2 = new Person();
-p2.setObjectId("01e29165bc");
-Person p3 = new Person();
-p3.setObjectId("d8226c4828");
+```Java
+/**
+ * 删除多条数据
+ */
+private void delete() {
+    List<BmobObject> categories = new ArrayList<>();
 
-persons.add(p1);
-persons.add(p2);
-persons.add(p3);
-//第一种方式：v3.5.0之前的版本
-new BmobObject().deleteBatch(this, persons, new DeleteListener() {
-	@Override
-	public void onSuccess() {
-		toast("批量删除成功");
-	}
-	@Override
-	public void onFailure(int code, String msg) {
-		toast("批量删除失败:"+msg);
-	}
-});
+    Category category = new Category();
+    category.setObjectId("此处填写对应的需要删除数据的objectId");
 
-//第二种方式：v3.5.0开始提供
-new BmobBatch().deleteBatch(persons).doBatch(new QueryListListener<BatchResult>() {
+    Category category1 = new Category();
+    category1.setObjectId("此处填写对应的需要删除数据的objectId");
 
-			@Override
-			public void done(List<BatchResult> o, BmobException e) {
-				if(e==null){
-					for(int i=0;i<o.size();i++){
-						BatchResult result = o.get(i);
-						BmobException ex =result.getError();
-						if(ex==null){
-							log("第"+i+"个数据批量删除成功");
-						}else{
-							log("第"+i+"个数据批量删除失败："+ex.getMessage()+","+ex.getErrorCode());
-						}
-					}
-				}else{
-					Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-				}
-			}
-		});
+    Category category2 = new Category();
+    category2.setObjectId("此处填写对应的需要删除数据的objectId");
+
+    categories.add(category);
+    categories.add(category1);
+    categories.add(category2);
+
+    new BmobBatch().deleteBatch(categories).doBatch(new QueryListListener<BatchResult>() {
+
+        @Override
+        public void done(List<BatchResult> results, BmobException e) {
+            if (e == null) {
+                for (int i = 0; i < results.size(); i++) {
+                    BatchResult result = results.get(i);
+                    BmobException ex = result.getError();
+                    if (ex == null) {
+                        Snackbar.make(mBtnDelete, "第" + i + "个数据批量删除成功：" + result.getCreatedAt() + "," + result.getObjectId() + "," + result.getUpdatedAt(), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        Snackbar.make(mBtnDelete, "第" + i + "个数据批量删除失败：" + ex.getMessage() + "," + ex.getErrorCode(), Snackbar.LENGTH_LONG).show();
+
+                    }
+                }
+            } else {
+                Snackbar.make(mBtnDelete, "失败：" + e.getMessage() + "," + e.getErrorCode(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+
 ```
 
 ### 批量添加、批量更新、批量删除同步提交（v3.5.0开始提供）
 
-```
-BmobBatch batch =new BmobBatch();
-//批量添加
-List<BmobObject> persons = new ArrayList<BmobObject>();
-Person person = new Person();
-person.setName("张三 ");
-persons.add(person);
-batch.insertBatch(persons);
+```Java
+/**
+ * 同时新增、更新、删除多条数据
+ */
+private void saveUpdateDelete() {
+    BmobBatch batch = new BmobBatch();
 
-//批量更新
-List<BmobObject> persons1=new ArrayList<BmobObject>();
-Person p1 = new Person();
-p1.setObjectId("3388eb6caf");
-p1.setAge(35);
-persons1.add(p1);
-batch.updateBatch(persons1);
+    //批量添加
+    List<BmobObject> categoriesSave = new ArrayList<>();
+    for (int i = 0; i < 3; i++) {
+        Category category = new Category();
+        category.setName("category" + i);
+        category.setDesc("类别" + i);
+        category.setSequence(i);
+        categoriesSave.add(category);
+    }
 
-//批量删除
-List<BmobObject> persons2 = new ArrayList<BmobObject>();
-Person p2 = new Person();
-p2.setObjectId("9af452ebd");
-persons2.add(p2);
-batch.deleteBatch(persons2);
-//执行批量操作
-batch.doBatch(new QueryListListener<BatchResult>(){
 
-	@Override
-	public void done(List<BatchResult> results, BmobException ex) {
-		if(ex==null){
-			//返回结果的results和上面提交的顺序是一样的，请一一对应
-			for(int i=0;i<results.size();i++){
-				BatchResult result= results.get(i);
-				if(result.isSuccess()){//只有批量添加才返回objectId
-					log("第"+i+"个成功："+result.getObjectId()+","+result.getUpdatedAt());
-				}else{
-					BmobException error= result.getError();
-					log("第"+i+"个失败："+error.getErrorCode()+","+error.getMessage());
-				}
-			}
-		}else{
-			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
-});
+    //批量更新
+    List<BmobObject> categoriesUpdate = new ArrayList<>();
+    Category categoryUpdate = new Category();
+    categoryUpdate.setObjectId("此处填写对应的需要修改数据的objectId");
+    categoryUpdate.setName("name" + System.currentTimeMillis());
+    categoryUpdate.setDesc("类别" + System.currentTimeMillis());
+    Category categoryUpdate1 = new Category();
+    categoryUpdate1.setObjectId("此处填写对应的需要修改数据的objectId");
+    categoryUpdate1.setName("name" + System.currentTimeMillis());
+    categoryUpdate1.setDesc("类别" + System.currentTimeMillis());
+    Category categoryUpdate2 = new Category();
+    categoryUpdate2.setObjectId("此处填写对应的需要修改数据的objectId");
+    categoryUpdate2.setName("name" + System.currentTimeMillis());
+    categoryUpdate2.setDesc("类别" + System.currentTimeMillis());
+    categoriesUpdate.add(categoryUpdate);
+    categoriesUpdate.add(categoryUpdate1);
+    categoriesUpdate.add(categoryUpdate2);
+
+
+    //批量删除
+    List<BmobObject> categoriesDelete = new ArrayList<>();
+    Category categoryDelete = new Category();
+    categoryDelete.setObjectId("此处填写对应的需要删除数据的objectId");
+    Category categoryDelete1 = new Category();
+    categoryDelete1.setObjectId("此处填写对应的需要删除数据的objectId");
+    Category categoryDelete2 = new Category();
+    categoryDelete2.setObjectId("此处填写对应的需要删除数据的objectId");
+    categoriesDelete.add(categoryDelete);
+    categoriesDelete.add(categoryDelete1);
+    categoriesDelete.add(categoryDelete2);
+
+
+    //执行批量操作
+    batch.insertBatch(categoriesSave);
+    batch.updateBatch(categoriesUpdate);
+    batch.deleteBatch(categoriesDelete);
+    batch.doBatch(new QueryListListener<BatchResult>() {
+
+        @Override
+        public void done(List<BatchResult> results, BmobException e) {
+            if (e == null) {
+                //返回结果的results和上面提交的顺序是一样的，请一一对应
+                for (int i = 0; i < results.size(); i++) {
+                    BatchResult result = results.get(i);
+                    BmobException ex = result.getError();
+                    //只有批量添加才返回objectId
+                    if (ex == null) {
+                        Snackbar.make(mBtnSaveUpdateDelete, "第" + i + "个数据批量操作成功：" + result.getCreatedAt() + "," + result.getObjectId() + "," + result.getUpdatedAt(), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        Snackbar.make(mBtnSaveUpdateDelete, "第" + i + "个数据批量操作失败：" + ex.getMessage() + "," + ex.getErrorCode(), Snackbar.LENGTH_LONG).show();
+                    }
+                }
+            } else {
+                Snackbar.make(mBtnSaveUpdateDelete, "失败：" + e.getMessage() + "," + e.getErrorCode(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+
+}
 
 ```
 
@@ -642,32 +521,139 @@ BmobQuery<Book> query = new BmobQuery<>();
 
 #### 比较查询
 
-如果要查询特定键的特定值，可以使用`addWhereEqualTo`方法，如果要过滤掉特定键的值可以使用`addWhereNotEqualTo`方法。
 
-比如需要查询playerName不等于“Barbie”的数据时可以这样写：
+|方法|功能|
+|-----|-----|
+|addWhereEqualTo|等于|
+|addWhereNotEqualTo|不等于|
+|addWhereLessThan|小于|
+|addWhereLessThanOrEqualTo|小于等于|
+|addWhereGreaterThan|大于|
+|addWhereGreaterThanOrEqualTo|大于等于|
 
-```java
-query.addWhereNotEqualTo("playerName", "Barbie");
+```
+/**
+ * name为football的类别
+ */
+private void equal() {
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereEqualTo("name", "football");
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+```
+/**
+ * name不为football的类别
+ */
+private void notEqual() {
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereNotEqualTo("name", "football");
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
-当然，你可以在你的查询操作中添加多个约束条件，来查询符合要求的数据。
-
-```java
-query.addWhereNotEqualTo("playerName", "Barbie");     //名字不等于Barbie
-query.addWhereGreaterThan("score", 60);      		  //条件：分数大于60岁
+```
+/**
+ * sequence小于10的类别
+ */
+private void less() {
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereLessThan("sequence", 10);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
-各种不同条件的比较查询：
+```
+/**
+ * sequence小于等于10的类别
+ */
+private void lessEqual() {
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereLessThanOrEqualTo("sequence", 10);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
 
-```java
-// 分数 < 50
-query.addWhereLessThan("score", 50);
-//分数 <= 50
-query.addWhereLessThanOrEqualTo("score", 50);
-//分数 > 50
-query.addWhereGreaterThan("score", 50);
-//分数 >= 50
-query.addWhereGreaterThanOrEqualTo("score", 50);
+```
+/**
+ * sequence大于10的类别
+ */
+private void large() {
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereGreaterThan("sequence", 10);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+```
+/**
+ * sequence大于等于10的类别
+ */
+private void largeEqual() {
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereGreaterThanOrEqualTo("sequence", 10);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
 #### 子查询
@@ -688,69 +674,235 @@ query.addWhereNotContainedIn("playerName", Arrays.asList(names));
 
 #### 时间查询
 
-`时间查询`比较特殊，我们需要结合`BmobDate`这个类来查询某个指定日期时间前后的数据，这里也给出示例供大家参考：
-
-比如:
-如果想查询指定日期之前的数据，则可以使用`addWhereLessThan`或者`addWhereLessThanOrEqualTo`（包含当天）来查询。
-如果想查询指定日期之后的数据，则可以使用`addWhereGreaterThan`或`addWhereGreaterThanOrEqualTo`（包含当天）来查询。
-如果想查询指定时间当天的数据，则需要使用`复合与查询`来查询，例如，想`查询2015年5月1号当天的Person数据`,示例代码如下：
-
 ```java
-BmobQuery<Person> query = new BmobQuery<Person>();
-List<BmobQuery<Person>> and = new ArrayList<BmobQuery<Person>>();
-//大于00：00：00
-BmobQuery<Person> q1 = new BmobQuery<Person>();
-String start = "2015-05-01 00:00:00";  
-SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-Date date  = null;
-try {
-date = sdf.parse(start);
-} catch (ParseException e) {
-e.printStackTrace();
-}  
-q1.addWhereGreaterThanOrEqualTo("createdAt",new BmobDate(date));
-and.add(q1);
-//小于23：59：59
-BmobQuery<Person> q2 = new BmobQuery<Person>();
-String end = "2015-05-01 23:59:59";
-SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-Date date1  = null;
-try {
-date1 = sdf1.parse(end);
-} catch (ParseException e) {
-e.printStackTrace();
-}  
-q2.addWhereLessThanOrEqualTo("createdAt",new BmobDate(date1));
-and.add(q2);
-//添加复合与查询
-query.and(and);
+/**
+ * 某个时间
+ */
+private void equal() throws ParseException {
+    String createdAt = "2018-11-23 10:30:00";
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date createdAtDate = sdf.parse(createdAt);
+    BmobDate bmobCreatedAtDate = new BmobDate(createdAtDate);
+
+
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereEqualTo("createdAt", bmobCreatedAtDate);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
-注：
-**由于createdAt、updatedAt是服务器自动生成的时间，在服务器保存的是精确到微秒值的时间，所以，基于时间类型的比较的值要加1秒。**
+```java
+/**
+ * 某个时间外
+ */
+private void notEqual() throws ParseException {
+    String createdAt = "2018-11-23 10:30:00";
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date createdAtDate = sdf.parse(createdAt);
+    BmobDate bmobCreatedAtDate = new BmobDate(createdAtDate);
+
+
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereNotEqualTo("createdAt", bmobCreatedAtDate);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+```java
+/**
+ * 某个时间前
+ */
+private void less() throws ParseException {
+    String createdAt = "2018-11-23 10:30:00";
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date createdAtDate = sdf.parse(createdAt);
+    BmobDate bmobCreatedAtDate = new BmobDate(createdAtDate);
+
+
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereLessThan("createdAt", bmobCreatedAtDate);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+```java
+/**
+ * 某个时间及以前
+ */
+private void lessEqual() throws ParseException {
+    String createdAt = "2018-11-23 10:30:00";
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date createdAtDate = sdf.parse(createdAt);
+    BmobDate bmobCreatedAtDate = new BmobDate(createdAtDate);
+
+
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereLessThanOrEqualTo("createdAt", bmobCreatedAtDate);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+```java
+/**
+ * 某个时间后
+ */
+private void large() throws ParseException {
+    String createdAt = "2018-11-23 10:30:00";
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date createdAtDate = sdf.parse(createdAt);
+    BmobDate bmobCreatedAtDate = new BmobDate(createdAtDate);
+
+
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereGreaterThan("createdAt", bmobCreatedAtDate);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+```java
+/**
+ * 某个时间及以后
+ */
+private void largeEqual() throws ParseException {
+    String createdAt = "2018-11-23 10:30:00";
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date createdAtDate = sdf.parse(createdAt);
+    BmobDate bmobCreatedAtDate = new BmobDate(createdAtDate);
+
+
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereGreaterThanOrEqualTo("createdAt", bmobCreatedAtDate);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+
+```java
+/**
+ * 期间
+ */
+private void duration() throws ParseException {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    String createdAtStart = "2018-11-23 10:29:59";
+    Date createdAtDateStart = sdf.parse(createdAtStart);
+    BmobDate bmobCreatedAtDateStart = new BmobDate(createdAtDateStart);
+
+    String createdAtEnd = "2018-11-23 10:30:01";
+    Date createdAtDateEnd = sdf.parse(createdAtEnd);
+    BmobDate bmobCreatedAtDateEnd = new BmobDate(createdAtDateEnd);
+
+
+    BmobQuery<Category> categoryBmobQueryStart = new BmobQuery<>();
+    categoryBmobQueryStart.addWhereGreaterThanOrEqualTo("createdAt", bmobCreatedAtDateStart);
+    BmobQuery<Category> categoryBmobQueryEnd = new BmobQuery<>();
+    categoryBmobQueryEnd.addWhereLessThanOrEqualTo("createdAt", bmobCreatedAtDateEnd);
+    List<BmobQuery<Category>> queries = new ArrayList<>();
+    queries.add(categoryBmobQueryStart);
+    queries.add(categoryBmobQueryStart);
+
+
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.and(queries);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
 
 #### 数组查询
 
-对于字段类型为数组的情况，需要查找字段中的数组值包含有xxx的对象，可以使用`addWhereContainsAll`方法：
+对于字段类型为数组的情况，需要查找字段中的数组值是否有被包含的对象，可以使用`addWhereContainsAll`方法：
 
-比如我想查询有阅读和唱歌爱好的人，可以这样：
-
+查询有A和B别名的用户：
 ```java
-BmobQuery<Person> query = new BmobQuery<Person>();
-String [] hobby = {"阅读","唱歌"};
-query.addWhereContainsAll("hobby", Arrays.asList(hobby));
-query.findObjects(new FindListener<Person>() {
-
-    @Override
-	public void done(List<Person> object, BmobException e) {
-		if(e==null){
-			...
-		}else{
-			...
-		}
-	}
-
-});
+/**
+ * 包含所有
+ */
+private void containAll() {
+    BmobQuery<User> userBmobQuery = new BmobQuery<>();
+    String[] alias = new String[]{"A", "B"};
+    userBmobQuery.addWhereContainsAll("alias", Arrays.asList(alias));
+    userBmobQuery.findObjects(new FindListener<User>() {
+        @Override
+        public void done(List<User> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnContain, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnContain, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
 #### 模糊查询
@@ -946,7 +1098,7 @@ bmobQuery.findObjects(new FindListener<Person>() {
 
 ### 统计查询
 
-从`BmobSDKV3.3.6`开始，Bmob为开发者提供了以下关键字或其组合的统计查询操作,分别用于计算`总和、平均值、最大值、最小值`，同时支持分组和过滤条件。
+Bmob为开发者提供了以下关键字或其组合的统计查询操作，分别用于计算`总和、平均值、最大值、最小值`，同时支持分组和过滤条件。
 
 |方法名|参数说明|方法说明|
 |:---|:---|:---|
@@ -961,203 +1113,184 @@ bmobQuery.findObjects(new FindListener<Person>() {
 注：
 1、为避免和用户创建的列名称冲突，Bmob约定以上查询返回的字段采用`_(关键字)+首字母大写的列名` 的格式：
 例：
-计算玩家得分表（GameScore）中列名为score的总和，那么返回的结果集会有一个列名为`_sumScore`，
+计算用户表（_User）中列名为score的总和，那么返回的结果集会有一个列名为`_sumScore`，
 若设置了setHasGroupCount（true）,则结果集中会返回`_count`。
 2、因为返回格式不固定，故使用`findStatistics`来专门处理统计查询。
-
-#### 统计查询方法
-
-例如，如果要计算所有玩家的得分总和，那么代码如下：
-
 ```java
-BmobQuery<GameScore> query = new BmobQuery<GameScore>();
-query.sum(new String[] { "playScore" });
-query.findStatistics(GameScore.class,new QueryListener<JSONArray>() {
+/**
+ * TODO 不带groupby的查询结果，统计全部。
+ * [{
+ * 	"_avgFault": 1.625,
+ * 	"_avgFoul": 3.75,
+ * 	"_avgScore": 25.75,
+ * 	"_avgSteal": 2,
+ * 	"_count": 79,
+ * 	"_maxFault": 3,
+ * 	"_maxFoul": 6,
+ * 	"_maxScore": 53,
+ * 	"_maxSteal": 4,
+ * 	"_minFault": 1,
+ * 	"_minFoul": 2,
+ * 	"_minScore": 11,
+ * 	"_minSteal": 1,
+ * 	"_sumFault": 13,
+ * 	"_sumFoul": 30,
+ * 	"_sumScore": 206,
+ * 	"_sumSteal": 16
+ * }]
+ */
+/**
+ * TODO 带groupby的查询结果，根据country分组统计。
+ * [{
+ * "_avgFault": 1.6666666666666667,
+ * "_avgFoul": 2.3333333333333335,
+ * "_avgScore": 25.666666666666668,
+ * "_avgSteal": 1.3333333333333333,
+ * "_count": 3,
+ * "_maxFault": 2,
+ * "_maxFoul": 3,
+ * "_maxScore": 53,
+ * "_maxSteal": 2,
+ * "_minFault": 1,
+ * "_minFoul": 2,
+ * "_minScore": 12,
+ * "_minSteal": 1,
+ * "_sumFault": 5,
+ * "_sumFoul": 7,
+ * "_sumScore": 77,
+ * "_sumSteal": 4,
+ * "country": "china"
+ * }, {
+ * "_avgFault": 2,
+ * "_avgFoul": 4.5,
+ * "_avgScore": 22,
+ * "_avgSteal": 2.5,
+ * "_count": 2,
+ * "_maxFault": 3,
+ * "_maxFoul": 5,
+ * "_maxScore": 23,
+ * "_maxSteal": 3,
+ * "_minFault": 1,
+ * "_minFoul": 4,
+ * "_minScore": 21,
+ * "_minSteal": 2,
+ * "_sumFault": 4,
+ * "_sumFoul": 9,
+ * "_sumScore": 44,
+ * "_sumSteal": 5,
+ * "country": "usa"
+ * }, {
+ * "_avgFault": 1.3333333333333333,
+ * "_avgFoul": 4.666666666666667,
+ * "_avgScore": 28.333333333333332,
+ * "_avgSteal": 2.3333333333333335,
+ * "_count": 3,
+ * "_maxFault": 2,
+ * "_maxFoul": 6,
+ * "_maxScore": 43,
+ * "_maxSteal": 4,
+ * "_minFault": 1,
+ * "_minFoul": 2,
+ * "_minScore": 11,
+ * "_minSteal": 1,
+ * "_sumFault": 4,
+ * "_sumFoul": 14,
+ * "_sumScore": 85,
+ * "_sumSteal": 7,
+ * "country": "uk"
+ * }, {
+ * "_avgFault": null,
+ * "_avgFoul": null,
+ * "_avgScore": null,
+ * "_avgSteal": null,
+ * "_count": 71,
+ * "_maxFault": null,
+ * "_maxFoul": null,
+ * "_maxScore": null,
+ * "_maxSteal": null,
+ * "_minFault": null,
+ * "_minFoul": null,
+ * "_minScore": null,
+ * "_minSteal": null,
+ * "_sumFault": 0,
+ * "_sumFoul": 0,
+ * "_sumScore": 0,
+ * "_sumSteal": 0,
+ * "country": null
+ * }]
+ */
 
-	@Override
-	public void done(JSONArray ary, BmobException e) {
-		if(e==null){
-			if(ary!=null){//
-				try {
-					JSONObject obj = ary.getJSONObject(0);
-					int sum = obj.getInt("_sumPlayScore");//_(关键字)+首字母大写的列名
-					showToast("游戏总得分：" + sum);
-				} catch (JSONException e1) {
-					e1.printStackTrace();
-				}
-			}else{
-				showToast("查询成功，无数据");
-			}
-		}else{
-			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
+/**
+ * TODO 带groupby和having的查询结果
+ * [{
+ * 	"_avgFault": 1.3333333333333333,
+ * 	"_avgFoul": 4.666666666666667,
+ * 	"_avgScore": 28.333333333333332,
+ * 	"_avgSteal": 2.3333333333333335,
+ * 	"_count": 3,
+ * 	"_maxFault": 2,
+ * 	"_maxFoul": 6,
+ * 	"_maxScore": 43,
+ * 	"_maxSteal": 4,
+ * 	"_minFault": 1,
+ * 	"_minFoul": 2,
+ * 	"_minScore": 11,
+ * 	"_minSteal": 1,
+ * 	"_sumFault": 4,
+ * 	"_sumFoul": 14,
+ * 	"_sumScore": 85,
+ * 	"_sumSteal": 7,
+ * 	"country": "uk"
+ * }]
+ */
 
-});
-
-```
-
-注：`sum方法的参数只能查询Number类型的列名（对应Java的Integer类型）`，即要计算哪个列的值的总和。
-
-查询平均值、最大、最小和上面的求和类似，在这里也一并提示下：
-
-```java
-BmobQuery<GameScore> query = new BmobQuery<GameScore>();
-//query.average(new String[]{"playScore"});//查询某列的平均值
-query.min(new String[]{"playScore"});//查询最小值
-//query.max(new String[]{"playScore"});//查询最大值
-query.groupby(new String[]{"createdAt"});
-query.findStatistics(GameScore.class, new QueryListener<JSONArray>() {
-
-	@Override
-	public void done(JSONArray ary, BmobException e) {
-		if(e==null){
-			JSONArray ary = (JSONArray) result;
-			if (ary!=null) {
-				try {
-					JSONObject obj = ary.getJSONObject(0);
-	//				int playscore = obj.getInt("_avgPlayScore");
-					int minscore = obj.getInt("_minPlayScore");
-	//				int maxscore = obj.getInt("_maxPlayScore");
-					String createDate = obj.getString("createdAt");
-					showToast("minscore = " + minscore+ ",统计时间 = "+ createDate);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-		} else {
-			showToast("查询成功，无数据");
-		}
-		}else{
-			loge(e);
-		}
-	}
-});
-
-```
-
-#### 分组统计
-
-如果你需要对查询结果进行分组，可使用`groupby`方法，支持根据多个列名进行分组。
-
-```java
-//我们以创建时间按天和游戏分别统计玩家的得分，并按时间降序
-BmobQuery<GameScore> query = new BmobQuery<GameScore>();
-query.sum(new String[] { "playScore", "signScore" });//求多个列的总和
-query.groupby(new String[] { "createdAt", "game" });//按照时间和游戏名进行分组
-query.order("-createdAt");//降序排列
-query.findStatistics(GameScore.class,new QueryListener<JSONArray>() {
-
-	@Override
-	public void done(JSONArray ary, BmobException e) {
-		if(e==null){
-			if(ary!=null){
-				int length = ary.length();
-				try {
-					for (int i = 0; i < length; i++) {
-						JSONObject obj = ary.getJSONObject(i);
-						int playscore = obj.getInt("_sumPlayScore");
-						int signscore = obj.getInt("_sumSignScore");
-						String createDate = obj.getString("createdAt");
-						String game = obj.getString("game");
-						showToast("游戏总得分：" + playscore + ",签到得分："
-								+ signscore + ",时间:" + createDate+",game:"+game);
-					}
-				} catch (JSONException e1) {
-					e1.printStackTrace();
-				}
-			} else {
-				showToast("查询成功，无数据");
-			}
-		}else{
-			loge(e);
-		}
-	}
-});
-```
-
-有时候，我们需要知道分组统计时每个分组有多少条记录，可使用`setHasGroupCount（true）`,如下：
-
-```java
-// 查询创建时间按天统计所有玩家的得分和每一天有多少条玩家的得分记录，并按时间降序:
-BmobQuery<GameScore> query = new BmobQuery<GameScore>();
-query.sum(new String[] { "playScore" });    // 统计总得分
-query.groupby(new String[] { "createdAt" });// 按照时间分组
-query.order("-createdAt");                  // 降序排列
-query.setHasGroupCount(true);              // 统计每一天有多少个玩家的得分记录，默认不返回分组个数
-query.findStatistics(GameScore.class,new QueryListener<JSONArray>() {
-
-	@Override
-	public void done(JSONArray ary, BmobException e) {
-		if(e==null){
-			if (ary!=null) {
-				int length = ary.length();
-				try {
-					for (int i = 0; i < length; i++) {
-						JSONObject obj = ary.getJSONObject(i);
-						int playscore = obj.getInt("_sumPlayScore");
-						String createDate = obj.getString("createdAt");
-						int count = obj.getInt("_count");//setHasGroupCount设置为true时，返回的结果中含有"_count"字段
-						showToast("游戏总得分：" + playscore + ",总共统计了"
-								+ count + "条记录,统计时间 = "+ createDate);
-					}
-				} catch (JSONException e1) {
-					e1.printStackTrace();
-				}
-			} else {
-				showToast("查询成功，无数据");
-			}
-		}else{
-			loge(e);
-		}
-	}
-});
-```
-
-#### 添加过滤条件
-
-如果需要对分组计算后的结果再进行过滤，可使用`having`来继续过滤部分结果。
-
-```java
-//我们按游戏名统计所有玩家的总得分，并只返回总得分大于100的记录，并按时间降序
-BmobQuery<GameScore> query = new BmobQuery<GameScore>();
-query.sum(new String[] {"playScore"});//计算总得分数
-query.groupby(new String[] {"game"});//分组条件：按游戏名进行分组
-query.order("-createdAt");// 降序排列
-HashMap<String, Object> map = new HashMap<String, Object>();
-JSONObject js = new JSONObject();
-try {
-	js.put("$gt", 100);
-} catch (JSONException e1) {
+/**
+ * “group by”从字面意义上理解就是根据“by”指定的规则对数据进行分组，所谓的分组就是将一个“数据集”划分成若干个“小区域”，然后针对若干个“小区域”进行数据处理。
+ * where 子句的作用是在对查询结果进行分组前，将不符合where条件的行去掉，即在分组之前过滤数据，where条件中不能包含聚组函数，使用where条件过滤出特定的行。
+ * having 子句的作用是筛选满足条件的组，即在分组之后过滤数据，条件中经常包含聚组函数，使用having 条件过滤出特定的组，也可以使用多个分组标准进行分组。
+ *
+ * @throws JSONException
+ */
+private void statistics() throws JSONException {
+    BmobQuery<User> bmobQuery = new BmobQuery<>();
+    //总和
+    bmobQuery.sum(new String[]{"score", "steal", "foul", "fault"});
+    //平均值
+    bmobQuery.average(new String[]{"score", "steal", "foul", "fault"});
+    //最大值
+    bmobQuery.max(new String[]{"score", "steal", "foul", "fault"});
+    //最小值
+    bmobQuery.min(new String[]{"score", "steal", "foul", "fault"});
+    //是否返回所统计的总条数
+    bmobQuery.setHasGroupCount(true);
+    //根据所给列分组统计
+    bmobQuery.groupby(new String[]{"country"});
+    //对统计结果进行过滤
+    HashMap<String, Object> map = new HashMap<>(1);
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("$gt", 28);
+    map.put("_avgScore", jsonObject);
+    bmobQuery.having(map);
+    //开始统计查询
+    bmobQuery.findStatistics(User.class, new QueryListener<JSONArray>() {
+        @Override
+        public void done(JSONArray jsonArray, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnStatistics, "查询成功：" + jsonArray.length(), Snackbar.LENGTH_LONG).show();
+                try {
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                    int sum = jsonObject.getInt("_sumScore");
+                    Snackbar.make(mBtnStatistics, "sum：" + sum, Snackbar.LENGTH_LONG).show();
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnStatistics, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
 }
-map.put("_sumPlayScore", js);//过滤条件：总得分数大于100
-query.having(map);
-query.setLimit(100);
-query.findStatistics(GameScore.class,new QueryListener<JSONArray>() {
-
-	@Override
-	public void done(JSONArray ary, BmobException e) {
-		if(e==null){
-			if(ary!=null){
-				int length = ary.length();
-				try {
-					for (int i = 0; i < length; i++) {
-						JSONObject obj = ary.getJSONObject(i);
-						int playscore = obj.getInt("_sumPlayScore");//过滤条件的key是什么，返回的数据中就有什么
-						String game = obj.getString("game");//返回的数据中同样包含groupby里面的列名
-						showToast("游戏得分：" + playscore + ",游戏名 = "+ game);
-					}
-				} catch (JSONException e1) {
-					e1.printStackTrace();
-				}
-			} else {
-				showToast("查询成功，无数据");
-			}
-		}else{
-			loge(e);
-		}
-	}
-
-});
 
 ```
 
@@ -1759,37 +1892,134 @@ public class MyUser extends BmobUser {
 
 ```java
 
+/**
+ * @author zhangchaozhou
+ */
 public class Post extends BmobObject {
 
-	private String title;//帖子标题
+    /**
+     * 帖子标题
+     */
+    private String title;
 
-	private String content;// 帖子内容
+    /**
+     * 帖子内容
+     */
+    private String content;
 
-	private MyUser author;//帖子的发布者，这里体现的是一对一的关系，该帖子属于某个用户
+    /**
+     * 发布者
+     */
+    private User author;
+    /**
+     * 图片
+     */
+    private BmobFile image;
 
-	private BmobFile image;//帖子图片
+    /**
+     * 一对多关系：用于存储喜欢该帖子的所有用户
+     */
+    private BmobRelation likes;
 
-	private BmobRelation likes;//多对多关系：用于存储喜欢该帖子的所有用户
 
-	//自行实现getter和setter方法
+    public String getTitle() {
+        return title;
+    }
 
+    public Post setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public Post setContent(String content) {
+        this.content = content;
+        return this;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public Post setAuthor(User author) {
+        this.author = author;
+        return this;
+    }
+
+    public BmobFile getImage() {
+        return image;
+    }
+
+    public Post setImage(BmobFile image) {
+        this.image = image;
+        return this;
+    }
+
+    public BmobRelation getLikes() {
+        return likes;
+    }
+
+    public Post setLikes(BmobRelation likes) {
+        this.likes = likes;
+        return this;
+    }
 }
+
 
 ```
 
 ```java
-
+/**
+ * @author zhangchaozhou
+ */
 public class Comment extends BmobObject {
 
-	private String content;//评论内容  
+    /**
+     * 评论内容
+     */
+    private String content;
 
-	private MyUser user;//评论的用户，Pointer类型，一对一关系
+    /**
+     * 评论的用户
+     */
+    private User user;
 
-	private Post post; //所评论的帖子，这里体现的是一对多的关系，一个评论只能属于一个微博
+    /**
+     * 所评论的帖子
+     */
+    private Post post;
 
-	//自行实现getter和setter方法
+
+    public String getContent() {
+        return content;
+    }
+
+    public Comment setContent(String content) {
+        this.content = content;
+        return this;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Comment setUser(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public Comment setPost(Post post) {
+        this.post = post;
+        return this;
+    }
 }
-
 ```
 
 **注：**
@@ -3457,6 +3687,32 @@ rtd.unsubRowDelete(testTableName, objectId);
 - 一个用户发送给另外一个用户的消息，可以只给这些用户赋予读写的权限。
 
 
+
+BmobACL和BmobUser的权限设置：
+
+|方法|解释|
+|----|----|
+|setReadAccess(String userId, boolean allowed)|设置哪个用户是否可读|
+|setReadAccess(BmobUser user, boolean allowed)|设置哪个用户是否可读|
+|setWriteAccess(String userId, boolean allowed)|设置哪个用户是否可写|
+|setWriteAccess(BmobUser user, boolean allowed)|设置哪个用户是否可写|
+
+BmobACL和BmobRole的权限设置：
+
+|方法|解释|
+|----|----|
+|setRoleReadAccess(String roleName, boolean allowed)|设置哪种角色是否可读|
+|setRoleReadAccess(BmobRole role, boolean allowed)|设置哪种角色是否可读|
+|setRoleWriteAccess(String roleName, boolean allowed)|设置哪种角色是否可写|
+|setRoleWriteAccess(BmobRole role, boolean allowed)|设置哪种角色是否可写|
+
+BmobACL和所有用户的权限设置：
+
+|方法|解释|
+|----|----|
+|setPublicReadAccess(boolean allowed)|设置所有用户是否可读|
+|setPublicWriteAccess(boolean allowed)|设置所有用户是否可读|
+
 ### 默认访问权限
 在没有显示指定的情况下，每一个BmobObject(表)中的ACL(列)属性的默认值是所有人可读可写的。在客户端想要修改这个权限设置，只需要简单调用BmobACL的setPublicReadAccess方法和setPublicWriteAccess方法，即：
 
@@ -3474,23 +3730,32 @@ aCL.setPublicWriteAccess(true);
 假如你想实现一个分享日志类的应用时，这可能会需要针对不同的日志设定不同的访问权限。比如，公开的日志，发布者有更改和修改的权限，其他用户只有读的权限，那么可用如下代码实现：
 
 ```java
-Blog blog = new Blog();
-blog.setTitle("论电影的七个元素");
-blog.setContent("这是blog的具体内容");
+User user = BmobUser.getCurrentUser(User.class);
+if (user == null) {
+    Snackbar.make(mBtnAcl, "请先登录", Snackbar.LENGTH_LONG).show();
+} else {
+    Post post = new Post();
+    post.setAuthor(user);
+    post.setContent("content" + System.currentTimeMillis());
+    post.setTitle("title" + System.currentTimeMillis());
+    BmobACL bmobACL = new BmobACL();
+    //设置此帖子为当前用户可写
+    bmobACL.setReadAccess(user, true);
+    //设置此帖子为所有用户可读
+    bmobACL.setPublicReadAccess(true);
+    post.setACL(bmobACL);
+    post.save(new SaveListener<String>() {
+        @Override
+        public void done(String s, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnAcl, "发布帖子成功", Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(mBtnAcl, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 
-BmobACL acl = new BmobACL();    //创建一个ACL对象
-acl.setPublicReadAccess(true);	// 设置所有人可读的权限
-acl.setWriteAccess(BmobUser.getCurrentUser(this), true);   // 设置当前用户可写的权限
-
-blog.setACL(acl);    //设置这条数据的ACL信息
-blog.save(new SaveListener<String>() {
-
-	@Override
-	public void done(String objectId, BmobException e) {
-		...
-	}
-
-});
 ```
 有时，用户想发表一篇不公开的日志，这种情况只有发布者才对这篇日志拥有读写权限，相应的代码如下：
 ```java
@@ -3645,72 +3910,179 @@ coreCode.setRoleReadAccess(mobileDep);
 
 Bmob允许用户根据地球的经度和纬度坐标进行基于地理位置的信息查询。通过在BmobObject的查询中添加一个BmobGeoPoint的对象查询，你就可以实现轻松查找出离当前用户最接近的信息或地点的功能。
 
-为了方便大家查看文档，这里创建一个Person类：
 
 ```java
-public class Person extends BmobObject{
-    private BmobGeoPoint gpsAdd;
-
-    public BmobGeoPoint getGpsAdd() {
-        return gpsAdd;
-    }
-    public void setGpsAdd(BmobGeoPoint gpsAdd) {
-        this.gpsAdd = gpsAdd;
-    }
+public class User extends BmobUser {
+    /**
+     * 用户当前位置
+     */
+    private BmobGeoPoint address;
 }
-
 ```
 
 ### 创建地理位置对象
 
 首先需要创建一个BmobGeoPoint对象。例如，创建一个东经116.39727786183357度，北纬39.913768382429105度的BmobGeoPoint对象：
 ```java
-BmobGeoPoint point = new BmobGeoPoint(116.39727786183357, 39.913768382429105);
+/**
+ * 更新当前用户地理位置信息
+ */
+private void updateLocation() {
+    //TODO 在实际应用中，此处利用实时定位替换为真实经纬度数据
+    final BmobGeoPoint bmobGeoPoint = new BmobGeoPoint(116.39727786183357, 39.913768382429105);
+    final User user = BmobUser.getCurrentUser(User.class);
+    user.setAddress(bmobGeoPoint);
+    user.update(new UpdateListener() {
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnUpdateLocation, "更新成功：" + user.getAddress().getLatitude() + "-" + user.getAddress().getLongitude(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnUpdateLocation, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
 ### 查询地理位置信息
 
-现在，你可以测试找出最接近某个点的信息了（**数据表要有一定的地理坐标对象的数据，GeoPoint字段类型**）。查询使用BmobQuery对象的`addWhereNear`方法进行操作：
+
 ```java
-BmobQuery<Person> bmobQuery = new BmobQuery<Person>();
-bmobQuery.addWhereNear("gpsAdd", new BmobGeoPoint(112.934755, 24.52065));
-bmobQuery.setLimit(10);    //获取最接近用户地点的10条数据
-bmobQuery.findObjects(new FindListener<Person>() {
-	@Override
-	public void done(List<Person> object,BmobException e) {
-		if(e==null){
-			toast("查询成功：共" + object.size() + "条数据。");
-		}else{
-			toast("查询失败：" + e.getMessage());
-		}
-	}
-});
+/**
+ * 获取当前用户的地理位置信息
+ */
+private void getLocation() {
+    User user = BmobUser.getCurrentUser(User.class);
+    if (user != null) {
+        Snackbar.make(mBtnUpdateLocation, "查询成功：" + user.getAddress().getLatitude() + "-" + user.getAddress().getLongitude(), Snackbar.LENGTH_LONG).show();
+    } else {
+        Snackbar.make(mBtnUpdateLocation, "请先登录", Snackbar.LENGTH_LONG).show();
+    }
+}
 ```
 
-要限制查询指定距离范围的数据可以使用`addWhereWithinKilometers`、`addWhereWithinMiles`或`addWhereWithinRadians`方法。
-
-要查询一个矩形范围内的信息可以使用`addWhereWithinGeoBox`来实现：
 ```java
-BmobGeoPoint southwestOfSF = new BmobGeoPoint(116.10675, 39.711669);
-BmobGeoPoint northeastOfSF = new BmobGeoPoint(116.627623, 40.143687);
-BmobQuery<Person> query = new BmobQuery<Person>();
-query.addWhereWithinGeoBox("gpsAdd", southwestOfSF, northeastOfSF);
-query.findObjects(new FindListener<Person>() {
+/**
+ * 查询最接近某个坐标的用户
+ */
+private void queryNear() {
+    BmobQuery<User> query = new BmobQuery<>();
+    BmobGeoPoint location = new BmobGeoPoint(112.934755, 24.52065);
+    query.addWhereNear("address", location);
+    query.setLimit(10);
+    query.findObjects(new FindListener<User>() {
 
-	@Override
-	public void done(List<Person> object,BmobException e) {
-		if(e==null){
-			toast("查询成功：共" + object.size() + "条数据。");
-		}else{
-			toast("查询失败：" + e.getMessage());
-		}
-	}
-});
+        @Override
+        public void done(List<User> users, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnUpdateLocation, "查询成功：" + users.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnUpdateLocation, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+```java
+/**
+ * 查询指定坐标指定半径内的用户
+ */
+private void queryWithinRadians() {
+    BmobQuery<User> query = new BmobQuery<>();
+    BmobGeoPoint address = new BmobGeoPoint(112.934755, 24.52065);
+    query.addWhereWithinRadians("address", address, 10.0);
+    query.findObjects(new FindListener<User>() {
+
+        @Override
+        public void done(List<User> users, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnUpdateLocation, "查询成功：" + users.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnUpdateLocation, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+```java
+/**
+ * 查询指定坐标指定英里范围内的用户
+ */
+private void queryWithinMiles() {
+    BmobQuery<User> query = new BmobQuery<>();
+    BmobGeoPoint address = new BmobGeoPoint(112.934755, 24.52065);
+    query.addWhereWithinMiles("address", address, 10.0);
+    query.findObjects(new FindListener<User>() {
+
+        @Override
+        public void done(List<User> users, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnUpdateLocation, "查询成功：" + users.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnUpdateLocation, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+```java
+/**
+ * 查询指定坐标指定公里范围内的用户
+ */
+private void queryWithinKilometers() {
+    BmobQuery<User> query = new BmobQuery<>();
+    BmobGeoPoint address = new BmobGeoPoint(112.934755, 24.52065);
+    query.addWhereWithinKilometers("address", address, 10);
+    query.findObjects(new FindListener<User>() {
+
+        @Override
+        public void done(List<User> users, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnUpdateLocation, "查询成功：" + users.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnUpdateLocation, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+```java
+/**
+ * 查询矩形范围内的用户
+ */
+private void queryBox() {
+    BmobQuery<User> query = new BmobQuery<>();
+    //TODO 西南点，矩形的左下角坐标
+    BmobGeoPoint southwestOfSF = new BmobGeoPoint(112.934755, 24.52065);
+    //TODO 东别点，矩形的右上角坐标
+    BmobGeoPoint northeastOfSF = new BmobGeoPoint(116.627623, 40.143687);
+    query.addWhereWithinGeoBox("address", southwestOfSF, northeastOfSF);
+    query.findObjects(new FindListener<User>() {
+
+        @Override
+        public void done(List<User> users, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnUpdateLocation, "查询成功：" + users.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnUpdateLocation, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
 **注意事项**
 
-1. **每个BmobObject数据对象中`只能`有一个BmobGeoPoint对象**。
+1. **每个BmobObject数据对象中只能有一个BmobGeoPoint对象**。
 
 2. 地理位置的点不能超过规定的范围。`纬度的范围`应该是在`-90.0到90.0`之间。`经度的范围`应该是在`-180.0到180.0`之间。如果您添加的经纬度超出了以上范围，将导致程序错误。
 
@@ -4029,6 +4401,228 @@ Bmob.getAllTableSchema(context, new QueryListListener<BmobTableSchema>() {
 -keep class org.apache.commons.**{*;}
 -keep class org.apache.http.**{*;}
 
+```
+
+
+## 模板代码
+在使用SDK过程中，如果一些Api如查询是高频代码，可以把一些重复的样板代码抽出来，并在AndroidStudio中设置模板，即可实现快速输入，能提高编码效率，效果如下：
+
+![](http://i.imgur.com/zjm4Avx.gif)
+
+## 重置域名
+从v3.6.7开始，数据服务SDK新增了能重新设置请求域名的API，需要在初始化SDK前调用：
+```Java
+Bmob.resetDomain("http://open-vip.bmob.cn/8/");
+```
+其中，参数为开发者的域名，调用后的所有请求都指向新的域名。
+```Java
+http://open-vip.bmob.cn/8/
+此域名目前仅为企业版用户使用！
+```
+## 数据迁移
+在应用设置-套餐升级-应用套餐类型，购买了企业Pro版的用户，可以提交工单通知工作人员进行数据迁移。
+
+## 海外加速
+
+在应用设置-套餐升级，购买了海外节点加速功能的用户，可以提高海外访问速度。
+
+
+## 统计功能
+从v3.5.2开始，数据服务SDK新增了统计功能。
+从v3.6.0开始，数据服务SDK移除了统计功能。
+
+- 应用权限
+
+		<uses-permission android:name="android.permission.INTERNET" />
+		<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+- 渠道设置
+
+		Bmob.initialize(this,APPID,"BMOB");
+
+
+## 系统兼容
+### Android 6.0
+- 添加对Apache的HTTP-client支持
+Android6.0版本开始移除了对Apache的HTTP Client的支持，需要在`app`的`build.gradle`文件添加配置:
+
+```gradle
+android {
+	useLibrary 'org.apache.http.legacy'
+}
+```
+
+### Android P 网络配置
+在 res 下新建一个 xml 目录，然后创建一个名为 network_security_config.xml 文件 ，该文件内容如下：
+```
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>
+```
+然后在 AndroidManifest.xml application 标签内应用上面的xml配置：
+```
+    <application
+        android:networkSecurityConfig="@xml/network_security_config">
+    </application>
+```
+
+## 类名和表名的关系
+
+- Bmob官方推荐类名和表名完全一致的映射使用方式， 即如，上面的GameScore类，它在后台对应的表名也是GameScore（区分大小写）。
+- 如果你希望表名和类名并不相同，如表名为T_a_b，而类名还是GameScore，那么你可以使用BmobObject提供的setTableName("表名")的方法，
+
+示例代码如下：
+
+```java
+//这时候实际操作的表是T_a_b
+public class GameScore extends BmobObject{
+	private String playerName;
+	private Integer score;
+	private Boolean isPay;
+    private BmobFile pic;
+
+	public GameScore() {
+		this.setTableName("T_a_b");
+	}
+
+	public String getPlayerName() {
+		return playerName;
+	}
+	//其他方法，见上面的代码
+}
+```
+当然了，除了在构造函数中直接调用setTableName方法之外，你还可以在GameScore的实例中动态调用setTableName方法。
+
+### 查询自定义表名的数据
+
+如果您使用了setTableName方法来自定义表名，那么在对该表进行数据查询的时候必须使用以下方法。`需要注意的是查询的结果是JSONArray,需要自行解析JSONArray中的数据`。
+
+```java
+/**
+ * 查询数据
+ */
+public void queryData(){
+	BmobQuery query =new BmobQuery("Person");
+	query.addWhereEqualTo("age", 25);
+	query.setLimit(2);
+	query.order("createdAt");
+	//v3.5.0版本提供`findObjectsByTable`方法查询自定义表名的数据
+	query.findObjectsByTable(new QueryListener<JSONArray>() {
+		@Override
+		public void done(JSONArray ary, BmobException e) {
+			if(e==null){
+				Log.i("bmob","查询成功："+ary.toString());
+			}else{
+				Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
+			}
+		}
+	});
+}
+```
+
+**自定义表名情况下的更新、删除数据和普通的更新、删除数据方式一样，没有变化。为方便大家了解学习，我们提供了一个关于自定义表名情况下增删改查数据的Demo，下载地址是：[https://github.com/bmob/bmob-android-demo-dynamic-tablename](https://github.com/bmob/bmob-android-demo-dynamic-tablename)。**
+
+
+
+**自`V3.4.4`版本开始，SDK提供了另一种方法来更新数据，通过调用`Bmobobject`类中的`setValue（key，value）`方法，只需要传入key及想要更新的值即可**
+
+举例，说明如下：
+
+```java
+public class Person extends BmobObject {
+	private BmobUser user;	//BmobObject类型
+	private BankCard cards;	//Object类型
+	private Integer age;	//Integer类型
+	private Boolean gender; //Boolean类型
+	...
+	getter、setter方法
+}
+
+其中BankCard类结构如下：
+
+public class BankCard{
+	private String cardNumber;
+	private String bankName;
+	public BankCard(String bankName, String cardNumber){
+		this.bankName = bankName;
+		this.cardNumber = cardNumber;
+	}
+	...
+	getter、setter方法
+}
+
+```
+
+```java
+Person p2=new Person();
+//更新BmobObject的值
+//	p2.setValue("user", BmobUser.getCurrentUser(this, MyUser.class));
+//更新Object对象
+p2.setValue("bankCard",new BankCard("农行", "农行账号"));
+//更新Object对象的值
+//p2.setValue("bankCard.bankName","建行");
+//更新Integer类型
+//p2.setValue("age",11);
+//更新Boolean类型
+//p2.setValue("gender", true);
+p2.update(objectId, new UpdateListener() {
+
+	@Override
+	public void done(BmobException e) {
+		if(e==null){
+			Log.i("bmob","更新成功");
+		}else{
+			Log.i("bmob","更新失败："+e.getMessage()+","+e.getErrorCode());
+		}
+	}
+
+});
+
+```
+
+**注意：修改数据只能通过objectId来修改，目前不提供查询条件方式的修改方法。**
+
+### 原子计数器
+
+很多应用可能会有计数器功能的需求，比如文章点赞的功能，如果大量用户并发操作，用普通的更新方法操作的话，会存在数据不一致的情况。
+
+为此，Bmob提供了原子计数器来保证原子性的修改某一**数值字段**的值。注意：原子计数器只能对应用于Web后台的Number类型的字段，即JavaBeans数据对象中的Integer对象类型（**不要用int类型**）。
+
+```java
+gameScore.increment("score"); // 分数递增1
+gameScore.update(updateListener);
+```
+
+您还可以通过`increment(key, amount)`方法来递增或递减任意幅度的数字
+
+```java
+gameScore.increment("score", 5); // 分数递增5
+//gameScore.increment("score", -5); // 分数递减5
+gameScore.update(updateListener);
+```
+
+
+
+
+### 删除字段的值
+
+你可以在一个对象中删除一个字段的值，通过`remove`操作：
+
+```java
+GameScore gameScore = new GameScore();
+gameScore.setObjectId("dd8e6aff28");
+gameScore.remove("score");	// 删除GameScore对象中的score字段
+gameScore.update(new UpdateListener() {
+	@Override
+	public void done(BmobException e) {
+		if(e==null){
+			Log.i("bmob","成功");
+		}else{
+			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
+		}
+	}
+});
 ```
 
 
