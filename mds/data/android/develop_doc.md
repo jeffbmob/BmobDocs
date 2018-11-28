@@ -1016,7 +1016,7 @@ private void resetPasswordByEmail() {
 4. 用户的密码已被重置为新输入的密码。
 
 
-## 2.4、用户系统的手机号码相关功能
+## 2.4、用户系统的手机号操作
 
 ### 2.4.1、手机号码和密码登录
 
@@ -1252,7 +1252,7 @@ BmobUser.resetPasswordBySMSCode(code, newPassword, new UpdateListener() {
 });
 ```
 
-## 2.5、用户系统的第三方平台相关功能
+## 2.5、用户系统的第三方操作
 
 Bmob提供了第三方平台登陆的功能，目前支持`新浪微博`、`QQ账号`、`微信账号`的登陆，此功能与第三方开放平台的SDK解藕。
 
@@ -1403,7 +1403,7 @@ private void unAssociate(String snsType) {
 2、[微信登陆开发指南](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN&token=a6350e5290b2fee66bf0a98f02d7ddc7a655ddce)：在`移动应用开发`->`微信登录功能`->`移动应用微信登录开发指南`。主要介绍微信OAuth2.0授权登录的流程。
 
 
-# 3、数据关联性
+# 3、数据关联
 
 ## 3.1、关联关系描述
 
@@ -3095,7 +3095,7 @@ query.doSQLQuery(new SQLQueryListener<GameScore>(){
 **只有`第一种查询方式`才能和`query.hasCachedResult(context,class)`或者`query.clearCachedResult(context,class)`并列使用。**
 **建议使用`第一种查询方式`进行BQL缓存查询。**
 
-## 数组
+# 数组
 对于数组类型数据，BmobSDK提供了3种操作来原子性地修改一个数组字段的值：
 
  - **add、addAll** 在一个数组字段的后面添加一些指定的对象(包装在一个数组内)
@@ -3397,7 +3397,7 @@ query.findObjects(new FindListener<Post>() {
 
 
 
-## 图文消息
+# 图文消息
 
 2017年下半年开始，后端云提供了素材管理模块，控制台文件浏览功能合并到了该模块下；
 
@@ -3431,7 +3431,7 @@ private void queryArticle() {
 ```
 
 
-## 文件管理
+# 文件管理
 
 `BmobFile`可以让你的应用程序将文件存储到服务器中，常见的文件类型都可以实现存储：比如图像文件、影像文件、音乐文件和任何其他二进制数据。
 
@@ -3738,7 +3738,7 @@ BmobFile.deleteBatch(urls, new DeleteBatchListener() {
 **1、文件的批量上传是BmobSDK_v3.2.7版本才提供的功能，如需使用，请更新版本;**
 **2、文件的下载和批量删除是BmobSDK_v3.4.6才提供的功能，如需使用，请更新版本。**
 
-## 数据监听
+# 数据监听
 
 **数据监听按需收费，请开发者到【应用设置-套餐升级-数据监听】中开通此功能**
 
@@ -3808,6 +3808,7 @@ rtd.unsubRowUpdate(testTableName, objectId);
 rtd.unsubRowDelete(testTableName, objectId);
 ```
 
+# 数据安全
 
 ## ACL和角色
 
@@ -4101,7 +4102,7 @@ private void removeUserFromRole(BmobRole bmobRole) {
 
 我们为大家提供一个ACL相关的案例源码，大家可以点击下载：[https://github.com/bmob/bmob-android-demo-acl](https://github.com/bmob/bmob-android-demo-acl)
 
-## 地理位置
+# 地理位置
 
 Bmob允许用户根据地球的经度和纬度坐标进行基于地理位置的信息查询。通过在BmobObject的查询中添加一个BmobGeoPoint的对象查询，你就可以实现轻松查找出离当前用户最接近的信息或地点的功能。
 
@@ -4597,7 +4598,7 @@ Bmob.getAllTableSchema(context, new QueryListListener<BmobTableSchema>() {
 -keep class org.apache.http.**{*;}
 
 ```
-
+# 其他功能
 
 ## 模板代码
 在使用SDK过程中，如果一些Api如查询是高频代码，可以把一些重复的样板代码抽出来，并在AndroidStudio中设置模板，即可实现快速输入，能提高编码效率，效果如下：
