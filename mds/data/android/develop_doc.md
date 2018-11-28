@@ -1,8 +1,8 @@
-# 0、数据服务SDK
+# 数据服务SDK
 
 Bmob平台为您的移动应用提供了一个完整的后端解决方案，我们提供轻量级的数据服务SDK开发包，让开发者以最少的配置和最简单的方式使用Bmob后端云平台提供的服务，进而完全消除开发者编写服务器代码以及维护服务器的操作。
 
-## 0.1、快速入门
+## 快速入门
 
 建议您在阅读本开发文档之前，先阅读我们提供的 [Android快速入门文档](http://doc.bmob.cn/data/android/)，便于您后续的开发。
 
@@ -480,6 +480,955 @@ private void query() {
     });
 }
 ```
+
+# 2、用户系统
+
+用户基类BmobUser，拥有注册、登录、修改密码、重置密码、短信操作、邮箱操作、第三方操作等功能。
+
+## 2.1、用户基类
+### 2.1.1、默认属性
+
+BmobUser继承BmobObject，有默认属性：
+
+|属性|说明|
+|----|----|
+|username|用户名/账号/用户唯一标志，可以是邮箱、手机号码、第三方平台的用户唯一标志|
+|password|用户密码|
+|email|用户邮箱|
+|emailVerified|用户邮箱认证状态|
+|mobilePhoneNumber|用户手机号码|
+|mobilePhoneNumberVerified|用户手机号码认证状态|
+
+
+### 2.1.2、自定义用户类型
+
+如果你的用户需要其他属性，如性别、年龄、头像等，则需要继承BmobUser类进行自定义扩展。
+
+```java
+/**
+ * Created on 2018/11/22 18:01
+ *
+ * @author zhangchaozhou
+ */
+public class User extends BmobUser {
+
+
+    /**
+     * 昵称
+     */
+    private String nickname;
+
+    /**
+     * 国家
+     */
+
+    private String country;
+
+    /**
+     * 得分数
+     */
+    private Integer score;
+
+
+    /**
+     * 抢断次数
+     */
+    private Integer steal;
+
+
+    /**
+     * 犯规次数
+     */
+    private Integer foul;
+
+
+    /**
+     * 失误个数
+     */
+    private Integer fault;
+    
+
+    /**
+     * 年龄
+     */
+    private Integer age;
+
+
+    /**
+     * 性别
+     */
+    private Integer gender;
+
+
+    /**
+     * 用户当前位置
+     */
+    private BmobGeoPoint address;
+
+
+    /**
+     * 头像
+     */
+    private BmobFile avatar;
+    
+    
+    /**
+     * 别名
+     */
+    private List<String> alias;
+
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public User setNickname(String nickname) {
+        this.nickname = nickname;
+        return this;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public User setCountry(String country) {
+        this.country = country;
+        return this;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public User setScore(Integer score) {
+        this.score = score;
+        return this;
+    }
+
+    public Integer getSteal() {
+        return steal;
+    }
+
+    public User setSteal(Integer steal) {
+        this.steal = steal;
+        return this;
+    }
+
+    public Integer getFoul() {
+        return foul;
+    }
+
+    public User setFoul(Integer foul) {
+        this.foul = foul;
+        return this;
+    }
+
+    public Integer getFault() {
+        return fault;
+    }
+
+    public User setFault(Integer fault) {
+        this.fault = fault;
+        return this;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public User setAge(Integer age) {
+        this.age = age;
+        return this;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public User setGender(Integer gender) {
+        this.gender = gender;
+        return this;
+    }
+
+    public BmobGeoPoint getAddress() {
+        return address;
+    }
+
+    public User setAddress(BmobGeoPoint address) {
+        this.address = address;
+        return this;
+    }
+
+    public BmobFile getAvatar() {
+        return avatar;
+    }
+
+    public User setAvatar(BmobFile avatar) {
+        this.avatar = avatar;
+        return this;
+    }
+
+    public List<String> getAlias() {
+        return alias;
+    }
+
+    public User setAlias(List<String> alias) {
+        this.alias = alias;
+        return this;
+    }
+}
+
+```
+
+## 2.2、用户系统的普通操作
+### 2.2.1、账号密码注册
+
+```java
+/**
+ * 账号密码注册
+ */
+private void signUp(final View view) {
+    final User user = new User();
+    user.setUsername("" + System.currentTimeMillis());
+    user.setPassword("" + System.currentTimeMillis());
+    user.setAge(18);
+    user.setGender(0);
+    user.signUp(new SaveListener<User>() {
+        @Override
+        public void done(User user, BmobException e) {
+            if (e == null) {
+                Snackbar.make(view, "注册成功", Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(view, "尚未失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+
+
+
+
+
+
+### 2.2.2、账号密码登录
+
+```java
+/**
+ * 账号密码登录
+ */
+private void login(final View view) {
+    final User user = new User();
+    //此处替换为你的用户名
+    user.setUsername("username");
+    //此处替换为你的密码
+    user.setPassword("password");
+    user.login(new SaveListener<User>() {
+        @Override
+        public void done(User bmobUser, BmobException e) {
+            if (e == null) {
+                User user = BmobUser.getCurrentUser(User.class);
+                Snackbar.make(view, "登录成功：" + user.getUsername(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(view, "登录失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+
+
+```java
+/**
+ * 账号密码登录
+ */
+private void loginByAccount(final View view) {
+    //此处替换为你的用户名密码
+    BmobUser.loginByAccount("username", "password", new LogInListener<User>() {
+        @Override
+        public void done(User user, BmobException e) {
+            if (e == null) {
+                Snackbar.make(view, "登录成功：" + user.getUsername(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(view, "登录失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+### 2.2.3、判断当前是否有用户登录
+
+```java
+if (BmobUser.isLogin()) {
+    User user = BmobUser.getCurrentUser(User.class);
+    Snackbar.make(view, "已经登录：" + user.getUsername(), Snackbar.LENGTH_LONG).show();
+} else {
+    Snackbar.make(view, "尚未登录", Snackbar.LENGTH_LONG).show();
+}
+```
+### 2.2.4、获取当前用户以及用户属性
+
+获取缓存的用户信息，缓存的有效期为1年。
+
+```java
+if (BmobUser.isLogin()) {
+    User user = BmobUser.getCurrentUser(User.class);
+    Snackbar.make(view, "当前用户：" + user.getUsername() + "-" + user.getAge(), Snackbar.LENGTH_LONG).show();
+    String username = (String) BmobUser.getObjectByKey("username");
+    Integer age = (Integer) BmobUser.getObjectByKey("age");
+    Snackbar.make(view, "当前用户属性：" + username + "-" + age, Snackbar.LENGTH_LONG).show();
+} else {
+    Snackbar.make(view, "尚未登录，请先登录", Snackbar.LENGTH_LONG).show();
+}
+```
+
+### 2.2.5、同步本地缓存的用户信息
+
+
+
+具体用法如下
+
+```java
+
+   /**
+ * 同步控制台数据到缓存中
+ * @param view
+ */
+private void fetchUserInfo(final View view) {
+    BmobUser.fetchUserInfo(new FetchUserInfoListener<BmobUser>() {
+        @Override
+        public void done(BmobUser user, BmobException e) {
+            if (e == null) {
+                final MyUser myUser = BmobUser.getCurrentUser(MyUser.class);
+                Snackbar.make(view, "更新用户本地缓存信息成功："+myUser.getUsername()+"-"+myUser.getAge(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("error",e.getMessage());
+                Snackbar.make(view, "更新用户本地缓存信息失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+```Java
+/**
+ * 获取控制台最新数据
+ * @param view
+ */
+private void fetchUserJsonInfo(final View view) {
+    BmobUser.fetchUserJsonInfo(new FetchUserInfoListener<String>() {
+        @Override
+        public void done(String json, BmobException e) {
+            if (e == null) {
+                Log.e("success",json);
+                Snackbar.make(view, "获取控制台最新数据成功："+json, Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("error",e.getMessage());
+                Snackbar.make(view, "获取控制台最新数据失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+
+```
+
+### 2.2.6、更新用户信息
+
+在更新用户信息时，如果用户邮箱有变更并且在管理后台打开了邮箱验证选项的话，Bmob云后端同样会自动发一封邮件验证信息给用户。
+
+```java
+/**
+ * 更新用户操作并同步更新本地的用户信息
+ */
+private void updateUser(final View view) {
+    final User user = BmobUser.getCurrentUser(User.class);
+    user.setAge(20);
+    user.update(new UpdateListener() {
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(view, "更新用户信息成功：" + user.getAge(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(view, "更新用户信息失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+                Log.e("error", e.getMessage());
+            }
+        }
+    });
+}
+
+```
+
+
+### 2.2.7、查询用户
+查询用户和查询普通对象一样，只需指定BmobUser类即可，如下：
+```java
+BmobQuery<BmobUser> query = new BmobQuery<BmobUser>();
+query.addWhereEqualTo("username", "lucky");
+query.findObjects(new FindListener<BmobUser>() {
+	@Override
+	public void done(List<BmobUser> object,BmobException e) {
+		if(e==null){
+			toast("查询用户成功:"+object.size());
+		}else{
+			toast("更新用户信息失败:" + e.getMessage());
+		}
+	}
+});
+```
+浏览器中查看用户表
+
+User表是一个特殊的表，专门存储BmobUser对象。在浏览器端，你会看到一个User表旁边有一个小人的图标。
+
+![](image/create_table.png)
+
+### 2.2.8、退出登录
+
+退出登录，同时清除缓存用户对象。
+
+```java
+BmobUser.logOut();
+```
+
+### 2.2.9、密码修改
+自`V3.4.3`版本开始，SDK为开发者提供了直接修改当前用户登录密码的方法，只需要传入旧密码和新密码，然后调用`BmobUser`提供的静态方法`updateCurrentUserPassword`即可，以下是示例：
+
+```java
+BmobUser.updateCurrentUserPassword("旧密码", "新密码", new UpdateListener() {
+
+	@Override
+	public void done(BmobException e) {
+		if(e==null){
+			toast("密码修改成功，可以用新密码进行登录啦");
+		}else{
+			toast("失败:" + e.getMessage());
+		}
+	}
+
+});
+
+```
+
+## 1.3、用户系统的邮箱操作
+
+
+
+- 有些时候你可能需要在用户注册时发送一封验证邮件，以确认用户邮箱的真实性。这时，你只需要登录自己的应用管理后台，在应用设置->邮件设置（下图）中把“邮箱验证”功能打开，Bmob云后端就会在注册时自动发动一封验证给用户。
+
+![](image/email_verify.png)
+
+
+### 1.3.1、邮箱密码登录
+新增`邮箱+密码`登录方式,可以通过`loginByAccount`方法来操作：
+
+```java
+BmobUser.loginByAccount(account, password, new LogInListener<MyUser>() {
+
+			@Override
+			public void done(MyUser user, BmobException e) {
+				if(user!=null){
+					Log.i("smile","用户登陆成功");
+				}
+			}
+		});
+
+```
+
+### 1.3.2、邮箱验证
+设置邮件验证是一个可选的应用设置, 这样可以对已经确认过邮件的用户提供一部分保留的体验，邮件验证功能会在用户(User)对象中加入emailVerified字段, 当一个用户的邮件被新添加或者修改过的话，emailVerified会被默认设为false，如果应用设置中开启了邮箱认证功能，Bmob会对用户填写的邮箱发送一个链接, 这个链接可以把emailVerified设置为 true.
+
+emailVerified 字段有 3 种状态可以考虑：
+
+ - true : 用户可以点击邮件中的链接通过Bmob来验证地址，一个用户永远不会在新创建这个值的时候显示emailVerified为true。
+ - false : 用户(User)对象最后一次被刷新的时候, 用户并没有确认过他的邮箱地址, 如果你看到emailVerified为false的话，你可以考虑刷新用户(User)对象。
+ - missing : 用户(User)对象已经被创建，但应用设置并没有开启邮件验证功能； 或者用户(User)对象没有email邮箱。
+
+### 1.3.3、请求验证Email
+发送给用户的邮箱验证邮件会在一周内失效，可以通过调用 `requestEmailVerify` 来强制重新发送：
+```java
+final String email = "xxx@qq.com";
+BmobUser.requestEmailVerify(email, new UpdateListener() {
+	@Override
+	public void done(BmobException e) {
+		if(e==null){
+			toast("请求验证邮件成功，请到" + email + "邮箱中进行激活。");
+		}else{
+			toast("失败:" + e.getMessage());
+		}
+	}
+});
+```
+
+### 1.3.4、邮箱重置密码
+开发者只需要求用户输入注册时的电子邮件地址即可：
+```java
+final String email = "xxx@163.com";
+BmobUser.resetPasswordByEmail(email, new UpdateListener() {
+
+	@Override
+	public void done(BmobException e) {
+		if(e==null){
+			toast("重置密码请求成功，请到" + email + "邮箱进行密码重置操作");
+		}else{
+			toast("失败:" + e.getMessage());
+		}
+	}
+});
+```
+
+邮箱重置密码的流程如下：
+
+1. 用户输入他们的电子邮件，请求重置自己的密码。
+2. Bmob向他们的邮箱发送一封包含特殊的密码重置链接的电子邮件。
+3. 用户根据向导点击重置密码连接，打开一个特殊的Bmob页面，根据提示他们可以输入一个新的密码。
+4. 用户的密码已被重置为新输入的密码。
+
+
+## 1.4、用户系统的手机号相关功能
+
+### 1.4.1、手机号码登录
+
+在手机号码被验证后，用户可以使用该手机号码进行登录操作。
+
+手机号码登录包括两种方式：`手机号码＋密码`、`手机号码＋短信验证码`。
+
+### 1.4.2、手机号码+密码
+
+```java
+BmobUser.loginByAccount("11位手机号码", "用户密码", new LogInListener<MyUser>() {
+
+	@Override
+	public void done(MyUser user, BmobException e) {
+		if(user!=null){
+			Log.i("smile","用户登陆成功");
+		}
+	}
+});
+
+```
+
+
+### 1.4.3、手机号码+短信验证码
+
+先请求登录的短信验证码：
+
+```java
+BmobSMS.requestSMSCode("11位手机号码","模板名称", new QueryListener<Integer>() {
+
+	@Override
+	public void done(Integer smsId,BmobException ex) {
+		if(ex==null){//验证码发送成功
+			Log.i("smile", "短信id："+smsId);//用于后续的查询本次短信发送状态
+		}
+	}
+});
+
+```
+
+最后调用`loginBySMSCode`方法进行手机号码登录:
+
+```java
+BmobUser.loginBySMSCode("11位手机号码", code, new LogInListener<MyUser>() {
+
+		@Override
+		public void done(MyUser user, BmobException e) {
+			if(user!=null){
+				Log.i("smile","用户登陆成功");
+			}
+		}
+	});
+}
+
+```
+
+### 1.4.4、手机号码一键注册或登录
+
+Bmob同样支持手机号码一键注册或登录，以下是一键登录的流程：
+
+
+1、请求登录操作的短信验证码：
+
+```java
+BmobSMS.requestSMSCode("11位手机号码","模板名称", new QueryListener<Integer>() {
+
+	@Override
+	public void done(Integer smsId,BmobException ex) {
+		if(ex==null){//验证码发送成功
+			Log.i("smile", "短信id："+smsId);//用于查询本次短信发送详情
+		}
+	}
+	});
+
+```
+
+2、用户收到短信验证码之后，就可以调用`signOrLoginByMobilePhone`方法来实现一键登录:
+
+```java
+BmobUser.signOrLoginByMobilePhone("11位手机号码", "验证码", new LogInListener<MyUser>() {
+
+	@Override
+	public void done(MyUser user, BmobException e) {
+		if(user!=null){
+			Log.i("smile","用户登陆成功");
+		}
+	}
+});
+
+```
+
+如果，你想在一键注册或登录的同时保存其他字段的数据的时，你可以使用`signOrLogin`方法（此方法`V3.4.3`版本提供）。
+
+比如，你想在手机号码注册或登录的同时，设置用户名及登录密码等信息，那么具体示例如下：
+
+```java
+
+MyUser user = new MyUser();
+user.setMobilePhoneNumber("11位手机号码");//设置手机号码（必填）
+user.setUsername(xxx);                  //设置用户名，如果没有传用户名，则默认为手机号码
+user.setPassword(xxx);                  //设置用户密码
+user.setAge(18);	                    //设置额外信息：此处为年龄
+user.signOrLogin("验证码", new SaveListener<MyUser>() {
+
+	@Override
+	public void done(MyUser user,BmobException e) {
+		if(e==null){
+			toast("注册或登录成功");
+			Log.i("smile", ""+user.getUsername()+"-"+user.getAge()+"-"+user.getObjectId());
+		}else{
+			toast("失败:" + e.getMessage());
+		}
+
+	}
+
+});
+
+```
+
+### 1.4.5、绑定手机号码
+如果已有用户系统，需要为用户绑定手机号，那么官方推荐的绑定流程如下：
+
+第一步、先发送短信验证码并验证验证码的有效性,即调用`requestSMSCode`发送短信验证码，调用`verifySmsCode`来验证有效性。
+
+第二步、在验证成功之后更新当前用户的`MobilePhoneNumber`和`MobilePhoneNumberVerified`两个字段，具体绑定示例如下：
+
+```java
+User user =new User();
+user.setMobilePhoneNumber(phone);
+user.setMobilePhoneNumberVerified(true);
+User cur = BmobUser.getCurrentUser(User.class);
+user.update(cur.getObjectId(),new UpdateListener() {
+
+	@Override
+	public void done(BmobException e) {
+		if(e==null){
+			toast("手机号码绑定成功");
+		}else{
+			toast("失败:" + e.getMessage());
+		}
+	}
+});
+
+```
+
+### 1.4.6、手机号码重置密码
+Bmob自`V3.3.9`版本开始引入了短信验证系统，如果用户已经验证过手机号码或者使用过手机号码注册或登录过，也可以通过手机号码来重置用户密码，以下是官方建议使用的重置流程：
+
+1、请求重置密码操作的短信验证码：
+
+```java
+BmobSMS.requestSMSCode("11位手机号码","模板名称", new QueryListener<Integer>() {
+
+	@Override
+	public void done(Integer smsId,BmobException ex) {
+		if(ex==null){//验证码发送成功
+			Log.i("smile", "短信id："+smsId);//用于查询本次短信发送详情
+		}
+	}
+	});
+
+```
+
+2、用户收到重置密码的验证码之后，就可以调用`resetPasswordBySMSCode`方法来实现密码重置:
+
+```java
+BmobUser.resetPasswordBySMSCode(code,"1234567", new UpdateListener() {
+
+	@Override
+	public void done(BmobException ex) {
+		if(ex==null){
+			Log.i("smile", "密码重置成功");
+		}else{
+			Log.i("smile", "重置失败：code ="+ex.getErrorCode()+",msg = "+ex.getLocalizedMessage());
+		}
+	}
+});
+
+```
+
+重置成功以后，用户就可以使用新密码登陆了。
+
+**注：**
+
+**1、请开发者按照官方推荐的操作流程来完成重置密码操作。也就是说，开发者在进行重置密码操作时，无需调用`verifySmsCode`接口去验证该验证码的有效性。**
+
+**2、验证码只能使用一次，一旦该验证码被使用就会失效，那么再拿失效的验证码去调用重置密码接口，一定会报`207-验证码错误`。因为重置密码接口已经包含验证码的有效性验证。**
+
+### 1.4.7、手机号码验证
+
+### 1.4.8、请求发送短信验证码
+
+Bmob自`V3.3.9`版本开始引入了短信验证系统，可通过`requestSMSCode`方式请求发送短信验证码：
+
+```java
+BmobSMS.requestSMSCode("11位手机号码", "模板名称",new QueryListener<Integer>() {
+
+	@Override
+	public void done(Integer smsId,BmobException ex) {
+		if(ex==null){//验证码发送成功
+			Log.i("smile", "短信id："+smsId);//用于查询本次短信发送详情
+		}
+	}
+});
+
+```
+
+短信默认模板：
+
+```java
+
+	您的验证码是`%smscode%`，有效期为`%ttl%`分钟。您正在使用`%appname%`的验证码。【比目科技】
+
+```
+
+
+**注：**
+
+1、`模板名称`：模板名称需要开发者在应用的管理后台进行短信模板的添加工作，具体：`短信服务`->`短信模板`,之后点击创建即可。
+
+
+具体请看下图：
+
+![](image/sms.png)
+
+
+2、只有审核通过之后的自定义短信模板才可以被使用，如果自定义的短信模板其状态显示`审核中`或者`审核失败`,再调用该方法则会以`默认模板`来发送验证码。
+
+**3、开发者提交短信验证码模板时需注意以下几点：**
+
+**1）、模板中不能有【】和 [] ，否则审核不通过；**
+
+**2）、如果你提交的短信模板无法发送，则有可能包含一些敏感监控词，具体可去Github下载  [短信关键字监控参考文档](https://github.com/bmob/bmob-public-docs/blob/master/%E7%9F%AD%E4%BF%A1%E5%85%B3%E9%94%AE%E5%AD%97%E7%9B%91%E6%8E%A7%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3.doc)  来查看提交内容是否合法。**
+
+**3）、一天一个应用给同一手机号发送的短信不能超过10条，否则会报`10010`错误，其他错误码可查看[错误码文档](http://doc.bmob.cn/other/error_code/) 。**
+
+
+##### 验证验证码
+
+通过`verifySmsCode`方式可验证该短信验证码：
+
+```java
+BmobSMS.verifySmsCode("11位手机号码", "验证码", new UpdateListener() {
+
+	@Override
+	public void done(BmobException ex) {
+		if(ex==null){//短信验证码已验证成功
+			Log.i("smile", "验证通过");
+		}else{
+			Log.i("smile", "验证失败：code ="+ex.getErrorCode()+",msg = "+ex.getLocalizedMessage());
+		}
+	}
+});
+
+```
+
+验证成功后，用户的`mobilePhoneVerified`属性会自动变为`true`。
+
+
+
+**注意事项：**
+
+**关于短信条数的计算规则如下:**
+
+1. 实际计算的短信字数 = 模板的内容或自定义短信的内容字数 + 6。加上6是因为默认的签名【比目科技】占了6个字。
+2. 实际计算的短信字数在70个字以下算1条。
+3. 实际计算的短信字数超过70字的以67字为一条来计算的。也就是135个字数是计算为3条的。
+4. 计算得到的短信条数在本条短信发送成功后将会从你的账户剩余的短信条数中扣除。
+
+**短信发送限制规则是1/分钟，5/小时，10/天。即对于一个应用来说，一天给同一手机号发送短信不能超过10条，一小时给同一手机号发送短信不能超过5条，一分钟给同一手机号发送短信不能超过1条。**
+
+
+#### 短信验证案例
+
+为了方便大家，官方提供了一个短信验证的demo：[https://github.com/bmob/bmob_android_demo_sms](https://github.com/bmob/bmob_android_demo_sms) 。
+
+此案例包含了：`用户名/邮箱/手机号码+密码登录`、`手机号码一键注册登录`、`绑定手机号`以及`通过手机号重置用户密码`。
+
+### 第三方账号登陆
+
+Bmob提供了非常简单的方法来实现第三方账号登陆的功能，目前支持`新浪微博`、`QQ账号`、`微信账号`的登陆。
+
+自`BmobV3.3.9`版本开始，为了与第三方开放平台的SDK解藕，Bmob使用了全新的第三方账号登录方式，之前的微博和qq登录方式的API已删除。
+
+#### 应用场景
+
+第三方账号登陆目前适应以下两种应用场景：
+
+`一、没有Bmob账号，希望使用第三方账号一键注册或登陆Bmob账号`
+
+如果开发者希望用户使用第三方平台的账号注册或登录Bmob的用户体系，则推荐的步骤如下：
+
+1、第三方平台授权，开发者需自行根据第三方平台文档提出的授权方法完成账号授权并得到授权信息
+
+2、调用Bmob提供的`loginWithAuthData（BmobV3.3.9版本提供）`方法，并自行构造`BmobThirdUserAuth（第三方授权信息）`对象，调用成功后，在Bmob的User表中会产生一条记录。
+
+
+`二、已有Bmob账号，希望与第三方账号进行关联`
+
+如果已使用Bmob的用户体系（假设用户A已登录），希望和第三方平台进行关联，则推荐的步骤如下：
+
+1、第三方平台授权，开发者需自行根据第三方平台文档提出的授权方法完成账号授权并得到授权信息
+
+2、调用`associateWithAuthData`方法，并自行构造`BmobThirdUserAuth(第三方授权信息)`对象，调用成功后，你就会在后台的用户A的authData这个字段下面看到提交的授权信息。
+
+
+#### 相关文档
+
+为了方便开发者完成授权，现整理各个平台的需要查阅的文档：
+
+##### 微博登陆相关文档
+
+1、[移动客户端接入文档](http://open.weibo.com/wiki/%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8E%A5%E5%85%A5)：此文档请着重查阅其中的`SDK接入流程`。
+
+2、[新浪微博AndroidSDK快速入门](https://github.com/sinaweibosdk/weibo_android_sdk)，请详细查看`README`文档,其介绍了完整的集成流程。
+
+3、[新浪微博常见问题](https://github.com/sinaweibosdk/weibo_android_sdk/blob/master/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%20FAQ.md#5-%E5%85%B3%E4%BA%8E%E6%8E%88%E6%9D%83)：在新浪微博授权过程中出现问题，请查看此文档，一般出现频率较高的错误有：
+
+`sso package and sign error`- 平台上填写的包名和签名不正确。请仔细检查，一般最需要检查的是`签名`，签名需要使用微博提供的获取签名的工具[（app_signatures.apk）](https://github.com/sinaweibosdk/weibo_android_sdk/blob/master/app_signatures.apk)。
+
+`redirect_uri_mismatch`     - 请确保你在weibo平台上填写的授权回调地址与代码中写的授权回调地址(RedirectURI)一样。
+
+##### QQ登陆相关文档
+
+1、如何使用SDK，请参见 [腾讯开放平台Android_SDK使用说明](http://wiki.open.qq.com/wiki/mobile/Android_SDK%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E)。
+
+2、如何调用具体API，请参见 [API调用说明](http://wiki.open.qq.com/wiki/Android_API%E8%B0%83%E7%94%A8%E8%AF%B4%E6%98%8E)。
+
+3、常见问题汇总，请参见[问题汇总说明](http://bbs.open.qq.com/thread-6159767-1-1.html)。
+
+##### 微信登陆相关文档
+
+1、[Android接入指南](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN&token=a6350e5290b2fee66bf0a98f02d7ddc7a655ddce)：这里主要介绍的是微信sdk的集成步骤
+
+2、[微信登陆开发指南](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN&token=a6350e5290b2fee66bf0a98f02d7ddc7a655ddce)：在`移动应用开发`->`微信登录功能`->`移动应用微信登录开发指南`。主要介绍微信OAuth2.0授权登录的流程。
+
+
+**注：**
+
+三者当中较麻烦的是微信登陆的授权，因此，在此简单说明下可能遇见的问题：
+
+**1、在微信登陆过程中出现了问题，请仔细注意以下几点：**
+
+1）、需要在微信开放平台上填写你的`应用信息、包名和签名`；
+2）、微信登陆不同于QQ或微博登陆，应用需要`提交微信官方审核`，只有审核通过后才能打开授权界面；
+3）、建议`导出正式签名的apk来测试`，不建议直接run debug版本的apk；
+4）、检查`签名是否正确`、检查`传递的参数是否正确`。
+
+**2、微信登陆的测试相对比较麻烦，如果开发者希望直接能够进行调试，建议使用微信官方demo中的`debug keystore`**。具体使用步骤：
+
+1)、Eclipse中选择`Window->Preferences->Android->Build`;
+
+2)、在Build页有个`Custom debug keystore`选项,然后点击`Browse`,选择微信官方demo中的`debug keystore`文件即可。
+
+之后重新运行应用时会使用该`debug keystore`文件对应用进行Debug签名。
+
+`不要忘了在微信后台重新填写通过微信签名工具获得的该调试应用的签名`。
+
+
+#### 第三方账号一键注册或登录
+
+假设你已通过上述提供的文档完成相应平台的授权并得到对应的授权信息，则可以这样来完成一键注册或登陆操作：
+
+```java
+	BmobThirdUserAuth authInfo = new BmobThirdUserAuth(snsType,accessToken, expiresIn,userId);
+	BmobUser.loginWithAuthData(authInfo, new LogInListener<JSONObject>() {
+
+		@Override
+		public void done(JSONObject userAuth,BmobException e) {
+			...
+		}
+	});			
+
+```
+
+注：
+
+`BmobThirdUserAuth`的各参数解释：
+
+1、`snsType`:只能是三种取值中的一种：`weibo、qq、weixin`
+
+2、`accessToken`：接口调用凭证
+
+3、`expiresIn`：access_token的有效时间
+
+4、`userId`:用户身份的唯一标识，对应微博授权信息中的`uid`,对应qq和微信授权信息中的`openid`
+
+
+#### 关联第三方账号
+
+##### 账号关联
+
+```java
+	BmobThirdUserAuth authInfo = new BmobThirdUserAuth(snsType,accessToken, expiresIn, userId);
+	BmobUser.associateWithAuthData(authInfo, new UpdateListener() {
+
+		@Override
+		public void done(BmobException e) {
+			if(e==null){
+				Log.i("bmob","关联成功");
+			}else{
+				Log.i("bmob","关联失败：code =" + e.getErrorCode() + ",msg = " + e.getMessage());
+			}
+
+		}
+	});
+
+```
+
+##### 解除关联
+
+```java
+	BmobUser.dissociateAuthData(snsType,new UpdateListener() {
+
+		@Override
+		public void done(BmobException e) {
+			if(e==null){
+				Log.i("bmob","取消"+snsType+"关联成功");
+			}else{
+				int code =e.getErrorCode();
+				if (code == 208) {// 208错误指的是没有绑定相应账户的授权信息
+					Log.i("smile","你没有关联该账号");
+				} else {
+					Log.i("smile","取消"+snsType+"关联失败：code =" + code + ",msg = " + e.getMessage());
+				}
+			}
+		}
+});
+
+```
+
+#### 第三方登录的案例源码
+
+具体案例可参考我们Github上的demo：[https://github.com/bmob/bmob-android-demo-thirdpartylogin](https://github.com/bmob/bmob-android-demo-thirdpartylogin) ,这个源码包含了第三方登录的源码和登录之后如何获取用户基本信息的部分。
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2456,949 +3405,6 @@ query.findObjects(new FindListener<Post>() {
 });
 ```
 
-
-
-
-
-
-# 1、用户管理
-
-用户基类BmobUser，集成了注册、登录、修改密码、重置密码、短信操作、邮箱操作、第三方操作等功能。
-## 1.1、用户基类
-### 1.1.1、默认属性
-
-BmobUser继承BmobObject，有默认属性：
-
-|属性|说明|
-|----|----|
-|username|用户名/账号/唯一标志|
-|password|用户密码|
-|email|用户邮箱|
-|emailVerified|用户邮箱认证状态|
-|mobilePhoneNumber|用户手机号码|
-|mobilePhoneNumberVerified|用户手机号码认证状态|
-
-
-### 1.1.2、继承用户类
-
-如果你的用户需要其他属性，如性别、年龄、头像等，则需要继承BmobUser类进行扩展。
-
-```java
-/**
- * Created on 2018/11/22 18:01
- *
- * @author zhangchaozhou
- */
-public class User extends BmobUser {
-
-
-    /**
-     * 昵称
-     */
-    private String nickname;
-
-    /**
-     * 国家
-     */
-
-    private String country;
-
-    /**
-     * 得分数
-     */
-    private Integer score;
-
-
-    /**
-     * 抢断次数
-     */
-    private Integer steal;
-
-
-    /**
-     * 犯规次数
-     */
-    private Integer foul;
-
-
-    /**
-     * 失误个数
-     */
-    private Integer fault;
-    
-
-    /**
-     * 年龄
-     */
-    private Integer age;
-
-
-    /**
-     * 性别
-     */
-    private Integer gender;
-
-
-    /**
-     * 用户当前位置
-     */
-    private BmobGeoPoint address;
-
-
-    /**
-     * 头像
-     */
-    private BmobFile avatar;
-    
-    
-    /**
-     * 别名
-     */
-    private List<String> alias;
-
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public User setNickname(String nickname) {
-        this.nickname = nickname;
-        return this;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public User setCountry(String country) {
-        this.country = country;
-        return this;
-    }
-
-    public Integer getScore() {
-        return score;
-    }
-
-    public User setScore(Integer score) {
-        this.score = score;
-        return this;
-    }
-
-    public Integer getSteal() {
-        return steal;
-    }
-
-    public User setSteal(Integer steal) {
-        this.steal = steal;
-        return this;
-    }
-
-    public Integer getFoul() {
-        return foul;
-    }
-
-    public User setFoul(Integer foul) {
-        this.foul = foul;
-        return this;
-    }
-
-    public Integer getFault() {
-        return fault;
-    }
-
-    public User setFault(Integer fault) {
-        this.fault = fault;
-        return this;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public User setAge(Integer age) {
-        this.age = age;
-        return this;
-    }
-
-    public Integer getGender() {
-        return gender;
-    }
-
-    public User setGender(Integer gender) {
-        this.gender = gender;
-        return this;
-    }
-
-    public BmobGeoPoint getAddress() {
-        return address;
-    }
-
-    public User setAddress(BmobGeoPoint address) {
-        this.address = address;
-        return this;
-    }
-
-    public BmobFile getAvatar() {
-        return avatar;
-    }
-
-    public User setAvatar(BmobFile avatar) {
-        this.avatar = avatar;
-        return this;
-    }
-
-    public List<String> getAlias() {
-        return alias;
-    }
-
-    public User setAlias(List<String> alias) {
-        this.alias = alias;
-        return this;
-    }
-}
-
-```
-
-## 1.2、用户系统的普通操作
-### 1.2.1、账号密码注册
-
-```java
-/**
- * 账号密码注册
- */
-private void signUp(final View view) {
-    final User user = new User();
-    user.setUsername("" + System.currentTimeMillis());
-    user.setPassword("" + System.currentTimeMillis());
-    user.setAge(18);
-    user.setGender(0);
-    user.signUp(new SaveListener<User>() {
-        @Override
-        public void done(User user, BmobException e) {
-            if (e == null) {
-                Snackbar.make(view, "注册成功", Snackbar.LENGTH_LONG).show();
-            } else {
-                Snackbar.make(view, "尚未失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
-            }
-        }
-    });
-}
-```
-
-在注册过程中，服务器会对注册用户信息进行检查，以确保注册的用户名和电子邮件地址是独一无二的。此外，对于用户的密码，你可以在应用程序中进行相应的加密处理后提交。
-
-如果注册不成功，你可以查看返回的错误对象。最有可能的情况是，用户名或电子邮件已经被另一个用户注册。这种情况你可以提示用户，要求他们尝试使用不同的用户名进行注册。
-
-你也可以要求用户使用Email做为用户名注册，这样做的好处是，你在提交信息的时候可以将输入的“用户名“默认设置为用户的Email地址，以后在用户忘记密码的情况下可以使用Bmob提供重置密码功能。
-
-**注：**
-
-- 有些时候你可能需要在用户注册时发送一封验证邮件，以确认用户邮箱的真实性。这时，你只需要登录自己的应用管理后台，在应用设置->邮件设置（下图）中把“邮箱验证”功能打开，Bmob云后端就会在注册时自动发动一封验证给用户。
-
-![](image/email_verify.png)
-
-- username字段是大小写敏感的字段，如果你希望应用的用户名不区分大小写，请在注册和登录时进行大小写的统一转换。
-
-### 1.2.2、账号密码登录
-
-```java
-/**
- * 账号密码登录
- */
-private void login(final View view) {
-    final User user = new User();
-    //此处替换为你的用户名
-    user.setUsername("username");
-    //此处替换为你的密码
-    user.setPassword("password");
-    user.login(new SaveListener<User>() {
-        @Override
-        public void done(User bmobUser, BmobException e) {
-            if (e == null) {
-                User user = BmobUser.getCurrentUser(User.class);
-                Snackbar.make(view, "登录成功：" + user.getUsername(), Snackbar.LENGTH_LONG).show();
-            } else {
-                Snackbar.make(view, "登录失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
-            }
-        }
-    });
-}
-```
-
-
-
-```java
-/**
- * 账号密码登录
- */
-private void loginByAccount(final View view) {
-    //此处替换为你的用户名密码
-    BmobUser.loginByAccount("username", "password", new LogInListener<User>() {
-        @Override
-        public void done(User user, BmobException e) {
-            if (e == null) {
-                Snackbar.make(view, "登录成功：" + user.getUsername(), Snackbar.LENGTH_LONG).show();
-            } else {
-                Snackbar.make(view, "登录失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
-            }
-        }
-    });
-}
-```
-### 1.2.3、判断当前是否有用户登录
-
-```java
-if (BmobUser.isLogin()) {
-    User user = BmobUser.getCurrentUser(User.class);
-    Snackbar.make(view, "已经登录：" + user.getUsername(), Snackbar.LENGTH_LONG).show();
-} else {
-    Snackbar.make(view, "尚未登录", Snackbar.LENGTH_LONG).show();
-}
-```
-### 1.2.4、获取当前用户以及用户属性
-
-获取缓存的用户信息，缓存的有效期为1年。
-
-```java
-if (BmobUser.isLogin()) {
-    User user = BmobUser.getCurrentUser(User.class);
-    Snackbar.make(view, "当前用户：" + user.getUsername() + "-" + user.getAge(), Snackbar.LENGTH_LONG).show();
-    String username = (String) BmobUser.getObjectByKey("username");
-    Integer age = (Integer) BmobUser.getObjectByKey("age");
-    Snackbar.make(view, "当前用户属性：" + username + "-" + age, Snackbar.LENGTH_LONG).show();
-} else {
-    Snackbar.make(view, "尚未登录，请先登录", Snackbar.LENGTH_LONG).show();
-}
-```
-
-### 1.2.5、同步本地缓存的用户信息
-
-
-
-具体用法如下
-
-```java
-
-   /**
- * 同步控制台数据到缓存中
- * @param view
- */
-private void fetchUserInfo(final View view) {
-    BmobUser.fetchUserInfo(new FetchUserInfoListener<BmobUser>() {
-        @Override
-        public void done(BmobUser user, BmobException e) {
-            if (e == null) {
-                final MyUser myUser = BmobUser.getCurrentUser(MyUser.class);
-                Snackbar.make(view, "更新用户本地缓存信息成功："+myUser.getUsername()+"-"+myUser.getAge(), Snackbar.LENGTH_LONG).show();
-            } else {
-                Log.e("error",e.getMessage());
-                Snackbar.make(view, "更新用户本地缓存信息失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
-            }
-        }
-    });
-}
-```
-```Java
-/**
- * 获取控制台最新数据
- * @param view
- */
-private void fetchUserJsonInfo(final View view) {
-    BmobUser.fetchUserJsonInfo(new FetchUserInfoListener<String>() {
-        @Override
-        public void done(String json, BmobException e) {
-            if (e == null) {
-                Log.e("success",json);
-                Snackbar.make(view, "获取控制台最新数据成功："+json, Snackbar.LENGTH_LONG).show();
-            } else {
-                Log.e("error",e.getMessage());
-                Snackbar.make(view, "获取控制台最新数据失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
-            }
-        }
-    });
-}
-
-```
-
-### 1.2.6、更新用户信息
-
-在更新用户信息时，如果用户邮箱有变更并且在管理后台打开了邮箱验证选项的话，Bmob云后端同样会自动发一封邮件验证信息给用户。
-
-```java
-/**
- * 更新用户操作并同步更新本地的用户信息
- */
-private void updateUser(final View view) {
-    final User user = BmobUser.getCurrentUser(User.class);
-    user.setAge(20);
-    user.update(new UpdateListener() {
-        @Override
-        public void done(BmobException e) {
-            if (e == null) {
-                Snackbar.make(view, "更新用户信息成功：" + user.getAge(), Snackbar.LENGTH_LONG).show();
-            } else {
-                Snackbar.make(view, "更新用户信息失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
-                Log.e("error", e.getMessage());
-            }
-        }
-    });
-}
-
-```
-
-
-### 1.2.7、查询用户
-查询用户和查询普通对象一样，只需指定BmobUser类即可，如下：
-```java
-BmobQuery<BmobUser> query = new BmobQuery<BmobUser>();
-query.addWhereEqualTo("username", "lucky");
-query.findObjects(new FindListener<BmobUser>() {
-	@Override
-	public void done(List<BmobUser> object,BmobException e) {
-		if(e==null){
-			toast("查询用户成功:"+object.size());
-		}else{
-			toast("更新用户信息失败:" + e.getMessage());
-		}
-	}
-});
-```
-浏览器中查看用户表
-
-User表是一个特殊的表，专门存储BmobUser对象。在浏览器端，你会看到一个User表旁边有一个小人的图标。
-
-![](image/create_table.png)
-
-### 1.2.8、退出登录
-
-退出登录，同时清除缓存用户对象。
-
-```java
-BmobUser.logOut();
-```
-
-### 1.2.9、密码修改
-自`V3.4.3`版本开始，SDK为开发者提供了直接修改当前用户登录密码的方法，只需要传入旧密码和新密码，然后调用`BmobUser`提供的静态方法`updateCurrentUserPassword`即可，以下是示例：
-
-```java
-BmobUser.updateCurrentUserPassword("旧密码", "新密码", new UpdateListener() {
-
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			toast("密码修改成功，可以用新密码进行登录啦");
-		}else{
-			toast("失败:" + e.getMessage());
-		}
-	}
-
-});
-
-```
-
-## 1.3、用户系统的邮箱操作
-
-### 1.3.1、邮箱密码登录
-新增`邮箱+密码`登录方式,可以通过`loginByAccount`方法来操作：
-
-```java
-BmobUser.loginByAccount(account, password, new LogInListener<MyUser>() {
-
-			@Override
-			public void done(MyUser user, BmobException e) {
-				if(user!=null){
-					Log.i("smile","用户登陆成功");
-				}
-			}
-		});
-
-```
-
-### 1.3.2、邮箱验证
-设置邮件验证是一个可选的应用设置, 这样可以对已经确认过邮件的用户提供一部分保留的体验，邮件验证功能会在用户(User)对象中加入emailVerified字段, 当一个用户的邮件被新添加或者修改过的话，emailVerified会被默认设为false，如果应用设置中开启了邮箱认证功能，Bmob会对用户填写的邮箱发送一个链接, 这个链接可以把emailVerified设置为 true.
-
-emailVerified 字段有 3 种状态可以考虑：
-
- - true : 用户可以点击邮件中的链接通过Bmob来验证地址，一个用户永远不会在新创建这个值的时候显示emailVerified为true。
- - false : 用户(User)对象最后一次被刷新的时候, 用户并没有确认过他的邮箱地址, 如果你看到emailVerified为false的话，你可以考虑刷新用户(User)对象。
- - missing : 用户(User)对象已经被创建，但应用设置并没有开启邮件验证功能； 或者用户(User)对象没有email邮箱。
-
-### 1.3.3、请求验证Email
-发送给用户的邮箱验证邮件会在一周内失效，可以通过调用 `requestEmailVerify` 来强制重新发送：
-```java
-final String email = "xxx@qq.com";
-BmobUser.requestEmailVerify(email, new UpdateListener() {
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			toast("请求验证邮件成功，请到" + email + "邮箱中进行激活。");
-		}else{
-			toast("失败:" + e.getMessage());
-		}
-	}
-});
-```
-
-### 1.3.4、邮箱重置密码
-开发者只需要求用户输入注册时的电子邮件地址即可：
-```java
-final String email = "xxx@163.com";
-BmobUser.resetPasswordByEmail(email, new UpdateListener() {
-
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			toast("重置密码请求成功，请到" + email + "邮箱进行密码重置操作");
-		}else{
-			toast("失败:" + e.getMessage());
-		}
-	}
-});
-```
-
-邮箱重置密码的流程如下：
-
-1. 用户输入他们的电子邮件，请求重置自己的密码。
-2. Bmob向他们的邮箱发送一封包含特殊的密码重置链接的电子邮件。
-3. 用户根据向导点击重置密码连接，打开一个特殊的Bmob页面，根据提示他们可以输入一个新的密码。
-4. 用户的密码已被重置为新输入的密码。
-
-
-## 1.4、用户系统的手机号相关功能
-
-### 1.4.1、手机号码登录
-
-在手机号码被验证后，用户可以使用该手机号码进行登录操作。
-
-手机号码登录包括两种方式：`手机号码＋密码`、`手机号码＋短信验证码`。
-
-### 1.4.2、手机号码+密码
-
-```java
-BmobUser.loginByAccount("11位手机号码", "用户密码", new LogInListener<MyUser>() {
-
-	@Override
-	public void done(MyUser user, BmobException e) {
-		if(user!=null){
-			Log.i("smile","用户登陆成功");
-		}
-	}
-});
-
-```
-
-
-### 1.4.3、手机号码+短信验证码
-
-先请求登录的短信验证码：
-
-```java
-BmobSMS.requestSMSCode("11位手机号码","模板名称", new QueryListener<Integer>() {
-
-	@Override
-	public void done(Integer smsId,BmobException ex) {
-		if(ex==null){//验证码发送成功
-			Log.i("smile", "短信id："+smsId);//用于后续的查询本次短信发送状态
-		}
-	}
-});
-
-```
-
-最后调用`loginBySMSCode`方法进行手机号码登录:
-
-```java
-BmobUser.loginBySMSCode("11位手机号码", code, new LogInListener<MyUser>() {
-
-		@Override
-		public void done(MyUser user, BmobException e) {
-			if(user!=null){
-				Log.i("smile","用户登陆成功");
-			}
-		}
-	});
-}
-
-```
-
-### 1.4.4、手机号码一键注册或登录
-
-Bmob同样支持手机号码一键注册或登录，以下是一键登录的流程：
-
-
-1、请求登录操作的短信验证码：
-
-```java
-BmobSMS.requestSMSCode("11位手机号码","模板名称", new QueryListener<Integer>() {
-
-	@Override
-	public void done(Integer smsId,BmobException ex) {
-		if(ex==null){//验证码发送成功
-			Log.i("smile", "短信id："+smsId);//用于查询本次短信发送详情
-		}
-	}
-	});
-
-```
-
-2、用户收到短信验证码之后，就可以调用`signOrLoginByMobilePhone`方法来实现一键登录:
-
-```java
-BmobUser.signOrLoginByMobilePhone("11位手机号码", "验证码", new LogInListener<MyUser>() {
-
-	@Override
-	public void done(MyUser user, BmobException e) {
-		if(user!=null){
-			Log.i("smile","用户登陆成功");
-		}
-	}
-});
-
-```
-
-如果，你想在一键注册或登录的同时保存其他字段的数据的时，你可以使用`signOrLogin`方法（此方法`V3.4.3`版本提供）。
-
-比如，你想在手机号码注册或登录的同时，设置用户名及登录密码等信息，那么具体示例如下：
-
-```java
-
-MyUser user = new MyUser();
-user.setMobilePhoneNumber("11位手机号码");//设置手机号码（必填）
-user.setUsername(xxx);                  //设置用户名，如果没有传用户名，则默认为手机号码
-user.setPassword(xxx);                  //设置用户密码
-user.setAge(18);	                    //设置额外信息：此处为年龄
-user.signOrLogin("验证码", new SaveListener<MyUser>() {
-
-	@Override
-	public void done(MyUser user,BmobException e) {
-		if(e==null){
-			toast("注册或登录成功");
-			Log.i("smile", ""+user.getUsername()+"-"+user.getAge()+"-"+user.getObjectId());
-		}else{
-			toast("失败:" + e.getMessage());
-		}
-
-	}
-
-});
-
-```
-
-### 1.4.5、绑定手机号码
-如果已有用户系统，需要为用户绑定手机号，那么官方推荐的绑定流程如下：
-
-第一步、先发送短信验证码并验证验证码的有效性,即调用`requestSMSCode`发送短信验证码，调用`verifySmsCode`来验证有效性。
-
-第二步、在验证成功之后更新当前用户的`MobilePhoneNumber`和`MobilePhoneNumberVerified`两个字段，具体绑定示例如下：
-
-```java
-User user =new User();
-user.setMobilePhoneNumber(phone);
-user.setMobilePhoneNumberVerified(true);
-User cur = BmobUser.getCurrentUser(User.class);
-user.update(cur.getObjectId(),new UpdateListener() {
-
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			toast("手机号码绑定成功");
-		}else{
-			toast("失败:" + e.getMessage());
-		}
-	}
-});
-
-```
-
-### 1.4.6、手机号码重置密码
-Bmob自`V3.3.9`版本开始引入了短信验证系统，如果用户已经验证过手机号码或者使用过手机号码注册或登录过，也可以通过手机号码来重置用户密码，以下是官方建议使用的重置流程：
-
-1、请求重置密码操作的短信验证码：
-
-```java
-BmobSMS.requestSMSCode("11位手机号码","模板名称", new QueryListener<Integer>() {
-
-	@Override
-	public void done(Integer smsId,BmobException ex) {
-		if(ex==null){//验证码发送成功
-			Log.i("smile", "短信id："+smsId);//用于查询本次短信发送详情
-		}
-	}
-	});
-
-```
-
-2、用户收到重置密码的验证码之后，就可以调用`resetPasswordBySMSCode`方法来实现密码重置:
-
-```java
-BmobUser.resetPasswordBySMSCode(code,"1234567", new UpdateListener() {
-
-	@Override
-	public void done(BmobException ex) {
-		if(ex==null){
-			Log.i("smile", "密码重置成功");
-		}else{
-			Log.i("smile", "重置失败：code ="+ex.getErrorCode()+",msg = "+ex.getLocalizedMessage());
-		}
-	}
-});
-
-```
-
-重置成功以后，用户就可以使用新密码登陆了。
-
-**注：**
-
-**1、请开发者按照官方推荐的操作流程来完成重置密码操作。也就是说，开发者在进行重置密码操作时，无需调用`verifySmsCode`接口去验证该验证码的有效性。**
-
-**2、验证码只能使用一次，一旦该验证码被使用就会失效，那么再拿失效的验证码去调用重置密码接口，一定会报`207-验证码错误`。因为重置密码接口已经包含验证码的有效性验证。**
-
-### 1.4.7、手机号码验证
-
-### 1.4.8、请求发送短信验证码
-
-Bmob自`V3.3.9`版本开始引入了短信验证系统，可通过`requestSMSCode`方式请求发送短信验证码：
-
-```java
-BmobSMS.requestSMSCode("11位手机号码", "模板名称",new QueryListener<Integer>() {
-
-	@Override
-	public void done(Integer smsId,BmobException ex) {
-		if(ex==null){//验证码发送成功
-			Log.i("smile", "短信id："+smsId);//用于查询本次短信发送详情
-		}
-	}
-});
-
-```
-
-短信默认模板：
-
-```java
-
-	您的验证码是`%smscode%`，有效期为`%ttl%`分钟。您正在使用`%appname%`的验证码。【比目科技】
-
-```
-
-
-**注：**
-
-1、`模板名称`：模板名称需要开发者在应用的管理后台进行短信模板的添加工作，具体：`短信服务`->`短信模板`,之后点击创建即可。
-
-
-具体请看下图：
-
-![](image/sms.png)
-
-
-2、只有审核通过之后的自定义短信模板才可以被使用，如果自定义的短信模板其状态显示`审核中`或者`审核失败`,再调用该方法则会以`默认模板`来发送验证码。
-
-**3、开发者提交短信验证码模板时需注意以下几点：**
-
-**1）、模板中不能有【】和 [] ，否则审核不通过；**
-
-**2）、如果你提交的短信模板无法发送，则有可能包含一些敏感监控词，具体可去Github下载  [短信关键字监控参考文档](https://github.com/bmob/bmob-public-docs/blob/master/%E7%9F%AD%E4%BF%A1%E5%85%B3%E9%94%AE%E5%AD%97%E7%9B%91%E6%8E%A7%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3.doc)  来查看提交内容是否合法。**
-
-**3）、一天一个应用给同一手机号发送的短信不能超过10条，否则会报`10010`错误，其他错误码可查看[错误码文档](http://doc.bmob.cn/other/error_code/) 。**
-
-
-##### 验证验证码
-
-通过`verifySmsCode`方式可验证该短信验证码：
-
-```java
-BmobSMS.verifySmsCode("11位手机号码", "验证码", new UpdateListener() {
-
-	@Override
-	public void done(BmobException ex) {
-		if(ex==null){//短信验证码已验证成功
-			Log.i("smile", "验证通过");
-		}else{
-			Log.i("smile", "验证失败：code ="+ex.getErrorCode()+",msg = "+ex.getLocalizedMessage());
-		}
-	}
-});
-
-```
-
-验证成功后，用户的`mobilePhoneVerified`属性会自动变为`true`。
-
-
-
-**注意事项：**
-
-**关于短信条数的计算规则如下:**
-
-1. 实际计算的短信字数 = 模板的内容或自定义短信的内容字数 + 6。加上6是因为默认的签名【比目科技】占了6个字。
-2. 实际计算的短信字数在70个字以下算1条。
-3. 实际计算的短信字数超过70字的以67字为一条来计算的。也就是135个字数是计算为3条的。
-4. 计算得到的短信条数在本条短信发送成功后将会从你的账户剩余的短信条数中扣除。
-
-**短信发送限制规则是1/分钟，5/小时，10/天。即对于一个应用来说，一天给同一手机号发送短信不能超过10条，一小时给同一手机号发送短信不能超过5条，一分钟给同一手机号发送短信不能超过1条。**
-
-
-#### 短信验证案例
-
-为了方便大家，官方提供了一个短信验证的demo：[https://github.com/bmob/bmob_android_demo_sms](https://github.com/bmob/bmob_android_demo_sms) 。
-
-此案例包含了：`用户名/邮箱/手机号码+密码登录`、`手机号码一键注册登录`、`绑定手机号`以及`通过手机号重置用户密码`。
-
-### 第三方账号登陆
-
-Bmob提供了非常简单的方法来实现第三方账号登陆的功能，目前支持`新浪微博`、`QQ账号`、`微信账号`的登陆。
-
-自`BmobV3.3.9`版本开始，为了与第三方开放平台的SDK解藕，Bmob使用了全新的第三方账号登录方式，之前的微博和qq登录方式的API已删除。
-
-#### 应用场景
-
-第三方账号登陆目前适应以下两种应用场景：
-
-`一、没有Bmob账号，希望使用第三方账号一键注册或登陆Bmob账号`
-
-如果开发者希望用户使用第三方平台的账号注册或登录Bmob的用户体系，则推荐的步骤如下：
-
-1、第三方平台授权，开发者需自行根据第三方平台文档提出的授权方法完成账号授权并得到授权信息
-
-2、调用Bmob提供的`loginWithAuthData（BmobV3.3.9版本提供）`方法，并自行构造`BmobThirdUserAuth（第三方授权信息）`对象，调用成功后，在Bmob的User表中会产生一条记录。
-
-
-`二、已有Bmob账号，希望与第三方账号进行关联`
-
-如果已使用Bmob的用户体系（假设用户A已登录），希望和第三方平台进行关联，则推荐的步骤如下：
-
-1、第三方平台授权，开发者需自行根据第三方平台文档提出的授权方法完成账号授权并得到授权信息
-
-2、调用`associateWithAuthData`方法，并自行构造`BmobThirdUserAuth(第三方授权信息)`对象，调用成功后，你就会在后台的用户A的authData这个字段下面看到提交的授权信息。
-
-
-#### 相关文档
-
-为了方便开发者完成授权，现整理各个平台的需要查阅的文档：
-
-##### 微博登陆相关文档
-
-1、[移动客户端接入文档](http://open.weibo.com/wiki/%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8E%A5%E5%85%A5)：此文档请着重查阅其中的`SDK接入流程`。
-
-2、[新浪微博AndroidSDK快速入门](https://github.com/sinaweibosdk/weibo_android_sdk)，请详细查看`README`文档,其介绍了完整的集成流程。
-
-3、[新浪微博常见问题](https://github.com/sinaweibosdk/weibo_android_sdk/blob/master/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%20FAQ.md#5-%E5%85%B3%E4%BA%8E%E6%8E%88%E6%9D%83)：在新浪微博授权过程中出现问题，请查看此文档，一般出现频率较高的错误有：
-
-`sso package and sign error`- 平台上填写的包名和签名不正确。请仔细检查，一般最需要检查的是`签名`，签名需要使用微博提供的获取签名的工具[（app_signatures.apk）](https://github.com/sinaweibosdk/weibo_android_sdk/blob/master/app_signatures.apk)。
-
-`redirect_uri_mismatch`     - 请确保你在weibo平台上填写的授权回调地址与代码中写的授权回调地址(RedirectURI)一样。
-
-##### QQ登陆相关文档
-
-1、如何使用SDK，请参见 [腾讯开放平台Android_SDK使用说明](http://wiki.open.qq.com/wiki/mobile/Android_SDK%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E)。
-
-2、如何调用具体API，请参见 [API调用说明](http://wiki.open.qq.com/wiki/Android_API%E8%B0%83%E7%94%A8%E8%AF%B4%E6%98%8E)。
-
-3、常见问题汇总，请参见[问题汇总说明](http://bbs.open.qq.com/thread-6159767-1-1.html)。
-
-##### 微信登陆相关文档
-
-1、[Android接入指南](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN&token=a6350e5290b2fee66bf0a98f02d7ddc7a655ddce)：这里主要介绍的是微信sdk的集成步骤
-
-2、[微信登陆开发指南](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN&token=a6350e5290b2fee66bf0a98f02d7ddc7a655ddce)：在`移动应用开发`->`微信登录功能`->`移动应用微信登录开发指南`。主要介绍微信OAuth2.0授权登录的流程。
-
-
-**注：**
-
-三者当中较麻烦的是微信登陆的授权，因此，在此简单说明下可能遇见的问题：
-
-**1、在微信登陆过程中出现了问题，请仔细注意以下几点：**
-
-1）、需要在微信开放平台上填写你的`应用信息、包名和签名`；
-2）、微信登陆不同于QQ或微博登陆，应用需要`提交微信官方审核`，只有审核通过后才能打开授权界面；
-3）、建议`导出正式签名的apk来测试`，不建议直接run debug版本的apk；
-4）、检查`签名是否正确`、检查`传递的参数是否正确`。
-
-**2、微信登陆的测试相对比较麻烦，如果开发者希望直接能够进行调试，建议使用微信官方demo中的`debug keystore`**。具体使用步骤：
-
-1)、Eclipse中选择`Window->Preferences->Android->Build`;
-
-2)、在Build页有个`Custom debug keystore`选项,然后点击`Browse`,选择微信官方demo中的`debug keystore`文件即可。
-
-之后重新运行应用时会使用该`debug keystore`文件对应用进行Debug签名。
-
-`不要忘了在微信后台重新填写通过微信签名工具获得的该调试应用的签名`。
-
-
-#### 第三方账号一键注册或登录
-
-假设你已通过上述提供的文档完成相应平台的授权并得到对应的授权信息，则可以这样来完成一键注册或登陆操作：
-
-```java
-	BmobThirdUserAuth authInfo = new BmobThirdUserAuth(snsType,accessToken, expiresIn,userId);
-	BmobUser.loginWithAuthData(authInfo, new LogInListener<JSONObject>() {
-
-		@Override
-		public void done(JSONObject userAuth,BmobException e) {
-			...
-		}
-	});			
-
-```
-
-注：
-
-`BmobThirdUserAuth`的各参数解释：
-
-1、`snsType`:只能是三种取值中的一种：`weibo、qq、weixin`
-
-2、`accessToken`：接口调用凭证
-
-3、`expiresIn`：access_token的有效时间
-
-4、`userId`:用户身份的唯一标识，对应微博授权信息中的`uid`,对应qq和微信授权信息中的`openid`
-
-
-#### 关联第三方账号
-
-##### 账号关联
-
-```java
-	BmobThirdUserAuth authInfo = new BmobThirdUserAuth(snsType,accessToken, expiresIn, userId);
-	BmobUser.associateWithAuthData(authInfo, new UpdateListener() {
-
-		@Override
-		public void done(BmobException e) {
-			if(e==null){
-				Log.i("bmob","关联成功");
-			}else{
-				Log.i("bmob","关联失败：code =" + e.getErrorCode() + ",msg = " + e.getMessage());
-			}
-
-		}
-	});
-
-```
-
-##### 解除关联
-
-```java
-	BmobUser.dissociateAuthData(snsType,new UpdateListener() {
-
-		@Override
-		public void done(BmobException e) {
-			if(e==null){
-				Log.i("bmob","取消"+snsType+"关联成功");
-			}else{
-				int code =e.getErrorCode();
-				if (code == 208) {// 208错误指的是没有绑定相应账户的授权信息
-					Log.i("smile","你没有关联该账号");
-				} else {
-					Log.i("smile","取消"+snsType+"关联失败：code =" + code + ",msg = " + e.getMessage());
-				}
-			}
-		}
-});
-
-```
-
-#### 第三方登录的案例源码
-
-具体案例可参考我们Github上的demo：[https://github.com/bmob/bmob-android-demo-thirdpartylogin](https://github.com/bmob/bmob-android-demo-thirdpartylogin) ,这个源码包含了第三方登录的源码和登录之后如何获取用户基本信息的部分。
 
 
 
