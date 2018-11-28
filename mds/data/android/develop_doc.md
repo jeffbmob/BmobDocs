@@ -1,17 +1,16 @@
-## 简介
+# 0、数据服务SDK
 
-Bmob平台为您的移动应用提供了一个完整的后端解决方案，我们提供轻量级的SDK开发包，让开发者以最小的配置和最简单的方式使用Bmob平台提供的服务，进而完全消除开发者编写服务器代码以及维护服务器的操作。
+Bmob平台为您的移动应用提供了一个完整的后端解决方案，我们提供轻量级的数据服务SDK开发包，让开发者以最少的配置和最简单的方式使用Bmob后端云平台提供的服务，进而完全消除开发者编写服务器代码以及维护服务器的操作。
 
-## 快速入门
+## 0.1、快速入门
 
-建议您在阅读本开发文档之前，先阅读我们提供的 [Android快速入门文档](http://doc.bmob.cn/data/android/)，便于您后续的开发。<br>
-如果开发者想使用不同历史版本的SDK，可以移步[历史版本的github仓库](https://github.com/bmob/bmob-android-sdk-release/releases)，选择使用各个历史版本。
-
-## 对象类型
+建议您在阅读本开发文档之前，先阅读我们提供的 [Android快速入门文档](http://doc.bmob.cn/data/android/)，便于您后续的开发。
 
 
 
-### 基本对象类型
+# 1、数据类型
+
+## 1.1、基本数据类型
 
 BmobObject
 
@@ -22,8 +21,9 @@ BmobObject
 |updatedAt|数据更新时间|
 |ACL|数据控制访问权限|
 
-### 自定义对象类型
-所有自定义对象类型都继承于基本对象类型BmobObject，一个数据对象对应于Bmob控制台一张数据表中的一条数据。
+## 1.2、自定义数据类型
+所有自定义的数据类型都继承于基本对象类型BmobObject，一个数据对象对应于Bmob控制台一张数据表中的一条数据。
+
 ```
 /**
  * Created on 2018/11/22 10:41
@@ -84,19 +84,19 @@ public class Category extends BmobObject {
 |扩展字段名|name|对应控制台该表的字段名|
 
 
-### 特殊对象类型
+## 1.3、特殊数据类型
 
 |类型|解释|功能|
 |-----|-----|----|
 |BmobUser|对应控制台_User用户表|可以实现用户的注册、登录、短信验证、邮箱验证等功能。|
 |BmobInstallation|对应控制台_Installation设备表|可以实现将自定义的消息推送给不同的设备终端等操作。|
 |BmobRole|对应控制台_Role角色表|可以配合ACL进行权限访问控制和角色管理。|
-|开发者自己创建|对应控制台_Article图文消息表|可以进行静态网页加载。|
+|BmobArticle|对应控制台_Article图文消息表|可以进行静态网页加载。|
 
 
-## 字段数据类型
+## 1.4、自定义数据类型中扩展字段的数据类型
 
-Bmob支持的数据类型：
+Bmob支持的扩展字段数据类型：
 
 |控制台类型|支持的JAVA类型|说明|
 |:---|:---|:---|
@@ -113,9 +113,9 @@ Bmob支持的数据类型：
 
 
 
+## 1.5、自定义数据类型的单条数据操作
 
-
-## 添加数据
+### 1.5.1、添加一条数据
 
 添加一条类别数据：
 
@@ -144,7 +144,7 @@ private void save() {
 ```
 
 
-## 更新数据
+### 1.5.2、更新数据
 
 更新一条类别数据，根据objectId来更新：
 
@@ -169,7 +169,7 @@ private void update() {
 }
 ```
 
-## 删除数据
+### 1.5.3、删除数据
 
 删除一条类别数据，根据objectId来删除：
 
@@ -195,22 +195,49 @@ private void delete() {
 ```
 
 
+### 1.5.4、查询一条数据
 
-## 批量数据操作
+BmobQuery查询一条类别数据，根据objectId来查询：
+
+
+```
+/**
+ * 查询一个对象
+ */
+private void query() {
+    BmobQuery<Category> bmobQuery = new BmobQuery<>();
+    bmobQuery.getObject(mObjectId, new QueryListener<Category>() {
+        @Override
+        public void done(Category category, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnQuery, "查询成功：" + category.getName(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnQuery, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+
+## 1.6、自定义数据类型的批量数据操作
 为了提供更稳定的服务，后端启用了QPS限制，推荐采用批量数据操作来替换在循环里多次提交请求的操作，否则会返回QPS达到限制的报错。
 
+ 1. 批量操作每次只支持最大50条记录的操作。
+ 2. 批量操作不支持对User表的操作。
+ 
 BmobBatch：
 
 |方法|功能|
 |-----|-----|
-|insertBatch|批量添加数据|
+|insertBatch|批量添加数据，并返回所添加数据的objectId字段|
 |updateBatch|批量更新数据|
 |deleteBatch|批量删除数据|
+|doBatch|批量添加、批量更新、批量删除同时操作|
 
-自`v3.5.0`开始，新增`BmobBatch`批量操作类，`支持批量添加、批量更新、批量删除的三种操作的同步提交`，且批量添加的请求返回objectId字段。
 
-
-### 批量添加
+### 1.6.1、批量添加
 
 ```java
 /**
@@ -249,7 +276,7 @@ private void save() {
 
 ```
 
-### 批量更新
+### 1.6.2、批量更新
 
 ```java
 /**
@@ -302,7 +329,7 @@ private void update() {
 
 ```
 
-### 批量删除
+### 1.6.3、批量删除
 
 ```Java
 /**
@@ -348,7 +375,7 @@ private void delete() {
 
 ```
 
-### 批量添加、批量更新、批量删除同步提交（v3.5.0开始提供）
+### 1.6.4、批量添加、批量更新、批量删除同时操作
 
 ```Java
 /**
@@ -430,75 +457,38 @@ private void saveUpdateDelete() {
 
 ```
 
-**注：**
+### 1.6.5、查询多条数据
 
- 1. 批量操作每次只支持最大50条记录的操作。
- 2. 批量操作不支持对User表的操作。
+BmobQuery查询多条类别数据：
+
+```
+/**
+ * 查询多条数据
+ */
+private void query() {
+    BmobQuery<Category> bmobQuery = new BmobQuery<>();
+    bmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> categories, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnQuery, "查询成功：" + categories.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnQuery, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+
+
 
 ## 查询数据
 
 数据的查询可能是每个应用都会频繁使用到的，BmobSDK中提供了`BmobQuery`类，它提供了多样的方法来实现不同条件的查询，同时它的使用也是非常的简单和方便的。
 
-### 查询单条数据
-
-当我们知道某条数据的`objectId`时，就可以根据`objectId`直接获取单条数据对象。例如：查询`objectId`为`a203eba875`的人员信息。
-
-```java
-BmobQuery<GameScore> query = new BmobQuery<GameScore>();
-query.getObject("a203eba875", new QueryListener<GameScore>() {
-
-	@Override
-	public void done(GameScore object, BmobException e) {
-		if(e==null){
-			//获得playerName的信息
-			object.getPlayerName();
-			//获得数据的objectId信息
-	        object.getObjectId();
-	        //获得createdAt数据创建时间（注意是：createdAt，不是createAt）
-			object.getCreatedAt();
-		}else{
-			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
-
-});
-```
-
-### 查询多条数据
-
-查询某个数据表中的所有数据是非常简单的查询操作，查询的数据条数最多500.例如：查询GameScore表中playerName为“比目”的50条数据记录。
-
-```java
-BmobQuery<GameScore> query = new BmobQuery<GameScore>();
-//查询playerName叫“比目”的数据
-query.addWhereEqualTo("playerName", "比目");
-//返回50条数据，如果不加上这条语句，默认返回10条数据
-query.setLimit(50);
-//执行查询方法
-query.findObjects(new FindListener<GameScore>() {
-	@Override
-	public void done(List<GameScore> object, BmobException e) {
-		if(e==null){
-			toast("查询成功：共"+object.size()+"条数据。");
-			for (GameScore gameScore : object) {
-		       //获得playerName的信息
-			   gameScore.getPlayerName();
-			   //获得数据的objectId信息
-		       gameScore.getObjectId();
-		       //获得createdAt数据创建时间（注意是：createdAt，不是createAt）
-			   gameScore.getCreatedAt();
-			}
-		}else{
-			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
-});
-```
-
-查询的结果不需要进行任何处理，BmobSDK已经为你封装成相应的JavaBean集合了，你直接使用即可。
-
 **注：**
-1 通过setLimit方法设置返回的记录数量。更多细节可查看下一节(查询条件)中的分页查询。</br>
 2 v3.5.2开始可以对查询条件等提供链式调用的写法，如下：</br>
 ```java
 BmobQuery<Book> query = new BmobQuery<>();
@@ -2466,88 +2456,233 @@ query.findObjects(new FindListener<Post>() {
 });
 ```
 
-## 用户管理
 
-用户是一个应用程序的核心。对于个人开发者来说，自己的应用程序积累到越多的用户，就会给自己带来越强的创作动力。因此Bmob提供了一个专门的用户类——BmobUser来自动处理用户账户管理所需的功能。
 
-有了这个类，你就可以在你的应用程序中添加用户账户功能。
 
-BmobUser是BmobObject的一个子类，它继承了BmobObject所有的方法，具有BmobObject相同的功能。不同的是，BmobUser增加了一些特定的关于用户账户管理相关的功能。
 
-### 属性
-BmobUser除了从BmobObject继承的属性外，还有几个特定的属性：
-username: 用户的用户名`（必需）`。
-password: 用户的密码`（必需）`。
-email: 用户的电子邮件地址`（可选）`。
-emailVerified:邮箱认证状态`（可选）`。
-mobilePhoneNumber：手机号码`（可选）`。
-mobilePhoneNumberVerified：手机号码的认证状态`（可选）`。
 
-### 扩展用户类
+# 1、用户管理
 
-很多时候，你的用户表还会有很多其他字段，如性别、年龄、头像等。那么，你需要对BmobUser类进行扩展，添加一些新的属性。示例代码如下所示：
+用户基类BmobUser，集成了注册、登录、修改密码、重置密码、短信操作、邮箱操作、第三方操作等功能。
+## 1.1、用户基类
+### 1.1.1、默认属性
+
+BmobUser继承BmobObject，有默认属性：
+
+|属性|说明|
+|----|----|
+|username|用户名/账号/唯一标志|
+|password|用户密码|
+|email|用户邮箱|
+|emailVerified|用户邮箱认证状态|
+|mobilePhoneNumber|用户手机号码|
+|mobilePhoneNumberVerified|用户手机号码认证状态|
+
+
+### 1.1.2、继承用户类
+
+如果你的用户需要其他属性，如性别、年龄、头像等，则需要继承BmobUser类进行扩展。
 
 ```java
-public class MyUser extends BmobUser {
+/**
+ * Created on 2018/11/22 18:01
+ *
+ * @author zhangchaozhou
+ */
+public class User extends BmobUser {
 
-	private Boolean sex;
-	private String nick;
-	private Integer age;
 
-	public boolean getSex() {
-		return this.sex;
-	}
+    /**
+     * 昵称
+     */
+    private String nickname;
 
-	public void setSex(boolean sex) {
-		this.sex = sex;
-	}
+    /**
+     * 国家
+     */
 
-	public String getNick() {
-		return this.nick;
-	}
+    private String country;
 
-	public void setNick(String nick) {
-		this.nick = nick;
-	}
+    /**
+     * 得分数
+     */
+    private Integer score;
 
-	public Integer getAge() {
-		return age;
-	}
 
-	public void setAge(Integer age) {
-		this.age = age;
-	}
+    /**
+     * 抢断次数
+     */
+    private Integer steal;
+
+
+    /**
+     * 犯规次数
+     */
+    private Integer foul;
+
+
+    /**
+     * 失误个数
+     */
+    private Integer fault;
+    
+
+    /**
+     * 年龄
+     */
+    private Integer age;
+
+
+    /**
+     * 性别
+     */
+    private Integer gender;
+
+
+    /**
+     * 用户当前位置
+     */
+    private BmobGeoPoint address;
+
+
+    /**
+     * 头像
+     */
+    private BmobFile avatar;
+    
+    
+    /**
+     * 别名
+     */
+    private List<String> alias;
+
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public User setNickname(String nickname) {
+        this.nickname = nickname;
+        return this;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public User setCountry(String country) {
+        this.country = country;
+        return this;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public User setScore(Integer score) {
+        this.score = score;
+        return this;
+    }
+
+    public Integer getSteal() {
+        return steal;
+    }
+
+    public User setSteal(Integer steal) {
+        this.steal = steal;
+        return this;
+    }
+
+    public Integer getFoul() {
+        return foul;
+    }
+
+    public User setFoul(Integer foul) {
+        this.foul = foul;
+        return this;
+    }
+
+    public Integer getFault() {
+        return fault;
+    }
+
+    public User setFault(Integer fault) {
+        this.fault = fault;
+        return this;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public User setAge(Integer age) {
+        this.age = age;
+        return this;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public User setGender(Integer gender) {
+        this.gender = gender;
+        return this;
+    }
+
+    public BmobGeoPoint getAddress() {
+        return address;
+    }
+
+    public User setAddress(BmobGeoPoint address) {
+        this.address = address;
+        return this;
+    }
+
+    public BmobFile getAvatar() {
+        return avatar;
+    }
+
+    public User setAvatar(BmobFile avatar) {
+        this.avatar = avatar;
+        return this;
+    }
+
+    public List<String> getAlias() {
+        return alias;
+    }
+
+    public User setAlias(List<String> alias) {
+        this.alias = alias;
+        return this;
+    }
 }
+
 ```
 
-更多代码实现大家可以下载SDK，在里面的`BmobExample`中查找`MyUser`类，参考它的用法。
+## 1.2、用户系统的普通操作
+### 1.2.1、账号密码注册
 
-### 创建用户
-
-创建用户对象如下：
 ```java
-BmobUser user = new BmobUser();
-```
-
-### 注册
-
-你的应用程序可能会要求用户注册。下面的代码是一个典型的注册过程：
-```java
-BmobUser bu = new BmobUser();
-bu.setUsername("sendi");
-bu.setPassword("123456");
-bu.setEmail("sendi@163.com");
-//注意：不能用save方法进行注册
-bu.signUp(new SaveListener<MyUser>() {
-	@Override
-	public void done(MyUser s, BmobException e) {
-		if(e==null){
-			toast("注册成功:" +s.toString());
-		}else{
-			loge(e);
-		}
-	}
-});
+/**
+ * 账号密码注册
+ */
+private void signUp(final View view) {
+    final User user = new User();
+    user.setUsername("" + System.currentTimeMillis());
+    user.setPassword("" + System.currentTimeMillis());
+    user.setAge(18);
+    user.setGender(0);
+    user.signUp(new SaveListener<User>() {
+        @Override
+        public void done(User user, BmobException e) {
+            if (e == null) {
+                Snackbar.make(view, "注册成功", Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(view, "尚未失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
 在注册过程中，服务器会对注册用户信息进行检查，以确保注册的用户名和电子邮件地址是独一无二的。此外，对于用户的密码，你可以在应用程序中进行相应的加密处理后提交。
@@ -2564,77 +2699,81 @@ bu.signUp(new SaveListener<MyUser>() {
 
 - username字段是大小写敏感的字段，如果你希望应用的用户名不区分大小写，请在注册和登录时进行大小写的统一转换。
 
-### 登录
-
-当用户注册成功后，您需要让他们以后能够用注册的用户名登录到他们的账户使用应用。要做到这一点，你可以使用BmobUser类的login方法。
-```java
-BmobUser bu2 = new BmobUser();
-bu2.setUsername("lucky");
-bu2.setPassword("123456");
-bu2.login(new SaveListener<BmobUser>() {
-
-	@Override
-	public void done(BmobUser bmobUser, BmobException e) {
-		if(e==null){
-			toast("登录成功:");
-			//通过BmobUser user = BmobUser.getCurrentUser()获取登录成功后的本地用户信息
-			//如果是自定义用户对象MyUser，可通过MyUser user = BmobUser.getCurrentUser(MyUser.class)获取自定义用户信息
-		}else{
-			loge(e);
-		}
-	}
-});
-```
-
-也可使用如下方式完成`用户名+密码`的登录：
+### 1.2.2、账号密码登录
 
 ```java
-BmobUser.loginByAccount("username", "用户密码", new LogInListener<MyUser>() {
-
-			@Override
-			public void done(MyUser user, BmobException e) {
-				if(user!=null){
-					Log.i("smile","用户登陆成功");
-				}
-			}
-		});
-
-```
-
-### 当前用户
-
-如果用户在每次打开你的应用程序时都要登录，这将会直接影响到你应用的用户体验。为了避免这种情况，你可以使用缓存的CurrentUser对象。缓存的用户有效期为1年。
-
-每当你应用的用户注册成功或是第一次登录成功，都会在本地磁盘中有一个缓存的用户对象，这样，你可以通过获取这个缓存的用户对象来进行登录：
-```java
-BmobUser bmobUser = BmobUser.getCurrentUser();
-if(bmobUser != null){
-	// 允许用户使用应用
-}else{
-	//缓存用户对象为空时， 可打开用户注册界面…
+/**
+ * 账号密码登录
+ */
+private void login(final View view) {
+    final User user = new User();
+    //此处替换为你的用户名
+    user.setUsername("username");
+    //此处替换为你的密码
+    user.setPassword("password");
+    user.login(new SaveListener<User>() {
+        @Override
+        public void done(User bmobUser, BmobException e) {
+            if (e == null) {
+                User user = BmobUser.getCurrentUser(User.class);
+                Snackbar.make(view, "登录成功：" + user.getUsername(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(view, "登录失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
 }
 ```
 
-在扩展了用户类的情况下获取当前登录用户，可以使用如下的示例代码（`MyUser`类可参看上面）：
+
 
 ```java
-MyUser userInfo = BmobUser.getCurrentUser(MyUser.class);
-
+/**
+ * 账号密码登录
+ */
+private void loginByAccount(final View view) {
+    //此处替换为你的用户名密码
+    BmobUser.loginByAccount("username", "password", new LogInListener<User>() {
+        @Override
+        public void done(User user, BmobException e) {
+            if (e == null) {
+                Snackbar.make(view, "登录成功：" + user.getUsername(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(view, "登录失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
-
-**自`V3.4.5`版本开始，SDK新增了`getObjectByKey(context,key)`方法从本地缓存中获取当前登陆用户某一列的值。其中`key`为用户表的指定列名。**
+### 1.2.3、判断当前是否有用户登录
 
 ```java
-//BmobUser中的特定属性
-String username = (String) BmobUser.getObjectByKey("username");
-//MyUser中的扩展属性
-Integer age = (Integer) BmobUser.getObjectByKey("age");
-Boolean sex = (Boolean) BmobUser.getObjectByKey("sex");
+if (BmobUser.isLogin()) {
+    User user = BmobUser.getCurrentUser(User.class);
+    Snackbar.make(view, "已经登录：" + user.getUsername(), Snackbar.LENGTH_LONG).show();
+} else {
+    Snackbar.make(view, "尚未登录", Snackbar.LENGTH_LONG).show();
+}
+```
+### 1.2.4、获取当前用户以及用户属性
+
+获取缓存的用户信息，缓存的有效期为1年。
+
+```java
+if (BmobUser.isLogin()) {
+    User user = BmobUser.getCurrentUser(User.class);
+    Snackbar.make(view, "当前用户：" + user.getUsername() + "-" + user.getAge(), Snackbar.LENGTH_LONG).show();
+    String username = (String) BmobUser.getObjectByKey("username");
+    Integer age = (Integer) BmobUser.getObjectByKey("age");
+    Snackbar.make(view, "当前用户属性：" + username + "-" + age, Snackbar.LENGTH_LONG).show();
+} else {
+    Snackbar.make(view, "尚未登录，请先登录", Snackbar.LENGTH_LONG).show();
+}
 ```
 
-#### 同步本地缓存的用户信息
+### 1.2.5、同步本地缓存的用户信息
 
-**自`v3.6.8-rc1`版本开始，SDK新增了同步控制台最新用户信息到本地缓存的用户信息和获取控制台最新用户信息的接口，不用重新登录。**
+
 
 具体用法如下
 
@@ -2659,7 +2798,7 @@ private void fetchUserInfo(final View view) {
     });
 }
 ```
-```
+```Java
 /**
  * 获取控制台最新数据
  * @param view
@@ -2681,53 +2820,34 @@ private void fetchUserJsonInfo(final View view) {
 
 ```
 
-### 更新用户
+### 1.2.6、更新用户信息
 
-很多情况下你可能需要修改用户信息，比如你的应用具备修改个人资料的功能，Bmob提供的用户更新方式有两种写法：
-
-第一种：`新建一个用户对象，并调用update(objectId,updateListener)方法来更新（推荐使用）`，示例：
+在更新用户信息时，如果用户邮箱有变更并且在管理后台打开了邮箱验证选项的话，Bmob云后端同样会自动发一封邮件验证信息给用户。
 
 ```java
-BmobUser newUser = new BmobUser();
-newUser.setEmail("xxx@163.com");
-BmobUser bmobUser = BmobUser.getCurrentUser(context);
-newUser.update(bmobUser.getObjectId(),new UpdateListener() {
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			toast("更新用户信息成功");
-		}else{
-			toast("更新用户信息失败:" + e.getMessage());
-		}
-	}
-});
-```
+/**
+ * 更新用户操作并同步更新本地的用户信息
+ */
+private void updateUser(final View view) {
+    final User user = BmobUser.getCurrentUser(User.class);
+    user.setAge(20);
+    user.update(new UpdateListener() {
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(view, "更新用户信息成功：" + user.getAge(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(view, "更新用户信息失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+                Log.e("error", e.getMessage());
+            }
+        }
+    });
+}
 
-第二种：获取本地的用户对象，并调用update（updateListener）方法来更新（`不推荐使用`），示例：
-
-```java
-BmobUser bmobUser = BmobUser.getCurrentUser();
-// 修改用户的邮箱为xxx@163.com
-bmobUser.setEmail("xxx@163.com");
-bmobUser.update(new UpdateListener() {
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			toast("更新用户信息成功");
-		}else{
-			toast("更新用户信息失败:" + e.getMessage());
-		}
-	}
-});
 ```
 
 
-**1、开发者在进行用户更新操作的时候，推荐使用`第一种`方式来进行用户的更新操作,因为此方法只会更新你提交的用户信息（比如只会向服务器提交当前用户的email值），而不会将本地存储的用户信息也提交到后台更新。**
-
-**2、在更新用户信息时，如果用户邮箱有变更并且在管理后台打开了邮箱验证选项的话，Bmob云后端同样会自动发一封邮件验证信息给用户。**
-
-**3、需要先登录后才能更新用户信息 否则会返回206 User cannot be altered without sessionToken Error错误。**
-### 查询用户
+### 1.2.7、查询用户
 查询用户和查询普通对象一样，只需指定BmobUser类即可，如下：
 ```java
 BmobQuery<BmobUser> query = new BmobQuery<BmobUser>();
@@ -2749,15 +2869,15 @@ User表是一个特殊的表，专门存储BmobUser对象。在浏览器端，�
 
 ![](image/create_table.png)
 
-### 退出登录
-退出登录非常简单，可以使用如下的代码：
+### 1.2.8、退出登录
+
+退出登录，同时清除缓存用户对象。
 
 ```java
-BmobUser.logOut();   //清除缓存用户对象
-BmobUser currentUser = BmobUser.getCurrentUser(); // 现在的currentUser是null了
+BmobUser.logOut();
 ```
 
-### 密码修改
+### 1.2.9、密码修改
 自`V3.4.3`版本开始，SDK为开发者提供了直接修改当前用户登录密码的方法，只需要传入旧密码和新密码，然后调用`BmobUser`提供的静态方法`updateCurrentUserPassword`即可，以下是示例：
 
 ```java
@@ -2776,9 +2896,9 @@ BmobUser.updateCurrentUserPassword("旧密码", "新密码", new UpdateListener(
 
 ```
 
-### 邮箱
+## 1.3、用户系统的邮箱操作
 
-#### 邮箱登录
+### 1.3.1、邮箱密码登录
 新增`邮箱+密码`登录方式,可以通过`loginByAccount`方法来操作：
 
 ```java
@@ -2794,7 +2914,7 @@ BmobUser.loginByAccount(account, password, new LogInListener<MyUser>() {
 
 ```
 
-#### 邮箱验证
+### 1.3.2、邮箱验证
 设置邮件验证是一个可选的应用设置, 这样可以对已经确认过邮件的用户提供一部分保留的体验，邮件验证功能会在用户(User)对象中加入emailVerified字段, 当一个用户的邮件被新添加或者修改过的话，emailVerified会被默认设为false，如果应用设置中开启了邮箱认证功能，Bmob会对用户填写的邮箱发送一个链接, 这个链接可以把emailVerified设置为 true.
 
 emailVerified 字段有 3 种状态可以考虑：
@@ -2803,7 +2923,7 @@ emailVerified 字段有 3 种状态可以考虑：
  - false : 用户(User)对象最后一次被刷新的时候, 用户并没有确认过他的邮箱地址, 如果你看到emailVerified为false的话，你可以考虑刷新用户(User)对象。
  - missing : 用户(User)对象已经被创建，但应用设置并没有开启邮件验证功能； 或者用户(User)对象没有email邮箱。
 
-##### 请求验证Email
+### 1.3.3、请求验证Email
 发送给用户的邮箱验证邮件会在一周内失效，可以通过调用 `requestEmailVerify` 来强制重新发送：
 ```java
 final String email = "xxx@qq.com";
@@ -2819,7 +2939,7 @@ BmobUser.requestEmailVerify(email, new UpdateListener() {
 });
 ```
 
-#### 邮箱重置密码
+### 1.3.4、邮箱重置密码
 开发者只需要求用户输入注册时的电子邮件地址即可：
 ```java
 final String email = "xxx@163.com";
@@ -2844,15 +2964,15 @@ BmobUser.resetPasswordByEmail(email, new UpdateListener() {
 4. 用户的密码已被重置为新输入的密码。
 
 
-### 手机号相关功能
+## 1.4、用户系统的手机号相关功能
 
-#### 手机号码登录
+### 1.4.1、手机号码登录
 
 在手机号码被验证后，用户可以使用该手机号码进行登录操作。
 
 手机号码登录包括两种方式：`手机号码＋密码`、`手机号码＋短信验证码`。
 
-##### 手机号码+密码
+### 1.4.2、手机号码+密码
 
 ```java
 BmobUser.loginByAccount("11位手机号码", "用户密码", new LogInListener<MyUser>() {
@@ -2868,7 +2988,7 @@ BmobUser.loginByAccount("11位手机号码", "用户密码", new LogInListener<M
 ```
 
 
-##### 手机号码+短信验证码
+### 1.4.3、手机号码+短信验证码
 
 先请求登录的短信验证码：
 
@@ -2901,7 +3021,7 @@ BmobUser.loginBySMSCode("11位手机号码", code, new LogInListener<MyUser>() {
 
 ```
 
-#### 手机号码一键注册或登录
+### 1.4.4、手机号码一键注册或登录
 
 Bmob同样支持手机号码一键注册或登录，以下是一键登录的流程：
 
@@ -2964,7 +3084,7 @@ user.signOrLogin("验证码", new SaveListener<MyUser>() {
 
 ```
 
-#### 绑定手机号码
+### 1.4.5、绑定手机号码
 如果已有用户系统，需要为用户绑定手机号，那么官方推荐的绑定流程如下：
 
 第一步、先发送短信验证码并验证验证码的有效性,即调用`requestSMSCode`发送短信验证码，调用`verifySmsCode`来验证有效性。
@@ -2990,7 +3110,7 @@ user.update(cur.getObjectId(),new UpdateListener() {
 
 ```
 
-#### 手机号码重置密码
+### 1.4.6、手机号码重置密码
 Bmob自`V3.3.9`版本开始引入了短信验证系统，如果用户已经验证过手机号码或者使用过手机号码注册或登录过，也可以通过手机号码来重置用户密码，以下是官方建议使用的重置流程：
 
 1、请求重置密码操作的短信验证码：
@@ -3033,9 +3153,9 @@ BmobUser.resetPasswordBySMSCode(code,"1234567", new UpdateListener() {
 
 **2、验证码只能使用一次，一旦该验证码被使用就会失效，那么再拿失效的验证码去调用重置密码接口，一定会报`207-验证码错误`。因为重置密码接口已经包含验证码的有效性验证。**
 
-#### 手机号码验证
+### 1.4.7、手机号码验证
 
-##### 请求发送短信验证码
+### 1.4.8、请求发送短信验证码
 
 Bmob自`V3.3.9`版本开始引入了短信验证系统，可通过`requestSMSCode`方式请求发送短信验证码：
 
@@ -3279,6 +3399,18 @@ Bmob提供了非常简单的方法来实现第三方账号登陆的功能，目�
 #### 第三方登录的案例源码
 
 具体案例可参考我们Github上的demo：[https://github.com/bmob/bmob-android-demo-thirdpartylogin](https://github.com/bmob/bmob-android-demo-thirdpartylogin) ,这个源码包含了第三方登录的源码和登录之后如何获取用户基本信息的部分。
+
+
+
+
+
+
+
+
+
+
+
+
 ## 图文消息
 
 2017年下半年开始，后端云提供了素材管理模块，控制台文件浏览功能合并到了该模块下；
@@ -3292,6 +3424,25 @@ Bmob提供了非常简单的方法来实现第三方账号登陆的功能，目�
 1. 后端控制台新建图文信息并编辑后会新增一个_Article表，表中的关键字段有url,title,content，分别代表图文信息网页的url地址如[此例](http://bmob-cdn-782.b0.upaiyun.com/2017/12/07/78d403d140b2c0af80c12b8d9de67a7f.html),标题和网页源码，也能实时编辑。
 2. 客户端的使用，可以查询_Article表，既可以拿到url用webview组件加载，也可以用Android SDK中的TextView结合Html类解析html标签并展示。
 
+
+```
+/**
+ * 查询图文消息
+ */
+private void queryArticle() {
+    BmobQuery<BmobArticle> bmobArticleBmobQuery = new BmobQuery<>();
+    bmobArticleBmobQuery.findObjects(new FindListener<BmobArticle>() {
+        @Override
+        public void done(List<BmobArticle> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnQueryArticle, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(mBtnQueryArticle, "查询失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
 
 
 ## 文件管理
@@ -3717,11 +3868,39 @@ BmobACL和所有用户的权限设置：
 在没有显示指定的情况下，每一个BmobObject(表)中的ACL(列)属性的默认值是所有人可读可写的。在客户端想要修改这个权限设置，只需要简单调用BmobACL的setPublicReadAccess方法和setPublicWriteAccess方法，即：
 
 ```java
-BmobACL aCL = new BmobACL();
+/**
+ * 设置发布的帖子对所有用户的访问控制权限
+ */
+private void publicAcl() {
+    User user = BmobUser.getCurrentUser(User.class);
+    if (user == null) {
+        Snackbar.make(mBtnAclPublic, "请先登录", Snackbar.LENGTH_LONG).show();
+    } else {
+        Post post = new Post();
+        post.setAuthor(user);
+        post.setContent("content" + System.currentTimeMillis());
+        post.setTitle("title" + System.currentTimeMillis());
+        BmobACL bmobACL = new BmobACL();
+        //设置此帖子为所有用户不可写
+        bmobACL.setPublicWriteAccess(false);
+        //设置此帖子为所有用户可读
+        bmobACL.setPublicReadAccess(true);
+        post.setACL(bmobACL);
+        post.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null) {
+                    Snackbar.make(mBtnAclPublic, "发布帖子成功", Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(mBtnAclPublic, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
 
-aCL.setPublicReadAccess(true);
+}
 
-aCL.setPublicWriteAccess(true);
+
 ```
 
 注意：可读可写是默认的权限，不需要写额外的代码。
@@ -3730,31 +3909,38 @@ aCL.setPublicWriteAccess(true);
 假如你想实现一个分享日志类的应用时，这可能会需要针对不同的日志设定不同的访问权限。比如，公开的日志，发布者有更改和修改的权限，其他用户只有读的权限，那么可用如下代码实现：
 
 ```java
-User user = BmobUser.getCurrentUser(User.class);
-if (user == null) {
-    Snackbar.make(mBtnAcl, "请先登录", Snackbar.LENGTH_LONG).show();
-} else {
-    Post post = new Post();
-    post.setAuthor(user);
-    post.setContent("content" + System.currentTimeMillis());
-    post.setTitle("title" + System.currentTimeMillis());
-    BmobACL bmobACL = new BmobACL();
-    //设置此帖子为当前用户可写
-    bmobACL.setReadAccess(user, true);
-    //设置此帖子为所有用户可读
-    bmobACL.setPublicReadAccess(true);
-    post.setACL(bmobACL);
-    post.save(new SaveListener<String>() {
-        @Override
-        public void done(String s, BmobException e) {
-            if (e == null) {
-                Snackbar.make(mBtnAcl, "发布帖子成功", Snackbar.LENGTH_LONG).show();
-            } else {
-                Snackbar.make(mBtnAcl, e.getMessage(), Snackbar.LENGTH_LONG).show();
+/**
+ * 设置发布的帖子对当前用户的访问控制权限
+ */
+private void userAcl() {
+    User user = BmobUser.getCurrentUser(User.class);
+    if (user == null) {
+        Snackbar.make(mBtnAclPublic, "请先登录", Snackbar.LENGTH_LONG).show();
+    } else {
+        Post post = new Post();
+        post.setAuthor(user);
+        post.setContent("content" + System.currentTimeMillis());
+        post.setTitle("title" + System.currentTimeMillis());
+        BmobACL bmobACL = new BmobACL();
+        //设置此帖子为当前用户可写
+        bmobACL.setReadAccess(user, true);
+        //设置此帖子为所有用户可读
+        bmobACL.setPublicReadAccess(true);
+        post.setACL(bmobACL);
+        post.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null) {
+                    Snackbar.make(mBtnAclPublic, "发布帖子成功", Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(mBtnAclPublic, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                }
             }
-        }
-    });
+        });
+    }
 }
+
+
 
 ```
 有时，用户想发表一篇不公开的日志，这种情况只有发布者才对这篇日志拥有读写权限，相应的代码如下：
@@ -3780,127 +3966,150 @@ blog.save(new SaveListener<String>() {
 ### 角色管理
 上面的指定用户访问权限虽然很方便，但是对于有些应用可能会有一定的局限性。比如一家公司的工资系统，员工和公司的出纳们只拥有工资的读权限，而公司的人事和老板才拥有全部的读写权限。要实现这种功能，你也可以通过设置每个用户的ACL权限来实现，如下：
 ```java
+/**
+ * 设置发布的帖子对某种角色的访问控制权限
+ */
+private void roleAcl() {
+    User user = BmobUser.getCurrentUser(User.class);
+    if (user == null) {
+        Snackbar.make(mBtnAclPublic, "请先登录", Snackbar.LENGTH_LONG).show();
+    } else {
+        Post post = new Post();
+        post.setAuthor(user);
+        post.setContent("content" + System.currentTimeMillis());
+        post.setTitle("title" + System.currentTimeMillis());
+        BmobACL bmobACL = new BmobACL();
+        //设置此帖子为当前用户可写
+        bmobACL.setWriteAccess(user, true);
+        //设置此帖子为某种角色可读
+        bmobACL.setRoleReadAccess("female", true);
+        post.setACL(bmobACL);
+        post.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null) {
+                    Snackbar.make(mBtnAclPublic, "发布帖子成功", Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(mBtnAclPublic, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+}
 
-//创建公司某用户的工资对象
-WageInfo wageinfo = new WageInfo();
-wageinfo.setWage(100000);   
-
-//这里创建四个用户对象，分别为老板、人事小张、出纳小谢和自己
-BmobUser boss;
-BmobUser hr_zhang;
-BmobUser cashier_xie;
-BmobUser me;
-
-//创建ACL对象
-BmobACL acl = new BmobACL();
-
-//设置四个用户读的权限
-acl.setReadAccess(boos, true);    
-acl.setReadAccess(hr_zhang, true);
-acl.setReadAccess(cashier_xie, true);
-acl.setReadAccess(me, true);
-
-//设置老板和人事小张对这个工资的写权限
-acl.setWriteAccess(boss, true);
-acl.setWriteAccess(hr_zhang, true);
-
-//设置工资对象的ACL
-wageinfo.setACL(acl);
-wageinfo.save(new SaveListener<String>() {
-
-	@Override
-	public void done(String objectId, BmobException e) {
-		...
-	}
-});
 ```
-但是，一个公司的人事、出纳和员工不仅仅只有一个人，同时还会有离职、调换岗位以及新员工加入等问题存在。如果用上面的代码对公司的每个人进行一一设置的话是不现实的，既麻烦也很难维护。针对这个问题，我们可以利用BmobRole来解决。我们只需要对用户进行分类，每个分类赋予不同的权限。如下代码实现：
-
-```java
-//创建公司某用户的工资对象
-WageInfo wageinfo = new WageInfo();
-wageinfo.setWage(100000);
-
-//这里创建四个用户对象，分别为老板、人事小张、出纳小谢和自己
-BmobUser boss;
-BmobUser hr_zhang;
-BmobUser hr_luo;
-BmobUser cashier_xie;
-BmobUser me;
-
-//创建HR和Cashier两个用户角色（这里为了举例BmobRole的使用，将这段代码写在这里，正常情况下放在员工管理界面会更合适）
-BmobRole hr = new BmobRole("HR");
-BmobRole cashier = new BmobRole("Cashier");
-
-//将hr_zhang和hr_luo归属到hr角色中
-hr.getUsers().add(hr_zhang);
-hr.getUsers().add(hr_luo);
-//保存到云端角色表中（web端可以查看Role表）
-hr.save(this);  
-
-//将cashier_xie归属到cashier角色中
-cashier.getUsers().add(cashier_xie);
-//保存到云端角色表中（web端可以查看Role表）
-cashier.save();
-
-//创建ACL对象
-BmobACL acl = new BmobACL();
-acl.setReadAccess(boos, true); // 假设老板只有一个, 设置读权限
-acl.setReadAccess(me, true); // 给自己设置读权限
-acl.setRoleReadAccess(hr, true); // 给hr角色设置读权限
-acl.setRoleReadAccess(cashier, true); // 给cashier角色设置读权限
-
-acl.setWriteAccess(boss, true); // 设置老板拥有写权限
-acl.setRoleWriteAccess(hr, true); // 设置ht角色拥有写权限
-
-//设置工资对象的ACL
-wageinfo.setACL(acl);
-wageinfo.save();
-```
-
-需要说明一点的是，Web端的Role表也具有ACL的列，你可以将角色管理的权限赋予某些用户。
 
 
 ### 角色之间的从属关系
 下面我们来说一下角色与角色之间的从属关系。用一个例子来说明下：一个互联网企业有移动部门，部门中有不同的小组，如Android开发组和IOS开发组。每个小组只拥有自己小组的代码读写权限，但这两个小组同时拥有核心库代码的读权限。
 ```java
-//创建MobileDep（移动研发部）、AndroidTeam（android开发组）和iOSTeam（ios开发组）三个角色
-BmobRole mobileDep = new BmobRole("MobileDep");
-BmobRole androidTeam = new BmobRole("AndroidTeam");
-BmobRole iosTeam = new BmobRole("iOSTeam");
+/**
+ * 查询某角色是否存在
+ *
+ * @param roleName
+ */
+private void queryRole(final String roleName) {
+    BmobQuery<BmobRole> bmobRoleBmobQuery = new BmobQuery<>();
+    bmobRoleBmobQuery.addWhereEqualTo("name", roleName);
+    bmobRoleBmobQuery.findObjects(new FindListener<BmobRole>() {
+        @Override
+        public void done(List<BmobRole> list, BmobException e) {
+            if (e == null) {
+                if (list.size() > 0) {
+                    //已存在该角色
+                    addUser2Role(list.get(0));
+                } else {
+                    //不存在该角色
+                    BmobRole bmobRole = new BmobRole(roleName);
+                    saveRoleAndAddUser2Role(bmobRole);
+                }
+            } else {
+                Snackbar.make(mBtnQueryRole, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
 
-//保存AndroidTeam和iosTeam角色到云端
-androidTeam.save();
-iosTeam.save();
-
-//将androidTeam和iosTeam两种角色添加到移动部门角色中
-mobileDep.getRoles().add(androidTeam);
-mobileDep.getRoles().add(iosTeam);
-mobileDep.save();
-
-// 假设创建三个代码数据对象
-Code coreCode = new Code();
-Code androidCode = new Code();
-Code iosCode = new Code();
-
-//......此处省略一些具体的属性设定
-
-coreCode.save();
-androidCode.save();
-iosCode.save();
-
-//设置androidTeam角色对androidCode对象的读和写的权限
-androidCode.setRoleReadAccess(androidTeam, true);
-androidCode.setRoleWriteAccess(androidTeam, true);
-
-//设置iosTeam角色对iosCode对象的读和写的权限
-iosCode.setRoleReadAccess(iosTeam, true);
-iosCode.setRoleWriteAccess(iosTeam, true);
-
-//设置mobileDep角色可以对coreCode对象进行读操作
-coreCode.setRoleReadAccess(mobileDep);
-
+}
 ```
+
+```java
+/**
+ * 保存某个角色并保存用户到该角色中
+ *
+ * @param bmobRole
+ */
+private void saveRoleAndAddUser2Role(BmobRole bmobRole) {
+
+    User user = BmobUser.getCurrentUser(User.class);
+    if (user == null) {
+        Snackbar.make(mBtnQueryRole, "请先登录", Snackbar.LENGTH_LONG).show();
+    } else {
+        bmobRole.getUsers().add(user);
+        bmobRole.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null) {
+                    Toast.makeText(BmobRoleActivity.this, "角色用户添加成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Snackbar.make(mBtnQueryRole, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+}
+```
+```java
+/**
+ * 添加用户到某个角色中
+ *
+ * @param bmobRole
+ */
+private void addUser2Role(BmobRole bmobRole) {
+    User user = BmobUser.getCurrentUser(User.class);
+    if (user == null) {
+        Snackbar.make(mBtnQueryRole, "请先登录", Snackbar.LENGTH_LONG).show();
+    } else {
+        bmobRole.getUsers().add(user);
+        bmobRole.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null) {
+                    Toast.makeText(BmobRoleActivity.this, "角色用户添加成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(BmobRoleActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+}
+```
+```java
+/**
+ * 把用户从某个角色中移除
+ *
+ * @param bmobRole
+ */
+private void removeUserFromRole(BmobRole bmobRole) {
+    User user = BmobUser.getCurrentUser(User.class);
+    if (user == null) {
+        Snackbar.make(mBtnQueryRole, "请先登录", Snackbar.LENGTH_LONG).show();
+    } else {
+        bmobRole.getUsers().remove(user);
+        bmobRole.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null) {
+                    Toast.makeText(BmobRoleActivity.this, "角色用户添加成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(BmobRoleActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+}
+```
+
 
 ### ACL案例源码
 
