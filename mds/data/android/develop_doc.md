@@ -706,12 +706,6 @@ private void signUp(final View view) {
 }
 ```
 
-
-
-
-
-
-
 ### 2.2.2、账号密码登录
 
 ```java
@@ -738,8 +732,6 @@ private void login(final View view) {
 }
 ```
 
-
-
 ```java
 /**
  * 账号密码登录
@@ -758,6 +750,7 @@ private void loginByAccount(final View view) {
     });
 }
 ```
+
 ### 2.2.3、判断当前是否有用户登录
 
 ```java
@@ -768,6 +761,7 @@ if (BmobUser.isLogin()) {
     Snackbar.make(view, "尚未登录", Snackbar.LENGTH_LONG).show();
 }
 ```
+
 ### 2.2.4、获取当前用户以及用户属性
 
 获取缓存的用户信息，缓存的有效期为1年。
@@ -788,7 +782,7 @@ if (BmobUser.isLogin()) {
 
 
 
-具体用法如下
+同步控制台数据到缓存中：
 
 ```java
 
@@ -811,9 +805,11 @@ private void fetchUserInfo(final View view) {
     });
 }
 ```
+获取控制台最新JSON数据，不同步到缓存中：
+
 ```Java
 /**
- * 获取控制台最新数据
+ * 获取控制台最新JSON数据
  * @param view
  */
 private void fetchUserJsonInfo(final View view) {
@@ -861,28 +857,52 @@ private void updateUser(final View view) {
 
 
 ### 2.2.7、查询用户
-查询用户和查询普通对象一样，只需指定BmobUser类即可，如下：
+查询用户和查询普通对象一样，只需指定BmobUser类或自定义用户类即可，如下：
 ```java
-BmobQuery<BmobUser> query = new BmobQuery<BmobUser>();
-query.addWhereEqualTo("username", "lucky");
-query.findObjects(new FindListener<BmobUser>() {
-	@Override
-	public void done(List<BmobUser> object,BmobException e) {
-		if(e==null){
-			toast("查询用户成功:"+object.size());
-		}else{
-			toast("更新用户信息失败:" + e.getMessage());
-		}
-	}
-});
+/**
+ * 查询用户表
+ */
+private void queryUser(final View view) {
+    BmobQuery<User> bmobQuery = new BmobQuery<>();
+    bmobQuery.findObjects(new FindListener<User>() {
+        @Override
+        public void done(List<User> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(view, "查询成功", Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(view, "查询失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+
 ```
-浏览器中查看用户表
 
-User表是一个特殊的表，专门存储BmobUser对象。在浏览器端，你会看到一个User表旁边有一个小人的图标。
 
-![](image/create_table.png)
+### 2.2.8、提供旧密码修改密码
 
-### 2.2.8、退出登录
+若用户已登录，可以提供旧密码修改密码：
+
+```java
+/**
+ * 提供旧密码修改密码
+ */
+private void updatePassword(final View view){
+    //TODO 此处替换为你的旧密码和新密码
+    BmobUser.updateCurrentUserPassword("oldPwd", "newPwd", new UpdateListener() {
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(view, "查询成功", Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(view, "查询失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+### 2.2.9、退出登录
 
 退出登录，同时清除缓存用户对象。
 
@@ -890,90 +910,102 @@ User表是一个特殊的表，专门存储BmobUser对象。在浏览器端，�
 BmobUser.logOut();
 ```
 
-### 2.2.9、密码修改
-自`V3.4.3`版本开始，SDK为开发者提供了直接修改当前用户登录密码的方法，只需要传入旧密码和新密码，然后调用`BmobUser`提供的静态方法`updateCurrentUserPassword`即可，以下是示例：
-
-```java
-BmobUser.updateCurrentUserPassword("旧密码", "新密码", new UpdateListener() {
-
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			toast("密码修改成功，可以用新密码进行登录啦");
-		}else{
-			toast("失败:" + e.getMessage());
-		}
-	}
-
-});
-
-```
 
 ## 1.3、用户系统的邮箱操作
 
+需在应用的设置->邮件设置中开启“邮箱验证”功能，Bmob云后端才会在邮箱注册时发出一封验证邮件给用户，默认开启。
 
-
-- 有些时候你可能需要在用户注册时发送一封验证邮件，以确认用户邮箱的真实性。这时，你只需要登录自己的应用管理后台，在应用设置->邮件设置（下图）中把“邮箱验证”功能打开，Bmob云后端就会在注册时自动发动一封验证给用户。
-
-![](image/email_verify.png)
+邮件功能是按需付费，可以在应用的设置->套餐升级中购买邮件的数量。
 
 
 ### 1.3.1、邮箱密码登录
-新增`邮箱+密码`登录方式,可以通过`loginByAccount`方法来操作：
+
+邮箱验证通过后，用户可以使用邮箱和密码进行登录：
 
 ```java
-BmobUser.loginByAccount(account, password, new LogInListener<MyUser>() {
+/**
+ * 邮箱+密码登录
+ */
+private void loginByEmailPwd() {
+    //TODO 此处替换为你的邮箱和密码
+    BmobUser.loginByAccount("email","password", new LogInListener<User>() {
 
-			@Override
-			public void done(MyUser user, BmobException e) {
-				if(user!=null){
-					Log.i("smile","用户登陆成功");
-				}
-			}
-		});
-
+        @Override
+        public void done(User user, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mIvAvatar, user.getUsername() + "-" + user.getAge() + "-" + user.getObjectId() + "-" + user.getEmail(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mIvAvatar, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
 ### 1.3.2、邮箱验证
-设置邮件验证是一个可选的应用设置, 这样可以对已经确认过邮件的用户提供一部分保留的体验，邮件验证功能会在用户(User)对象中加入emailVerified字段, 当一个用户的邮件被新添加或者修改过的话，emailVerified会被默认设为false，如果应用设置中开启了邮箱认证功能，Bmob会对用户填写的邮箱发送一个链接, 这个链接可以把emailVerified设置为 true.
+邮件验证功能会在用户(User)对象中加入emailVerified字段，当一个用户的邮件被新添加或者修改过的话，emailVerified会被默认设为false，如果应用设置中开启了邮箱认证功能，Bmob会对用户填写的邮箱发送一个链接，这个链接可以把emailVerified设置为true.
 
 emailVerified 字段有 3 种状态可以考虑：
 
- - true : 用户可以点击邮件中的链接通过Bmob来验证地址，一个用户永远不会在新创建这个值的时候显示emailVerified为true。
- - false : 用户(User)对象最后一次被刷新的时候, 用户并没有确认过他的邮箱地址, 如果你看到emailVerified为false的话，你可以考虑刷新用户(User)对象。
- - missing : 用户(User)对象已经被创建，但应用设置并没有开启邮件验证功能； 或者用户(User)对象没有email邮箱。
+|状态|解释|
+|----|----|
+|true|已验证。|
+|false|未验证，可以刷新用户对象更新此状态为最新状态。|
+|missing|用户对象已经被创建，但应用设置并没有开启邮件验证功能；或者用户对象没有email邮箱。|
 
-### 1.3.3、请求验证Email
-发送给用户的邮箱验证邮件会在一周内失效，可以通过调用 `requestEmailVerify` 来强制重新发送：
+
+
+### 1.3.3、发送邮箱验证邮件
+
+发送给用户的邮箱验证邮件会在一周内失效：
+
 ```java
-final String email = "xxx@qq.com";
-BmobUser.requestEmailVerify(email, new UpdateListener() {
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			toast("请求验证邮件成功，请到" + email + "邮箱中进行激活。");
-		}else{
-			toast("失败:" + e.getMessage());
-		}
-	}
-});
+/**
+ * 发送验证邮件
+ */
+private void emailVerify() {
+    //TODO 此处替换为你的邮箱
+    final String email = "email";
+    BmobUser.requestEmailVerify(email, new UpdateListener() {
+
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(mIvAvatar, "请求验证邮件成功，请到" + email + "邮箱中进行激活账户。", Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mIvAvatar, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
 ### 1.3.4、邮箱重置密码
-开发者只需要求用户输入注册时的电子邮件地址即可：
-```java
-final String email = "xxx@163.com";
-BmobUser.resetPasswordByEmail(email, new UpdateListener() {
 
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			toast("重置密码请求成功，请到" + email + "邮箱进行密码重置操作");
-		}else{
-			toast("失败:" + e.getMessage());
-		}
-	}
-});
+开发者只需要求用户输入注册时的电子邮件地址即可：
+
+```java
+/**
+ * 邮箱重置密码
+ */
+private void resetPasswordByEmail() {
+    //TODO 此处替换为你的邮箱
+    final String email = "email";
+    BmobUser.resetPasswordByEmail(email, new UpdateListener() {
+
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(mIvAvatar, "重置密码请求成功，请到" + email + "邮箱进行密码重置操作", Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mIvAvatar, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
 邮箱重置密码的流程如下：
@@ -984,64 +1016,80 @@ BmobUser.resetPasswordByEmail(email, new UpdateListener() {
 4. 用户的密码已被重置为新输入的密码。
 
 
-## 1.4、用户系统的手机号相关功能
+## 1.4、用户系统的手机号码相关功能
 
-### 1.4.1、手机号码登录
+### 1.4.1、手机号码和密码登录
 
-在手机号码被验证后，用户可以使用该手机号码进行登录操作。
-
-手机号码登录包括两种方式：`手机号码＋密码`、`手机号码＋短信验证码`。
-
-### 1.4.2、手机号码+密码
+在手机号码被验证后，用户可以使用该手机号码和密码进行登录操作：
 
 ```java
-BmobUser.loginByAccount("11位手机号码", "用户密码", new LogInListener<MyUser>() {
+/**
+ * 手机号码密码登录
+ */
+private void loginByPhone(){
+    //TODO 此处替换为你的手机号码和密码
+    BmobUser.loginByAccount("phone", "password", new LogInListener<User>() {
 
-	@Override
-	public void done(MyUser user, BmobException e) {
-		if(user!=null){
-			Log.i("smile","用户登陆成功");
-		}
-	}
-});
-
-```
-
-
-### 1.4.3、手机号码+短信验证码
-
-先请求登录的短信验证码：
-
-```java
-BmobSMS.requestSMSCode("11位手机号码","模板名称", new QueryListener<Integer>() {
-
-	@Override
-	public void done(Integer smsId,BmobException ex) {
-		if(ex==null){//验证码发送成功
-			Log.i("smile", "短信id："+smsId);//用于后续的查询本次短信发送状态
-		}
-	}
-});
-
-```
-
-最后调用`loginBySMSCode`方法进行手机号码登录:
-
-```java
-BmobUser.loginBySMSCode("11位手机号码", code, new LogInListener<MyUser>() {
-
-		@Override
-		public void done(MyUser user, BmobException e) {
-			if(user!=null){
-				Log.i("smile","用户登陆成功");
-			}
-		}
-	});
+        @Override
+        public void done(User user, BmobException e) {
+            if(user!=null){
+                if (e == null) {
+                    mTvInfo.append("短信登录成功：" + user.getObjectId() + "-" + user.getUsername());
+                } else {
+                    mTvInfo.append("短信登录失败：" + e.getErrorCode() + "-" + e.getMessage() + "\n");
+                }
+            }
+        }
+    });
 }
-
 ```
 
-### 1.4.4、手机号码一键注册或登录
+
+### 1.4.2、手机号码和短信验证码登录
+
+在手机号码被验证后，用户可以使用该手机号码和短信验证码进行登录操作：
+
+先请求登录的短信验证码，使用方式详见[短信开发文档](http://doc.bmob.cn/sms/android/)：
+
+```java
+/**
+ * TODO template 如果是自定义短信模板，此处替换为你在控制台设置的自定义短信模板名称；如果没有对应的自定义短信模板，则使用默认短信模板，默认模板名称为空字符串""。
+ *
+ * TODO 应用名称以及自定义短信内容，请使用不会被和谐的文字，防止发送短信验证码失败。
+ *
+ */
+BmobSMS.requestSMSCode(phone, "", new QueryListener<Integer>() {
+    @Override
+    public void done(Integer smsId, BmobException e) {
+        if (e == null) {
+            mTvInfo.append("发送验证码成功，短信ID：" + smsId + "\n");
+        } else {
+            mTvInfo.append("发送验证码失败：" + e.getErrorCode() + "-" + e.getMessage() + "\n");
+        }
+    }
+});
+```
+
+然后进行手机号码和短信验证码登录:
+
+```java
+/**
+ * TODO 此API需要在用户已经注册并验证的前提下才能使用
+ */
+BmobUser.loginBySMSCode(phone, code, new LogInListener<BmobUser>() {
+    @Override
+    public void done(BmobUser bmobUser, BmobException e) {
+        if (e == null) {
+            mTvInfo.append("短信登录成功：" + bmobUser.getObjectId() + "-" + bmobUser.getUsername());
+            startActivity(new Intent(UserLoginSmsActivity.this, UserMainActivity.class));
+        } else {
+            mTvInfo.append("短信登录失败：" + e.getErrorCode() + "-" + e.getMessage() + "\n");
+        }
+    }
+});
+```
+
+### 1.4.3、手机号码一键注册或登录
 
 Bmob同样支持手机号码一键注册或登录，以下是一键登录的流程：
 
@@ -1049,16 +1097,22 @@ Bmob同样支持手机号码一键注册或登录，以下是一键登录的流�
 1、请求登录操作的短信验证码：
 
 ```java
-BmobSMS.requestSMSCode("11位手机号码","模板名称", new QueryListener<Integer>() {
-
-	@Override
-	public void done(Integer smsId,BmobException ex) {
-		if(ex==null){//验证码发送成功
-			Log.i("smile", "短信id："+smsId);//用于查询本次短信发送详情
-		}
-	}
-	});
-
+/**
+ * TODO template 如果是自定义短信模板，此处替换为你在控制台设置的自定义短信模板名称；如果没有对应的自定义短信模板，则使用默认短信模板，默认模板名称为空字符串""。
+ *
+ * TODO 应用名称以及自定义短信内容，请使用不会被和谐的文字，防止发送短信验证码失败。
+ *
+ */
+BmobSMS.requestSMSCode(phone, "", new QueryListener<Integer>() {
+    @Override
+    public void done(Integer smsId, BmobException e) {
+        if (e == null) {
+            mTvInfo.append("发送验证码成功，短信ID：" + smsId + "\n");
+        } else {
+            mTvInfo.append("发送验证码失败：" + e.getErrorCode() + "-" + e.getMessage() + "\n");
+        }
+    }
+});
 ```
 
 2、用户收到短信验证码之后，就可以调用`signOrLoginByMobilePhone`方法来实现一键登录:
@@ -1173,95 +1227,11 @@ BmobUser.resetPasswordBySMSCode(code,"1234567", new UpdateListener() {
 
 **2、验证码只能使用一次，一旦该验证码被使用就会失效，那么再拿失效的验证码去调用重置密码接口，一定会报`207-验证码错误`。因为重置密码接口已经包含验证码的有效性验证。**
 
-### 1.4.7、手机号码验证
-
-### 1.4.8、请求发送短信验证码
-
-Bmob自`V3.3.9`版本开始引入了短信验证系统，可通过`requestSMSCode`方式请求发送短信验证码：
-
-```java
-BmobSMS.requestSMSCode("11位手机号码", "模板名称",new QueryListener<Integer>() {
-
-	@Override
-	public void done(Integer smsId,BmobException ex) {
-		if(ex==null){//验证码发送成功
-			Log.i("smile", "短信id："+smsId);//用于查询本次短信发送详情
-		}
-	}
-});
-
-```
-
-短信默认模板：
-
-```java
-
-	您的验证码是`%smscode%`，有效期为`%ttl%`分钟。您正在使用`%appname%`的验证码。【比目科技】
-
-```
-
-
-**注：**
-
-1、`模板名称`：模板名称需要开发者在应用的管理后台进行短信模板的添加工作，具体：`短信服务`->`短信模板`,之后点击创建即可。
-
-
-具体请看下图：
-
-![](image/sms.png)
-
-
-2、只有审核通过之后的自定义短信模板才可以被使用，如果自定义的短信模板其状态显示`审核中`或者`审核失败`,再调用该方法则会以`默认模板`来发送验证码。
-
-**3、开发者提交短信验证码模板时需注意以下几点：**
-
-**1）、模板中不能有【】和 [] ，否则审核不通过；**
-
-**2）、如果你提交的短信模板无法发送，则有可能包含一些敏感监控词，具体可去Github下载  [短信关键字监控参考文档](https://github.com/bmob/bmob-public-docs/blob/master/%E7%9F%AD%E4%BF%A1%E5%85%B3%E9%94%AE%E5%AD%97%E7%9B%91%E6%8E%A7%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3.doc)  来查看提交内容是否合法。**
-
-**3）、一天一个应用给同一手机号发送的短信不能超过10条，否则会报`10010`错误，其他错误码可查看[错误码文档](http://doc.bmob.cn/other/error_code/) 。**
-
-
-##### 验证验证码
-
-通过`verifySmsCode`方式可验证该短信验证码：
-
-```java
-BmobSMS.verifySmsCode("11位手机号码", "验证码", new UpdateListener() {
-
-	@Override
-	public void done(BmobException ex) {
-		if(ex==null){//短信验证码已验证成功
-			Log.i("smile", "验证通过");
-		}else{
-			Log.i("smile", "验证失败：code ="+ex.getErrorCode()+",msg = "+ex.getLocalizedMessage());
-		}
-	}
-});
-
-```
-
-验证成功后，用户的`mobilePhoneVerified`属性会自动变为`true`。
 
 
 
-**注意事项：**
-
-**关于短信条数的计算规则如下:**
-
-1. 实际计算的短信字数 = 模板的内容或自定义短信的内容字数 + 6。加上6是因为默认的签名【比目科技】占了6个字。
-2. 实际计算的短信字数在70个字以下算1条。
-3. 实际计算的短信字数超过70字的以67字为一条来计算的。也就是135个字数是计算为3条的。
-4. 计算得到的短信条数在本条短信发送成功后将会从你的账户剩余的短信条数中扣除。
-
-**短信发送限制规则是1/分钟，5/小时，10/天。即对于一个应用来说，一天给同一手机号发送短信不能超过10条，一小时给同一手机号发送短信不能超过5条，一分钟给同一手机号发送短信不能超过1条。**
 
 
-#### 短信验证案例
-
-为了方便大家，官方提供了一个短信验证的demo：[https://github.com/bmob/bmob_android_demo_sms](https://github.com/bmob/bmob_android_demo_sms) 。
-
-此案例包含了：`用户名/邮箱/手机号码+密码登录`、`手机号码一键注册登录`、`绑定手机号`以及`通过手机号重置用户密码`。
 
 ### 第三方账号登陆
 
@@ -2789,7 +2759,7 @@ Bmob提供了`Pointer（一对一、一对多）`和`Relation（多对多）`两
 
 `Post`字段如下：
 
-|字段|含义|类型|
+|字段|类型|含义|
 |:---|:---|:---|
 |objectId|String|帖子ID|
 |title|String|帖子标题|
@@ -2799,7 +2769,7 @@ Bmob提供了`Pointer（一对一、一对多）`和`Relation（多对多）`两
 
 `Comment`字段如下：
 
-|字段|含义|类型|
+|字段|类型|含义|
 |:---|:---|:---|
 |objectId|String|评论ID|
 |content|String|评论内容|
