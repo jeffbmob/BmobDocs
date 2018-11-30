@@ -4,13 +4,19 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta content="Bmob,BmobCloud,bomb,BaaS,mBaaS,PaaS,Serverless,FaaS,Function as a Service,Backend as a Service,serverless computing,cloud function,后端云,bmob后端云,小程序云,小程序后端,云数据库,云存储,文件存储,云函数,云端代码,定时任务,游戏后端,游戏云,用户系统,无服务器函数,移动开发,app开发,小程序开发,云端一体化,互联网中间件" name="keywords"/>
+            <meta content="国内首家专注于移动应用Serverless云服务的平台,Bmob后端云让移动开发更简单,全方位一体化的后端服务平台" name="description"/>
             
             
             
             <link rel="shortcut icon" href="../../img/favicon.ico">
         
         <script type="text/javascript" src="//game.bmob.cn/static/doc_union.js"></script>
-            <title>Bmob文档中心</title>
+            <!--
+            <title>REST API - Bmob文档中心</title>
+            -->
+            <title>云函数 &middot; REST API – Bmob后端云 </title>        
+            
             <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
             <link href="../../css/font-awesome-4.5.0.css" rel="stylesheet">
             <link href="../../css/base.css" rel="stylesheet">
@@ -75,7 +81,7 @@
                             
                             
 								<li >
-									<a href="../../data/restful/">RESTful</a>
+									<a href="../../data/restful/">REST API</a>
                                 </li>
                             
                             
@@ -113,6 +119,11 @@
 									<a href="../../data/wechat_app_new/rm/">小程序(新)</a>
                                 </li>
                             
+                            
+                                <li >
+                                    <a href="../../data/kotlin/">Kotlin</a>
+                                </li>
+							
                         </ul>
                     </li>
                 
@@ -141,6 +152,11 @@
 							
                             
                                 <li >
+                                    <a href="../python/">Python</a>
+                                </li>
+							
+                            
+                                <li >
                                     <a href="../csharp/">C#</a>
                                 </li>
 							
@@ -156,7 +172,7 @@
 							
                             
                                 <li class="active">
-                                    <a href="./">RESTful</a>
+                                    <a href="./">REST API</a>
                                 </li>
 							
                             
@@ -197,7 +213,7 @@
 							
                             
                                 <li >
-                                    <a href="../../sms/restful/">RESTful</a>
+                                    <a href="../../sms/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -243,9 +259,9 @@
             
               <li class="pull-left">
                 
-					<!--<a href="">IM服务</a>-->
+					<!--<a href="">即时通讯</a>-->
 					<li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">IM服务 <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">即时通讯 <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             
 								<li >
@@ -290,7 +306,7 @@
 							
                             
                                 <li >
-                                    <a href="../../push/restful/">RESTful</a>
+                                    <a href="../../push/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -362,6 +378,7 @@
 				
 				
 				
+				
 		
 	
 		
@@ -372,7 +389,8 @@
 				
 				
 				
-					<div class="code-title">RESTful</div>
+				
+					<div class="code-title">REST API</div>
 				
 				
 		
@@ -437,6 +455,8 @@
 						
 					
 						
+					
+						
 							
 								
 									
@@ -476,7 +496,7 @@
 <p><strong>请求</strong></p>
 <ul>
 <li>
-<p>url ：https://api.bmob.cn/1/functions/funcName</p>
+<p>url ：https://api2.bmob.cn/1/functions/funcName</p>
 </li>
 <li>
 <p>method ：POST</p>
@@ -516,7 +536,7 @@ Content-Type: application/json
   -H &quot;X-Bmob-REST-API-Key: Your REST API Key&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d '{&quot;name&quot;:1337.23,&quot;playerName&quot;:&quot;Sean Plott&quot;,&quot;cheatMode&quot;:false}' \
-  https://api.bmob.cn/1/functions/hello
+  https://api2.bmob.cn/1/functions/hello
 </code></pre>
 
 <p>如果运行的云函数不需要传入参数，请参考下面的例子。
@@ -526,7 +546,7 @@ Content-Type: application/json
   -H &quot;X-Bmob-REST-API-Key: Your REST API Key&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d '{}' \
-  https://api.bmob.cn/1/functions/test
+  https://api2.bmob.cn/1/functions/test
 </code></pre>
                 </div>
             </div>

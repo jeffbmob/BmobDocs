@@ -4,13 +4,19 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta content="Bmob,BmobCloud,bomb,BaaS,mBaaS,PaaS,Serverless,FaaS,Function as a Service,Backend as a Service,serverless computing,cloud function,后端云,bmob后端云,小程序云,小程序后端,云数据库,云存储,文件存储,云函数,云端代码,定时任务,游戏后端,游戏云,用户系统,无服务器函数,移动开发,app开发,小程序开发,云端一体化,互联网中间件" name="keywords"/>
+            <meta content="国内首家专注于移动应用Serverless云服务的平台,Bmob后端云让移动开发更简单,全方位一体化的后端服务平台" name="description"/>
             
             
             
             <link rel="shortcut icon" href="../../img/favicon.ico">
         
         <script type="text/javascript" src="//game.bmob.cn/static/doc_union.js"></script>
-            <title>Bmob文档中心</title>
+            <!--
+            <title>开发文档 - Bmob文档中心</title>
+            -->
+            <title>数据存储 &middot; JavaScript & 快应用 & Nodejs & Cocos Creator & 小程序(新) – Bmob后端云 </title>        
+            
             <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
             <link href="../../css/font-awesome-4.5.0.css" rel="stylesheet">
             <link href="../../css/base.css" rel="stylesheet">
@@ -75,7 +81,7 @@
                             
                             
 								<li >
-									<a href="../restful/">RESTful</a>
+									<a href="../restful/">REST API</a>
                                 </li>
                             
                             
@@ -113,6 +119,11 @@
 									<a href="rm/">小程序(新)</a>
                                 </li>
                             
+                            
+                                <li >
+                                    <a href="../kotlin/">Kotlin</a>
+                                </li>
+							
                         </ul>
                     </li>
                 
@@ -141,6 +152,11 @@
 							
                             
                                 <li >
+                                    <a href="../../cloud_function/python/">Python</a>
+                                </li>
+							
+                            
+                                <li >
                                     <a href="../../cloud_function/csharp/">C#</a>
                                 </li>
 							
@@ -156,7 +172,7 @@
 							
                             
                                 <li >
-                                    <a href="../../cloud_function/restful/">RESTful</a>
+                                    <a href="../../cloud_function/restful/">REST API</a>
                                 </li>
 							
                             
@@ -197,7 +213,7 @@
 							
                             
                                 <li >
-                                    <a href="../../sms/restful/">RESTful</a>
+                                    <a href="../../sms/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -243,9 +259,9 @@
             
               <li class="pull-left">
                 
-					<!--<a href="">IM服务</a>-->
+					<!--<a href="">即时通讯</a>-->
 					<li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">IM服务 <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">即时通讯 <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             
 								<li >
@@ -290,7 +306,7 @@
 							
                             
                                 <li >
-                                    <a href="../../push/restful/">RESTful</a>
+                                    <a href="../../push/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -364,9 +380,11 @@
 				
 					<div class="code-title">小程序(新)</div>
 				
+				
 		
 	
 		
+				
 				
 				
 				
@@ -642,63 +660,47 @@
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_40">分组计算总和</a></li>
+													<li><a class="itm-l2" href="#_40">获取不重复的列值</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_41">多个分组并计算多个列的总和</a></li>
-												</ul>
-												
-												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_42">分组计算总和并只返回满足条件的部分值</a></li>
-												</ul>
-												
-												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_43">分组计算总和并返回每个分组的记录数</a></li>
-												</ul>
-												
-												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_44">获取不重复的列值</a></li>
-												</ul>
-												
-												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_45">其他关键字</a></li>
+													<li><a class="itm-l2" href="#_41">其他关键字</a></li>
 												</ul>
 												
 											</li>
 												
-											<li class=""><a href="#_46">地理位置</a>
+											<li class=""><a href="#_42">地理位置</a>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_47">创建地理位置对象</a></li>
+													<li><a class="itm-l2" href="#_43">创建地理位置对象</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_48">查询地理位置</a></li>
+													<li><a class="itm-l2" href="#_44">查询地理位置</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_49">添加地理位置</a></li>
+													<li><a class="itm-l2" href="#_45">添加地理位置</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_50">修改地理位置</a></li>
+													<li><a class="itm-l2" href="#_46">修改地理位置</a></li>
 												</ul>
 												
 											</li>
 												
-											<li class=""><a href="#_51">云函数使用</a>
+											<li class=""><a href="#_47">云函数使用</a>
 												
 											</li>
 												
-											<li class=""><a href="#_52">文件</a>
+											<li class=""><a href="#_48">文件</a>
 												
 												<ul class="nav nav-l2">
 													<li><a class="itm-l2" href="#web">WEB文件上传</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_53">小程序文件上传</a></li>
+													<li><a class="itm-l2" href="#_49">小程序文件上传</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
@@ -706,43 +708,43 @@
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_54">图片缩略图</a></li>
+													<li><a class="itm-l2" href="#_50">图片缩略图</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_55">视频缩略图</a></li>
+													<li><a class="itm-l2" href="#_51">视频缩略图</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_56">文件删除</a></li>
+													<li><a class="itm-l2" href="#_52">文件删除</a></li>
 												</ul>
 												
 											</li>
 												
-											<li class=""><a href="#_57">小程序操作</a>
+											<li class=""><a href="#_53">小程序操作</a>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_58">授权操作</a></li>
+													<li><a class="itm-l2" href="#_54">授权操作</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_59">域名配置</a></li>
+													<li><a class="itm-l2" href="#_55">域名配置</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_60">小程序一键登录</a></li>
+													<li><a class="itm-l2" href="#_56">小程序一键登录</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_61">小程序更新用户信息</a></li>
+													<li><a class="itm-l2" href="#_57">小程序更新用户信息</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_62">生成二维码</a></li>
+													<li><a class="itm-l2" href="#_58">生成二维码</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_63">检测违规内容</a></li>
+													<li><a class="itm-l2" href="#_59">检测违规内容</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
@@ -750,31 +752,31 @@
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_65">小程序模版消息</a></li>
+													<li><a class="itm-l2" href="#_61">小程序模版消息</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_66">小程序付款到零钱</a></li>
+													<li><a class="itm-l2" href="#_62">小程序付款到零钱</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_67">小程序支付</a></li>
+													<li><a class="itm-l2" href="#_63">小程序支付</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_68">小程序退款</a></li>
+													<li><a class="itm-l2" href="#_64">小程序退款</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_69">微信主人通知</a></li>
+													<li><a class="itm-l2" href="#_65">微信主人通知</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_71">小程序下载域名</a></li>
+													<li><a class="itm-l2" href="#_67">小程序下载域名</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_72">小程序客服消息</a></li>
+													<li><a class="itm-l2" href="#_68">小程序客服消息</a></li>
 												</ul>
 												
 											</li>
@@ -786,15 +788,15 @@
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_73">订阅事件</a></li>
+													<li><a class="itm-l2" href="#_69">订阅事件</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_77">取消订阅事件</a></li>
+													<li><a class="itm-l2" href="#_73">取消订阅事件</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_81">监听触发的事件</a></li>
+													<li><a class="itm-l2" href="#_77">监听触发的事件</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
@@ -803,14 +805,14 @@
 												
 											</li>
 												
-											<li class=""><a href="#_85">短信服务操作</a>
+											<li class=""><a href="#_81">短信服务操作</a>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_86">请求短信验证码</a></li>
+													<li><a class="itm-l2" href="#_82">请求短信验证码</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_87">验证短信验证码</a></li>
+													<li><a class="itm-l2" href="#_83">验证短信验证码</a></li>
 												</ul>
 												
 											</li>
@@ -820,6 +822,8 @@
 									</li>
 								
 							
+						
+					
 						
 					
 				
@@ -1607,7 +1611,7 @@ query.destroy('objectId').then(res =&gt; {
 query.get('objectId').then(res =&gt; {
   res.destroy().then(res =&gt; {
 console.log(res)
-  }).ctach(err =&gt; {
+  }).catch(err =&gt; {
 console.log(err)
   })
 }).catch(err =&gt; {
@@ -2218,7 +2222,6 @@ query.equalTo(&quot;data&quot;, &quot;&gt;&quot;, data);
 </table>
 <p>为避免和用户创建的列名称冲突，Bmob约定以上统计关键字（sum, max, min)的查询结果值都用 <code>_(关键字)+首字母大写的列名</code> 的格式，如计算玩家得分列名称为score总和的操作，则返回的结果集会有一个列名为_sumScore。average返回的列为 <code>_avg+首字母大写的列名</code> ，有groupcount的情形下则返回_count。</p>
 <p>以上关键字除了groupcount是传Boolean值true或false，having传的是和where类似的json字符串，但having只应该用于过滤分组查询得到的结果集，即having只应该包含结果集中的列名如 <code>{"_sumScore":{"$gt":100}}</code> ，其他关键字必须是字符串而必须是表中包含的列名，多个列名用,分隔。</p>
-<p>以上关键字可以自由组合并可以与前面查询语句中的where, order, limit, skip等组合使用。</p>
 <p>比如，GameScore表是游戏玩家的信息和得分表，有playerName(玩家名称)、score(玩家得分)等你自己创建的列，还有Bmob的默认列objectId, createdAt, updatedAt,那么我们现在举例如何使用以上的查询关键字来作这个表的统计。 </p>
 <h3 id="_39">计算总和<a class="headerlink" href="#_39" title="Permanent link">&para;</a></h3>
 <p>我们要计算GameScore表所有玩家的得分总和，sum后面只能拼接Number类型的列名，即要计算哪个列的值的总和，只对Number类型有效，多个Number列用,分隔，则查询如下：</p>
@@ -2239,115 +2242,7 @@ query.find().then(res =&gt; {
 
 </code></pre>
 
-<h3 id="_40">分组计算总和<a class="headerlink" href="#_40" title="Permanent link">&para;</a></h3>
-<p>比如我们以创建时间按天统计所有玩家的得分，并按时间降序, groupby后面只能拼接列名，如果该列是时间类型，则按天分组，其他类型，则按确定值分组:</p>
-<pre><code>const query = Bmob.Query(&quot;GameScore&quot;);
-query.statTo(&quot;sum&quot;, &quot;score&quot;);
-query.statTo(&quot;groupby&quot;, &quot;createdAt&quot;);
-query.statTo(&quot;order&quot;, &quot;-createdAt&quot;);
-query.find().then(res =&gt; {
-  console.log(res)
-});
-</code></pre>
-
-<p>返回内容如下：</p>
-<pre><code>[
-    {
-        &quot;_sumScore&quot;: 2398,
-        &quot;createdAt&quot;: &quot;2014-02-05&quot;
-    },
-    {
-        &quot;_sumScore&quot;: 1208,
-        &quot;createdAt&quot;: &quot;2014-01-01&quot;
-    },
-]                 
-</code></pre>
-
-<h3 id="_41">多个分组并计算多个列的总和<a class="headerlink" href="#_41" title="Permanent link">&para;</a></h3>
-<p>比如我们以创建时间按天和按玩家名称分组统计所有玩家的得分1，得分2的总和，并按得分1的总和降序, groupby后面只能拼接列名，如果该列是时间类型，则按天分组，其他类型，则按确定值分组:</p>
-<pre><code>const query = Bmob.Query(&quot;GameScore&quot;);
-query.statTo(&quot;sum&quot;, &quot;score1, score2&quot;);
-query.statTo(&quot;groupby&quot;, &quot;createdAt, playerName&quot;);
-query.statTo(&quot;order&quot;, &quot;-_sumscore1&quot;);
-query.find().then(res =&gt; {
-  console.log(res)
-});
-</code></pre>
-
-<p>返回内容如下：</p>
-<pre><code>[
-    {
-        &quot;_sumScore1&quot;: 399,
-        &quot;_sumScore2&quot;: 120,
-        &quot;playerName&quot;: &quot;John&quot;
-        &quot;createdAt&quot;: &quot;2014-02-05&quot;
-    },
-    {
-        &quot;_sumScore1&quot;: 299,
-        &quot;_sumScore2&quot;: 250,
-        &quot;playerName&quot;: &quot;Bily&quot;
-        &quot;createdAt&quot;: &quot;2014-02-05&quot;
-    },
-    {
-        &quot;_sumScore1&quot;: 99,
-        &quot;_sumScore2&quot;: 450,
-        &quot;playerName&quot;: &quot;John&quot;
-        &quot;createdAt&quot;: &quot;2014-02-01&quot;
-    },
-]                 
-</code></pre>
-
-<h3 id="_42">分组计算总和并只返回满足条件的部分值<a class="headerlink" href="#_42" title="Permanent link">&para;</a></h3>
-<p>比如我们以创建时间按天统计所有玩家的得分，并只返回某天的总得分大于2000的记录，并按时间降序，having是用于过滤部分结果，其中的_sumScore是 <code>_sum+首字母大写的列名</code> 的格式表示是计算这个列的总和的值:</p>
-<pre><code>const query = Bmob.Query(&quot;GameScore&quot;);
-query.statTo(&quot;sum&quot;, &quot;score&quot;);
-query.statTo(&quot;having&quot;,{&quot;_sumScore&quot;:{&quot;$gt&quot;: 2000}});
-query.statTo(&quot;groupby&quot;, &quot;createdAt&quot;);
-query.statTo(&quot;order&quot;, &quot;-createdAt&quot;);
-query.find().then(res =&gt; {
-  console.log(res)
-});
-</code></pre>
-
-<p>返回内容如下：</p>
-<pre><code>[
-    {
-        &quot;_sumScore&quot;: 2398,
-        &quot;createdAt&quot;: &quot;2014-02-05&quot;
-    },
-]                 
-</code></pre>
-
-<h3 id="_43">分组计算总和并返回每个分组的记录数<a class="headerlink" href="#_43" title="Permanent link">&para;</a></h3>
-<p>比如我们以创建时间按天统计所有玩家的得分和每一天有多少条玩家的得分记录，并按时间降序:</p>
-<pre><code>
-const query = Bmob.Query(&quot;GameScore&quot;);
-query.statTo(&quot;sum&quot;, &quot;score&quot;);
-query.statTo(&quot;groupby&quot;, &quot;createdAt&quot;);
-query.statTo(&quot;groupcount&quot;, &quot;true&quot;);
-query.statTo(&quot;order&quot;, &quot;createdAt&quot;);
-query.find().then(res =&gt; {
-  console.log(res)
-});    
-
-</code></pre>
-
-<p>返回内容如下：</p>
-<pre><code>[
-    {
-        &quot;_sumScore&quot;: 2398,
-        &quot;_count&quot;: 10,
-        &quot;createdAt&quot;: &quot;2014-02-05&quot;
-    },
-    {
-        &quot;_sumScore&quot;: 100,
-        &quot;_count&quot;: 2,
-        &quot;createdAt&quot;: &quot;2014-01-01&quot;
-    },
-]                 
-</code></pre>
-
-<h3 id="_44">获取不重复的列值<a class="headerlink" href="#_44" title="Permanent link">&para;</a></h3>
+<h3 id="_40">获取不重复的列值<a class="headerlink" href="#_40" title="Permanent link">&para;</a></h3>
 <p>比如我们获取表中所有的唯一的score:</p>
 <pre><code>const query = Bmob.Query(&quot;GameScore&quot;);
 query.statTo(&quot;groupby&quot;, &quot;score&quot;);
@@ -2368,14 +2263,14 @@ query.find().then(res =&gt; {
 ]                 
 </code></pre>
 
-<h3 id="_45">其他关键字<a class="headerlink" href="#_45" title="Permanent link">&para;</a></h3>
+<h3 id="_41">其他关键字<a class="headerlink" href="#_41" title="Permanent link">&para;</a></h3>
 <p>average(计算平均值)， max(计算最大值)，min(计算最小值)和sum查询语句是类似的，只用把上面的例子中的sum替换为相应的average, max, min就可以了。</p>
-<h2 id="_46">地理位置<a class="headerlink" href="#_46" title="Permanent link">&para;</a></h2>
-<h3 id="_47">创建地理位置对象<a class="headerlink" href="#_47" title="Permanent link">&para;</a></h3>
+<h2 id="_42">地理位置<a class="headerlink" href="#_42" title="Permanent link">&para;</a></h2>
+<h3 id="_43">创建地理位置对象<a class="headerlink" href="#_43" title="Permanent link">&para;</a></h3>
 <pre><code>const point = Bmob.GeoPoint({ latitude: 23.052033,longitude: 113.405447 })
 </code></pre>
 
-<h3 id="_48">查询地理位置<a class="headerlink" href="#_48" title="Permanent link">&para;</a></h3>
+<h3 id="_44">查询地理位置<a class="headerlink" href="#_44" title="Permanent link">&para;</a></h3>
 <p>为了限定搜索的最大距离范围，需要加入 <code>公里</code> 参数来限定，如果不加，则默认是100KM的半径。比如要找的半径在10公里内的话</p>
 <pre><code>const query = Bmob.Query(&quot;tableName&quot;);
 query.withinKilometers(&quot;字段名&quot;, point, 10);  //10指的是公里
@@ -2394,7 +2289,7 @@ query.find().then(res =&gt; {
 });
 </code></pre>
 
-<h3 id="_49">添加地理位置<a class="headerlink" href="#_49" title="Permanent link">&para;</a></h3>
+<h3 id="_45">添加地理位置<a class="headerlink" href="#_45" title="Permanent link">&para;</a></h3>
 <pre><code>const point = Bmob.GeoPoint({ latitude: 23.052033,longitude: 113.405447 })
 const query = Bmob.Query('tableName');
 query.set(&quot;字段名称&quot;,point)
@@ -2405,7 +2300,7 @@ query.save().then(res =&gt; {
 })
 </code></pre>
 
-<h3 id="_50">修改地理位置<a class="headerlink" href="#_50" title="Permanent link">&para;</a></h3>
+<h3 id="_46">修改地理位置<a class="headerlink" href="#_46" title="Permanent link">&para;</a></h3>
 <pre><code>const point = Bmob.GeoPoint({ latitude: 23.052033,longitude: 113.405447 })
 const query = Bmob.Query('tableName')
 query.get('c02b7b018f').then(res =&gt; {
@@ -2414,7 +2309,7 @@ query.get('c02b7b018f').then(res =&gt; {
 })
 </code></pre>
 
-<h2 id="_51">云函数使用<a class="headerlink" href="#_51" title="Permanent link">&para;</a></h2>
+<h2 id="_47">云函数使用<a class="headerlink" href="#_47" title="Permanent link">&para;</a></h2>
 <p><strong>简介：</strong></p>
 <p>云函数调用</p>
 <p><strong>参数说明：</strong></p>
@@ -2477,7 +2372,7 @@ Bmob.functions(params.funcName,params.data).then(function (response) {
 
 </code></pre>
 
-<h2 id="_52">文件<a class="headerlink" href="#_52" title="Permanent link">&para;</a></h2>
+<h2 id="_48">文件<a class="headerlink" href="#_48" title="Permanent link">&para;</a></h2>
 <h3 id="web">WEB文件上传<a class="headerlink" href="#web" title="Permanent link">&para;</a></h3>
 <p><strong>参数说明：</strong></p>
 <table>
@@ -2529,7 +2424,7 @@ fileUploadControl.onchange = () =&gt; {
 
 </code></pre>
 
-<h3 id="_53">小程序文件上传<a class="headerlink" href="#_53" title="Permanent link">&para;</a></h3>
+<h3 id="_49">小程序文件上传<a class="headerlink" href="#_49" title="Permanent link">&para;</a></h3>
 <p><strong>参数说明：</strong></p>
 <table>
 <thead>
@@ -2593,9 +2488,9 @@ query.save().then(res =&gt; {
 })
 </code></pre>
 
-<h3 id="_54">图片缩略图<a class="headerlink" href="#_54" title="Permanent link">&para;</a></h3>
+<h3 id="_50">图片缩略图<a class="headerlink" href="#_50" title="Permanent link">&para;</a></h3>
 <p>图片文件服务由第三方厂商又拍云提供 ， 只需要在文件上传成功返回的url后面拼接特定参数即可实现缩放，缩略图，加水印等效果，<a href="http://bmob-cdn-9200.b0.upaiyun.com/2017/04/25/f24b9ef540f1aeb680ebe01ba8543d9f.png!/scale/80/watermark/text/5rC05Y2wCg==">如图</a>，具体可参考<a href="http://docs.upyun.com/cloud/image/">这里</a> 。</p>
-<h3 id="_55">视频缩略图<a class="headerlink" href="#_55" title="Permanent link">&para;</a></h3>
+<h3 id="_51">视频缩略图<a class="headerlink" href="#_51" title="Permanent link">&para;</a></h3>
 <p>有时候视频需要动态截取缩略图，可以使用以下接口</p>
 <p><strong>请求参数</strong></p>
 <table>
@@ -2669,7 +2564,7 @@ query.save().then(res =&gt; {
 </tr>
 </tbody>
 </table>
-<h3 id="_56">文件删除<a class="headerlink" href="#_56" title="Permanent link">&para;</a></h3>
+<h3 id="_52">文件删除<a class="headerlink" href="#_52" title="Permanent link">&para;</a></h3>
 <p><strong>参数说明：</strong></p>
 <table>
 <thead>
@@ -2706,16 +2601,16 @@ del.destroy(val).then(res =&gt; {
 }
 </code></pre>
 
-<h2 id="_57">小程序操作<a class="headerlink" href="#_57" title="Permanent link">&para;</a></h2>
-<h3 id="_58">授权操作<a class="headerlink" href="#_58" title="Permanent link">&para;</a></h3>
+<h2 id="_53">小程序操作<a class="headerlink" href="#_53" title="Permanent link">&para;</a></h2>
+<h3 id="_54">授权操作<a class="headerlink" href="#_54" title="Permanent link">&para;</a></h3>
 <p>如小程序使用微信登陆、生成二维码、支付等需要微信的操作，请在Bmob授权后使用。</p>
 <p>登陆Bmob控制台-&gt;应用设置-&gt;应用配置</p>
 <blockquote>
 <p>如小程序只是操作数据库，不关联微信用户，无需授权即可使用。</p>
 </blockquote>
-<h3 id="_59">域名配置<a class="headerlink" href="#_59" title="Permanent link">&para;</a></h3>
+<h3 id="_55">域名配置<a class="headerlink" href="#_55" title="Permanent link">&para;</a></h3>
 <p>登陆Bmob控制台-&gt;应用设置-&gt;应用配置，把显示的域名填写到微信小程序平台</p>
-<h3 id="_60">小程序一键登录<a class="headerlink" href="#_60" title="Permanent link">&para;</a></h3>
+<h3 id="_56">小程序一键登录<a class="headerlink" href="#_56" title="Permanent link">&para;</a></h3>
 <p><strong>简介：</strong></p>
 <p>通过微信支持的code实现一键登录，登陆成功后会在本地缓存保存用户的信息，此代码一般写入到<code>app.js</code></p>
 <p><strong>参数说明：</strong></p>
@@ -2741,7 +2636,7 @@ del.destroy(val).then(res =&gt; {
 }
 </code></pre>
 
-<h3 id="_61">小程序更新用户信息<a class="headerlink" href="#_61" title="Permanent link">&para;</a></h3>
+<h3 id="_57">小程序更新用户信息<a class="headerlink" href="#_57" title="Permanent link">&para;</a></h3>
 <p><strong>简介：</strong></p>
 <p>2018年5月1号起，微信官方彻底废除<code>wx.getUserInfo</code> 函数，如需获取用户信息，请使用按钮获取。</p>
 <blockquote>
@@ -2784,7 +2679,7 @@ del.destroy(val).then(res =&gt; {
 <pre><code>{&quot;updatedAt&quot;:&quot;2018-05-02 14:43:26&quot;}
 </code></pre>
 
-<h3 id="_62">生成二维码<a class="headerlink" href="#_62" title="Permanent link">&para;</a></h3>
+<h3 id="_58">生成二维码<a class="headerlink" href="#_58" title="Permanent link">&para;</a></h3>
 <p><strong>简介：</strong></p>
 <p>通过路径生成二维码图片</p>
 <p><strong>参数说明：</strong></p>
@@ -2843,7 +2738,7 @@ Bmob.generateCode(qrData).then(function (res) {
 }
 </code></pre>
 
-<h3 id="_63">检测违规内容<a class="headerlink" href="#_63" title="Permanent link">&para;</a></h3>
+<h3 id="_59">检测违规内容<a class="headerlink" href="#_59" title="Permanent link">&para;</a></h3>
 <p><strong>简介：</strong></p>
 <p>微信小程序检测违规内容</p>
 <p><strong>参数说明：</strong></p>
@@ -2881,7 +2776,7 @@ Bmob.checkMsg(content).then(res =&gt; {
 {&quot;code&quot;:10007,&quot;error&quot;:&quot;CheckMsg errcode:87014, err:risky content hint: [zLf1lA01758931]&quot;}
 </code></pre>
 
-<h3 id="_64"><a class="headerlink" href="#_64" title="Permanent link">&para;</a></h3>
+<h3 id="_60"><a class="headerlink" href="#_60" title="Permanent link">&para;</a></h3>
 <h3 id="access_token">获取access_token<a class="headerlink" href="#access_token" title="Permanent link">&para;</a></h3>
 <p><strong>简介：</strong></p>
 <p>微信access_token，业务场景,当其他平台需要使用你小程序的token，并不想与Bmob的平台冲突，可以通过此API实现</p>
@@ -2900,7 +2795,7 @@ Bmob.checkMsg(content).then(res =&gt; {
     access_token: 'access_token'
 }
 </code></pre>
-<h3 id="_65">小程序模版消息<a class="headerlink" href="#_65" title="Permanent link">&para;</a></h3>
+<h3 id="_61">小程序模版消息<a class="headerlink" href="#_61" title="Permanent link">&para;</a></h3>
 <p><strong>简介：</strong></p>
 <p>小程序模板消息，通过传入模版，设置模版信息，需要在模版中设置多个参数(openId,templateId,formId)</p>
 <p><strong>参数说明：</strong></p>
@@ -2941,7 +2836,7 @@ Bmob.sendWeAppMessage(modelData).then(function (response) {
 });
 </code></pre>
 <hr />
-<h3 id="_66">小程序付款到零钱<a class="headerlink" href="#_66" title="Permanent link">&para;</a></h3>
+<h3 id="_62">小程序付款到零钱<a class="headerlink" href="#_62" title="Permanent link">&para;</a></h3>
 <p><strong>简介：</strong></p>
 <p>付款到零钱目前已经支持，常见使用场景是用户小程序里面提现，由于此接口用的人少，如需要使用可提交工单联系工作人员。</p>
 <p><strong>注意事项：</strong></p>
@@ -2960,7 +2855,7 @@ Bmob.sendWeAppMessage(modelData).then(function (response) {
 <p>填写支付商户密匙到Bmob控制台</p>
 </li>
 </ol>
-<h3 id="_67">小程序支付<a class="headerlink" href="#_67" title="Permanent link">&para;</a></h3>
+<h3 id="_63">小程序支付<a class="headerlink" href="#_63" title="Permanent link">&para;</a></h3>
 <p><strong>简介：</strong></p>
 <p>微信小程序支付，用户付款到微信支付账户。</p>
 <p><strong>使用条件：</strong></p>
@@ -3014,7 +2909,7 @@ Bmob.sendWeAppMessage(modelData).then(function (response) {
     });
 </code></pre>
 
-<h3 id="_68">小程序退款<a class="headerlink" href="#_68" title="Permanent link">&para;</a></h3>
+<h3 id="_64">小程序退款<a class="headerlink" href="#_64" title="Permanent link">&para;</a></h3>
 <p><strong>简介：</strong></p>
 <p>退款操作</p>
 <p><strong>参数说明：</strong></p>
@@ -3067,7 +2962,7 @@ Bmob.refund(data).then(function (response) {
     error: "content is empty."
 }
 </code></pre>
-<h3 id="_69">微信主人通知<a class="headerlink" href="#_69" title="Permanent link">&para;</a></h3>
+<h3 id="_65">微信主人通知<a class="headerlink" href="#_65" title="Permanent link">&para;</a></h3>
 <p><strong>简介：</strong></p>
 <p>微信主动推送通知，业务场景：比如你有APP，有人下单了，或者有人留言了。你可以收到微信推送通知。每日限制50条，如需更多，请工单联系客服</p>
 <p><strong>注意事项：</strong></p>
@@ -3116,11 +3011,11 @@ Bmob.refund(data).then(function (response) {
   url: "http://www.bmob.cn/",
   data: {
         first: {
-            value: "您好，Restful 失效，请登录控制台查看。",
+            value: "您好，REST API 失效，请登录控制台查看。",
             color: "#c00"
         },
         keyword1: {
-            value: "Restful 失效"
+            value: "REST API 失效"
         },
         keyword2: {
             value: "2017-07-03 16:13:01"
@@ -3146,7 +3041,7 @@ console.log(error);
     msg: "ok"
 }
 </code></pre>
-<h4 id="_70">提供模板<a class="headerlink" href="#_70" title="Permanent link">&para;</a></h4>
+<h4 id="_66">提供模板<a class="headerlink" href="#_66" title="Permanent link">&para;</a></h4>
 <ol>
 <li>新订单通知（template_id：<code>K9-6_Ayj4MLC2yvwY60-cq18tngJHAlqDfsOvv3D7a8</code> ）</li>
 </ol>
@@ -3188,9 +3083,9 @@ console.log(error);
 {{remark.DATA}}
 </code></pre>
 
-<h3 id="_71">小程序下载域名<a class="headerlink" href="#_71" title="Permanent link">&para;</a></h3>
+<h3 id="_67">小程序下载域名<a class="headerlink" href="#_67" title="Permanent link">&para;</a></h3>
 <p>由于最近微信封了~~*.upaiyun.com~~ 域名，如果你没做文件下载功能，只是显示图片，可以不填写。如果你需要做下载功能，在应用设置里面，可以开启独立域名， 开启后，填写到微信平台就好了，当然有时候你想用自己的域名，也是可以的，可以工单联系我们。</p>
-<h3 id="_72">小程序客服消息<a class="headerlink" href="#_72" title="Permanent link">&para;</a></h3>
+<h3 id="_68">小程序客服消息<a class="headerlink" href="#_68" title="Permanent link">&para;</a></h3>
 <p>经常有人有需求，希望手机端回复客户消息。这时，可以基于微信客服接口函数使用云函数开发相关功能， 如果你不想开发，希望自己小程序直接可用客服消息，可以使用Bmob官方提供的服务消息解决方案，主动提醒、自动回复、手机一键处理客服。如需使用请应用升级页面操作</p>
 <h2 id="websocket">小程序WebSocket<a class="headerlink" href="#websocket" title="Permanent link">&para;</a></h2>
 <p><strong>简介：</strong></p>
@@ -3201,45 +3096,45 @@ console.log(error);
 <pre><code>let BmobSocketIo =new Bmob.Socket()
 </code></pre>
 
-<h3 id="_73">订阅事件<a class="headerlink" href="#_73" title="Permanent link">&para;</a></h3>
-<h4 id="_74">订阅表更新的事件<a class="headerlink" href="#_74" title="Permanent link">&para;</a></h4>
+<h3 id="_69">订阅事件<a class="headerlink" href="#_69" title="Permanent link">&para;</a></h3>
+<h4 id="_70">订阅表更新的事件<a class="headerlink" href="#_70" title="Permanent link">&para;</a></h4>
 <p>订阅表"GameScore"更新的事件。</p>
 <pre><code>BmobSocketIo.updateTable(&quot;GameScore&quot;);
 </code></pre>
 
-<h4 id="_75">订阅行更新的事件<a class="headerlink" href="#_75" title="Permanent link">&para;</a></h4>
+<h4 id="_71">订阅行更新的事件<a class="headerlink" href="#_71" title="Permanent link">&para;</a></h4>
 <p>订阅表"GameScore"中行objectId为"3342e40e4f"更新的事件。</p>
 <pre><code>BmobSocketIo.updateRow(&quot;GameScore&quot;,&quot;3342e40e4f&quot;);
 
 </code></pre>
 
-<h4 id="_76">订阅行删除的事件<a class="headerlink" href="#_76" title="Permanent link">&para;</a></h4>
+<h4 id="_72">订阅行删除的事件<a class="headerlink" href="#_72" title="Permanent link">&para;</a></h4>
 <p>订阅表"GameScore"中行objectId为"3342e40e4f"删除的事件。</p>
 <pre><code>BmobSocketIo.deleteRow(&quot;GameScore&quot;,&quot;1256e40e4f&quot;);
 
 </code></pre>
 
-<h3 id="_77">取消订阅事件<a class="headerlink" href="#_77" title="Permanent link">&para;</a></h3>
-<h4 id="_78">取消订阅表更新的事件<a class="headerlink" href="#_78" title="Permanent link">&para;</a></h4>
+<h3 id="_73">取消订阅事件<a class="headerlink" href="#_73" title="Permanent link">&para;</a></h3>
+<h4 id="_74">取消订阅表更新的事件<a class="headerlink" href="#_74" title="Permanent link">&para;</a></h4>
 <p>取消订阅表"GameScore"更新的事件。</p>
 <pre><code>BmobSocketIo.unsubUpdateTable(&quot;GameScore&quot;);
 
 </code></pre>
 
-<h4 id="_79">取消订阅行更新的事件<a class="headerlink" href="#_79" title="Permanent link">&para;</a></h4>
+<h4 id="_75">取消订阅行更新的事件<a class="headerlink" href="#_75" title="Permanent link">&para;</a></h4>
 <p>取消订阅表"GameScore"中objectId为"3342e40e4f"行更新的事件。</p>
 <pre><code>BmobSocketIo.unsubUpdateRow(&quot;GameScore&quot;,&quot;3342e40e4f&quot;);
 
 </code></pre>
 
-<h4 id="_80">取消订阅行删除的事件<a class="headerlink" href="#_80" title="Permanent link">&para;</a></h4>
+<h4 id="_76">取消订阅行删除的事件<a class="headerlink" href="#_76" title="Permanent link">&para;</a></h4>
 <p>取消订阅表"GameScore"中objectId为"3342e40e4f"行删除的事件。</p>
 <pre><code>BmobSocketIo.unsubDeleteRow(&quot;GameScore&quot;,&quot;1256e40e4f&quot;);
 
 </code></pre>
 
-<h3 id="_81">监听触发的事件<a class="headerlink" href="#_81" title="Permanent link">&para;</a></h3>
-<h4 id="_82">监听更新表的事件<a class="headerlink" href="#_82" title="Permanent link">&para;</a></h4>
+<h3 id="_77">监听触发的事件<a class="headerlink" href="#_77" title="Permanent link">&para;</a></h3>
+<h4 id="_78">监听更新表的事件<a class="headerlink" href="#_78" title="Permanent link">&para;</a></h4>
 <p>当订阅了表更新的表数据发送变化时，js中会触发函数onUpdateTable。</p>
 <p>tablename为更新的表，data为服务端返回的更新数据。</p>
 <pre><code>   BmobSocketIo.onUpdateTable = function(tablename,data) {    
@@ -3248,7 +3143,7 @@ console.log(error);
 
 </code></pre>
 
-<h4 id="_83">监听行更新的事件<a class="headerlink" href="#_83" title="Permanent link">&para;</a></h4>
+<h4 id="_79">监听行更新的事件<a class="headerlink" href="#_79" title="Permanent link">&para;</a></h4>
 <p>tablename为更新的表，objectId为更新行的objectId，data为服务端返回的更新数据。</p>
 <pre><code>   BmobSocketIo.onUpdateRow = function(tablename,objectId,data) {    
       //业务逻辑的代码
@@ -3256,7 +3151,7 @@ console.log(error);
 
 </code></pre>
 
-<h4 id="_84">监听行删除的事件<a class="headerlink" href="#_84" title="Permanent link">&para;</a></h4>
+<h4 id="_80">监听行删除的事件<a class="headerlink" href="#_80" title="Permanent link">&para;</a></h4>
 <p>tablename为更新的表，objectId为更新行的objectId，data为服务端返回的更新数据。</p>
 <pre><code>   BmobSocketIo.onDeleteRow = function(tablename,objectId,data) {    
       //业务逻辑的代码
@@ -3268,8 +3163,8 @@ console.log(error);
 <p>在线上演示实时数据平台的一个聊天应用的demo：<a href="http://chatroom.bmob.cn">chat room demo</a> ，演示了如何使用实时数据服务实现聊天的功能。</p>
 <p>用浏览器打开两个窗口，在其中一个窗口输入<code>昵称</code>和<code>内容</code>，按<code>发送</code>按钮，在另外一个窗口能看到发送的内容。</p>
 <p>小程序DEMO，搜索小程序：<strong>Bmob 示例 </strong></p>
-<h2 id="_85">短信服务操作<a class="headerlink" href="#_85" title="Permanent link">&para;</a></h2>
-<h3 id="_86">请求短信验证码<a class="headerlink" href="#_86" title="Permanent link">&para;</a></h3>
+<h2 id="_81">短信服务操作<a class="headerlink" href="#_81" title="Permanent link">&para;</a></h2>
+<h3 id="_82">请求短信验证码<a class="headerlink" href="#_82" title="Permanent link">&para;</a></h3>
 <p><strong>简介：</strong></p>
 <p>使用特定的模板请求验证码，如果没有在管理后台创建好模板，可使用默认的模板，Bmob 默认的模板是: 您的验证码是%smscode%，有效期为%ttl%分钟。您正在使用%appname%的验证码</p>
 <p><strong>参数说明：</strong></p>
@@ -3313,7 +3208,7 @@ Bmob.requestSmsCode(params).then(function (response) {
     smsId: smsId
 }
 </code></pre>
-<h3 id="_87">验证短信验证码<a class="headerlink" href="#_87" title="Permanent link">&para;</a></h3>
+<h3 id="_83">验证短信验证码<a class="headerlink" href="#_83" title="Permanent link">&para;</a></h3>
 <p><strong>简介：</strong></p>
 <p>通过以下接口，你可以验证用户输入的验证码是否是有效。</p>
 <p><strong>参数说明：</strong></p>

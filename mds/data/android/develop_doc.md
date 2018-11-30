@@ -1,748 +1,1940 @@
-## 简介
+# 数据服务SDK
 
-Bmob平台为您的移动应用提供了一个完整的后端解决方案，我们提供轻量级的SDK开发包，让开发者以最小的配置和最简单的方式使用Bmob平台提供的服务，进而完全消除开发者编写服务器代码以及维护服务器的操作。
+Bmob平台为您的移动应用提供了一个完整的后端解决方案，我们提供轻量级的数据服务SDK开发包，让开发者以最少的配置和最简单的方式使用Bmob后端云平台提供的服务，进而完全消除开发者编写服务器代码以及维护服务器的操作。
 
 ## 快速入门
 
-建议您在阅读本开发文档之前，先阅读我们提供的 [Android快速入门文档](http://doc.bmob.cn/data/android/)，便于您后续的开发。<br>
-如果开发者想使用不同历史版本的SDK，可以移步[历史版本的github仓库](https://github.com/bmob/bmob-android-sdk-release/releases)，选择使用各个历史版本。
-## 模板代码
-在使用SDK过程中，如果一些Api如查询是高频代码，可以把一些重复的样板代码抽出来，并在AndroidStudio中设置模板，即可实现快速输入，能提高编码效率，效果如下：
-
-![](http://i.imgur.com/zjm4Avx.gif)
-## 数据迁移
-从v3.5.5开始，数据SDK新增了能重新设置请求域名的Api，类似数据迁移，调用方式如下：
+建议您在阅读本开发文档之前，先阅读我们提供的 [Android快速入门文档](http://doc.bmob.cn/data/android/)，便于您后续的开发。
 
 
-		Bmob.resetDomain("http://open-vip.bmob.cn/8/");
 
-其中，参数为开发者的域名，调用后的所有请求都指向新的域名。
+# 1、数据类型
 
-**注: 仅数据迁移功能而言 目前是不需要开发者手动调用重置请求域名的resetDomain方法，不同用户级别的应用请求到的域名空间都是由Bmob后端控制(之前的迁移用户重置了也无妨);**
-## 海外加速
+## 1.1、基本数据类型
 
-如果您不是使用迁移服务的用户,但仅仅想使用海外加速功能的话，就需要在初始化sdk后就调用resetDomain方法(建议在Application中做)，传的参数也是上面数据迁移例子中的openvip域名。
+BmobObject
+
+|属性|解释|
+|-----|-----|
+|objectId|数据唯一标志|
+|createdAt|数据创建时间|
+|updatedAt|数据更新时间|
+|ACL|数据控制访问权限|
+
+## 1.2、自定义数据类型
+所有自定义的数据类型都继承于基本对象类型BmobObject，一个数据对象对应于Bmob控制台一张数据表中的一条数据。
+
+```
+/**
+ * Created on 2018/11/22 10:41
+ *
+ * @author zhangchaozhou
+ */
+public class Category extends BmobObject {
 
 
-## 统计SDK(暂不维护)
-从v3.5.2开始，把统计SDK集成到了数据服务SDK，上传应用不再需要额外集成统计SDK，低于此版本的可以去控制台的应用官网下载。
-### 添加方法
+    /**
+     * 类别名称
+     */
+    private String name;
+
+    /**
+     * 类别解释
+     */
+    private String desc;
+    /**
+     * 类别排名
+     */
+    private Integer sequence;
 
 
-- 确保项目有`INTERNET`和`READ_PHONE_STATE`权限
-
-		<uses-permission android:name="android.permission.INTERNET" />
-		<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
-- 在初始化方法中传一个渠道参数(不传默认没开启统计功能)
-
-		Bmob.initialize(this,APPID,"Bmob");
-- 将libs文件夹内的BmobStat.jar文件添加进项目（AS选择远程依赖可以忽略，本地依赖需要指定libs文件夹，Eclipse中放进libs即可）；
-
-
-## 兼容Android6.0系统
-
-自`v3.4.6`版本开始，Bmob提供了一些新的方法和工具类来帮助开发者为自己的应用兼容Android6.0系统。
-
-### 添加对Apache的HTTP-client支持
-
-Android6.0版本移除了对Appache的HTTP client的支持，因此，需要添加`org.apache.http.legacy.jar`包，请参照如下方式添加：
-
-  1.Eclipse
-
-	你需要在Eclipse工程的项目根目录中新建libs文件夹，将org.apache.http.legacy.jar包，添加到libs文件夹中
-
-  2.AndroidStudio
-
-   你需要在`app`的`build.gradle`文件添加配置信息useLibrary 'org.apache.http.legacy'声明编译时依赖
-
-		android {
-			compileSdkVersion 23
-			buildToolsVersion "23.0.2"
-			useLibrary 'org.apache.http.legacy'
-		}
-
-**注：如果在build.gradle文件中`useLibrary 'org.apache.http.legacy'`这句话报错，可将该jar直接放到libs目录下即可。**
-
-### 运行时权限管理
-
-Android6.0中对特定的权限进行了动态授权的方式，需要在运行时用户手动授予，如果用户拒绝后再次申请还可以向用户弹框说明权限的作用，用户点击确认后再去申请。
-
-因此，我们提供了一个权限管理的工具类`PermissionManager(cn.bmob.v3.helper)`，具体使用如下：
-
-**注：在`v3.4.6`的BmobSDK内部集成`PermissionManager`类，自`v3.4.7`以后的SDK内部将不再提供该类，开发者可以在下载的配套官方Demo的`com.example.bmobexample.permission`包下面查看该类源码。**
-
-1.构建`PermissionManager`对象
-
-    PermissionManager helper;
-	helper = PermissionManager.with(MainActivity.this)
-			//添加权限请求码
-            .addRequestCode(MainActivity.REQUEST_CODE_CAMERA)
-			//设置权限，可以添加多个权限
-            .permissions(Manifest.permission.CAMERA)
-			//设置权限监听器
-            .setPermissionsListener(new PermissionListener() {
-
-                @Override
-                public void onGranted() {
-					//当权限被授予时调用
-                   Toast.makeText(MainActivity.this, "Camera Permission granted",Toast.LENGTH_LONG).show();
-                }
-
-                @Override
-                public void onDenied() {
-					//用户拒绝该权限时调用
-                   Toast.makeText(MainActivity.this, "Camera Permission denied",Toast.LENGTH_LONG).show();
-                }
-
-                @Override
-                public void onShowRationale(String[] permissions) {
-					//当用户拒绝某权限时并点击`不再提醒`的按钮时，下次应用再请求该权限时，需要给出合适的响应（比如,给个展示对话框来解释应用为什么需要该权限）
-                    Snackbar.make(btn_camera, "需要相机权限去拍照", Snackbar.LENGTH_INDEFINITE)
-                            .setAction("ok", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-									//必须调用该`setIsPositive(true)`方法
-                                    helper.setIsPositive(true);
-                                    helper.request();
-                                }
-                            }).show();
-                }
-            })
-			//请求权限
-			.request();
-
-注：
-
-- `with`方法可以传入Activity或者Fragment；
-- `addRequestCode`方法传入请求码，用于区分各种不同的权限申请；
-- `permissions`方法传入的是你所要请求的权限，支持可变参数，可以批量申请权限；
-- `PermissionListener`接口回调的三个方法：
-   - onGranted()会在权限申请通过后被调用；
-   - onDenied()在权限申请被拒绝时被调用
-   - onShowRationale()方法中你可以弹对话框向用户解释权限的作用，不过记得要调用`setIsPositive(true)`。
-- `request`方法用来请求权限申请
-
-2.覆写`onRequestPermissionsResult`方法
-
-	@Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_CODE_CAMERA:
-                helper.onPermissionResult(permissions, grantResults);
-                break;
-        }
+    public String getName() {
+        return name;
     }
 
-### Notification变更
+    public Category setName(String name) {
+        this.name = name;
+        return this;
+    }
 
-Android6.0中，`Notification.setLatestEventInfo()`方法被移除，替代的方案是用Notification.Builder来构建通知，对此SDK提供了`NotificationCompat(cn.bmob.v3.helper)`类来做版本兼容（与`android.support.v4.app`包下的NotificationCompat用法一样）。
+    public String getDesc() {
+        return desc;
+    }
 
-参照代码如下：
+    public Category setDesc(String desc) {
+        this.desc = desc;
+        return this;
+    }
 
-```
-	NotificationManager notificationManager = (NotificationManager) mContext
-			.getSystemService(Context.NOTIFICATION_SERVICE);
-	PendingIntent pi = PendingIntent.getActivity(mContext, 0,
-			new Intent(MainActivity.this, MainActivity.class), 0);
-	NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
-			.setTicker("更新啦")
-			.setContentTitle("标题")
-			.setContentText("内容")
-			.setSmallIcon(R.drawable.ic_launcher);
-	Notification notification = builder.build();
-	notificationManager.notify(0, notification);
-```
+    public Integer getSequence() {
+        return sequence;
+    }
 
-## 对象
-
-一个数据对象（APP中创建的BmobObject类的子类）对应于Bmob后台的一个数据表。
-
-### 数据对象
-
-Bmob存储的数据是建立在BmobObject基础上的，所以任何要保存的数据对象必须继承自BmobObject类(不建议用抽象类去继承BmobObject或者定义父类然后在子类中写bean，这样也解析不了，一般不会这么用，一个bean类对应一张表，类似使用ORM库)。BmobObject类本身包含objectId、createdAt、updatedAt、ACL四个默认的属性，objectId是数据的唯一标示，相当于数据库中表的主键，createdAt是数据的创建时间，updatedAt是数据的最后修改时间，ACL是数据的操作权限。
-
-如，你的游戏中使用GameScore表来记录玩家的比分信息，其中表的字段有：score（分数）、playerName（玩家名字）、isPay(是否付费玩家)、pic（玩家头像）属性，那么这个数据对象为如下定义：
-
-```java
-//必须要继承自BmobObject类
-public class GameScore extends BmobObject{
-
-	private String playerName;
-	private Integer score;
-	private Boolean isPay;
-    private BmobFile pic;
-	// 仅在客户端使用，不希望被gson序列化提交到后端云，记得用transient修饰
-	private transient Integer count;
-
-	public String getPlayerName() {
-		return playerName;
-	}
-
-	public void setPlayerName(String playerName) {
-		this.playerName = playerName;
-	}
-
-	public Integer getScore() {
-		return score;
-	}
-
-	public void setScore(Integer score) {
-		this.score = score;
-	}
-
-	public Boolean getIsPay() {
-		return isPay;
-	}
-
-	public void setIsPay(Boolean isPay) {
-		this. isPay = isPay;
-	}
-
-    public BmobFile getPic() {
-		return pic;
-	}
-
-	public void setPic(BmobFile pic) {
-		this.pic = pic;
-	}
+    public Category setSequence(Integer sequence) {
+        this.sequence = sequence;
+        return this;
+    }
 }
+
 ```
 
-需要注意的是：
+|继承类|例子|解释|
+|-----|-----|----|
+|自定义类名|Category|对应控制台的表名|
+|扩展字段名|name|对应控制台该表的字段名|
 
- - JavaBean不需要对`objectId、createdAt、updatedAt、ACL`四个属性进行定义。
- - 不少开发者会没有注意到createdAt和updatedAt属性中的字母d，写成createAt和updateAt。
- - 尽可能使用Integer、Boolean，而不是int、boolean，也就是选择包装类，而不是使用基本数据类型（这两者的区别大家可以看这篇文章：http://www.cnblogs.com/shenliang123/archive/2011/10/27/2226903.html）
 
-### 特殊对象
+## 1.3、特殊数据类型
 
-为了提供更好的服务，BmobSDK中提供了`BmobUser、BmobInstallation、BmobRole`三个特殊的BmobObject对象来完成不同的功能，在这里我们统一称为特殊对象。
+|类型|解释|功能|
+|-----|-----|----|
+|BmobUser|对应控制台_User用户表|可以实现用户的注册、登录、短信验证、邮箱验证等功能。|
+|BmobInstallation|对应控制台_Installation设备表|可以实现将自定义的消息推送给不同的设备终端等操作。|
+|BmobRole|对应控制台_Role角色表|可以配合ACL进行权限访问控制和角色管理。|
+|BmobArticle|对应控制台_Article图文消息表|可以进行静态网页加载。|
 
- - `BmobUser`对象主要是针对应用中的用户功能而提供的，它对应着web端的User表，使用BmobUser对象可以很方便的在应用中实现用户的注册、登录、邮箱验证等功能，具体的使用方法可查看文档的[`用户管理`](http://doc.bmob.cn/data/android/develop_doc/#_71)部分。
 
- - `BmobInstallation`对象主要用于应用的安装设备管理中，它对应着web端的Installation表，任何安装了你应用的设备都会在此表中产生一条数据标示该设备。结合Bmob提供的推送功能，还可以实现将自定义的消息推送给不同的设备终端，具体的使用方法可查看[`消息推送开发文档`](http://doc.bmob.cn/push/android/)。
+## 1.4、自定义数据类型中扩展字段的数据类型
 
- - `BmobRole`对象主要用于角色管理，对应用于Web端的Role表，具体的使用方法可查看文档的[`ACL和角色`](http://doc.bmob.cn/data/android/develop_doc/#acl)部分。
+Bmob支持的扩展字段数据类型：
 
-## 数据类型
-
-目前为止，Bmob支持的数据类型：String、Integer、Float、Short、Byte、Double、Character、Boolean、Object、Array。
-同时也支持BmobObject、BmobDate、BmobGeoPoint、BmobFile特有的数据类型。
-
-以下为Web端类型与SDK端支持的JAVA类型对应表：
-
-|Web端类型|支持的JAVA类型|说明|
+|控制台类型|支持的JAVA类型|说明|
 |:---|:---|:---|
-|Number	 |Integer、Float、Short、Byte、Double、Character|对应数据库的Number类型|
+|String|String|字符串类型|
+|Boolean|Boolean|布尔类型|
+|Object|Object|对象类型|
+|Number	 |Integer、Float、Short、Byte、Double、Character|对应数据库的Number类型，要求是封装类|
 |Array	 |List|数组类型|
 |File  	 |BmobFile|Bmob特有类型，用来标识文件类型|
 |GeoPoint|BmobGeoPoint|Bmob特有类型，用来标识地理位置|
 |Date    |BmobDate|Bmob特有类型，用来标识日期类型|
-|Pointer |特定对象|Bmob特有类型，用来标识指针类型|
+|Pointer |特定的继承自BmobObject的对象|Bmob特有类型，用来标识指针类型|
 |Relation|BmobRelation|Bmob特有类型，用来标识数据关联|
 
-**注：不能使用int、float、short byte、double、character等基本数据类型。`**
 
-## 类名和表名的关系
 
-- Bmob官方推荐类名和表名完全一致的映射使用方式， 即如，上面的GameScore类，它在后台对应的表名也是GameScore（区分大小写）。
-- 如果你希望表名和类名并不相同，如表名为T_a_b，而类名还是GameScore，那么你可以使用BmobObject提供的setTableName("表名")的方法，
+## 1.5、自定义数据类型的单条数据操作
 
-示例代码如下：
+### 1.5.1、添加一条数据
 
-```java
-//这时候实际操作的表是T_a_b
-public class GameScore extends BmobObject{
-	private String playerName;
-	private Integer score;
-	private Boolean isPay;
-    private BmobFile pic;
-
-	public GameScore() {
-		this.setTableName("T_a_b");
-	}
-
-	public String getPlayerName() {
-		return playerName;
-	}
-	//其他方法，见上面的代码
-}
-```
-当然了，除了在构造函数中直接调用setTableName方法之外，你还可以在GameScore的实例中动态调用setTableName方法。
-
-### 查询自定义表名的数据
-
-如果您使用了setTableName方法来自定义表名，那么在对该表进行数据查询的时候必须使用以下方法。`需要注意的是查询的结果是JSONArray,需要自行解析JSONArray中的数据`。
+添加一条类别数据：
 
 ```java
 /**
- * 查询数据
+ * 新增一个对象
  */
-public void queryData(){
-	BmobQuery query =new BmobQuery("Person");
-	query.addWhereEqualTo("age", 25);
-	query.setLimit(2);
-	query.order("createdAt");
-	//v3.5.0版本提供`findObjectsByTable`方法查询自定义表名的数据
-	query.findObjectsByTable(new QueryListener<JSONArray>() {
-		@Override
-		public void done(JSONArray ary, BmobException e) {
-			if(e==null){
-				Log.i("bmob","查询成功："+ary.toString());
-			}else{
-				Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-			}
-		}
-	});
+private void save() {
+    Category category = new Category();
+    category.setName("football");
+    category.setDesc("足球");
+    category.setSequence(1);
+    category.save(new SaveListener<String>() {
+        @Override
+        public void done(String objectId, BmobException e) {
+            if (e == null) {
+                mObjectId = objectId;
+                Snackbar.make(mBtnSave, "新增成功：" + mObjectId, Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnSave, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
 }
 ```
 
-**自定义表名情况下的更新、删除数据和普通的更新、删除数据方式一样，没有变化。为方便大家了解学习，我们提供了一个关于自定义表名情况下增删改查数据的Demo，下载地址是：[https://github.com/bmob/bmob-android-demo-dynamic-tablename](https://github.com/bmob/bmob-android-demo-dynamic-tablename)。**
 
-## 添加数据
+### 1.5.2、更新数据
 
-添加数据使用BmobObject对象的`save`方法，就可以将当前对象的内容保存到Bmob服务端。
-例如，你现在要保存一条游戏分数的记录，代码如下：
+更新一条类别数据，根据objectId来更新：
 
 ```java
-GameScore gameScore = new GameScore();
-//注意：不能调用gameScore.setObjectId("")方法
-gameScore.setPlayerName("比目");
-gameScore.setScore(89);
-gameScore.setIsPay(false);
-gameScore.save(new SaveListener<String>() {
-
-	@Override
-	public void done(String objectId, BmobException e) {
-		if(e==null){
-			toast("创建数据成功：" + objectId);
-		}else{
-			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
-})
-```
-
-运行以上代码，如果添加成功，你可以在Bmob提供的后台的数据浏览中看到类似这样的结果：
-
-```java
-objectId: "0c6db13c", score: 89, playerName: "比目", isPay: false,createdAt:"2013-09-27 10:32:54", updatedAt:"2013-09-27 10:32:54"
-```
-
-**这里需要注意的是：**
-1. 如果服务器端不存在GameScore表，那么系统将自动建表，并插入数据。
-2. 如果服务器端已经存在GameScore表，和相应的score、playerName、isPay字段，那么你此时添加的数据和数据类型也应该和服务器端的表结构一致，否则会保存数据失败。
-3. 每个BmobObject对象都有几个默认的键(数据列)是不需要开发者指定的，`objectId`是每个保存成功数据的唯一标识符。`createdAt`和`updatedAt`代表每个对象(每条数据)在服务器上创建和最后修改的时间。这些键(数据列)的创建和数据内容是由服务器端自主来完成的。`因此，使用save和insert方法时,不需要调用setObjectId方法，否则会出现提示：“It is a reserved field: objectId(105)”--表明objectId为系统保留字段，不允许修改。`。
-
-## 更新数据
-
-更新一个对象也是非常简单。例如：将GameScore表中objectId为`0c6db13c`的游戏分数修改为77.
-
-```java
-GameScore gameScore = new GameScore();
-gameScore.setScore(77);
-gameScore.update("0c6db13c", new UpdateListener() {
-
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			Log.i("bmob","更新成功");
-		}else{
-			Log.i("bmob","更新失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
-});
-```
-
-**自`V3.4.4`版本开始，SDK提供了另一种方法来更新数据，通过调用`Bmobobject`类中的`setValue（key，value）`方法，只需要传入key及想要更新的值即可**
-
-举例，说明如下：
-
-```java
-public class Person extends BmobObject {
-	private BmobUser user;	//BmobObject类型
-	private BankCard cards;	//Object类型
-	private Integer age;	//Integer类型
-	private Boolean gender; //Boolean类型
-	...
-	getter、setter方法
+/**
+ * 更新一个对象
+ */
+private void update() {
+    Category category = new Category();
+    category.setSequence(2);
+    category.update(mObjectId, new UpdateListener() {
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnUpdate, "更新成功", Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnUpdate, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
 }
+```
 
-其中BankCard类结构如下：
+### 1.5.3、删除数据
 
-public class BankCard{
-	private String cardNumber;
-	private String bankName;
-	public BankCard(String bankName, String cardNumber){
-		this.bankName = bankName;
-		this.cardNumber = cardNumber;
-	}
-	...
-	getter、setter方法
+删除一条类别数据，根据objectId来删除：
+
+```java
+/**
+ * 删除一个对象
+ */
+private void delete() {
+    Category category = new Category();
+    category.delete(mObjectId, new UpdateListener() {
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnDelete, "删除成功", Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnDelete, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
 }
 
 ```
 
-```java
-Person p2=new Person();
-//更新BmobObject的值
-//	p2.setValue("user", BmobUser.getCurrentUser(this, MyUser.class));
-//更新Object对象
-p2.setValue("bankCard",new BankCard("农行", "农行账号"));
-//更新Object对象的值
-//p2.setValue("bankCard.bankName","建行");
-//更新Integer类型
-//p2.setValue("age",11);
-//更新Boolean类型
-//p2.setValue("gender", true);
-p2.update(objectId, new UpdateListener() {
 
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			Log.i("bmob","更新成功");
-		}else{
-			Log.i("bmob","更新失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
+### 1.5.4、查询一条数据
 
-});
+BmobQuery查询一条类别数据，根据objectId来查询：
+
 
 ```
-
-**注意：修改数据只能通过objectId来修改，目前不提供查询条件方式的修改方法。**
-
-### 原子计数器
-
-很多应用可能会有计数器功能的需求，比如文章点赞的功能，如果大量用户并发操作，用普通的更新方法操作的话，会存在数据不一致的情况。
-
-为此，Bmob提供了原子计数器来保证原子性的修改某一**数值字段**的值。注意：原子计数器只能对应用于Web后台的Number类型的字段，即JavaBeans数据对象中的Integer对象类型（**不要用int类型**）。
-
-```java
-gameScore.increment("score"); // 分数递增1
-gameScore.update(updateListener);
-```
-
-您还可以通过`increment(key, amount)`方法来递增或递减任意幅度的数字
-
-```java
-gameScore.increment("score", 5); // 分数递增5
-//gameScore.increment("score", -5); // 分数递减5
-gameScore.update(updateListener);
-```
-
-## 删除数据
-
-从服务器删除对象。例如：将GameScore表中objectId为`dd8e6aff28`的数据删除。
-
-```java
-GameScore gameScore = new GameScore();
-gameScore.setObjectId("dd8e6aff28");
-gameScore.delete(new UpdateListener() {
-
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			Log.i("bmob","成功");
-		}else{
-			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
-});
-```
-
-**注意：删除数据只能通过objectId来删除，目前不提供查询条件方式的删除方法。**
-
-### 删除字段的值
-
-你可以在一个对象中删除一个字段的值，通过`remove`操作：
-
-```java
-GameScore gameScore = new GameScore();
-gameScore.setObjectId("dd8e6aff28");
-gameScore.remove("score");	// 删除GameScore对象中的score字段
-gameScore.update(new UpdateListener() {
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			Log.i("bmob","成功");
-		}else{
-			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
-});
-```
-
-## 批量数据操作
-自2017年04月起，为了提供更稳定的服务，后端启用了QPS限制，所以推荐采用批量数据操作来解决如果需要在循环里多次提交请求但是后端返回QPS达到限制的报错。
-
-自`v3.5.0`开始,新增`BmobBatch`批量操作类，`支持批量添加、批量更新、批量删除的三种操作的同步提交`，且批量添加的请求返回objectId字段。
-
-在BmobObject对象中提供了三种用于批量操作的方法，分别是`insertBatch`、`updateBatch`、`deleteBatch`,批量添加、更新、删除。
-
-### 批量添加
-
-```java
-List<BmobObject> persons = new ArrayList<BmobObject>();
-for (int i = 0; i < 3; i++) {
-	Person person = new Person();
-	person.setName("张三 "+i);
-	persons.add(person);
+/**
+ * 查询一个对象
+ */
+private void query() {
+    BmobQuery<Category> bmobQuery = new BmobQuery<>();
+    bmobQuery.getObject(mObjectId, new QueryListener<Category>() {
+        @Override
+        public void done(Category category, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnQuery, "查询成功：" + category.getName(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnQuery, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
 }
-//第一种方式:v3.5.0之前的版本
-new BmobObject().insertBatch(this, persons, new SaveListener() {
-	@Override
-	public void onSuccess() {
-		toast("批量添加成功");
-	}
-	@Override
-	public void onFailure(int code, String msg) {
-		toast("批量添加失败:"+msg);
-	}
-});
-//第二种方式：v3.5.0开始提供
-new BmobBatch().insertBatch(persons).doBatch(new QueryListListener<BatchResult>() {
-
-			@Override
-			public void done(List<BatchResult> o, BmobException e) {
-				if(e==null){
-					for(int i=0;i<o.size();i++){
-						BatchResult result = o.get(i);
-						BmobException ex =result.getError();
-						if(ex==null){
-							log("第"+i+"个数据批量添加成功："+result.getCreatedAt()+","+result.getObjectId()+","+result.getUpdatedAt());
-						}else{
-							log("第"+i+"个数据批量添加失败："+ex.getMessage()+","+ex.getErrorCode());
-						}
-					}
-				}else{
-					Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-				}
-			}
-		});
 ```
 
-### 批量更新
+
+## 1.6、自定义数据类型的批量数据操作
+为了提供更稳定的服务，后端启用了QPS限制，推荐采用批量数据操作来替换在循环里多次提交请求的操作，否则会返回QPS达到限制的报错。
+
+ 1. 批量操作每次只支持最大50条记录的操作。
+ 2. 批量操作不支持对User表的操作。
+ 
+BmobBatch：
+
+|方法|功能|
+|-----|-----|
+|insertBatch|批量添加数据，并返回所添加数据的objectId字段|
+|updateBatch|批量更新数据|
+|deleteBatch|批量删除数据|
+|doBatch|批量添加、批量更新、批量删除同时操作|
+
+
+### 1.6.1、批量添加
 
 ```java
-List<BmobObject> persons = new ArrayList<BmobObject>();
-Person p1 = new Person();
-p1.setObjectId("e51d651c22");
-p1.setAge(25);
-Person p2 = new Person();
-p2.setObjectId("3f70a922c4");
-p2.setAge(26);
-p2.setGender(false);
-Person p3 = new Person();
-p3.setObjectId("08fdd55765");
-p3.setAge(27);
+/**
+ * 新增多条数据
+ */
+private void save() {
+    List<BmobObject> categories = new ArrayList<>();
+    for (int i = 0; i < 3; i++) {
+        Category category = new Category();
+        category.setName("category" + i);
+        category.setDesc("类别" + i);
+        category.setSequence(i);
+        categories.add(category);
+    }
+    new BmobBatch().insertBatch(categories).doBatch(new QueryListListener<BatchResult>() {
 
-persons.add(p1);
-persons.add(p2);
-persons.add(p3);
+        @Override
+        public void done(List<BatchResult> results, BmobException e) {
+            if (e == null) {
+                for (int i = 0; i < results.size(); i++) {
+                    BatchResult result = results.get(i);
+                    BmobException ex = result.getError();
+                    if (ex == null) {
+                        Snackbar.make(mBtnSave, "第" + i + "个数据批量添加成功：" + result.getCreatedAt() + "," + result.getObjectId() + "," + result.getUpdatedAt(), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        Snackbar.make(mBtnSave, "第" + i + "个数据批量添加失败：" + ex.getMessage() + "," + ex.getErrorCode(), Snackbar.LENGTH_LONG).show();
 
-//第一种方式：v3.5.0之前的版本
-new BmobObject().updateBatch(this, persons, new UpdateListener() {
-	@Override
-	public void onSuccess() {
-		toast("批量更新成功");
-	}
-	@Override
-	public void onFailure(int code, String msg) {
-		toast("批量更新失败:"+msg);
-	}
+                    }
+                }
+            } else {
+                Snackbar.make(mBtnSave, "失败：" + e.getMessage() + "," + e.getErrorCode(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+
+```
+
+### 1.6.2、批量更新
+
+```java
+/**
+ * 更新多条数据
+ */
+private void update() {
+
+    List<BmobObject> categories = new ArrayList<>();
+
+    Category category = new Category();
+    category.setObjectId("此处填写对应的需要修改数据的objectId");
+    category.setName("name" + System.currentTimeMillis());
+    category.setDesc("类别" + System.currentTimeMillis());
+
+    Category category1 = new Category();
+    category1.setObjectId("此处填写对应的需要修改数据的objectId");
+    category1.setName("name" + System.currentTimeMillis());
+    category1.setDesc("类别" + System.currentTimeMillis());
+
+    Category category2 = new Category();
+    category2.setObjectId("此处填写对应的需要修改数据的objectId");
+    category2.setName("name" + System.currentTimeMillis());
+    category2.setDesc("类别" + System.currentTimeMillis());
+
+    categories.add(category);
+    categories.add(category1);
+    categories.add(category2);
+
+    new BmobBatch().updateBatch(categories).doBatch(new QueryListListener<BatchResult>() {
+
+        @Override
+        public void done(List<BatchResult> results, BmobException e) {
+            if (e == null) {
+                for (int i = 0; i < results.size(); i++) {
+                    BatchResult result = results.get(i);
+                    BmobException ex = result.getError();
+                    if (ex == null) {
+                        Snackbar.make(mBtnUpdate, "第" + i + "个数据批量更新成功：" + result.getCreatedAt() + "," + result.getObjectId() + "," + result.getUpdatedAt(), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        Snackbar.make(mBtnUpdate, "第" + i + "个数据批量更新失败：" + ex.getMessage() + "," + ex.getErrorCode(), Snackbar.LENGTH_LONG).show();
+
+                    }
+                }
+            } else {
+                Snackbar.make(mBtnUpdate, "失败：" + e.getMessage() + "," + e.getErrorCode(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+
+```
+
+### 1.6.3、批量删除
+
+```Java
+/**
+ * 删除多条数据
+ */
+private void delete() {
+    List<BmobObject> categories = new ArrayList<>();
+
+    Category category = new Category();
+    category.setObjectId("此处填写对应的需要删除数据的objectId");
+
+    Category category1 = new Category();
+    category1.setObjectId("此处填写对应的需要删除数据的objectId");
+
+    Category category2 = new Category();
+    category2.setObjectId("此处填写对应的需要删除数据的objectId");
+
+    categories.add(category);
+    categories.add(category1);
+    categories.add(category2);
+
+    new BmobBatch().deleteBatch(categories).doBatch(new QueryListListener<BatchResult>() {
+
+        @Override
+        public void done(List<BatchResult> results, BmobException e) {
+            if (e == null) {
+                for (int i = 0; i < results.size(); i++) {
+                    BatchResult result = results.get(i);
+                    BmobException ex = result.getError();
+                    if (ex == null) {
+                        Snackbar.make(mBtnDelete, "第" + i + "个数据批量删除成功：" + result.getCreatedAt() + "," + result.getObjectId() + "," + result.getUpdatedAt(), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        Snackbar.make(mBtnDelete, "第" + i + "个数据批量删除失败：" + ex.getMessage() + "," + ex.getErrorCode(), Snackbar.LENGTH_LONG).show();
+
+                    }
+                }
+            } else {
+                Snackbar.make(mBtnDelete, "失败：" + e.getMessage() + "," + e.getErrorCode(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+
+```
+
+### 1.6.4、批量添加、批量更新、批量删除同时操作
+
+```Java
+/**
+ * 同时新增、更新、删除多条数据
+ */
+private void saveUpdateDelete() {
+    BmobBatch batch = new BmobBatch();
+
+    //批量添加
+    List<BmobObject> categoriesSave = new ArrayList<>();
+    for (int i = 0; i < 3; i++) {
+        Category category = new Category();
+        category.setName("category" + i);
+        category.setDesc("类别" + i);
+        category.setSequence(i);
+        categoriesSave.add(category);
+    }
+
+
+    //批量更新
+    List<BmobObject> categoriesUpdate = new ArrayList<>();
+    Category categoryUpdate = new Category();
+    categoryUpdate.setObjectId("此处填写对应的需要修改数据的objectId");
+    categoryUpdate.setName("name" + System.currentTimeMillis());
+    categoryUpdate.setDesc("类别" + System.currentTimeMillis());
+    Category categoryUpdate1 = new Category();
+    categoryUpdate1.setObjectId("此处填写对应的需要修改数据的objectId");
+    categoryUpdate1.setName("name" + System.currentTimeMillis());
+    categoryUpdate1.setDesc("类别" + System.currentTimeMillis());
+    Category categoryUpdate2 = new Category();
+    categoryUpdate2.setObjectId("此处填写对应的需要修改数据的objectId");
+    categoryUpdate2.setName("name" + System.currentTimeMillis());
+    categoryUpdate2.setDesc("类别" + System.currentTimeMillis());
+    categoriesUpdate.add(categoryUpdate);
+    categoriesUpdate.add(categoryUpdate1);
+    categoriesUpdate.add(categoryUpdate2);
+
+
+    //批量删除
+    List<BmobObject> categoriesDelete = new ArrayList<>();
+    Category categoryDelete = new Category();
+    categoryDelete.setObjectId("此处填写对应的需要删除数据的objectId");
+    Category categoryDelete1 = new Category();
+    categoryDelete1.setObjectId("此处填写对应的需要删除数据的objectId");
+    Category categoryDelete2 = new Category();
+    categoryDelete2.setObjectId("此处填写对应的需要删除数据的objectId");
+    categoriesDelete.add(categoryDelete);
+    categoriesDelete.add(categoryDelete1);
+    categoriesDelete.add(categoryDelete2);
+
+
+    //执行批量操作
+    batch.insertBatch(categoriesSave);
+    batch.updateBatch(categoriesUpdate);
+    batch.deleteBatch(categoriesDelete);
+    batch.doBatch(new QueryListListener<BatchResult>() {
+
+        @Override
+        public void done(List<BatchResult> results, BmobException e) {
+            if (e == null) {
+                //返回结果的results和上面提交的顺序是一样的，请一一对应
+                for (int i = 0; i < results.size(); i++) {
+                    BatchResult result = results.get(i);
+                    BmobException ex = result.getError();
+                    //只有批量添加才返回objectId
+                    if (ex == null) {
+                        Snackbar.make(mBtnSaveUpdateDelete, "第" + i + "个数据批量操作成功：" + result.getCreatedAt() + "," + result.getObjectId() + "," + result.getUpdatedAt(), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        Snackbar.make(mBtnSaveUpdateDelete, "第" + i + "个数据批量操作失败：" + ex.getMessage() + "," + ex.getErrorCode(), Snackbar.LENGTH_LONG).show();
+                    }
+                }
+            } else {
+                Snackbar.make(mBtnSaveUpdateDelete, "失败：" + e.getMessage() + "," + e.getErrorCode(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+
+}
+
+```
+
+### 1.6.5、查询多条数据
+
+BmobQuery查询多条类别数据：
+
+```
+/**
+ * 查询多条数据
+ */
+private void query() {
+    BmobQuery<Category> bmobQuery = new BmobQuery<>();
+    bmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> categories, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnQuery, "查询成功：" + categories.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnQuery, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+# 2、用户系统
+
+用户基类BmobUser，拥有注册、登录、修改密码、重置密码、短信操作、邮箱操作、第三方操作等功能。
+
+## 2.1、用户基类
+### 2.1.1、默认属性
+
+BmobUser继承BmobObject，有默认属性：
+
+|属性|说明|
+|----|----|
+|username|用户名/账号/用户唯一标志，可以是邮箱、手机号码、第三方平台的用户唯一标志|
+|password|用户密码|
+|email|用户邮箱|
+|emailVerified|用户邮箱认证状态|
+|mobilePhoneNumber|用户手机号码|
+|mobilePhoneNumberVerified|用户手机号码认证状态|
+
+
+### 2.1.2、自定义用户类型
+
+如果你的用户需要其他属性，如性别、年龄、头像等，则需要继承BmobUser类进行自定义扩展。
+
+```java
+/**
+ * Created on 2018/11/22 18:01
+ *
+ * @author zhangchaozhou
+ */
+public class User extends BmobUser {
+
+
+    /**
+     * 昵称
+     */
+    private String nickname;
+
+    /**
+     * 国家
+     */
+
+    private String country;
+
+    /**
+     * 得分数
+     */
+    private Integer score;
+
+
+    /**
+     * 抢断次数
+     */
+    private Integer steal;
+
+
+    /**
+     * 犯规次数
+     */
+    private Integer foul;
+
+
+    /**
+     * 失误个数
+     */
+    private Integer fault;
+    
+
+    /**
+     * 年龄
+     */
+    private Integer age;
+
+
+    /**
+     * 性别
+     */
+    private Integer gender;
+
+
+    /**
+     * 用户当前位置
+     */
+    private BmobGeoPoint address;
+
+
+    /**
+     * 头像
+     */
+    private BmobFile avatar;
+    
+    
+    /**
+     * 别名
+     */
+    private List<String> alias;
+
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public User setNickname(String nickname) {
+        this.nickname = nickname;
+        return this;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public User setCountry(String country) {
+        this.country = country;
+        return this;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public User setScore(Integer score) {
+        this.score = score;
+        return this;
+    }
+
+    public Integer getSteal() {
+        return steal;
+    }
+
+    public User setSteal(Integer steal) {
+        this.steal = steal;
+        return this;
+    }
+
+    public Integer getFoul() {
+        return foul;
+    }
+
+    public User setFoul(Integer foul) {
+        this.foul = foul;
+        return this;
+    }
+
+    public Integer getFault() {
+        return fault;
+    }
+
+    public User setFault(Integer fault) {
+        this.fault = fault;
+        return this;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public User setAge(Integer age) {
+        this.age = age;
+        return this;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public User setGender(Integer gender) {
+        this.gender = gender;
+        return this;
+    }
+
+    public BmobGeoPoint getAddress() {
+        return address;
+    }
+
+    public User setAddress(BmobGeoPoint address) {
+        this.address = address;
+        return this;
+    }
+
+    public BmobFile getAvatar() {
+        return avatar;
+    }
+
+    public User setAvatar(BmobFile avatar) {
+        this.avatar = avatar;
+        return this;
+    }
+
+    public List<String> getAlias() {
+        return alias;
+    }
+
+    public User setAlias(List<String> alias) {
+        this.alias = alias;
+        return this;
+    }
+}
+
+```
+
+## 2.2、用户系统的普通操作
+### 2.2.1、账号密码注册
+
+```java
+/**
+ * 账号密码注册
+ */
+private void signUp(final View view) {
+    final User user = new User();
+    user.setUsername("" + System.currentTimeMillis());
+    user.setPassword("" + System.currentTimeMillis());
+    user.setAge(18);
+    user.setGender(0);
+    user.signUp(new SaveListener<User>() {
+        @Override
+        public void done(User user, BmobException e) {
+            if (e == null) {
+                Snackbar.make(view, "注册成功", Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(view, "尚未失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+### 2.2.2、账号密码登录
+
+```java
+/**
+ * 账号密码登录
+ */
+private void login(final View view) {
+    final User user = new User();
+    //此处替换为你的用户名
+    user.setUsername("username");
+    //此处替换为你的密码
+    user.setPassword("password");
+    user.login(new SaveListener<User>() {
+        @Override
+        public void done(User bmobUser, BmobException e) {
+            if (e == null) {
+                User user = BmobUser.getCurrentUser(User.class);
+                Snackbar.make(view, "登录成功：" + user.getUsername(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(view, "登录失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+```java
+/**
+ * 账号密码登录
+ */
+private void loginByAccount(final View view) {
+    //此处替换为你的用户名密码
+    BmobUser.loginByAccount("username", "password", new LogInListener<User>() {
+        @Override
+        public void done(User user, BmobException e) {
+            if (e == null) {
+                Snackbar.make(view, "登录成功：" + user.getUsername(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(view, "登录失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+### 2.2.3、判断当前是否有用户登录
+
+```java
+if (BmobUser.isLogin()) {
+    User user = BmobUser.getCurrentUser(User.class);
+    Snackbar.make(view, "已经登录：" + user.getUsername(), Snackbar.LENGTH_LONG).show();
+} else {
+    Snackbar.make(view, "尚未登录", Snackbar.LENGTH_LONG).show();
+}
+```
+
+### 2.2.4、获取当前用户以及用户属性
+
+获取缓存的用户信息，缓存的有效期为1年。
+
+```java
+if (BmobUser.isLogin()) {
+    User user = BmobUser.getCurrentUser(User.class);
+    Snackbar.make(view, "当前用户：" + user.getUsername() + "-" + user.getAge(), Snackbar.LENGTH_LONG).show();
+    String username = (String) BmobUser.getObjectByKey("username");
+    Integer age = (Integer) BmobUser.getObjectByKey("age");
+    Snackbar.make(view, "当前用户属性：" + username + "-" + age, Snackbar.LENGTH_LONG).show();
+} else {
+    Snackbar.make(view, "尚未登录，请先登录", Snackbar.LENGTH_LONG).show();
+}
+```
+
+### 2.2.5、同步本地缓存的用户信息
+
+
+
+同步控制台数据到缓存中：
+
+```java
+
+   /**
+ * 同步控制台数据到缓存中
+ * @param view
+ */
+private void fetchUserInfo(final View view) {
+    BmobUser.fetchUserInfo(new FetchUserInfoListener<BmobUser>() {
+        @Override
+        public void done(BmobUser user, BmobException e) {
+            if (e == null) {
+                final MyUser myUser = BmobUser.getCurrentUser(MyUser.class);
+                Snackbar.make(view, "更新用户本地缓存信息成功："+myUser.getUsername()+"-"+myUser.getAge(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("error",e.getMessage());
+                Snackbar.make(view, "更新用户本地缓存信息失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+获取控制台最新JSON数据，不同步到缓存中：
+
+```Java
+/**
+ * 获取控制台最新JSON数据
+ * @param view
+ */
+private void fetchUserJsonInfo(final View view) {
+    BmobUser.fetchUserJsonInfo(new FetchUserInfoListener<String>() {
+        @Override
+        public void done(String json, BmobException e) {
+            if (e == null) {
+                Log.e("success",json);
+                Snackbar.make(view, "获取控制台最新数据成功："+json, Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("error",e.getMessage());
+                Snackbar.make(view, "获取控制台最新数据失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+
+```
+
+### 2.2.6、更新用户信息
+
+在更新用户信息时，如果用户邮箱有变更并且在管理后台打开了邮箱验证选项的话，Bmob云后端同样会自动发一封邮件验证信息给用户。
+
+```java
+/**
+ * 更新用户操作并同步更新本地的用户信息
+ */
+private void updateUser(final View view) {
+    final User user = BmobUser.getCurrentUser(User.class);
+    user.setAge(20);
+    user.update(new UpdateListener() {
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(view, "更新用户信息成功：" + user.getAge(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(view, "更新用户信息失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+                Log.e("error", e.getMessage());
+            }
+        }
+    });
+}
+
+```
+
+
+### 2.2.7、查询用户
+查询用户和查询普通对象一样，只需指定BmobUser类或自定义用户类即可，如下：
+```java
+/**
+ * 查询用户表
+ */
+private void queryUser(final View view) {
+    BmobQuery<User> bmobQuery = new BmobQuery<>();
+    bmobQuery.findObjects(new FindListener<User>() {
+        @Override
+        public void done(List<User> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(view, "查询成功", Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(view, "查询失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+
+```
+
+
+### 2.2.8、提供旧密码修改密码
+
+若用户已登录，可以提供旧密码修改密码：
+
+```java
+/**
+ * 提供旧密码修改密码
+ */
+private void updatePassword(final View view){
+    //TODO 此处替换为你的旧密码和新密码
+    BmobUser.updateCurrentUserPassword("oldPwd", "newPwd", new UpdateListener() {
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(view, "查询成功", Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(view, "查询失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+### 2.2.9、退出登录
+
+退出登录，同时清除缓存用户对象。
+
+```java
+BmobUser.logOut();
+```
+
+
+## 2.3、用户系统的邮箱操作
+
+需在应用的设置->邮件设置中开启“邮箱验证”功能，Bmob云后端才会在邮箱注册时发出一封验证邮件给用户，默认开启。
+
+邮件功能是按需付费，可以在应用的设置->套餐升级中购买邮件的数量。
+
+
+### 2.3.1、邮箱密码登录
+
+邮箱验证通过后，用户可以使用邮箱和密码进行登录：
+
+```java
+/**
+ * 邮箱+密码登录
+ */
+private void loginByEmailPwd() {
+    //TODO 此处替换为你的邮箱和密码
+    BmobUser.loginByAccount("email","password", new LogInListener<User>() {
+
+        @Override
+        public void done(User user, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mIvAvatar, user.getUsername() + "-" + user.getAge() + "-" + user.getObjectId() + "-" + user.getEmail(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mIvAvatar, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+### 2.3.2、邮箱验证
+邮件验证功能会在用户(User)对象中加入emailVerified字段，当一个用户的邮件被新添加或者修改过的话，emailVerified会被默认设为false，如果应用设置中开启了邮箱认证功能，Bmob会对用户填写的邮箱发送一个链接，这个链接可以把emailVerified设置为true.
+
+emailVerified 字段有 3 种状态可以考虑：
+
+|状态|解释|
+|----|----|
+|true|已验证。|
+|false|未验证，可以刷新用户对象更新此状态为最新状态。|
+|missing|用户对象已经被创建，但应用设置并没有开启邮件验证功能；或者用户对象没有email邮箱。|
+
+
+
+### 2.3.3、发送邮箱验证邮件
+
+发送给用户的邮箱验证邮件会在一周内失效：
+
+```java
+/**
+ * 发送验证邮件
+ */
+private void emailVerify() {
+    //TODO 此处替换为你的邮箱
+    final String email = "email";
+    BmobUser.requestEmailVerify(email, new UpdateListener() {
+
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(mIvAvatar, "请求验证邮件成功，请到" + email + "邮箱中进行激活账户。", Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mIvAvatar, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+### 2.3.4、邮箱重置密码
+
+开发者只需要求用户输入注册时的电子邮件地址即可：
+
+```java
+/**
+ * 邮箱重置密码
+ */
+private void resetPasswordByEmail() {
+    //TODO 此处替换为你的邮箱
+    final String email = "email";
+    BmobUser.resetPasswordByEmail(email, new UpdateListener() {
+
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(mIvAvatar, "重置密码请求成功，请到" + email + "邮箱进行密码重置操作", Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mIvAvatar, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+邮箱重置密码的流程如下：
+
+1. 用户输入他们的电子邮件，请求重置自己的密码。
+2. Bmob向他们的邮箱发送一封包含特殊的密码重置链接的电子邮件。
+3. 用户根据向导点击重置密码连接，打开一个特殊的Bmob页面，根据提示他们可以输入一个新的密码。
+4. 用户的密码已被重置为新输入的密码。
+
+
+## 2.4、用户系统的手机号操作
+
+### 2.4.1、手机号码和密码登录
+
+在手机号码被验证后，用户可以使用该手机号码和密码进行登录操作：
+
+```java
+/**
+ * 手机号码密码登录
+ */
+private void loginByPhone(){
+    //TODO 此处替换为你的手机号码和密码
+    BmobUser.loginByAccount("phone", "password", new LogInListener<User>() {
+
+        @Override
+        public void done(User user, BmobException e) {
+            if(user!=null){
+                if (e == null) {
+                    mTvInfo.append("短信登录成功：" + user.getObjectId() + "-" + user.getUsername());
+                } else {
+                    mTvInfo.append("短信登录失败：" + e.getErrorCode() + "-" + e.getMessage() + "\n");
+                }
+            }
+        }
+    });
+}
+```
+
+
+### 2.4.2、手机号码和短信验证码登录
+
+在手机号码被验证后，用户可以使用该手机号码和短信验证码进行登录操作：
+
+1、先请求登录操作的短信验证码，使用方式详见[短信开发文档](http://doc.bmob.cn/sms/android/)：
+
+```java
+/**
+ * TODO template 如果是自定义短信模板，此处替换为你在控制台设置的自定义短信模板名称；如果没有对应的自定义短信模板，则使用默认短信模板，默认模板名称为空字符串""。
+ *
+ * TODO 应用名称以及自定义短信内容，请使用不会被和谐的文字，防止发送短信验证码失败。
+ *
+ */
+BmobSMS.requestSMSCode(phone, "", new QueryListener<Integer>() {
+    @Override
+    public void done(Integer smsId, BmobException e) {
+        if (e == null) {
+            mTvInfo.append("发送验证码成功，短信ID：" + smsId + "\n");
+        } else {
+            mTvInfo.append("发送验证码失败：" + e.getErrorCode() + "-" + e.getMessage() + "\n");
+        }
+    }
+});
+```
+
+2、然后进行手机号码和短信验证码登录:
+
+```java
+/**
+ * TODO 此API需要在用户已经注册并验证的前提下才能使用
+ */
+BmobUser.loginBySMSCode(phone, code, new LogInListener<BmobUser>() {
+    @Override
+    public void done(BmobUser bmobUser, BmobException e) {
+        if (e == null) {
+            mTvInfo.append("短信登录成功：" + bmobUser.getObjectId() + "-" + bmobUser.getUsername());
+            startActivity(new Intent(UserLoginSmsActivity.this, UserMainActivity.class));
+        } else {
+            mTvInfo.append("短信登录失败：" + e.getErrorCode() + "-" + e.getMessage() + "\n");
+        }
+    }
+});
+```
+
+### 2.4.3、手机号码一键注册或登录
+
+手机号码一键注册或登录：
+
+
+1、先请求登录或注册操作的短信验证码：
+
+```java
+/**
+ * TODO template 如果是自定义短信模板，此处替换为你在控制台设置的自定义短信模板名称；如果没有对应的自定义短信模板，则使用默认短信模板，默认模板名称为空字符串""。
+ *
+ * TODO 应用名称以及自定义短信内容，请使用不会被和谐的文字，防止发送短信验证码失败。
+ *
+ */
+BmobSMS.requestSMSCode(phone, "", new QueryListener<Integer>() {
+    @Override
+    public void done(Integer smsId, BmobException e) {
+        if (e == null) {
+            mTvInfo.append("发送验证码成功，短信ID：" + smsId + "\n");
+        } else {
+            mTvInfo.append("发送验证码失败：" + e.getErrorCode() + "-" + e.getMessage() + "\n");
+        }
+    }
+});
+```
+
+2、然后进行一键注册或登录:
+
+```java
+BmobUser.signOrLoginByMobilePhone(phone, code, new LogInListener<BmobUser>() {
+    @Override
+    public void done(BmobUser bmobUser, BmobException e) {
+        if (e == null) {
+            mTvInfo.append("短信注册或登录成功：" + bmobUser.getUsername());
+            startActivity(new Intent(UserSignUpOrLoginSmsActivity.this, UserMainActivity.class));
+        } else {
+            mTvInfo.append("短信注册或登录失败：" + e.getErrorCode() + "-" + e.getMessage() + "\n");
+        }
+    }
 });
 
-//第二种方式：v3.5.0开始提供
-new BmobBatch().updateBatch(persons).doBatch(new QueryListListener<BatchResult>() {
+```
+3、如果想在一键注册或登录的同时保存其他字段的数据：
 
-			@Override
-			public void done(List<BatchResult> o, BmobException e) {
-				if(e==null){
-					for(int i=0;i<o.size();i++){
-						BatchResult result = o.get(i);
-						BmobException ex =result.getError();
-						if(ex==null){
-							log("第"+i+"个数据批量更新成功："+result.getUpdatedAt());
-						}else{
-							log("第"+i+"个数据批量更新失败："+ex.getMessage()+","+ex.getErrorCode());
-						}
-					}
-				}else{
-					Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-				}
-			}
-		});
+```java
+/**
+ * 一键注册或登录的同时保存其他字段的数据
+ * @param phone
+ * @param code
+ */
+private void signOrLogin(String phone,String code) {
+    User user = new User();
+    //设置手机号码（必填）
+    user.setMobilePhoneNumber(phone);
+    //设置用户名，如果没有传用户名，则默认为手机号码
+    user.setUsername(phone);
+    //设置用户密码
+    user.setPassword("");
+    //设置额外信息：此处为年龄
+    user.setAge(18);
+    user.signOrLogin(code, new SaveListener<MyUser>() {
+
+        @Override
+        public void done(MyUser user,BmobException e) {
+            if (e == null) {
+                mTvInfo.append("短信注册或登录成功：" + user.getUsername());
+                startActivity(new Intent(UserSignUpOrLoginSmsActivity.this, UserMainActivity.class));
+            } else {
+                mTvInfo.append("短信注册或登录失败：" + e.getErrorCode() + "-" + e.getMessage() + "\n");
+            }
+        }
+    });
+}
 ```
 
-### 批量删除
+### 2.4.4、绑定/解绑手机号码
+
+如果已有用户系统，需要为用户绑定/解绑手机号：
+
+1、发送短信验证码：
 
 ```
-List<BmobObject> persons = new ArrayList<BmobObject>();
-Person p1 = new Person();
-p1.setObjectId("38ea274d0c");
-Person p2 = new Person();
-p2.setObjectId("01e29165bc");
-Person p3 = new Person();
-p3.setObjectId("d8226c4828");
-
-persons.add(p1);
-persons.add(p2);
-persons.add(p3);
-//第一种方式：v3.5.0之前的版本
-new BmobObject().deleteBatch(this, persons, new DeleteListener() {
-	@Override
-	public void onSuccess() {
-		toast("批量删除成功");
-	}
-	@Override
-	public void onFailure(int code, String msg) {
-		toast("批量删除失败:"+msg);
-	}
+/**
+ * TODO template 如果是自定义短信模板，此处替换为你在控制台设置的自定义短信模板名称；如果没有对应的自定义短信模板，则使用默认短信模板，默认模板使用空字符串""。
+ */
+BmobSMS.requestSMSCode(phoneInput, "DataSDK", new QueryListener<Integer>() {
+    @Override
+    public void done(Integer smsId, BmobException e) {
+        if (e == null) {
+            mTvInfo.append("发送验证码成功，短信ID：" + smsId + "\n");
+        } else {
+            mTvInfo.append("发送验证码失败：" + e.getErrorCode() + "-" + e.getMessage() + "\n");
+        }
+    }
+});
+```
+2、验证短信验证码，验证成功后更新用户的手机号码和手机号码的验证状态：
+```
+BmobSMS.verifySmsCode(phone, code, new UpdateListener() {
+    @Override
+    public void done(BmobException e) {
+        if (e == null) {
+            mTvInfo.append("验证码验证成功，您可以在此时进行绑定操作！\n");
+            User user = BmobUser.getCurrentUser(User.class);
+            user.setMobilePhoneNumber(phone);
+            //绑定
+            user.setMobilePhoneNumberVerified(true);
+            //解绑
+            //user.setMobilePhoneNumberVerified(false);
+            user.update(new UpdateListener() {
+                @Override
+                public void done(BmobException e) {
+                    if (e == null) {
+                        mTvInfo.append("绑定/解绑手机号码成功");
+                    } else {
+                        mTvInfo.append("绑定/解绑手机号码失败：" + e.getErrorCode() + "-" + e.getMessage());
+                    }
+                }
+            });
+        } else {
+            mTvInfo.append("验证码验证失败：" + e.getErrorCode() + "-" + e.getMessage() + "\n");
+        }
+    }
 });
 
-//第二种方式：v3.5.0开始提供
-new BmobBatch().deleteBatch(persons).doBatch(new QueryListListener<BatchResult>() {
-
-			@Override
-			public void done(List<BatchResult> o, BmobException e) {
-				if(e==null){
-					for(int i=0;i<o.size();i++){
-						BatchResult result = o.get(i);
-						BmobException ex =result.getError();
-						if(ex==null){
-							log("第"+i+"个数据批量删除成功");
-						}else{
-							log("第"+i+"个数据批量删除失败："+ex.getMessage()+","+ex.getErrorCode());
-						}
-					}
-				}else{
-					Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-				}
-			}
-		});
 ```
 
-### 批量添加、批量更新、批量删除同步提交（v3.5.0开始提供）
+### 2.4.5、手机号码重置密码
+如果用户已经验证过手机号码或者使用过手机号码注册或登录，也可以通过手机号码来重置用户密码:
 
-```
-BmobBatch batch =new BmobBatch();
-//批量添加
-List<BmobObject> persons = new ArrayList<BmobObject>();
-Person person = new Person();
-person.setName("张三 ");
-persons.add(person);
-batch.insertBatch(persons);
+1、请求重置密码操作的短信验证码：
 
-//批量更新
-List<BmobObject> persons1=new ArrayList<BmobObject>();
-Person p1 = new Person();
-p1.setObjectId("3388eb6caf");
-p1.setAge(35);
-persons1.add(p1);
-batch.updateBatch(persons1);
-
-//批量删除
-List<BmobObject> persons2 = new ArrayList<BmobObject>();
-Person p2 = new Person();
-p2.setObjectId("9af452ebd");
-persons2.add(p2);
-batch.deleteBatch(persons2);
-//执行批量操作
-batch.doBatch(new QueryListListener<BatchResult>(){
-
-	@Override
-	public void done(List<BatchResult> results, BmobException ex) {
-		if(ex==null){
-			//返回结果的results和上面提交的顺序是一样的，请一一对应
-			for(int i=0;i<results.size();i++){
-				BatchResult result= results.get(i);
-				if(result.isSuccess()){//只有批量添加才返回objectId
-					log("第"+i+"个成功："+result.getObjectId()+","+result.getUpdatedAt());
-				}else{
-					BmobException error= result.getError();
-					log("第"+i+"个失败："+error.getErrorCode()+","+error.getMessage());
-				}
-			}
-		}else{
-			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
+```java
+/**
+ * TODO template 如果是自定义短信模板，此处替换为你在控制台设置的自定义短信模板名称；如果没有对应的自定义短信模板，则使用默认短信模板，模板名称为空字符串""。
+ */
+BmobSMS.requestSMSCode(phone, "DataSDK", new QueryListener<Integer>() {
+    @Override
+    public void done(Integer smsId, BmobException e) {
+        if (e == null) {
+            mTvInfo.append("发送验证码成功，短信ID：" + smsId + "\n");
+        } else {
+            mTvInfo.append("发送验证码失败：" + e.getErrorCode() + "-" + e.getMessage() + "\n");
+        }
+    }
 });
+```
 
+2、然后执行验证码的密码重置操作：
+
+```java
+BmobUser.resetPasswordBySMSCode(code, newPassword, new UpdateListener() {
+    @Override
+    public void done(BmobException e) {
+        if (e == null) {
+            mTvInfo.append("重置成功");
+        } else {
+            mTvInfo.append("重置失败：" + e.getErrorCode() + "-" + e.getMessage());
+        }
+    }
+});
+```
+
+## 2.5、用户系统的第三方操作
+
+Bmob提供了第三方平台登陆的功能，目前支持`新浪微博`、`QQ账号`、`微信账号`的登陆，此功能与第三方开放平台的SDK解藕。
+
+BmobThirdUserAuth的各参数解释：
+
+|参数|解释|
+|----|----|
+|snsType|固定值：weibo或qq或weixin|
+|accessToken|接口调用凭证，由第三方平台返回取得|
+|expiresIn|access_token的有效时间，由第三方平台返回取得|
+|userId|用户身份的唯一标识，由第三方平台返回取得，对应微博授权信息中的uid，对应qq和微信授权信息中的openid|
+
+
+### 2.5.1、应用场景
+
+第三方账号登陆目前适应以下两种应用场景：
+
+`一、没有Bmob账号，希望使用第三方账号一键注册或登陆Bmob账号`
+
+如果开发者希望用户使用第三方平台的账号注册或登录Bmob的用户体系，则推荐的步骤如下：
+
+1、第三方平台授权，开发者需自行根据第三方平台文档提出的授权方法完成账号授权并得到授权信息
+
+2、调用Bmob提供的`loginWithAuthData（BmobV3.3.9版本提供）`方法，并自行构造`BmobThirdUserAuth（第三方授权信息）`对象，调用成功后，在Bmob的User表中会产生一条记录。
+
+
+`二、已有Bmob账号，希望与第三方账号进行关联`
+
+如果已使用Bmob的用户体系（假设用户A已登录），希望和第三方平台进行关联，则推荐的步骤如下：
+
+1、第三方平台授权，开发者需自行根据第三方平台文档提出的授权方法完成账号授权并得到授权信息
+
+2、调用`associateWithAuthData`方法，并自行构造`BmobThirdUserAuth(第三方授权信息)`对象，调用成功后，你就会在后台的用户A的authData这个字段下面看到提交的授权信息。
+
+
+### 2.5.2、第三方平台一键注册或登录
+
+假设你已通过上述提供的文档完成相应平台的授权并得到对应的授权信息，则可以这样来完成一键注册或登陆操作：
+
+```java
+
+/**
+ * 第三方平台一键注册或登录
+ * @param snsType
+ * @param accessToken
+ * @param expiresIn
+ * @param userId
+ */
+private void thirdSingupLogin(String snsType, String accessToken, String expiresIn, String userId) {
+    BmobUser.BmobThirdUserAuth authInfo = new BmobUser.BmobThirdUserAuth(snsType, accessToken, expiresIn, userId);
+    BmobUser.loginWithAuthData(authInfo, new LogInListener<JSONObject>() {
+        @Override
+        public void done(JSONObject user, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnThirdSignupLogin, "第三方平台一键注册或登录成功", Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnThirdSignupLogin, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+### 2.5.3、关联第三方平台
+
+
+
+```java
+/**
+ * 第三方平台关联
+ * @param snsType
+ * @param accessToken
+ * @param expiresIn
+ * @param userId
+ */
+private void associate(String snsType, String accessToken, String expiresIn, String userId){
+    BmobUser.BmobThirdUserAuth authInfo = new BmobUser.BmobThirdUserAuth(snsType,accessToken, expiresIn, userId);
+    BmobUser.associateWithAuthData(authInfo, new UpdateListener() {
+
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnThirdSignupLogin, "第三方平台关联成功", Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnThirdSignupLogin, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+
+```
+
+### 2.5.4、解除第三方平台关联
+
+```java
+
+/**
+ * 取消第三方平台关联
+ * @param snsType
+ */
+private void unAssociate(String snsType) {
+    BmobUser.dissociateAuthData(snsType,new UpdateListener() {
+
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnThirdSignupLogin, "第三方平台关联成功", Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                if (e.getErrorCode()==208){
+                    Snackbar.make(mBtnThirdSignupLogin, "你没有关联该账号", Snackbar.LENGTH_LONG).show();
+                }else {
+                    Snackbar.make(mBtnThirdSignupLogin, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                }
+            }
+        }
+    });
+}
+```
+
+
+### 2.5.5、微博登陆相关文档
+
+1、[移动客户端接入文档](http://open.weibo.com/wiki/%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8E%A5%E5%85%A5)：此文档请着重查阅其中的`SDK接入流程`。
+
+2、[新浪微博AndroidSDK快速入门](https://github.com/sinaweibosdk/weibo_android_sdk)，请详细查看`README`文档,其介绍了完整的集成流程。
+
+3、[新浪微博常见问题](https://github.com/sinaweibosdk/weibo_android_sdk/blob/master/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%20FAQ.md#5-%E5%85%B3%E4%BA%8E%E6%8E%88%E6%9D%83)：在新浪微博授权过程中出现问题，请查看此文档，一般出现频率较高的错误有：
+
+`sso package and sign error`- 平台上填写的包名和签名不正确。请仔细检查，一般最需要检查的是`签名`，签名需要使用微博提供的获取签名的工具[（app_signatures.apk）](https://github.com/sinaweibosdk/weibo_android_sdk/blob/master/app_signatures.apk)。
+
+`redirect_uri_mismatch`     - 请确保你在weibo平台上填写的授权回调地址与代码中写的授权回调地址(RedirectURI)一样。
+
+### 2.5.6、QQ登陆相关文档
+
+1、如何使用SDK，请参见 [腾讯开放平台Android_SDK使用说明](http://wiki.open.qq.com/wiki/mobile/Android_SDK%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E)。
+
+2、如何调用具体API，请参见 [API调用说明](http://wiki.open.qq.com/wiki/Android_API%E8%B0%83%E7%94%A8%E8%AF%B4%E6%98%8E)。
+
+3、常见问题汇总，请参见[问题汇总说明](http://bbs.open.qq.com/thread-6159767-1-1.html)。
+
+### 2.5.7、微信登陆相关文档
+
+1、[Android接入指南](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN&token=a6350e5290b2fee66bf0a98f02d7ddc7a655ddce)：这里主要介绍的是微信sdk的集成步骤
+
+2、[微信登陆开发指南](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN&token=a6350e5290b2fee66bf0a98f02d7ddc7a655ddce)：在`移动应用开发`->`微信登录功能`->`移动应用微信登录开发指南`。主要介绍微信OAuth2.0授权登录的流程。
+
+
+# 3、数据关联
+
+## 3.1、关联关系描述
+
+在程序设计中，不同类型的数据之间可能存在某种关系。
+比如：帖子和作者的关系，一篇帖子只属于某个作者，这是`一对一的关系`。
+比如：帖子和评论的关系，一条评论只属于某一篇帖子，而一篇帖子对应有很多条评论，这是`一对多的关系`。
+比如：学生和课程的关系，一个学生可以选择很多课程，一个课程也可以被很多学生所选择，这是`多对多的关系`。
+
+Bmob提供了`Pointer（一对一、一对多）`和`Relation（多对多）`两种数据类型来解决这种业务需求。
+
+## 3.2、关联关系案例详解
+由于关联关系讲解起来比较复杂，以下用一个简单的案例来说明在Bmob中是如何使用关联关系的。
+
+用户发表帖子，同时又可对帖子进行评论留言，在这个场景中涉及到三个表：用户表（`_User`）、帖子表（`Post`）、评论表（`Comment`）,以下是各个表的字段：
+
+`_User`字段如下：
+
+|字段|类型|含义|
+|:---|:---|:---|
+|objectId|String|用户ID|
+|username|String|用户名(可以既发帖子又发评论)|
+|age|Integer|年龄|
+
+`Post`字段如下：
+
+|字段|类型|含义|
+|:---|:---|:---|
+|objectId|String|帖子ID|
+|title|String|帖子标题|
+|content|String|帖子内容|
+|author|Pointer|帖子作者|
+|likes|Relation|喜欢帖子的读者|
+
+`Comment`字段如下：
+
+|字段|类型|含义|
+|:---|:---|:---|
+|objectId|String|评论ID|
+|content|String|评论内容|
+|post|Pointer|评论对应的帖子|
+|author|Pointer|评论该帖子的人|
+
+#### Web端创建关联字段
+如果你需要在Web端创建上述表的话，那么当选择的字段类型为`Pointer或Relation`时，会提示你选择该字段所指向或关联的数据表。
+
+如下图所示：
+
+![图1 创建关联字段](image/createline.png)
+
+#### 创建数据对象
+
+```java
+
+/**
+ * @author zhangchaozhou
+ */
+public class Post extends BmobObject {
+
+    /**
+     * 帖子标题
+     */
+    private String title;
+
+    /**
+     * 帖子内容
+     */
+    private String content;
+
+    /**
+     * 发布者
+     */
+    private User author;
+    /**
+     * 图片
+     */
+    private BmobFile image;
+
+    /**
+     * 一对多关系：用于存储喜欢该帖子的所有用户
+     */
+    private BmobRelation likes;
+
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Post setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public Post setContent(String content) {
+        this.content = content;
+        return this;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public Post setAuthor(User author) {
+        this.author = author;
+        return this;
+    }
+
+    public BmobFile getImage() {
+        return image;
+    }
+
+    public Post setImage(BmobFile image) {
+        this.image = image;
+        return this;
+    }
+
+    public BmobRelation getLikes() {
+        return likes;
+    }
+
+    public Post setLikes(BmobRelation likes) {
+        this.likes = likes;
+        return this;
+    }
+}
+
+
+```
+
+```java
+/**
+ * @author zhangchaozhou
+ */
+public class Comment extends BmobObject {
+
+    /**
+     * 评论内容
+     */
+    private String content;
+
+    /**
+     * 评论的用户
+     */
+    private User user;
+
+    /**
+     * 所评论的帖子
+     */
+    private Post post;
+
+
+    public String getContent() {
+        return content;
+    }
+
+    public Comment setContent(String content) {
+        this.content = content;
+        return this;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Comment setUser(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public Comment setPost(Post post) {
+        this.post = post;
+        return this;
+    }
+}
 ```
 
 **注：**
 
- 1. 批量操作每次只支持最大50条记录的操作。
- 2. 批量操作不支持对User表的操作。
+**1、类名要和数据表名保持一致。**
+
+**2、MyUser属性对应为Pointer的指针类型。**
+
+以下举例均假定A用户已注册并登陆
+
+![图1](image/userA.png)
+
+### 一对一关系
+
+**用户发表帖子，一篇帖子也只能属于某个用户，那么帖子和用户之间的关系是`一对一关系`，建议使用`Pointer`类型来表示。**
+
+`Pointer`本质上可以看成是我们将一个指向某条记录的指针记录下来，我们查询时可以通过该指针来获得其指向的关联对象。
+
+用户A写了一篇帖子，需要在`Post`表中生成一条记录，并将该帖子关联到用户A这条记录，表明该帖子是A所发表的。
+
+示例如下：
+
+#### 添加一对一关联
+
+```java
+/**
+ * 添加一对一关联，当前用户发布帖子
+ */
+private void savePost() {
+    if (BmobUser.isLogin()){
+        Post post = new Post();
+        post.setTitle("帖子标题");
+        post.setContent("帖子内容");
+        //添加一对一关联，用户关联帖子
+        post.setAuthor(BmobUser.getCurrentUser(User.class));
+        post.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null) {
+                    Snackbar.make(mFabAddPost, "发布帖子成功：" + s, Snackbar.LENGTH_LONG).show();
+                } else {
+                    Log.e("BMOB", e.toString());
+                    Snackbar.make(mFabAddPost, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
+    }else {
+        Snackbar.make(mFabAddPost, "请先登录", Snackbar.LENGTH_LONG).show();
+    }
+}
+```
+
+
+#### 查询一对一关联
+查询当前用户所发表的所有帖子：
+
+```java
+/**
+ * 查询一对一关联，查询当前用户发表的所有帖子
+ */
+private void queryPostAuthor() {
+
+    if (BmobUser.isLogin()) {
+        BmobQuery<Post> query = new BmobQuery<>();
+        query.addWhereEqualTo("author", BmobUser.getCurrentUser(User.class));
+        query.order("-updatedAt");
+        //包含作者信息
+        query.include("author");
+        query.findObjects(new FindListener<Post>() {
+
+            @Override
+            public void done(List<Post> object, BmobException e) {
+                if (e == null) {
+                    Snackbar.make(mFabAddPost, "查询成功", Snackbar.LENGTH_LONG).show();
+                } else {
+                    Log.e("BMOB", e.toString());
+                    Snackbar.make(mFabAddPost, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                }
+            }
+
+        });
+    } else {
+        Snackbar.make(mFabAddPost, "请先登录", Snackbar.LENGTH_LONG).show();
+    }
+
+```
+
+
+#### 更新一对一关联
+
+将某帖子的作者修改成其他用户：
+
+```java
+/**
+ * 修改一对一关联，修改帖子和用户的关系
+ */
+private void updatePostAuthor() {
+    User user = new User();
+    user.setObjectId("此处填写你需要关联的用户");
+    Post post = new Post();
+    post.setObjectId("此处填写需要修改的帖子");
+    //修改一对一关联，修改帖子和用户的关系
+    post.setAuthor(user);
+    post.update(new UpdateListener() {
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(mFabAddPost, "修改帖子成功", Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mFabAddPost, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+#### 删除一对一关联
+如果你想和`ESIt3334`这个帖子解除关联关系，可以这样：
+
+```java
+/**
+ * 删除一对一关联，解除帖子和用户的关系
+ */
+private void removePostAuthor() {
+    Post post = new Post();
+    post.setObjectId("此处填写需要修改的帖子");
+    //删除一对一关联，解除帖子和用户的关系
+    post.remove("author");
+    post.update(new UpdateListener() {
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(mFabAddPost, "修改帖子成功", Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mFabAddPost, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+删除成功后，在后台的`Post`表中，你就会看到`ESIt3334`这个帖子的`author`字段的值已经被置空了。
+
+![图1](image/postdelete.png)
+
+### 一对多关系
+**一条评论只能属于某一篇帖子，一篇帖子可以有很多用户对其进行评论，那么帖子和评论之间的关系就是`一对多关系`，推荐使用`pointer`类型来表示**。
+
+因为使用方法和上面的一对一关联基本相同，只是查询一对多关联的时候有些区别，故只举添加和查询两个例子：
+
+
+#### 添加一对多关联
+将评论和微博进行关联，并同时和当前用户进行关联，表明是当前用户对该帖子进行评论，示例如下：
+
+```java
+MyUser user = BmobUser.getCurrentUser(MyUser.class);
+Post post = new Post();
+post.setObjectId("ESIt3334");
+final Comment comment = new Comment();
+comment.setContent(content);
+comment.setPost(post);
+comment.setUser(user);
+comment.save(new SaveListener<String>() {
+
+	@Override
+	public void done(String objectId,BmobException e) {
+		if(e==null){
+			Log.i("bmob","评论发表成功");
+		}else{
+			Log.i("bmob","失败："+e.getMessage());
+		}
+	}
+
+});
+
+```
+
+#### 查询一对多关联
+
+我想`查询出某个帖子（objectId为ESIt3334）的所有评论,同时将该评论的作者的信息也查询出来`，那么可以使用`addWhereEqualTo`方法进行查询：
+
+```java
+BmobQuery<Comment> query = new BmobQuery<Comment>();
+//用此方式可以构造一个BmobPointer对象。只需要设置objectId就行
+Post post = new Post();
+post.setObjectId("ESIt3334");
+query.addWhereEqualTo("post",new BmobPointer(post));		
+//希望同时查询该评论的发布者的信息，以及该帖子的作者的信息，这里用到上面`include`的并列对象查询和内嵌对象的查询
+query.include("user,post.author");
+query.findObjects(new FindListener<Comment>() {
+
+	@Override
+	public void done(List<Comment> objects,BmobException e) {
+		...
+	}
+});
+
+```
+
+注：`addWhereEqualTo`对`BmobPonter`类型的一对多的关联查询是`BmobSDKV3.3.8`开始支持的，因此使用时，请更新SDK版本。
+
+
+### 多对多关系
+
+**一个帖子可以被很多用户所喜欢，一个用户也可能会喜欢很多帖子，那么可以使用`Relation`类型来表示这种`多对多关联关系`**。
+
+`Relation`本质上可以理解为其存储的是一个对象，而这个对象中存储的是多个指向其它记录的指针。
+
+#### 添加多对多关联
+
+```java
+MyUser user = BmobUser.getCurrentUser(MyUser.class);
+Post post = new Post();
+post.setObjectId("ESIt3334");
+//将当前用户添加到Post表中的likes字段值中，表明当前用户喜欢该帖子
+BmobRelation relation = new BmobRelation();
+//将当前用户添加到多对多关联中
+relation.add(user);
+//多对多关联指向`post`的`likes`字段
+post.setLikes(relation);
+post.update(new UpdateListener() {
+	@Override
+	public void done(BmobException e) {
+		if(e==null){
+			Log.i("bmob","多对多关联添加成功");
+		}else{
+			Log.i("bmob","失败："+e.getMessage());
+		}
+	}
+
+});
+
+```
+添加成功后，在后台的`Post`表中就能查看到`likes`字段已经生成并对应到了`_User`
+
+![图1](image/relation.png)
+
+点击红框中的`关联关系`按钮展开后，可查看刚才所添加的喜欢该帖子的用户A：
+
+![图1](image/likes.png)
+
+
+#### 查询多对多关联
+
+如果希望`查询喜欢该帖子（objectId为ESIt3334）的所有用户`,那么就需要用到`addWhereRelatedTo`方法进行多对多关联查询。
+
+示例代码：
+
+```java
+// 查询喜欢这个帖子的所有用户，因此查询的是用户表
+BmobQuery<MyUser> query = new BmobQuery<MyUser>();
+Post post = new Post();
+post.setObjectId("ESIt3334");
+//likes是Post表中的字段，用来存储所有喜欢该帖子的用户
+query.addWhereRelatedTo("likes", new BmobPointer(post));
+query.findObjects(new FindListener<MyUser>() {
+
+	@Override
+	public void done(List<MyUser> object,BmobException e) {
+		if(e==null){
+			Log.i("bmob","查询个数："+object.size());
+		}else{
+			Log.i("bmob","失败："+e.getMessage());
+		}
+	}
+
+});
+
+```
+
+#### 修改多对多关联
+
+如果`用户B也喜欢该帖子（objectId为ESIt3334）`，此时需要为该帖子(Post)的`likes`字段多添加一个用户,示例如下：
+
+```java
+Post post = new Post();
+post.setObjectId("ESIt3334");
+//将用户B添加到Post表中的likes字段值中，表明用户B喜欢该帖子
+BmobRelation relation = new BmobRelation();
+//构造用户B
+MyUser user = new MyUser();
+user.setObjectId("aJyG2224");
+//将用户B添加到多对多关联中
+relation.add(user);
+//多对多关联指向`post`的`likes`字段
+post.setLikes(relation);
+post.update(new UpdateListener() {
+
+	@Override
+	public void done(BmobException e) {
+		if(e==null){
+			Log.i("bmob","用户B和该帖子关联成功");
+		}else{
+			Log.i("bmob","失败："+e.getMessage());
+		}
+	}
+
+});
+
+```
+
+修改成功后，你在点击该帖子的`likes`字段下面的`关联关系`按钮展开后，可查看刚才所添加的喜欢该帖子的用户B：
+
+![图1](image/updaterelation.png)
+
+
+#### 删除多对多关联
+
+
+如果`想对该帖子进行取消喜欢的操作`，此时，需要删除之前的多对多关联，具体代码：
+
+```java
+Post post = new Post();
+post.setObjectId("83ce274594");
+MyUser user = BmobUser.getCurrentUser(MyUser.class);
+BmobRelation relation = new BmobRelation();
+relation.remove(user);
+post.setLikes(relation);
+post.update(new UpdateListener() {
+
+	@Override
+	public void done(BmobException e) {
+		if(e==null){
+			Log.i("bmob","关联关系删除成功");
+		}else{
+			Log.i("bmob","失败："+e.getMessage());
+		}
+	}
+
+});
+
+```
+
+**1 例子中的Comment和Post表请大家注意下在后端控制台建表的数据类型是Pointer还是Relation 否则返回类型不匹配的111错误，表的结构和字段类型如下：**
+![Post](http://i.imgur.com/o4giGoy.png)
+![Comment](http://i.imgur.com/RmsP7m8.png)
+**2 为方便大家了解学习，我们提供了一个关于数据关联的Demo，下载地址是：https://github.com/bmob/RelationDemo**
+
+
+
+
+
 
 ## 查询数据
 
 数据的查询可能是每个应用都会频繁使用到的，BmobSDK中提供了`BmobQuery`类，它提供了多样的方法来实现不同条件的查询，同时它的使用也是非常的简单和方便的。
 
-### 查询单条数据
-
-当我们知道某条数据的`objectId`时，就可以根据`objectId`直接获取单条数据对象。例如：查询`objectId`为`a203eba875`的人员信息。
-
-```java
-BmobQuery<GameScore> query = new BmobQuery<GameScore>();
-query.getObject("a203eba875", new QueryListener<GameScore>() {
-
-	@Override
-	public void done(GameScore object, BmobException e) {
-		if(e==null){
-			//获得playerName的信息
-			object.getPlayerName();
-			//获得数据的objectId信息
-	        object.getObjectId();
-	        //获得createdAt数据创建时间（注意是：createdAt，不是createAt）
-			object.getCreatedAt();
-		}else{
-			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
-
-});
-```
-
-### 查询多条数据
-
-查询某个数据表中的所有数据是非常简单的查询操作，查询的数据条数最多500.例如：查询GameScore表中playerName为“比目”的50条数据记录。
-
-```java
-BmobQuery<GameScore> query = new BmobQuery<GameScore>();
-//查询playerName叫“比目”的数据
-query.addWhereEqualTo("playerName", "比目");
-//返回50条数据，如果不加上这条语句，默认返回10条数据
-query.setLimit(50);
-//执行查询方法
-query.findObjects(new FindListener<GameScore>() {
-	@Override
-	public void done(List<GameScore> object, BmobException e) {
-		if(e==null){
-			toast("查询成功：共"+object.size()+"条数据。");
-			for (GameScore gameScore : object) {
-		       //获得playerName的信息
-			   gameScore.getPlayerName();
-			   //获得数据的objectId信息
-		       gameScore.getObjectId();
-		       //获得createdAt数据创建时间（注意是：createdAt，不是createAt）
-			   gameScore.getCreatedAt();
-			}
-		}else{
-			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
-});
-```
-
-查询的结果不需要进行任何处理，BmobSDK已经为你封装成相应的JavaBean集合了，你直接使用即可。
-
 **注：**
-1 通过setLimit方法设置返回的记录数量。更多细节可查看下一节(查询条件)中的分页查询。</br>
 2 v3.5.2开始可以对查询条件等提供链式调用的写法，如下：</br>
 ```java
 BmobQuery<Book> query = new BmobQuery<>();
@@ -765,32 +1957,139 @@ BmobQuery<Book> query = new BmobQuery<>();
 
 #### 比较查询
 
-如果要查询特定键的特定值，可以使用`addWhereEqualTo`方法，如果要过滤掉特定键的值可以使用`addWhereNotEqualTo`方法。
 
-比如需要查询playerName不等于“Barbie”的数据时可以这样写：
+|方法|功能|
+|-----|-----|
+|addWhereEqualTo|等于|
+|addWhereNotEqualTo|不等于|
+|addWhereLessThan|小于|
+|addWhereLessThanOrEqualTo|小于等于|
+|addWhereGreaterThan|大于|
+|addWhereGreaterThanOrEqualTo|大于等于|
 
-```java
-query.addWhereNotEqualTo("playerName", "Barbie");
+```
+/**
+ * name为football的类别
+ */
+private void equal() {
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereEqualTo("name", "football");
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+```
+/**
+ * name不为football的类别
+ */
+private void notEqual() {
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereNotEqualTo("name", "football");
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
-当然，你可以在你的查询操作中添加多个约束条件，来查询符合要求的数据。
-
-```java
-query.addWhereNotEqualTo("playerName", "Barbie");     //名字不等于Barbie
-query.addWhereGreaterThan("score", 60);      		  //条件：分数大于60岁
+```
+/**
+ * sequence小于10的类别
+ */
+private void less() {
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereLessThan("sequence", 10);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
-各种不同条件的比较查询：
+```
+/**
+ * sequence小于等于10的类别
+ */
+private void lessEqual() {
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereLessThanOrEqualTo("sequence", 10);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
 
-```java
-// 分数 < 50
-query.addWhereLessThan("score", 50);
-//分数 <= 50
-query.addWhereLessThanOrEqualTo("score", 50);
-//分数 > 50
-query.addWhereGreaterThan("score", 50);
-//分数 >= 50
-query.addWhereGreaterThanOrEqualTo("score", 50);
+```
+/**
+ * sequence大于10的类别
+ */
+private void large() {
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereGreaterThan("sequence", 10);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+```
+/**
+ * sequence大于等于10的类别
+ */
+private void largeEqual() {
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereGreaterThanOrEqualTo("sequence", 10);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
 #### 子查询
@@ -811,69 +2110,235 @@ query.addWhereNotContainedIn("playerName", Arrays.asList(names));
 
 #### 时间查询
 
-`时间查询`比较特殊，我们需要结合`BmobDate`这个类来查询某个指定日期时间前后的数据，这里也给出示例供大家参考：
-
-比如:
-如果想查询指定日期之前的数据，则可以使用`addWhereLessThan`或者`addWhereLessThanOrEqualTo`（包含当天）来查询。
-如果想查询指定日期之后的数据，则可以使用`addWhereGreaterThan`或`addWhereGreaterThanOrEqualTo`（包含当天）来查询。
-如果想查询指定时间当天的数据，则需要使用`复合与查询`来查询，例如，想`查询2015年5月1号当天的Person数据`,示例代码如下：
-
 ```java
-BmobQuery<Person> query = new BmobQuery<Person>();
-List<BmobQuery<Person>> and = new ArrayList<BmobQuery<Person>>();
-//大于00：00：00
-BmobQuery<Person> q1 = new BmobQuery<Person>();
-String start = "2015-05-01 00:00:00";  
-SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-Date date  = null;
-try {
-date = sdf.parse(start);
-} catch (ParseException e) {
-e.printStackTrace();
-}  
-q1.addWhereGreaterThanOrEqualTo("createdAt",new BmobDate(date));
-and.add(q1);
-//小于23：59：59
-BmobQuery<Person> q2 = new BmobQuery<Person>();
-String end = "2015-05-01 23:59:59";
-SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-Date date1  = null;
-try {
-date1 = sdf1.parse(end);
-} catch (ParseException e) {
-e.printStackTrace();
-}  
-q2.addWhereLessThanOrEqualTo("createdAt",new BmobDate(date1));
-and.add(q2);
-//添加复合与查询
-query.and(and);
+/**
+ * 某个时间
+ */
+private void equal() throws ParseException {
+    String createdAt = "2018-11-23 10:30:00";
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date createdAtDate = sdf.parse(createdAt);
+    BmobDate bmobCreatedAtDate = new BmobDate(createdAtDate);
+
+
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereEqualTo("createdAt", bmobCreatedAtDate);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
-注：
-**由于createdAt、updatedAt是服务器自动生成的时间，在服务器保存的是精确到微秒值的时间，所以，基于时间类型的比较的值要加1秒。**
+```java
+/**
+ * 某个时间外
+ */
+private void notEqual() throws ParseException {
+    String createdAt = "2018-11-23 10:30:00";
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date createdAtDate = sdf.parse(createdAt);
+    BmobDate bmobCreatedAtDate = new BmobDate(createdAtDate);
+
+
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereNotEqualTo("createdAt", bmobCreatedAtDate);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+```java
+/**
+ * 某个时间前
+ */
+private void less() throws ParseException {
+    String createdAt = "2018-11-23 10:30:00";
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date createdAtDate = sdf.parse(createdAt);
+    BmobDate bmobCreatedAtDate = new BmobDate(createdAtDate);
+
+
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereLessThan("createdAt", bmobCreatedAtDate);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+```java
+/**
+ * 某个时间及以前
+ */
+private void lessEqual() throws ParseException {
+    String createdAt = "2018-11-23 10:30:00";
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date createdAtDate = sdf.parse(createdAt);
+    BmobDate bmobCreatedAtDate = new BmobDate(createdAtDate);
+
+
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereLessThanOrEqualTo("createdAt", bmobCreatedAtDate);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+```java
+/**
+ * 某个时间后
+ */
+private void large() throws ParseException {
+    String createdAt = "2018-11-23 10:30:00";
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date createdAtDate = sdf.parse(createdAt);
+    BmobDate bmobCreatedAtDate = new BmobDate(createdAtDate);
+
+
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereGreaterThan("createdAt", bmobCreatedAtDate);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+```java
+/**
+ * 某个时间及以后
+ */
+private void largeEqual() throws ParseException {
+    String createdAt = "2018-11-23 10:30:00";
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date createdAtDate = sdf.parse(createdAt);
+    BmobDate bmobCreatedAtDate = new BmobDate(createdAtDate);
+
+
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereGreaterThanOrEqualTo("createdAt", bmobCreatedAtDate);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+
+```java
+/**
+ * 期间
+ */
+private void duration() throws ParseException {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    String createdAtStart = "2018-11-23 10:29:59";
+    Date createdAtDateStart = sdf.parse(createdAtStart);
+    BmobDate bmobCreatedAtDateStart = new BmobDate(createdAtDateStart);
+
+    String createdAtEnd = "2018-11-23 10:30:01";
+    Date createdAtDateEnd = sdf.parse(createdAtEnd);
+    BmobDate bmobCreatedAtDateEnd = new BmobDate(createdAtDateEnd);
+
+
+    BmobQuery<Category> categoryBmobQueryStart = new BmobQuery<>();
+    categoryBmobQueryStart.addWhereGreaterThanOrEqualTo("createdAt", bmobCreatedAtDateStart);
+    BmobQuery<Category> categoryBmobQueryEnd = new BmobQuery<>();
+    categoryBmobQueryEnd.addWhereLessThanOrEqualTo("createdAt", bmobCreatedAtDateEnd);
+    List<BmobQuery<Category>> queries = new ArrayList<>();
+    queries.add(categoryBmobQueryStart);
+    queries.add(categoryBmobQueryStart);
+
+
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.and(queries);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
 
 #### 数组查询
 
-对于字段类型为数组的情况，需要查找字段中的数组值包含有xxx的对象，可以使用`addWhereContainsAll`方法：
+对于字段类型为数组的情况，需要查找字段中的数组值是否有被包含的对象，可以使用`addWhereContainsAll`方法：
 
-比如我想查询有阅读和唱歌爱好的人，可以这样：
-
+查询有A和B别名的用户：
 ```java
-BmobQuery<Person> query = new BmobQuery<Person>();
-String [] hobby = {"阅读","唱歌"};
-query.addWhereContainsAll("hobby", Arrays.asList(hobby));
-query.findObjects(new FindListener<Person>() {
-
-    @Override
-	public void done(List<Person> object, BmobException e) {
-		if(e==null){
-			...
-		}else{
-			...
-		}
-	}
-
-});
+/**
+ * 包含所有
+ */
+private void containAll() {
+    BmobQuery<User> userBmobQuery = new BmobQuery<>();
+    String[] alias = new String[]{"A", "B"};
+    userBmobQuery.addWhereContainsAll("alias", Arrays.asList(alias));
+    userBmobQuery.findObjects(new FindListener<User>() {
+        @Override
+        public void done(List<User> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnContain, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnContain, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
 #### 模糊查询
@@ -1069,7 +2534,7 @@ bmobQuery.findObjects(new FindListener<Person>() {
 
 ### 统计查询
 
-从`BmobSDKV3.3.6`开始，Bmob为开发者提供了以下关键字或其组合的统计查询操作,分别用于计算`总和、平均值、最大值、最小值`，同时支持分组和过滤条件。
+Bmob为开发者提供了以下关键字或其组合的统计查询操作，分别用于计算`总和、平均值、最大值、最小值`，同时支持分组和过滤条件。
 
 |方法名|参数说明|方法说明|
 |:---|:---|:---|
@@ -1084,204 +2549,184 @@ bmobQuery.findObjects(new FindListener<Person>() {
 注：
 1、为避免和用户创建的列名称冲突，Bmob约定以上查询返回的字段采用`_(关键字)+首字母大写的列名` 的格式：
 例：
-计算玩家得分表（GameScore）中列名为score的总和，那么返回的结果集会有一个列名为`_sumScore`，
+计算用户表（_User）中列名为score的总和，那么返回的结果集会有一个列名为`_sumScore`，
 若设置了setHasGroupCount（true）,则结果集中会返回`_count`。
-2、以上方法可自由组合且与之前的查询语句中的where, order, limit, skip等组合一起使用。
-3、因为返回格式不固定，故使用`findStatistics`来专门处理统计查询。
-
-#### 统计查询方法
-
-例如，如果要计算所有玩家的得分总和，那么代码如下：
-
+2、因为返回格式不固定，故使用`findStatistics`来专门处理统计查询。
 ```java
-BmobQuery<GameScore> query = new BmobQuery<GameScore>();
-query.sum(new String[] { "playScore" });
-query.findStatistics(GameScore.class,new QueryListener<JSONArray>() {
+/**
+ * TODO 不带groupby的查询结果，统计全部。
+ * [{
+ * 	"_avgFault": 1.625,
+ * 	"_avgFoul": 3.75,
+ * 	"_avgScore": 25.75,
+ * 	"_avgSteal": 2,
+ * 	"_count": 79,
+ * 	"_maxFault": 3,
+ * 	"_maxFoul": 6,
+ * 	"_maxScore": 53,
+ * 	"_maxSteal": 4,
+ * 	"_minFault": 1,
+ * 	"_minFoul": 2,
+ * 	"_minScore": 11,
+ * 	"_minSteal": 1,
+ * 	"_sumFault": 13,
+ * 	"_sumFoul": 30,
+ * 	"_sumScore": 206,
+ * 	"_sumSteal": 16
+ * }]
+ */
+/**
+ * TODO 带groupby的查询结果，根据country分组统计。
+ * [{
+ * "_avgFault": 1.6666666666666667,
+ * "_avgFoul": 2.3333333333333335,
+ * "_avgScore": 25.666666666666668,
+ * "_avgSteal": 1.3333333333333333,
+ * "_count": 3,
+ * "_maxFault": 2,
+ * "_maxFoul": 3,
+ * "_maxScore": 53,
+ * "_maxSteal": 2,
+ * "_minFault": 1,
+ * "_minFoul": 2,
+ * "_minScore": 12,
+ * "_minSteal": 1,
+ * "_sumFault": 5,
+ * "_sumFoul": 7,
+ * "_sumScore": 77,
+ * "_sumSteal": 4,
+ * "country": "china"
+ * }, {
+ * "_avgFault": 2,
+ * "_avgFoul": 4.5,
+ * "_avgScore": 22,
+ * "_avgSteal": 2.5,
+ * "_count": 2,
+ * "_maxFault": 3,
+ * "_maxFoul": 5,
+ * "_maxScore": 23,
+ * "_maxSteal": 3,
+ * "_minFault": 1,
+ * "_minFoul": 4,
+ * "_minScore": 21,
+ * "_minSteal": 2,
+ * "_sumFault": 4,
+ * "_sumFoul": 9,
+ * "_sumScore": 44,
+ * "_sumSteal": 5,
+ * "country": "usa"
+ * }, {
+ * "_avgFault": 1.3333333333333333,
+ * "_avgFoul": 4.666666666666667,
+ * "_avgScore": 28.333333333333332,
+ * "_avgSteal": 2.3333333333333335,
+ * "_count": 3,
+ * "_maxFault": 2,
+ * "_maxFoul": 6,
+ * "_maxScore": 43,
+ * "_maxSteal": 4,
+ * "_minFault": 1,
+ * "_minFoul": 2,
+ * "_minScore": 11,
+ * "_minSteal": 1,
+ * "_sumFault": 4,
+ * "_sumFoul": 14,
+ * "_sumScore": 85,
+ * "_sumSteal": 7,
+ * "country": "uk"
+ * }, {
+ * "_avgFault": null,
+ * "_avgFoul": null,
+ * "_avgScore": null,
+ * "_avgSteal": null,
+ * "_count": 71,
+ * "_maxFault": null,
+ * "_maxFoul": null,
+ * "_maxScore": null,
+ * "_maxSteal": null,
+ * "_minFault": null,
+ * "_minFoul": null,
+ * "_minScore": null,
+ * "_minSteal": null,
+ * "_sumFault": 0,
+ * "_sumFoul": 0,
+ * "_sumScore": 0,
+ * "_sumSteal": 0,
+ * "country": null
+ * }]
+ */
 
-	@Override
-	public void done(JSONArray ary, BmobException e) {
-		if(e==null){
-			if(ary!=null){//
-				try {
-					JSONObject obj = ary.getJSONObject(0);
-					int sum = obj.getInt("_sumPlayScore");//_(关键字)+首字母大写的列名
-					showToast("游戏总得分：" + sum);
-				} catch (JSONException e1) {
-					e1.printStackTrace();
-				}
-			}else{
-				showToast("查询成功，无数据");
-			}
-		}else{
-			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
+/**
+ * TODO 带groupby和having的查询结果
+ * [{
+ * 	"_avgFault": 1.3333333333333333,
+ * 	"_avgFoul": 4.666666666666667,
+ * 	"_avgScore": 28.333333333333332,
+ * 	"_avgSteal": 2.3333333333333335,
+ * 	"_count": 3,
+ * 	"_maxFault": 2,
+ * 	"_maxFoul": 6,
+ * 	"_maxScore": 43,
+ * 	"_maxSteal": 4,
+ * 	"_minFault": 1,
+ * 	"_minFoul": 2,
+ * 	"_minScore": 11,
+ * 	"_minSteal": 1,
+ * 	"_sumFault": 4,
+ * 	"_sumFoul": 14,
+ * 	"_sumScore": 85,
+ * 	"_sumSteal": 7,
+ * 	"country": "uk"
+ * }]
+ */
 
-});
-
-```
-
-注：`sum方法的参数只能查询Number类型的列名（对应Java的Integer类型）`，即要计算哪个列的值的总和。
-
-查询平均值、最大、最小和上面的求和类似，在这里也一并提示下：
-
-```java
-BmobQuery<GameScore> query = new BmobQuery<GameScore>();
-//query.average(new String[]{"playScore"});//查询某列的平均值
-query.min(new String[]{"playScore"});//查询最小值
-//query.max(new String[]{"playScore"});//查询最大值
-query.groupby(new String[]{"createdAt"});
-query.findStatistics(GameScore.class, new QueryListener<JSONArray>() {
-
-	@Override
-	public void done(JSONArray ary, BmobException e) {
-		if(e==null){
-			JSONArray ary = (JSONArray) result;
-			if (ary!=null) {
-				try {
-					JSONObject obj = ary.getJSONObject(0);
-	//				int playscore = obj.getInt("_avgPlayScore");
-					int minscore = obj.getInt("_minPlayScore");
-	//				int maxscore = obj.getInt("_maxPlayScore");
-					String createDate = obj.getString("createdAt");
-					showToast("minscore = " + minscore+ ",统计时间 = "+ createDate);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-		} else {
-			showToast("查询成功，无数据");
-		}
-		}else{
-			loge(e);
-		}
-	}
-});
-
-```
-
-#### 分组统计
-
-如果你需要对查询结果进行分组，可使用`groupby`方法，支持根据多个列名进行分组。
-
-```java
-//我们以创建时间按天和游戏分别统计玩家的得分，并按时间降序
-BmobQuery<GameScore> query = new BmobQuery<GameScore>();
-query.sum(new String[] { "playScore", "signScore" });//求多个列的总和
-query.groupby(new String[] { "createdAt", "game" });//按照时间和游戏名进行分组
-query.order("-createdAt");//降序排列
-query.findStatistics(GameScore.class,new QueryListener<JSONArray>() {
-
-	@Override
-	public void done(JSONArray ary, BmobException e) {
-		if(e==null){
-			if(ary!=null){
-				int length = ary.length();
-				try {
-					for (int i = 0; i < length; i++) {
-						JSONObject obj = ary.getJSONObject(i);
-						int playscore = obj.getInt("_sumPlayScore");
-						int signscore = obj.getInt("_sumSignScore");
-						String createDate = obj.getString("createdAt");
-						String game = obj.getString("game");
-						showToast("游戏总得分：" + playscore + ",签到得分："
-								+ signscore + ",时间:" + createDate+",game:"+game);
-					}
-				} catch (JSONException e1) {
-					e1.printStackTrace();
-				}
-			} else {
-				showToast("查询成功，无数据");
-			}
-		}else{
-			loge(e);
-		}
-	}
-});
-```
-
-有时候，我们需要知道分组统计时每个分组有多少条记录，可使用`setHasGroupCount（true）`,如下：
-
-```java
-// 查询创建时间按天统计所有玩家的得分和每一天有多少条玩家的得分记录，并按时间降序:
-BmobQuery<GameScore> query = new BmobQuery<GameScore>();
-query.sum(new String[] { "playScore" });    // 统计总得分
-query.groupby(new String[] { "createdAt" });// 按照时间分组
-query.order("-createdAt");                  // 降序排列
-query.setHasGroupCount(true);              // 统计每一天有多少个玩家的得分记录，默认不返回分组个数
-query.findStatistics(GameScore.class,new QueryListener<JSONArray>() {
-
-	@Override
-	public void done(JSONArray ary, BmobException e) {
-		if(e==null){
-			if (ary!=null) {
-				int length = ary.length();
-				try {
-					for (int i = 0; i < length; i++) {
-						JSONObject obj = ary.getJSONObject(i);
-						int playscore = obj.getInt("_sumPlayScore");
-						String createDate = obj.getString("createdAt");
-						int count = obj.getInt("_count");//setHasGroupCount设置为true时，返回的结果中含有"_count"字段
-						showToast("游戏总得分：" + playscore + ",总共统计了"
-								+ count + "条记录,统计时间 = "+ createDate);
-					}
-				} catch (JSONException e1) {
-					e1.printStackTrace();
-				}
-			} else {
-				showToast("查询成功，无数据");
-			}
-		}else{
-			loge(e);
-		}
-	}
-});
-```
-
-#### 添加过滤条件
-
-如果需要对分组计算后的结果再进行过滤，可使用`having`来继续过滤部分结果。
-
-```java
-//我们按游戏名统计所有玩家的总得分，并只返回总得分大于100的记录，并按时间降序
-BmobQuery<GameScore> query = new BmobQuery<GameScore>();
-query.sum(new String[] {"playScore"});//计算总得分数
-query.groupby(new String[] {"game"});//分组条件：按游戏名进行分组
-query.order("-createdAt");// 降序排列
-HashMap<String, Object> map = new HashMap<String, Object>();
-JSONObject js = new JSONObject();
-try {
-	js.put("$gt", 100);
-} catch (JSONException e1) {
+/**
+ * “group by”从字面意义上理解就是根据“by”指定的规则对数据进行分组，所谓的分组就是将一个“数据集”划分成若干个“小区域”，然后针对若干个“小区域”进行数据处理。
+ * where 子句的作用是在对查询结果进行分组前，将不符合where条件的行去掉，即在分组之前过滤数据，where条件中不能包含聚组函数，使用where条件过滤出特定的行。
+ * having 子句的作用是筛选满足条件的组，即在分组之后过滤数据，条件中经常包含聚组函数，使用having 条件过滤出特定的组，也可以使用多个分组标准进行分组。
+ *
+ * @throws JSONException
+ */
+private void statistics() throws JSONException {
+    BmobQuery<User> bmobQuery = new BmobQuery<>();
+    //总和
+    bmobQuery.sum(new String[]{"score", "steal", "foul", "fault"});
+    //平均值
+    bmobQuery.average(new String[]{"score", "steal", "foul", "fault"});
+    //最大值
+    bmobQuery.max(new String[]{"score", "steal", "foul", "fault"});
+    //最小值
+    bmobQuery.min(new String[]{"score", "steal", "foul", "fault"});
+    //是否返回所统计的总条数
+    bmobQuery.setHasGroupCount(true);
+    //根据所给列分组统计
+    bmobQuery.groupby(new String[]{"country"});
+    //对统计结果进行过滤
+    HashMap<String, Object> map = new HashMap<>(1);
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("$gt", 28);
+    map.put("_avgScore", jsonObject);
+    bmobQuery.having(map);
+    //开始统计查询
+    bmobQuery.findStatistics(User.class, new QueryListener<JSONArray>() {
+        @Override
+        public void done(JSONArray jsonArray, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnStatistics, "查询成功：" + jsonArray.length(), Snackbar.LENGTH_LONG).show();
+                try {
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                    int sum = jsonObject.getInt("_sumScore");
+                    Snackbar.make(mBtnStatistics, "sum：" + sum, Snackbar.LENGTH_LONG).show();
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnStatistics, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
 }
-map.put("_sumPlayScore", js);//过滤条件：总得分数大于100
-query.having(map);
-query.setLimit(100);
-query.findStatistics(GameScore.class,new QueryListener<JSONArray>() {
-
-	@Override
-	public void done(JSONArray ary, BmobException e) {
-		if(e==null){
-			if(ary!=null){
-				int length = ary.length();
-				try {
-					for (int i = 0; i < length; i++) {
-						JSONObject obj = ary.getJSONObject(i);
-						int playscore = obj.getInt("_sumPlayScore");//过滤条件的key是什么，返回的数据中就有什么
-						String game = obj.getString("game");//返回的数据中同样包含groupby里面的列名
-						showToast("游戏得分：" + playscore + ",游戏名 = "+ game);
-					}
-				} catch (JSONException e1) {
-					e1.printStackTrace();
-				}
-			} else {
-				showToast("查询成功，无数据");
-			}
-		}else{
-			loge(e);
-		}
-	}
-
-});
 
 ```
 
@@ -1650,7 +3095,7 @@ query.doSQLQuery(new SQLQueryListener<GameScore>(){
 **只有`第一种查询方式`才能和`query.hasCachedResult(context,class)`或者`query.clearCachedResult(context,class)`并列使用。**
 **建议使用`第一种查询方式`进行BQL缓存查询。**
 
-## 数组
+# 数组
 对于数组类型数据，BmobSDK提供了3种操作来原子性地修改一个数组字段的值：
 
  - **add、addAll** 在一个数组字段的后面添加一些指定的对象(包装在一个数组内)
@@ -1813,427 +3258,7 @@ query.findObjects(new FindListener<Person>() {
 });
 ```
 
-## 数据关联性
 
-### 关联关系描述
-
-在程序设计中，不同类型的数据之间可能存在某种关系。
-比如：帖子和作者的关系，一篇帖子只属于某个作者，这是`一对一的关系`。
-比如：帖子和评论的关系，一条评论只属于某一篇帖子，而一篇帖子对应有很多条评论，这是`一对多的关系`。
-比如：学生和课程的关系，一个学生可以选择很多课程，一个课程也可以被很多学生所选择，这是`多对多的关系`。
-
-Bmob提供了`Pointer（一对一、一对多）`和`Relation（多对多）`两种数据类型来解决这种业务需求。
-
-#### 关联关系案例详解
-由于关联关系讲解起来比较复杂，以下用一个简单的案例来说明在Bmob中是如何使用关联关系的。
-
-场景：**用户发表帖子，同时又可对帖子进行评论留言。**
-
-在这个场景中涉及到三个表：用户表（`_User`）、帖子表（`Post`）、评论表（`Comment`）,以下是各个表的字段：
-
-`_User`字段如下：
-
-|字段|类型|含义|
-|:---|:---|:---|
-|objectId|String|用户ID|
-|username|String|用户名(可以既发帖子又发评论)|
-|age|Integer|年龄|
-
-`Post`字段如下：
-
-|字段|含义|类型|
-|:---|:---|:---|
-|objectId|String|帖子ID|
-|title|String|帖子标题|
-|content|String|帖子内容|
-|author|Pointer|帖子作者|
-|likes|Relation|喜欢帖子的读者|
-
-`Comment`字段如下：
-
-|字段|含义|类型|
-|:---|:---|:---|
-|objectId|String|评论ID|
-|content|String|评论内容|
-|post|Pointer|评论对应的帖子|
-|author|Pointer|评论该帖子的人|
-
-#### Web端创建关联字段
-如果你需要在Web端创建上述表的话，那么当选择的字段类型为`Pointer或Relation`时，会提示你选择该字段所指向或关联的数据表。
-
-如下图所示：
-
-![图1 创建关联字段](image/createline.png)
-
-#### 创建数据对象
-
-```java
-public class MyUser extends BmobUser {
-
-	private Integer age;//为用户表新增一个age字段，注意其必须为`Integer`类型，而不是int
-
-	//自行实现getter和setter方法
-}
-
-```
-
-**1、扩展BmobUser的时，不需要再加上`objectId、username、password、createAt、updateAt`等系统字段，因为BmobUser中已经实现了，如果再次声明的话，会导致编译性的错误。**
-
-**2、类名可以自定义，这个跟其他表的命名方式有所不同。**
-
-```java
-
-public class Post extends BmobObject {
-
-	private String title;//帖子标题
-
-	private String content;// 帖子内容
-
-	private MyUser author;//帖子的发布者，这里体现的是一对一的关系，该帖子属于某个用户
-
-	private BmobFile image;//帖子图片
-
-	private BmobRelation likes;//多对多关系：用于存储喜欢该帖子的所有用户
-
-	//自行实现getter和setter方法
-
-}
-
-```
-
-```java
-
-public class Comment extends BmobObject {
-
-	private String content;//评论内容  
-
-	private MyUser user;//评论的用户，Pointer类型，一对一关系
-
-	private Post post; //所评论的帖子，这里体现的是一对多的关系，一个评论只能属于一个微博
-
-	//自行实现getter和setter方法
-}
-
-```
-
-**注：**
-
-**1、类名要和数据表名保持一致。**
-
-**2、MyUser属性对应为Pointer的指针类型。**
-
-以下举例均假定A用户已注册并登陆
-
-![图1](image/userA.png)
-
-### 一对一关系
-
-**用户发表帖子，一篇帖子也只能属于某个用户，那么帖子和用户之间的关系是`一对一关系`，建议使用`Pointer`类型来表示。**
-
-`Pointer`本质上可以看成是我们将一个指向某条记录的指针记录下来，我们查询时可以通过该指针来获得其指向的关联对象。
-
-用户A写了一篇帖子，需要在`Post`表中生成一条记录，并将该帖子关联到用户A这条记录，表明该帖子是A所发表的。
-
-示例如下：
-
-#### 添加一对一关联
-
-```java
-MyUser user = BmobUser.getCurrentUser(MyUser.class);
-// 创建帖子信息
-Post post = new Post();
-post.setContent(content);
-//添加一对一关联
-post.setAuthor(user);
-post.save(new SaveListener<String>() {
-
-	@Override
-	public void done(String objectId,BmobException e) {
-		if(e==null){
-			Log.i("bmob","保存成功");
-		}else{
-			Log.i("bmob","保存失败："+e.getMessage());
-		}
-	}
-});
-
-```
-
-添加成功后，在后台的`Post`表中，你就会看到有一条记录生成，并且该帖子的`author`字段的值指向了`_User`表中的`用户A`这条记录。
-
-![图1](image/post1.png)
-
-#### 查询一对一关联
-如果想查询`用户A`(当前用户)所发表的所有帖子，那么可以这样：
-
-```java
-MyUser user = BmobUser.getCurrentUser(MyUser.class);
-BmobQuery<Post> query = new BmobQuery<Post>();
-query.addWhereEqualTo("author", user);	// 查询当前用户的所有帖子
-query.order("-updatedAt");
-query.include("author");// 希望在查询帖子信息的同时也把发布人的信息查询出来
-query.findObjects(new FindListener<Post>() {
-
-	@Override
-	public void done(List<Post> object,BmobException e) {
-		if(e==null){
-			Log.i("bmob","成功");
-		}else{
-			Log.i("bmob","失败："+e.getMessage());
-		}
-	}
-
-});
-
-```
-
-**注：如果想查询某个用户所发表的所有帖子，则将该用户查询出来，然后使用上述代码查询指定用户所发表的所有帖子。**
-
-#### 更新一对一关联
-
-如果希望将刚刚这条帖子的作者修改成`用户B`,示例：
-
-```java
-Post p = new Post();
-//构造用户B，如果你知道用户B的objectId的话，可以使用这种方式进行关联，如果不知道的话，你需要将用户B查询出来
-// 这里假设已知用户B的objectId为aJyG2224
-MyUser userB =new MyUser();
-userB.setObjectId("aJyG2224");
-p.setAuthor(userB);//重新设置帖子作者
-p.update("ESIt3334", new UpdateListener() {
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			Log.i("bmob","成功");
-		}else{
-			Log.i("bmob","失败："+e.getMessage());
-		}
-	}
-
-});
-
-```
-
-修改成功后，在后台可查看到这个帖子的作者已经变更为用户B
-
-![图1](image/postupdate.png)
-
-#### 删除一对一关联
-如果你想和`ESIt3334`这个帖子解除关联关系，可以这样：
-
-```java
-Post p = new Post();
-p.remove("author");
-p.update("ESIt3334", new UpdateListener() {
-
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			Log.i("bmob","成功");
-		}else{
-			Log.i("bmob","失败："+e.getMessage());
-		}
-	}
-});
-
-```
-
-删除成功后，在后台的`Post`表中，你就会看到`ESIt3334`这个帖子的`author`字段的值已经被置空了。
-
-![图1](image/postdelete.png)
-
-### 一对多关系
-**一条评论只能属于某一篇帖子，一篇帖子可以有很多用户对其进行评论，那么帖子和评论之间的关系就是`一对多关系`，推荐使用`pointer`类型来表示**。
-
-因为使用方法和上面的一对一关联基本相同，只是查询一对多关联的时候有些区别，故只举添加和查询两个例子：
-
-
-#### 添加一对多关联
-将评论和微博进行关联，并同时和当前用户进行关联，表明是当前用户对该帖子进行评论，示例如下：
-
-```java
-MyUser user = BmobUser.getCurrentUser(MyUser.class);
-Post post = new Post();
-post.setObjectId("ESIt3334");
-final Comment comment = new Comment();
-comment.setContent(content);
-comment.setPost(post);
-comment.setUser(user);
-comment.save(new SaveListener<String>() {
-
-	@Override
-	public void done(String objectId,BmobException e) {
-		if(e==null){
-			Log.i("bmob","评论发表成功");
-		}else{
-			Log.i("bmob","失败："+e.getMessage());
-		}
-	}
-
-});
-
-```
-
-#### 查询一对多关联
-
-我想`查询出某个帖子（objectId为ESIt3334）的所有评论,同时将该评论的作者的信息也查询出来`，那么可以使用`addWhereEqualTo`方法进行查询：
-
-```java
-BmobQuery<Comment> query = new BmobQuery<Comment>();
-//用此方式可以构造一个BmobPointer对象。只需要设置objectId就行
-Post post = new Post();
-post.setObjectId("ESIt3334");
-query.addWhereEqualTo("post",new BmobPointer(post));		
-//希望同时查询该评论的发布者的信息，以及该帖子的作者的信息，这里用到上面`include`的并列对象查询和内嵌对象的查询
-query.include("user,post.author");
-query.findObjects(new FindListener<Comment>() {
-
-	@Override
-	public void done(List<Comment> objects,BmobException e) {
-		...
-	}
-});
-
-```
-
-注：`addWhereEqualTo`对`BmobPonter`类型的一对多的关联查询是`BmobSDKV3.3.8`开始支持的，因此使用时，请更新SDK版本。
-
-
-### 多对多关系
-
-**一个帖子可以被很多用户所喜欢，一个用户也可能会喜欢很多帖子，那么可以使用`Relation`类型来表示这种`多对多关联关系`**。
-
-`Relation`本质上可以理解为其存储的是一个对象，而这个对象中存储的是多个指向其它记录的指针。
-
-#### 添加多对多关联
-
-```java
-MyUser user = BmobUser.getCurrentUser(MyUser.class);
-Post post = new Post();
-post.setObjectId("ESIt3334");
-//将当前用户添加到Post表中的likes字段值中，表明当前用户喜欢该帖子
-BmobRelation relation = new BmobRelation();
-//将当前用户添加到多对多关联中
-relation.add(user);
-//多对多关联指向`post`的`likes`字段
-post.setLikes(relation);
-post.update(new UpdateListener() {
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			Log.i("bmob","多对多关联添加成功");
-		}else{
-			Log.i("bmob","失败："+e.getMessage());
-		}
-	}
-
-});
-
-```
-添加成功后，在后台的`Post`表中就能查看到`likes`字段已经生成并对应到了`_User`
-
-![图1](image/relation.png)
-
-点击红框中的`关联关系`按钮展开后，可查看刚才所添加的喜欢该帖子的用户A：
-
-![图1](image/likes.png)
-
-
-#### 查询多对多关联
-
-如果希望`查询喜欢该帖子（objectId为ESIt3334）的所有用户`,那么就需要用到`addWhereRelatedTo`方法进行多对多关联查询。
-
-示例代码：
-
-```java
-// 查询喜欢这个帖子的所有用户，因此查询的是用户表
-BmobQuery<MyUser> query = new BmobQuery<MyUser>();
-Post post = new Post();
-post.setObjectId("ESIt3334");
-//likes是Post表中的字段，用来存储所有喜欢该帖子的用户
-query.addWhereRelatedTo("likes", new BmobPointer(post));
-query.findObjects(new FindListener<MyUser>() {
-
-	@Override
-	public void done(List<MyUser> object,BmobException e) {
-		if(e==null){
-			Log.i("bmob","查询个数："+object.size());
-		}else{
-			Log.i("bmob","失败："+e.getMessage());
-		}
-	}
-
-});
-
-```
-
-#### 修改多对多关联
-
-如果`用户B也喜欢该帖子（objectId为ESIt3334）`，此时需要为该帖子(Post)的`likes`字段多添加一个用户,示例如下：
-
-```java
-Post post = new Post();
-post.setObjectId("ESIt3334");
-//将用户B添加到Post表中的likes字段值中，表明用户B喜欢该帖子
-BmobRelation relation = new BmobRelation();
-//构造用户B
-MyUser user = new MyUser();
-user.setObjectId("aJyG2224");
-//将用户B添加到多对多关联中
-relation.add(user);
-//多对多关联指向`post`的`likes`字段
-post.setLikes(relation);
-post.update(new UpdateListener() {
-
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			Log.i("bmob","用户B和该帖子关联成功");
-		}else{
-			Log.i("bmob","失败："+e.getMessage());
-		}
-	}
-
-});
-
-```
-
-修改成功后，你在点击该帖子的`likes`字段下面的`关联关系`按钮展开后，可查看刚才所添加的喜欢该帖子的用户B：
-
-![图1](image/updaterelation.png)
-
-
-#### 删除多对多关联
-
-
-如果`想对该帖子进行取消喜欢的操作`，此时，需要删除之前的多对多关联，具体代码：
-
-```java
-Post post = new Post();
-post.setObjectId("83ce274594");
-MyUser user = BmobUser.getCurrentUser(MyUser.class);
-BmobRelation relation = new BmobRelation();
-relation.remove(user);
-post.setLikes(relation);
-post.update(new UpdateListener() {
-
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			Log.i("bmob","关联关系删除成功");
-		}else{
-			Log.i("bmob","失败："+e.getMessage());
-		}
-	}
-
-});
-
-```
-
-**1 例子中的Comment和Post表请大家注意下在后端控制台建表的数据类型是Pointer还是Relation 否则返回类型不匹配的111错误，表的结构和字段类型如下：**
-![Post](http://i.imgur.com/o4giGoy.png)
-![Comment](http://i.imgur.com/RmsP7m8.png)
-**2 为方便大家了解学习，我们提供了一个关于数据关联的Demo，下载地址是：https://github.com/bmob/RelationDemo**
 ### include用法
 
 
@@ -2360,803 +3385,19 @@ query.findObjects(new FindListener<Post>() {
 });
 ```
 
-## 用户管理
 
-用户是一个应用程序的核心。对于个人开发者来说，自己的应用程序积累到越多的用户，就会给自己带来越强的创作动力。因此Bmob提供了一个专门的用户类——BmobUser来自动处理用户账户管理所需的功能。
 
-有了这个类，你就可以在你的应用程序中添加用户账户功能。
 
-BmobUser是BmobObject的一个子类，它继承了BmobObject所有的方法，具有BmobObject相同的功能。不同的是，BmobUser增加了一些特定的关于用户账户管理相关的功能。
 
-### 属性
-BmobUser除了从BmobObject继承的属性外，还有几个特定的属性：
-username: 用户的用户名`（必需）`。
-password: 用户的密码`（必需）`。
-email: 用户的电子邮件地址`（可选）`。
-emailVerified:邮箱认证状态`（可选）`。
-mobilePhoneNumber：手机号码`（可选）`。
-mobilePhoneNumberVerified：手机号码的认证状态`（可选）`。
 
-### 扩展用户类
 
-很多时候，你的用户表还会有很多其他字段，如性别、年龄、头像等。那么，你需要对BmobUser类进行扩展，添加一些新的属性。示例代码如下所示：
 
-```java
-public class MyUser extends BmobUser {
 
-	private Boolean sex;
-	private String nick;
-	private Integer age;
 
-	public boolean getSex() {
-		return this.sex;
-	}
 
-	public void setSex(boolean sex) {
-		this.sex = sex;
-	}
 
-	public String getNick() {
-		return this.nick;
-	}
 
-	public void setNick(String nick) {
-		this.nick = nick;
-	}
-
-	public Integer getAge() {
-		return age;
-	}
-
-	public void setAge(Integer age) {
-		this.age = age;
-	}
-}
-```
-
-更多代码实现大家可以下载SDK，在里面的`BmobExample`中查找`MyUser`类，参考它的用法。
-
-### 创建用户
-
-创建用户对象如下：
-```java
-BmobUser user = new BmobUser();
-```
-
-### 注册
-
-你的应用程序可能会要求用户注册。下面的代码是一个典型的注册过程：
-```java
-BmobUser bu = new BmobUser();
-bu.setUsername("sendi");
-bu.setPassword("123456");
-bu.setEmail("sendi@163.com");
-//注意：不能用save方法进行注册
-bu.signUp(new SaveListener<MyUser>() {
-	@Override
-	public void done(MyUser s, BmobException e) {
-		if(e==null){
-			toast("注册成功:" +s.toString());
-		}else{
-			loge(e);
-		}
-	}
-});
-```
-
-在注册过程中，服务器会对注册用户信息进行检查，以确保注册的用户名和电子邮件地址是独一无二的。此外，对于用户的密码，你可以在应用程序中进行相应的加密处理后提交。
-
-如果注册不成功，你可以查看返回的错误对象。最有可能的情况是，用户名或电子邮件已经被另一个用户注册。这种情况你可以提示用户，要求他们尝试使用不同的用户名进行注册。
-
-你也可以要求用户使用Email做为用户名注册，这样做的好处是，你在提交信息的时候可以将输入的“用户名“默认设置为用户的Email地址，以后在用户忘记密码的情况下可以使用Bmob提供重置密码功能。
-
-**注：**
-
-- 有些时候你可能需要在用户注册时发送一封验证邮件，以确认用户邮箱的真实性。这时，你只需要登录自己的应用管理后台，在应用设置->邮件设置（下图）中把“邮箱验证”功能打开，Bmob云后端就会在注册时自动发动一封验证给用户。
-
-![](image/email_verify.png)
-
-- username字段是大小写敏感的字段，如果你希望应用的用户名不区分大小写，请在注册和登录时进行大小写的统一转换。
-
-### 登录
-
-当用户注册成功后，您需要让他们以后能够用注册的用户名登录到他们的账户使用应用。要做到这一点，你可以使用BmobUser类的login方法。
-```java
-BmobUser bu2 = new BmobUser();
-bu2.setUsername("lucky");
-bu2.setPassword("123456");
-bu2.login(new SaveListener<BmobUser>() {
-
-	@Override
-	public void done(BmobUser bmobUser, BmobException e) {
-		if(e==null){
-			toast("登录成功:");
-			//通过BmobUser user = BmobUser.getCurrentUser()获取登录成功后的本地用户信息
-			//如果是自定义用户对象MyUser，可通过MyUser user = BmobUser.getCurrentUser(MyUser.class)获取自定义用户信息
-		}else{
-			loge(e);
-		}
-	}
-});
-```
-
-也可使用如下方式完成`用户名+密码`的登录：
-
-```java
-BmobUser.loginByAccount("username", "用户密码", new LogInListener<MyUser>() {
-
-			@Override
-			public void done(MyUser user, BmobException e) {
-				if(user!=null){
-					Log.i("smile","用户登陆成功");
-				}
-			}
-		});
-
-```
-
-### 当前用户
-
-如果用户在每次打开你的应用程序时都要登录，这将会直接影响到你应用的用户体验。为了避免这种情况，你可以使用缓存的CurrentUser对象。缓存的用户有效期为1年。
-
-每当你应用的用户注册成功或是第一次登录成功，都会在本地磁盘中有一个缓存的用户对象，这样，你可以通过获取这个缓存的用户对象来进行登录：
-```java
-BmobUser bmobUser = BmobUser.getCurrentUser();
-if(bmobUser != null){
-	// 允许用户使用应用
-}else{
-	//缓存用户对象为空时， 可打开用户注册界面…
-}
-```
-
-在扩展了用户类的情况下获取当前登录用户，可以使用如下的示例代码（`MyUser`类可参看上面）：
-
-```java
-MyUser userInfo = BmobUser.getCurrentUser(MyUser.class);
-
-```
-
-**自`V3.4.5`版本开始，SDK新增了`getObjectByKey(context,key)`方法从本地缓存中获取当前登陆用户某一列的值。其中`key`为用户表的指定列名。**
-
-```java
-//BmobUser中的特定属性
-String username = (String) BmobUser.getObjectByKey("username");
-//MyUser中的扩展属性
-Integer age = (Integer) BmobUser.getObjectByKey("age");
-Boolean sex = (Boolean) BmobUser.getObjectByKey("sex");
-```
-
-#### 同步本地缓存的用户信息
-
-场景：用户已经登录的情况下，如果后端的用户信息有修改(如在控制台修改)，此时如果能同步下最新的用户信息并写到本地缓存中就会很方便，不用重新去登录。
-
-**自`V3.5.7`版本开始，SDK新增了`BmobUser.fetchUserJsonInfo(FetchUserInfoListener)`方法解决了用户信息的同步需求。**
-
-具体用法如下
-
-```java
-
-    /**
-     * 更新本地用户信息
-     * 注意：需要先登录，否则会报9024错误
-     *
-     * @see cn.bmob.v3.helper.ErrorCode#E9024S
-     */
-    private void fetchUserInfo() {
-        BmobUser.fetchUserJsonInfo(new FetchUserInfoListener<String>() {
-            @Override
-            public void done(String s, BmobException e) {
-                if (e == null) {
-                    log("Newest UserInfo is " + s);
-                } else {
-                    log(e);
-                }
-            }
-        });
-    }
-
-```
-
-
-### 更新用户
-
-很多情况下你可能需要修改用户信息，比如你的应用具备修改个人资料的功能，Bmob提供的用户更新方式有两种写法：
-
-第一种：`新建一个用户对象，并调用update(objectId,updateListener)方法来更新（推荐使用）`，示例：
-
-```java
-BmobUser newUser = new BmobUser();
-newUser.setEmail("xxx@163.com");
-BmobUser bmobUser = BmobUser.getCurrentUser(context);
-newUser.update(bmobUser.getObjectId(),new UpdateListener() {
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			toast("更新用户信息成功");
-		}else{
-			toast("更新用户信息失败:" + e.getMessage());
-		}
-	}
-});
-```
-
-第二种：获取本地的用户对象，并调用update（updateListener）方法来更新（`不推荐使用`），示例：
-
-```java
-BmobUser bmobUser = BmobUser.getCurrentUser();
-// 修改用户的邮箱为xxx@163.com
-bmobUser.setEmail("xxx@163.com");
-bmobUser.update(new UpdateListener() {
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			toast("更新用户信息成功");
-		}else{
-			toast("更新用户信息失败:" + e.getMessage());
-		}
-	}
-});
-```
-
-
-**1、开发者在进行用户更新操作的时候，推荐使用`第一种`方式来进行用户的更新操作,因为此方法只会更新你提交的用户信息（比如只会向服务器提交当前用户的email值），而不会将本地存储的用户信息也提交到后台更新。**
-
-**2、在更新用户信息时，如果用户邮箱有变更并且在管理后台打开了邮箱验证选项的话，Bmob云后端同样会自动发一封邮件验证信息给用户。**
-
-**3、需要先登录后才能更新用户信息 否则会返回206 User cannot be altered without sessionToken Error错误。**
-### 查询用户
-查询用户和查询普通对象一样，只需指定BmobUser类即可，如下：
-```java
-BmobQuery<BmobUser> query = new BmobQuery<BmobUser>();
-query.addWhereEqualTo("username", "lucky");
-query.findObjects(new FindListener<BmobUser>() {
-	@Override
-	public void done(List<BmobUser> object,BmobException e) {
-		if(e==null){
-			toast("查询用户成功:"+object.size());
-		}else{
-			toast("更新用户信息失败:" + e.getMessage());
-		}
-	}
-});
-```
-浏览器中查看用户表
-
-User表是一个特殊的表，专门存储BmobUser对象。在浏览器端，你会看到一个User表旁边有一个小人的图标。
-
-![](image/create_table.png)
-
-### 退出登录
-退出登录非常简单，可以使用如下的代码：
-
-```java
-BmobUser.logOut();   //清除缓存用户对象
-BmobUser currentUser = BmobUser.getCurrentUser(); // 现在的currentUser是null了
-```
-
-### 密码修改
-自`V3.4.3`版本开始，SDK为开发者提供了直接修改当前用户登录密码的方法，只需要传入旧密码和新密码，然后调用`BmobUser`提供的静态方法`updateCurrentUserPassword`即可，以下是示例：
-
-```java
-BmobUser.updateCurrentUserPassword("旧密码", "新密码", new UpdateListener() {
-
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			toast("密码修改成功，可以用新密码进行登录啦");
-		}else{
-			toast("失败:" + e.getMessage());
-		}
-	}
-
-});
-
-```
-
-### 邮箱
-
-#### 邮箱登录
-新增`邮箱+密码`登录方式,可以通过`loginByAccount`方法来操作：
-
-```java
-BmobUser.loginByAccount(account, password, new LogInListener<MyUser>() {
-
-			@Override
-			public void done(MyUser user, BmobException e) {
-				if(user!=null){
-					Log.i("smile","用户登陆成功");
-				}
-			}
-		});
-
-```
-
-#### 邮箱验证
-设置邮件验证是一个可选的应用设置, 这样可以对已经确认过邮件的用户提供一部分保留的体验，邮件验证功能会在用户(User)对象中加入emailVerified字段, 当一个用户的邮件被新添加或者修改过的话，emailVerified会被默认设为false，如果应用设置中开启了邮箱认证功能，Bmob会对用户填写的邮箱发送一个链接, 这个链接可以把emailVerified设置为 true.
-
-emailVerified 字段有 3 种状态可以考虑：
-
- - true : 用户可以点击邮件中的链接通过Bmob来验证地址，一个用户永远不会在新创建这个值的时候显示emailVerified为true。
- - false : 用户(User)对象最后一次被刷新的时候, 用户并没有确认过他的邮箱地址, 如果你看到emailVerified为false的话，你可以考虑刷新用户(User)对象。
- - missing : 用户(User)对象已经被创建，但应用设置并没有开启邮件验证功能； 或者用户(User)对象没有email邮箱。
-
-##### 请求验证Email
-发送给用户的邮箱验证邮件会在一周内失效，可以通过调用 `requestEmailVerify` 来强制重新发送：
-```java
-final String email = "xxx@qq.com";
-BmobUser.requestEmailVerify(email, new UpdateListener() {
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			toast("请求验证邮件成功，请到" + email + "邮箱中进行激活。");
-		}else{
-			toast("失败:" + e.getMessage());
-		}
-	}
-});
-```
-
-#### 邮箱重置密码
-开发者只需要求用户输入注册时的电子邮件地址即可：
-```java
-final String email = "xxx@163.com";
-BmobUser.resetPasswordByEmail(email, new UpdateListener() {
-
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			toast("重置密码请求成功，请到" + email + "邮箱进行密码重置操作");
-		}else{
-			toast("失败:" + e.getMessage());
-		}
-	}
-});
-```
-
-邮箱重置密码的流程如下：
-
-1. 用户输入他们的电子邮件，请求重置自己的密码。
-2. Bmob向他们的邮箱发送一封包含特殊的密码重置链接的电子邮件。
-3. 用户根据向导点击重置密码连接，打开一个特殊的Bmob页面，根据提示他们可以输入一个新的密码。
-4. 用户的密码已被重置为新输入的密码。
-
-
-### 手机号相关功能
-
-#### 手机号码登录
-
-在手机号码被验证后，用户可以使用该手机号码进行登录操作。
-
-手机号码登录包括两种方式：`手机号码＋密码`、`手机号码＋短信验证码`。
-
-##### 手机号码+密码
-
-```java
-BmobUser.loginByAccount("11位手机号码", "用户密码", new LogInListener<MyUser>() {
-
-	@Override
-	public void done(MyUser user, BmobException e) {
-		if(user!=null){
-			Log.i("smile","用户登陆成功");
-		}
-	}
-});
-
-```
-
-
-##### 手机号码+短信验证码
-
-先请求登录的短信验证码：
-
-```java
-BmobSMS.requestSMSCode("11位手机号码","模板名称", new QueryListener<Integer>() {
-
-	@Override
-	public void done(Integer smsId,BmobException ex) {
-		if(ex==null){//验证码发送成功
-			Log.i("smile", "短信id："+smsId);//用于后续的查询本次短信发送状态
-		}
-	}
-});
-
-```
-
-最后调用`loginBySMSCode`方法进行手机号码登录:
-
-```java
-BmobUser.loginBySMSCode("11位手机号码", code, new LogInListener<MyUser>() {
-
-		@Override
-		public void done(MyUser user, BmobException e) {
-			if(user!=null){
-				Log.i("smile","用户登陆成功");
-			}
-		}
-	});
-}
-
-```
-
-#### 手机号码一键注册或登录
-
-Bmob同样支持手机号码一键注册或登录，以下是一键登录的流程：
-
-
-1、请求登录操作的短信验证码：
-
-```java
-BmobSMS.requestSMSCode("11位手机号码","模板名称", new QueryListener<Integer>() {
-
-	@Override
-	public void done(Integer smsId,BmobException ex) {
-		if(ex==null){//验证码发送成功
-			Log.i("smile", "短信id："+smsId);//用于查询本次短信发送详情
-		}
-	}
-	});
-
-```
-
-2、用户收到短信验证码之后，就可以调用`signOrLoginByMobilePhone`方法来实现一键登录:
-
-```java
-BmobUser.signOrLoginByMobilePhone("11位手机号码", "验证码", new LogInListener<MyUser>() {
-
-	@Override
-	public void done(MyUser user, BmobException e) {
-		if(user!=null){
-			Log.i("smile","用户登陆成功");
-		}
-	}
-});
-
-```
-
-如果，你想在一键注册或登录的同时保存其他字段的数据的时，你可以使用`signOrLogin`方法（此方法`V3.4.3`版本提供）。
-
-比如，你想在手机号码注册或登录的同时，设置用户名及登录密码等信息，那么具体示例如下：
-
-```java
-
-MyUser user = new MyUser();
-user.setMobilePhoneNumber("11位手机号码");//设置手机号码（必填）
-user.setUsername(xxx);                  //设置用户名，如果没有传用户名，则默认为手机号码
-user.setPassword(xxx);                  //设置用户密码
-user.setAge(18);	                    //设置额外信息：此处为年龄
-user.signOrLogin("验证码", new SaveListener<MyUser>() {
-
-	@Override
-	public void done(MyUser user,BmobException e) {
-		if(e==null){
-			toast("注册或登录成功");
-			Log.i("smile", ""+user.getUsername()+"-"+user.getAge()+"-"+user.getObjectId());
-		}else{
-			toast("失败:" + e.getMessage());
-		}
-
-	}
-
-});
-
-```
-
-#### 绑定手机号码
-如果已有用户系统，需要为用户绑定手机号，那么官方推荐的绑定流程如下：
-
-第一步、先发送短信验证码并验证验证码的有效性,即调用`requestSMSCode`发送短信验证码，调用`verifySmsCode`来验证有效性。
-
-第二步、在验证成功之后更新当前用户的`MobilePhoneNumber`和`MobilePhoneNumberVerified`两个字段，具体绑定示例如下：
-
-```java
-User user =new User();
-user.setMobilePhoneNumber(phone);
-user.setMobilePhoneNumberVerified(true);
-User cur = BmobUser.getCurrentUser(User.class);
-user.update(cur.getObjectId(),new UpdateListener() {
-
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			toast("手机号码绑定成功");
-		}else{
-			toast("失败:" + e.getMessage());
-		}
-	}
-});
-
-```
-
-#### 手机号码重置密码
-Bmob自`V3.3.9`版本开始引入了短信验证系统，如果用户已经验证过手机号码或者使用过手机号码注册或登录过，也可以通过手机号码来重置用户密码，以下是官方建议使用的重置流程：
-
-1、请求重置密码操作的短信验证码：
-
-```java
-BmobSMS.requestSMSCode("11位手机号码","模板名称", new QueryListener<Integer>() {
-
-	@Override
-	public void done(Integer smsId,BmobException ex) {
-		if(ex==null){//验证码发送成功
-			Log.i("smile", "短信id："+smsId);//用于查询本次短信发送详情
-		}
-	}
-	});
-
-```
-
-2、用户收到重置密码的验证码之后，就可以调用`resetPasswordBySMSCode`方法来实现密码重置:
-
-```java
-BmobUser.resetPasswordBySMSCode(code,"1234567", new UpdateListener() {
-
-	@Override
-	public void done(BmobException ex) {
-		if(ex==null){
-			Log.i("smile", "密码重置成功");
-		}else{
-			Log.i("smile", "重置失败：code ="+ex.getErrorCode()+",msg = "+ex.getLocalizedMessage());
-		}
-	}
-});
-
-```
-
-重置成功以后，用户就可以使用新密码登陆了。
-
-**注：**
-
-**1、请开发者按照官方推荐的操作流程来完成重置密码操作。也就是说，开发者在进行重置密码操作时，无需调用`verifySmsCode`接口去验证该验证码的有效性。**
-
-**2、验证码只能使用一次，一旦该验证码被使用就会失效，那么再拿失效的验证码去调用重置密码接口，一定会报`207-验证码错误`。因为重置密码接口已经包含验证码的有效性验证。**
-
-#### 手机号码验证
-
-##### 请求发送短信验证码
-
-Bmob自`V3.3.9`版本开始引入了短信验证系统，可通过`requestSMSCode`方式请求发送短信验证码：
-
-```java
-BmobSMS.requestSMSCode("11位手机号码", "模板名称",new QueryListener<Integer>() {
-
-	@Override
-	public void done(Integer smsId,BmobException ex) {
-		if(ex==null){//验证码发送成功
-			Log.i("smile", "短信id："+smsId);//用于查询本次短信发送详情
-		}
-	}
-});
-
-```
-
-短信默认模板：
-
-```java
-
-	您的验证码是`%smscode%`，有效期为`%ttl%`分钟。您正在使用`%appname%`的验证码。【比目科技】
-
-```
-
-
-**注：**
-
-1、`模板名称`：模板名称需要开发者在应用的管理后台进行短信模板的添加工作，具体：`短信服务`->`短信模板`,之后点击创建即可。
-
-
-具体请看下图：
-
-![](image/sms.png)
-
-
-2、只有审核通过之后的自定义短信模板才可以被使用，如果自定义的短信模板其状态显示`审核中`或者`审核失败`,再调用该方法则会以`默认模板`来发送验证码。
-
-**3、开发者提交短信验证码模板时需注意以下几点：**
-
-**1）、模板中不能有【】和 [] ，否则审核不通过；**
-
-**2）、如果你提交的短信模板无法发送，则有可能包含一些敏感监控词，具体可去Github下载  [短信关键字监控参考文档](https://github.com/bmob/bmob-public-docs/blob/master/%E7%9F%AD%E4%BF%A1%E5%85%B3%E9%94%AE%E5%AD%97%E7%9B%91%E6%8E%A7%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3.doc)  来查看提交内容是否合法。**
-
-**3）、一天一个应用给同一手机号发送的短信不能超过10条，否则会报`10010`错误，其他错误码可查看[错误码文档](http://doc.bmob.cn/other/error_code/) 。**
-
-
-##### 验证验证码
-
-通过`verifySmsCode`方式可验证该短信验证码：
-
-```java
-BmobSMS.verifySmsCode("11位手机号码", "验证码", new UpdateListener() {
-
-	@Override
-	public void done(BmobException ex) {
-		if(ex==null){//短信验证码已验证成功
-			Log.i("smile", "验证通过");
-		}else{
-			Log.i("smile", "验证失败：code ="+ex.getErrorCode()+",msg = "+ex.getLocalizedMessage());
-		}
-	}
-});
-
-```
-
-验证成功后，用户的`mobilePhoneVerified`属性会自动变为`true`。
-
-
-
-**注意事项：**
-
-**关于短信条数的计算规则如下:**
-
-1. 实际计算的短信字数 = 模板的内容或自定义短信的内容字数 + 6。加上6是因为默认的签名【比目科技】占了6个字。
-2. 实际计算的短信字数在70个字以下算1条。
-3. 实际计算的短信字数超过70字的以67字为一条来计算的。也就是135个字数是计算为3条的。
-4. 计算得到的短信条数在本条短信发送成功后将会从你的账户剩余的短信条数中扣除。
-
-**短信发送限制规则是1/分钟，5/小时，10/天。即对于一个应用来说，一天给同一手机号发送短信不能超过10条，一小时给同一手机号发送短信不能超过5条，一分钟给同一手机号发送短信不能超过1条。**
-
-
-#### 短信验证案例
-
-为了方便大家，官方提供了一个短信验证的demo：[https://github.com/bmob/bmob_android_demo_sms](https://github.com/bmob/bmob_android_demo_sms) 。
-
-此案例包含了：`用户名/邮箱/手机号码+密码登录`、`手机号码一键注册登录`、`绑定手机号`以及`通过手机号重置用户密码`。
-
-### 第三方账号登陆
-
-Bmob提供了非常简单的方法来实现第三方账号登陆的功能，目前支持`新浪微博`、`QQ账号`、`微信账号`的登陆。
-
-自`BmobV3.3.9`版本开始，为了与第三方开放平台的SDK解藕，Bmob使用了全新的第三方账号登录方式，之前的微博和qq登录方式的API已删除。
-
-#### 应用场景
-
-第三方账号登陆目前适应以下两种应用场景：
-
-`一、没有Bmob账号，希望使用第三方账号一键注册或登陆Bmob账号`
-
-如果开发者希望用户使用第三方平台的账号注册或登录Bmob的用户体系，则推荐的步骤如下：
-
-1、第三方平台授权，开发者需自行根据第三方平台文档提出的授权方法完成账号授权并得到授权信息
-
-2、调用Bmob提供的`loginWithAuthData（BmobV3.3.9版本提供）`方法，并自行构造`BmobThirdUserAuth（第三方授权信息）`对象，调用成功后，在Bmob的User表中会产生一条记录。
-
-
-`二、已有Bmob账号，希望与第三方账号进行关联`
-
-如果已使用Bmob的用户体系（假设用户A已登录），希望和第三方平台进行关联，则推荐的步骤如下：
-
-1、第三方平台授权，开发者需自行根据第三方平台文档提出的授权方法完成账号授权并得到授权信息
-
-2、调用`associateWithAuthData`方法，并自行构造`BmobThirdUserAuth(第三方授权信息)`对象，调用成功后，你就会在后台的用户A的authData这个字段下面看到提交的授权信息。
-
-
-#### 相关文档
-
-为了方便开发者完成授权，现整理各个平台的需要查阅的文档：
-
-##### 微博登陆相关文档
-
-1、[移动客户端接入文档](http://open.weibo.com/wiki/%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8E%A5%E5%85%A5)：此文档请着重查阅其中的`SDK接入流程`。
-
-2、[新浪微博AndroidSDK快速入门](https://github.com/sinaweibosdk/weibo_android_sdk)，请详细查看`README`文档,其介绍了完整的集成流程。
-
-3、[新浪微博常见问题](https://github.com/sinaweibosdk/weibo_android_sdk/blob/master/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%20FAQ.md#5-%E5%85%B3%E4%BA%8E%E6%8E%88%E6%9D%83)：在新浪微博授权过程中出现问题，请查看此文档，一般出现频率较高的错误有：
-
-`sso package and sign error`- 平台上填写的包名和签名不正确。请仔细检查，一般最需要检查的是`签名`，签名需要使用微博提供的获取签名的工具[（app_signatures.apk）](https://github.com/sinaweibosdk/weibo_android_sdk/blob/master/app_signatures.apk)。
-
-`redirect_uri_mismatch`     - 请确保你在weibo平台上填写的授权回调地址与代码中写的授权回调地址(RedirectURI)一样。
-
-##### QQ登陆相关文档
-
-1、如何使用SDK，请参见 [腾讯开放平台Android_SDK使用说明](http://wiki.open.qq.com/wiki/mobile/Android_SDK%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E)。
-
-2、如何调用具体API，请参见 [API调用说明](http://wiki.open.qq.com/wiki/Android_API%E8%B0%83%E7%94%A8%E8%AF%B4%E6%98%8E)。
-
-3、常见问题汇总，请参见[问题汇总说明](http://bbs.open.qq.com/thread-6159767-1-1.html)。
-
-##### 微信登陆相关文档
-
-1、[Android接入指南](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN&token=a6350e5290b2fee66bf0a98f02d7ddc7a655ddce)：这里主要介绍的是微信sdk的集成步骤
-
-2、[微信登陆开发指南](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN&token=a6350e5290b2fee66bf0a98f02d7ddc7a655ddce)：在`移动应用开发`->`微信登录功能`->`移动应用微信登录开发指南`。主要介绍微信OAuth2.0授权登录的流程。
-
-
-**注：**
-
-三者当中较麻烦的是微信登陆的授权，因此，在此简单说明下可能遇见的问题：
-
-**1、在微信登陆过程中出现了问题，请仔细注意以下几点：**
-
-1）、需要在微信开放平台上填写你的`应用信息、包名和签名`；
-2）、微信登陆不同于QQ或微博登陆，应用需要`提交微信官方审核`，只有审核通过后才能打开授权界面；
-3）、建议`导出正式签名的apk来测试`，不建议直接run debug版本的apk；
-4）、检查`签名是否正确`、检查`传递的参数是否正确`。
-
-**2、微信登陆的测试相对比较麻烦，如果开发者希望直接能够进行调试，建议使用微信官方demo中的`debug keystore`**。具体使用步骤：
-
-1)、Eclipse中选择`Window->Preferences->Android->Build`;
-
-2)、在Build页有个`Custom debug keystore`选项,然后点击`Browse`,选择微信官方demo中的`debug keystore`文件即可。
-
-之后重新运行应用时会使用该`debug keystore`文件对应用进行Debug签名。
-
-`不要忘了在微信后台重新填写通过微信签名工具获得的该调试应用的签名`。
-
-
-#### 第三方账号一键注册或登录
-
-假设你已通过上述提供的文档完成相应平台的授权并得到对应的授权信息，则可以这样来完成一键注册或登陆操作：
-
-```java
-	BmobThirdUserAuth authInfo = new BmobThirdUserAuth(snsType,accessToken, expiresIn,userId);
-	BmobUser.loginWithAuthData(authInfo, new LogInListener<JSONObject>() {
-
-		@Override
-		public void done(JSONObject userAuth,BmobException e) {
-			...
-		}
-	});			
-
-```
-
-注：
-
-`BmobThirdUserAuth`的各参数解释：
-
-1、`snsType`:只能是三种取值中的一种：`weibo、qq、weixin`
-
-2、`accessToken`：接口调用凭证
-
-3、`expiresIn`：access_token的有效时间
-
-4、`userId`:用户身份的唯一标识，对应微博授权信息中的`uid`,对应qq和微信授权信息中的`openid`
-
-
-#### 关联第三方账号
-
-##### 账号关联
-
-```java
-	BmobThirdUserAuth authInfo = new BmobThirdUserAuth(snsType,accessToken, expiresIn, userId);
-	BmobUser.associateWithAuthData(authInfo, new UpdateListener() {
-
-		@Override
-		public void done(BmobException e) {
-			if(e==null){
-				Log.i("bmob","关联成功");
-			}else{
-				Log.i("bmob","关联失败：code =" + e.getErrorCode() + ",msg = " + e.getMessage());
-			}
-
-		}
-	});
-
-```
-
-##### 解除关联
-
-```java
-	BmobUser.dissociateAuthData(snsType,new UpdateListener() {
-
-		@Override
-		public void done(BmobException e) {
-			if(e==null){
-				Log.i("bmob","取消"+snsType+"关联成功");
-			}else{
-				int code =e.getErrorCode();
-				if (code == 208) {// 208错误指的是没有绑定相应账户的授权信息
-					Log.i("smile","你没有关联该账号");
-				} else {
-					Log.i("smile","取消"+snsType+"关联失败：code =" + code + ",msg = " + e.getMessage());
-				}
-			}
-		}
-});
-
-```
-
-#### 第三方登录的案例源码
-
-具体案例可参考我们Github上的demo：[https://github.com/bmob/bmob-android-demo-thirdpartylogin](https://github.com/bmob/bmob-android-demo-thirdpartylogin) ,这个源码包含了第三方登录的源码和登录之后如何获取用户基本信息的部分。
-## 图文消息
+# 图文消息
 
 2017年下半年开始，后端云提供了素材管理模块，控制台文件浏览功能合并到了该模块下；
 
@@ -3170,8 +3411,27 @@ Bmob提供了非常简单的方法来实现第三方账号登陆的功能，目�
 2. 客户端的使用，可以查询_Article表，既可以拿到url用webview组件加载，也可以用Android SDK中的TextView结合Html类解析html标签并展示。
 
 
+```
+/**
+ * 查询图文消息
+ */
+private void queryArticle() {
+    BmobQuery<BmobArticle> bmobArticleBmobQuery = new BmobQuery<>();
+    bmobArticleBmobQuery.findObjects(new FindListener<BmobArticle>() {
+        @Override
+        public void done(List<BmobArticle> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnQueryArticle, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(mBtnQueryArticle, "查询失败：" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
 
-## 文件管理
+
+# 文件管理
 
 `BmobFile`可以让你的应用程序将文件存储到服务器中，常见的文件类型都可以实现存储：比如图像文件、影像文件、音乐文件和任何其他二进制数据。
 
@@ -3478,9 +3738,9 @@ BmobFile.deleteBatch(urls, new DeleteBatchListener() {
 **1、文件的批量上传是BmobSDK_v3.2.7版本才提供的功能，如需使用，请更新版本;**
 **2、文件的下载和批量删除是BmobSDK_v3.4.6才提供的功能，如需使用，请更新版本。**
 
-## 数据监听
+# 数据监听
 
-**数据监听是一个超酷的功能！**
+**数据监听按需收费，请开发者到【应用设置-套餐升级-数据监听】中开通此功能**
 
 SDK可以实现对数据表或行的监听，当这个表或者行的数据发生变化时，Bmob会立即将变化的信息告知SDK。
 这种服务非常适合做游戏开发（如，开发斗地主游戏，三个人同时监听一行数据的变化，任何一个人出牌都会将数据写入到这行数据中，其他人也就立即知道了）、群聊（一群人监听某个表的变化，任何人发言都会将数据写入到这个表中，其他人也可以立即知道了）等实时性要求很高的场景中。
@@ -3548,6 +3808,7 @@ rtd.unsubRowUpdate(testTableName, objectId);
 rtd.unsubRowDelete(testTableName, objectId);
 ```
 
+# 数据安全
 
 ## ACL和角色
 
@@ -3564,15 +3825,69 @@ rtd.unsubRowDelete(testTableName, objectId);
 - 一个用户发送给另外一个用户的消息，可以只给这些用户赋予读写的权限。
 
 
+
+BmobACL和BmobUser的权限设置：
+
+|方法|解释|
+|----|----|
+|setReadAccess(String userId, boolean allowed)|设置哪个用户是否可读|
+|setReadAccess(BmobUser user, boolean allowed)|设置哪个用户是否可读|
+|setWriteAccess(String userId, boolean allowed)|设置哪个用户是否可写|
+|setWriteAccess(BmobUser user, boolean allowed)|设置哪个用户是否可写|
+
+BmobACL和BmobRole的权限设置：
+
+|方法|解释|
+|----|----|
+|setRoleReadAccess(String roleName, boolean allowed)|设置哪种角色是否可读|
+|setRoleReadAccess(BmobRole role, boolean allowed)|设置哪种角色是否可读|
+|setRoleWriteAccess(String roleName, boolean allowed)|设置哪种角色是否可写|
+|setRoleWriteAccess(BmobRole role, boolean allowed)|设置哪种角色是否可写|
+
+BmobACL和所有用户的权限设置：
+
+|方法|解释|
+|----|----|
+|setPublicReadAccess(boolean allowed)|设置所有用户是否可读|
+|setPublicWriteAccess(boolean allowed)|设置所有用户是否可读|
+
 ### 默认访问权限
 在没有显示指定的情况下，每一个BmobObject(表)中的ACL(列)属性的默认值是所有人可读可写的。在客户端想要修改这个权限设置，只需要简单调用BmobACL的setPublicReadAccess方法和setPublicWriteAccess方法，即：
 
 ```java
-BmobACL aCL = new BmobACL();
+/**
+ * 设置发布的帖子对所有用户的访问控制权限
+ */
+private void publicAcl() {
+    User user = BmobUser.getCurrentUser(User.class);
+    if (user == null) {
+        Snackbar.make(mBtnAclPublic, "请先登录", Snackbar.LENGTH_LONG).show();
+    } else {
+        Post post = new Post();
+        post.setAuthor(user);
+        post.setContent("content" + System.currentTimeMillis());
+        post.setTitle("title" + System.currentTimeMillis());
+        BmobACL bmobACL = new BmobACL();
+        //设置此帖子为所有用户不可写
+        bmobACL.setPublicWriteAccess(false);
+        //设置此帖子为所有用户可读
+        bmobACL.setPublicReadAccess(true);
+        post.setACL(bmobACL);
+        post.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null) {
+                    Snackbar.make(mBtnAclPublic, "发布帖子成功", Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(mBtnAclPublic, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
 
-aCL.setPublicReadAccess(true);
+}
 
-aCL.setPublicWriteAccess(true);
+
 ```
 
 注意：可读可写是默认的权限，不需要写额外的代码。
@@ -3581,23 +3896,39 @@ aCL.setPublicWriteAccess(true);
 假如你想实现一个分享日志类的应用时，这可能会需要针对不同的日志设定不同的访问权限。比如，公开的日志，发布者有更改和修改的权限，其他用户只有读的权限，那么可用如下代码实现：
 
 ```java
-Blog blog = new Blog();
-blog.setTitle("论电影的七个元素");
-blog.setContent("这是blog的具体内容");
+/**
+ * 设置发布的帖子对当前用户的访问控制权限
+ */
+private void userAcl() {
+    User user = BmobUser.getCurrentUser(User.class);
+    if (user == null) {
+        Snackbar.make(mBtnAclPublic, "请先登录", Snackbar.LENGTH_LONG).show();
+    } else {
+        Post post = new Post();
+        post.setAuthor(user);
+        post.setContent("content" + System.currentTimeMillis());
+        post.setTitle("title" + System.currentTimeMillis());
+        BmobACL bmobACL = new BmobACL();
+        //设置此帖子为当前用户可写
+        bmobACL.setReadAccess(user, true);
+        //设置此帖子为所有用户可读
+        bmobACL.setPublicReadAccess(true);
+        post.setACL(bmobACL);
+        post.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null) {
+                    Snackbar.make(mBtnAclPublic, "发布帖子成功", Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(mBtnAclPublic, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+}
 
-BmobACL acl = new BmobACL();    //创建一个ACL对象
-acl.setPublicReadAccess(true);	// 设置所有人可读的权限
-acl.setWriteAccess(BmobUser.getCurrentUser(this), true);   // 设置当前用户可写的权限
 
-blog.setACL(acl);    //设置这条数据的ACL信息
-blog.save(new SaveListener<String>() {
 
-	@Override
-	public void done(String objectId, BmobException e) {
-		...
-	}
-
-});
 ```
 有时，用户想发表一篇不公开的日志，这种情况只有发布者才对这篇日志拥有读写权限，相应的代码如下：
 ```java
@@ -3622,202 +3953,332 @@ blog.save(new SaveListener<String>() {
 ### 角色管理
 上面的指定用户访问权限虽然很方便，但是对于有些应用可能会有一定的局限性。比如一家公司的工资系统，员工和公司的出纳们只拥有工资的读权限，而公司的人事和老板才拥有全部的读写权限。要实现这种功能，你也可以通过设置每个用户的ACL权限来实现，如下：
 ```java
+/**
+ * 设置发布的帖子对某种角色的访问控制权限
+ */
+private void roleAcl() {
+    User user = BmobUser.getCurrentUser(User.class);
+    if (user == null) {
+        Snackbar.make(mBtnAclPublic, "请先登录", Snackbar.LENGTH_LONG).show();
+    } else {
+        Post post = new Post();
+        post.setAuthor(user);
+        post.setContent("content" + System.currentTimeMillis());
+        post.setTitle("title" + System.currentTimeMillis());
+        BmobACL bmobACL = new BmobACL();
+        //设置此帖子为当前用户可写
+        bmobACL.setWriteAccess(user, true);
+        //设置此帖子为某种角色可读
+        bmobACL.setRoleReadAccess("female", true);
+        post.setACL(bmobACL);
+        post.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null) {
+                    Snackbar.make(mBtnAclPublic, "发布帖子成功", Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(mBtnAclPublic, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+}
 
-//创建公司某用户的工资对象
-WageInfo wageinfo = new WageInfo();
-wageinfo.setWage(100000);   
-
-//这里创建四个用户对象，分别为老板、人事小张、出纳小谢和自己
-BmobUser boss;
-BmobUser hr_zhang;
-BmobUser cashier_xie;
-BmobUser me;
-
-//创建ACL对象
-BmobACL acl = new BmobACL();
-
-//设置四个用户读的权限
-acl.setReadAccess(boos, true);    
-acl.setReadAccess(hr_zhang, true);
-acl.setReadAccess(cashier_xie, true);
-acl.setReadAccess(me, true);
-
-//设置老板和人事小张对这个工资的写权限
-acl.setWriteAccess(boss, true);
-acl.setWriteAccess(hr_zhang, true);
-
-//设置工资对象的ACL
-wageinfo.setACL(acl);
-wageinfo.save(new SaveListener<String>() {
-
-	@Override
-	public void done(String objectId, BmobException e) {
-		...
-	}
-});
 ```
-但是，一个公司的人事、出纳和员工不仅仅只有一个人，同时还会有离职、调换岗位以及新员工加入等问题存在。如果用上面的代码对公司的每个人进行一一设置的话是不现实的，既麻烦也很难维护。针对这个问题，我们可以利用BmobRole来解决。我们只需要对用户进行分类，每个分类赋予不同的权限。如下代码实现：
-
-```java
-//创建公司某用户的工资对象
-WageInfo wageinfo = new WageInfo();
-wageinfo.setWage(100000);
-
-//这里创建四个用户对象，分别为老板、人事小张、出纳小谢和自己
-BmobUser boss;
-BmobUser hr_zhang;
-BmobUser hr_luo;
-BmobUser cashier_xie;
-BmobUser me;
-
-//创建HR和Cashier两个用户角色（这里为了举例BmobRole的使用，将这段代码写在这里，正常情况下放在员工管理界面会更合适）
-BmobRole hr = new BmobRole("HR");
-BmobRole cashier = new BmobRole("Cashier");
-
-//将hr_zhang和hr_luo归属到hr角色中
-hr.getUsers().add(hr_zhang);
-hr.getUsers().add(hr_luo);
-//保存到云端角色表中（web端可以查看Role表）
-hr.save(this);  
-
-//将cashier_xie归属到cashier角色中
-cashier.getUsers().add(cashier_xie);
-//保存到云端角色表中（web端可以查看Role表）
-cashier.save();
-
-//创建ACL对象
-BmobACL acl = new BmobACL();
-acl.setReadAccess(boos, true); // 假设老板只有一个, 设置读权限
-acl.setReadAccess(me, true); // 给自己设置读权限
-acl.setRoleReadAccess(hr, true); // 给hr角色设置读权限
-acl.setRoleReadAccess(cashier, true); // 给cashier角色设置读权限
-
-acl.setWriteAccess(boss, true); // 设置老板拥有写权限
-acl.setRoleWriteAccess(hr, true); // 设置ht角色拥有写权限
-
-//设置工资对象的ACL
-wageinfo.setACL(acl);
-wageinfo.save();
-```
-
-需要说明一点的是，Web端的Role表也具有ACL的列，你可以将角色管理的权限赋予某些用户。
 
 
 ### 角色之间的从属关系
 下面我们来说一下角色与角色之间的从属关系。用一个例子来说明下：一个互联网企业有移动部门，部门中有不同的小组，如Android开发组和IOS开发组。每个小组只拥有自己小组的代码读写权限，但这两个小组同时拥有核心库代码的读权限。
 ```java
-//创建MobileDep（移动研发部）、AndroidTeam（android开发组）和iOSTeam（ios开发组）三个角色
-BmobRole mobileDep = new BmobRole("MobileDep");
-BmobRole androidTeam = new BmobRole("AndroidTeam");
-BmobRole iosTeam = new BmobRole("iOSTeam");
+/**
+ * 查询某角色是否存在
+ *
+ * @param roleName
+ */
+private void queryRole(final String roleName) {
+    BmobQuery<BmobRole> bmobRoleBmobQuery = new BmobQuery<>();
+    bmobRoleBmobQuery.addWhereEqualTo("name", roleName);
+    bmobRoleBmobQuery.findObjects(new FindListener<BmobRole>() {
+        @Override
+        public void done(List<BmobRole> list, BmobException e) {
+            if (e == null) {
+                if (list.size() > 0) {
+                    //已存在该角色
+                    addUser2Role(list.get(0));
+                } else {
+                    //不存在该角色
+                    BmobRole bmobRole = new BmobRole(roleName);
+                    saveRoleAndAddUser2Role(bmobRole);
+                }
+            } else {
+                Snackbar.make(mBtnQueryRole, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
 
-//保存AndroidTeam和iosTeam角色到云端
-androidTeam.save();
-iosTeam.save();
-
-//将androidTeam和iosTeam两种角色添加到移动部门角色中
-mobileDep.getRoles().add(androidTeam);
-mobileDep.getRoles().add(iosTeam);
-mobileDep.save();
-
-// 假设创建三个代码数据对象
-Code coreCode = new Code();
-Code androidCode = new Code();
-Code iosCode = new Code();
-
-//......此处省略一些具体的属性设定
-
-coreCode.save();
-androidCode.save();
-iosCode.save();
-
-//设置androidTeam角色对androidCode对象的读和写的权限
-androidCode.setRoleReadAccess(androidTeam, true);
-androidCode.setRoleWriteAccess(androidTeam, true);
-
-//设置iosTeam角色对iosCode对象的读和写的权限
-iosCode.setRoleReadAccess(iosTeam, true);
-iosCode.setRoleWriteAccess(iosTeam, true);
-
-//设置mobileDep角色可以对coreCode对象进行读操作
-coreCode.setRoleReadAccess(mobileDep);
-
+}
 ```
+
+```java
+/**
+ * 保存某个角色并保存用户到该角色中
+ *
+ * @param bmobRole
+ */
+private void saveRoleAndAddUser2Role(BmobRole bmobRole) {
+
+    User user = BmobUser.getCurrentUser(User.class);
+    if (user == null) {
+        Snackbar.make(mBtnQueryRole, "请先登录", Snackbar.LENGTH_LONG).show();
+    } else {
+        bmobRole.getUsers().add(user);
+        bmobRole.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null) {
+                    Toast.makeText(BmobRoleActivity.this, "角色用户添加成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Snackbar.make(mBtnQueryRole, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+}
+```
+```java
+/**
+ * 添加用户到某个角色中
+ *
+ * @param bmobRole
+ */
+private void addUser2Role(BmobRole bmobRole) {
+    User user = BmobUser.getCurrentUser(User.class);
+    if (user == null) {
+        Snackbar.make(mBtnQueryRole, "请先登录", Snackbar.LENGTH_LONG).show();
+    } else {
+        bmobRole.getUsers().add(user);
+        bmobRole.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null) {
+                    Toast.makeText(BmobRoleActivity.this, "角色用户添加成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(BmobRoleActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+}
+```
+```java
+/**
+ * 把用户从某个角色中移除
+ *
+ * @param bmobRole
+ */
+private void removeUserFromRole(BmobRole bmobRole) {
+    User user = BmobUser.getCurrentUser(User.class);
+    if (user == null) {
+        Snackbar.make(mBtnQueryRole, "请先登录", Snackbar.LENGTH_LONG).show();
+    } else {
+        bmobRole.getUsers().remove(user);
+        bmobRole.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null) {
+                    Toast.makeText(BmobRoleActivity.this, "角色用户添加成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(BmobRoleActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+}
+```
+
 
 ### ACL案例源码
 
 我们为大家提供一个ACL相关的案例源码，大家可以点击下载：[https://github.com/bmob/bmob-android-demo-acl](https://github.com/bmob/bmob-android-demo-acl)
 
-## 地理位置
+# 地理位置
 
 Bmob允许用户根据地球的经度和纬度坐标进行基于地理位置的信息查询。通过在BmobObject的查询中添加一个BmobGeoPoint的对象查询，你就可以实现轻松查找出离当前用户最接近的信息或地点的功能。
 
-为了方便大家查看文档，这里创建一个Person类：
 
 ```java
-public class Person extends BmobObject{
-    private BmobGeoPoint gpsAdd;
-
-    public BmobGeoPoint getGpsAdd() {
-        return gpsAdd;
-    }
-    public void setGpsAdd(BmobGeoPoint gpsAdd) {
-        this.gpsAdd = gpsAdd;
-    }
+public class User extends BmobUser {
+    /**
+     * 用户当前位置
+     */
+    private BmobGeoPoint address;
 }
-
 ```
 
 ### 创建地理位置对象
 
 首先需要创建一个BmobGeoPoint对象。例如，创建一个东经116.39727786183357度，北纬39.913768382429105度的BmobGeoPoint对象：
 ```java
-BmobGeoPoint point = new BmobGeoPoint(116.39727786183357, 39.913768382429105);
+/**
+ * 更新当前用户地理位置信息
+ */
+private void updateLocation() {
+    //TODO 在实际应用中，此处利用实时定位替换为真实经纬度数据
+    final BmobGeoPoint bmobGeoPoint = new BmobGeoPoint(116.39727786183357, 39.913768382429105);
+    final User user = BmobUser.getCurrentUser(User.class);
+    user.setAddress(bmobGeoPoint);
+    user.update(new UpdateListener() {
+        @Override
+        public void done(BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnUpdateLocation, "更新成功：" + user.getAddress().getLatitude() + "-" + user.getAddress().getLongitude(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnUpdateLocation, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
 ### 查询地理位置信息
 
-现在，你可以测试找出最接近某个点的信息了（**数据表要有一定的地理坐标对象的数据，GeoPoint字段类型**）。查询使用BmobQuery对象的`addWhereNear`方法进行操作：
+
 ```java
-BmobQuery<Person> bmobQuery = new BmobQuery<Person>();
-bmobQuery.addWhereNear("gpsAdd", new BmobGeoPoint(112.934755, 24.52065));
-bmobQuery.setLimit(10);    //获取最接近用户地点的10条数据
-bmobQuery.findObjects(new FindListener<Person>() {
-	@Override
-	public void done(List<Person> object,BmobException e) {
-		if(e==null){
-			toast("查询成功：共" + object.size() + "条数据。");
-		}else{
-			toast("查询失败：" + e.getMessage());
-		}
-	}
-});
+/**
+ * 获取当前用户的地理位置信息
+ */
+private void getLocation() {
+    User user = BmobUser.getCurrentUser(User.class);
+    if (user != null) {
+        Snackbar.make(mBtnUpdateLocation, "查询成功：" + user.getAddress().getLatitude() + "-" + user.getAddress().getLongitude(), Snackbar.LENGTH_LONG).show();
+    } else {
+        Snackbar.make(mBtnUpdateLocation, "请先登录", Snackbar.LENGTH_LONG).show();
+    }
+}
 ```
 
-要限制查询指定距离范围的数据可以使用`addWhereWithinKilometers`、`addWhereWithinMiles`或`addWhereWithinRadians`方法。
-
-要查询一个矩形范围内的信息可以使用`addWhereWithinGeoBox`来实现：
 ```java
-BmobGeoPoint southwestOfSF = new BmobGeoPoint(116.10675, 39.711669);
-BmobGeoPoint northeastOfSF = new BmobGeoPoint(116.627623, 40.143687);
-BmobQuery<Person> query = new BmobQuery<Person>();
-query.addWhereWithinGeoBox("gpsAdd", southwestOfSF, northeastOfSF);
-query.findObjects(new FindListener<Person>() {
+/**
+ * 查询最接近某个坐标的用户
+ */
+private void queryNear() {
+    BmobQuery<User> query = new BmobQuery<>();
+    BmobGeoPoint location = new BmobGeoPoint(112.934755, 24.52065);
+    query.addWhereNear("address", location);
+    query.setLimit(10);
+    query.findObjects(new FindListener<User>() {
 
-	@Override
-	public void done(List<Person> object,BmobException e) {
-		if(e==null){
-			toast("查询成功：共" + object.size() + "条数据。");
-		}else{
-			toast("查询失败：" + e.getMessage());
-		}
-	}
-});
+        @Override
+        public void done(List<User> users, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnUpdateLocation, "查询成功：" + users.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnUpdateLocation, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+```java
+/**
+ * 查询指定坐标指定半径内的用户
+ */
+private void queryWithinRadians() {
+    BmobQuery<User> query = new BmobQuery<>();
+    BmobGeoPoint address = new BmobGeoPoint(112.934755, 24.52065);
+    query.addWhereWithinRadians("address", address, 10.0);
+    query.findObjects(new FindListener<User>() {
+
+        @Override
+        public void done(List<User> users, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnUpdateLocation, "查询成功：" + users.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnUpdateLocation, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+```java
+/**
+ * 查询指定坐标指定英里范围内的用户
+ */
+private void queryWithinMiles() {
+    BmobQuery<User> query = new BmobQuery<>();
+    BmobGeoPoint address = new BmobGeoPoint(112.934755, 24.52065);
+    query.addWhereWithinMiles("address", address, 10.0);
+    query.findObjects(new FindListener<User>() {
+
+        @Override
+        public void done(List<User> users, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnUpdateLocation, "查询成功：" + users.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnUpdateLocation, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+```java
+/**
+ * 查询指定坐标指定公里范围内的用户
+ */
+private void queryWithinKilometers() {
+    BmobQuery<User> query = new BmobQuery<>();
+    BmobGeoPoint address = new BmobGeoPoint(112.934755, 24.52065);
+    query.addWhereWithinKilometers("address", address, 10);
+    query.findObjects(new FindListener<User>() {
+
+        @Override
+        public void done(List<User> users, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnUpdateLocation, "查询成功：" + users.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnUpdateLocation, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
+```
+
+```java
+/**
+ * 查询矩形范围内的用户
+ */
+private void queryBox() {
+    BmobQuery<User> query = new BmobQuery<>();
+    //TODO 西南点，矩形的左下角坐标
+    BmobGeoPoint southwestOfSF = new BmobGeoPoint(112.934755, 24.52065);
+    //TODO 东别点，矩形的右上角坐标
+    BmobGeoPoint northeastOfSF = new BmobGeoPoint(116.627623, 40.143687);
+    query.addWhereWithinGeoBox("address", southwestOfSF, northeastOfSF);
+    query.findObjects(new FindListener<User>() {
+
+        @Override
+        public void done(List<User> users, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnUpdateLocation, "查询成功：" + users.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnUpdateLocation, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}
 ```
 
 **注意事项**
 
-1. **每个BmobObject数据对象中`只能`有一个BmobGeoPoint对象**。
+1. **每个BmobObject数据对象中只能有一个BmobGeoPoint对象**。
 
 2. 地理位置的点不能超过规定的范围。`纬度的范围`应该是在`-90.0到90.0`之间。`经度的范围`应该是在`-180.0到180.0`之间。如果您添加的经纬度超出了以上范围，将导致程序错误。
 
@@ -4136,6 +4597,228 @@ Bmob.getAllTableSchema(context, new QueryListListener<BmobTableSchema>() {
 -keep class org.apache.commons.**{*;}
 -keep class org.apache.http.**{*;}
 
+```
+# 其他功能
+
+## 模板代码
+在使用SDK过程中，如果一些Api如查询是高频代码，可以把一些重复的样板代码抽出来，并在AndroidStudio中设置模板，即可实现快速输入，能提高编码效率，效果如下：
+
+![](http://i.imgur.com/zjm4Avx.gif)
+
+## 重置域名
+从v3.6.7开始，数据服务SDK新增了能重新设置请求域名的API，需要在初始化SDK前调用：
+```Java
+Bmob.resetDomain("http://open-vip.bmob.cn/8/");
+```
+其中，参数为开发者的域名，调用后的所有请求都指向新的域名。
+```Java
+http://open-vip.bmob.cn/8/
+此域名目前仅为企业版用户使用！
+```
+## 数据迁移
+在应用设置-套餐升级-应用套餐类型，购买了企业Pro版的用户，可以提交工单通知工作人员进行数据迁移。
+
+## 海外加速
+
+在应用设置-套餐升级，购买了海外节点加速功能的用户，可以提高海外访问速度。
+
+
+## 统计功能
+从v3.5.2开始，数据服务SDK新增了统计功能。
+从v3.6.0开始，数据服务SDK移除了统计功能。
+
+- 应用权限
+
+		<uses-permission android:name="android.permission.INTERNET" />
+		<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+- 渠道设置
+
+		Bmob.initialize(this,APPID,"BMOB");
+
+
+## 系统兼容
+### Android 6.0
+- 添加对Apache的HTTP-client支持
+Android6.0版本开始移除了对Apache的HTTP Client的支持，需要在`app`的`build.gradle`文件添加配置:
+
+```gradle
+android {
+	useLibrary 'org.apache.http.legacy'
+}
+```
+
+### Android P 网络配置
+在 res 下新建一个 xml 目录，然后创建一个名为 network_security_config.xml 文件 ，该文件内容如下：
+```
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>
+```
+然后在 AndroidManifest.xml application 标签内应用上面的xml配置：
+```
+    <application
+        android:networkSecurityConfig="@xml/network_security_config">
+    </application>
+```
+
+## 类名和表名的关系
+
+- Bmob官方推荐类名和表名完全一致的映射使用方式， 即如，上面的GameScore类，它在后台对应的表名也是GameScore（区分大小写）。
+- 如果你希望表名和类名并不相同，如表名为T_a_b，而类名还是GameScore，那么你可以使用BmobObject提供的setTableName("表名")的方法，
+
+示例代码如下：
+
+```java
+//这时候实际操作的表是T_a_b
+public class GameScore extends BmobObject{
+	private String playerName;
+	private Integer score;
+	private Boolean isPay;
+    private BmobFile pic;
+
+	public GameScore() {
+		this.setTableName("T_a_b");
+	}
+
+	public String getPlayerName() {
+		return playerName;
+	}
+	//其他方法，见上面的代码
+}
+```
+当然了，除了在构造函数中直接调用setTableName方法之外，你还可以在GameScore的实例中动态调用setTableName方法。
+
+### 查询自定义表名的数据
+
+如果您使用了setTableName方法来自定义表名，那么在对该表进行数据查询的时候必须使用以下方法。`需要注意的是查询的结果是JSONArray,需要自行解析JSONArray中的数据`。
+
+```java
+/**
+ * 查询数据
+ */
+public void queryData(){
+	BmobQuery query =new BmobQuery("Person");
+	query.addWhereEqualTo("age", 25);
+	query.setLimit(2);
+	query.order("createdAt");
+	//v3.5.0版本提供`findObjectsByTable`方法查询自定义表名的数据
+	query.findObjectsByTable(new QueryListener<JSONArray>() {
+		@Override
+		public void done(JSONArray ary, BmobException e) {
+			if(e==null){
+				Log.i("bmob","查询成功："+ary.toString());
+			}else{
+				Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
+			}
+		}
+	});
+}
+```
+
+**自定义表名情况下的更新、删除数据和普通的更新、删除数据方式一样，没有变化。为方便大家了解学习，我们提供了一个关于自定义表名情况下增删改查数据的Demo，下载地址是：[https://github.com/bmob/bmob-android-demo-dynamic-tablename](https://github.com/bmob/bmob-android-demo-dynamic-tablename)。**
+
+
+
+**自`V3.4.4`版本开始，SDK提供了另一种方法来更新数据，通过调用`Bmobobject`类中的`setValue（key，value）`方法，只需要传入key及想要更新的值即可**
+
+举例，说明如下：
+
+```java
+public class Person extends BmobObject {
+	private BmobUser user;	//BmobObject类型
+	private BankCard cards;	//Object类型
+	private Integer age;	//Integer类型
+	private Boolean gender; //Boolean类型
+	...
+	getter、setter方法
+}
+
+其中BankCard类结构如下：
+
+public class BankCard{
+	private String cardNumber;
+	private String bankName;
+	public BankCard(String bankName, String cardNumber){
+		this.bankName = bankName;
+		this.cardNumber = cardNumber;
+	}
+	...
+	getter、setter方法
+}
+
+```
+
+```java
+Person p2=new Person();
+//更新BmobObject的值
+//	p2.setValue("user", BmobUser.getCurrentUser(this, MyUser.class));
+//更新Object对象
+p2.setValue("bankCard",new BankCard("农行", "农行账号"));
+//更新Object对象的值
+//p2.setValue("bankCard.bankName","建行");
+//更新Integer类型
+//p2.setValue("age",11);
+//更新Boolean类型
+//p2.setValue("gender", true);
+p2.update(objectId, new UpdateListener() {
+
+	@Override
+	public void done(BmobException e) {
+		if(e==null){
+			Log.i("bmob","更新成功");
+		}else{
+			Log.i("bmob","更新失败："+e.getMessage()+","+e.getErrorCode());
+		}
+	}
+
+});
+
+```
+
+**注意：修改数据只能通过objectId来修改，目前不提供查询条件方式的修改方法。**
+
+### 原子计数器
+
+很多应用可能会有计数器功能的需求，比如文章点赞的功能，如果大量用户并发操作，用普通的更新方法操作的话，会存在数据不一致的情况。
+
+为此，Bmob提供了原子计数器来保证原子性的修改某一**数值字段**的值。注意：原子计数器只能对应用于Web后台的Number类型的字段，即JavaBeans数据对象中的Integer对象类型（**不要用int类型**）。
+
+```java
+gameScore.increment("score"); // 分数递增1
+gameScore.update(updateListener);
+```
+
+您还可以通过`increment(key, amount)`方法来递增或递减任意幅度的数字
+
+```java
+gameScore.increment("score", 5); // 分数递增5
+//gameScore.increment("score", -5); // 分数递减5
+gameScore.update(updateListener);
+```
+
+
+
+
+### 删除字段的值
+
+你可以在一个对象中删除一个字段的值，通过`remove`操作：
+
+```java
+GameScore gameScore = new GameScore();
+gameScore.setObjectId("dd8e6aff28");
+gameScore.remove("score");	// 删除GameScore对象中的score字段
+gameScore.update(new UpdateListener() {
+	@Override
+	public void done(BmobException e) {
+		if(e==null){
+			Log.i("bmob","成功");
+		}else{
+			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
+		}
+	}
+});
 ```
 
 

@@ -1141,7 +1141,6 @@ Bmob的统计查询，提供以下关键字或其组合的查询操作：
 
 以上关键字除了groupcount是传Boolean值true或false，having传的是和where类似的json字符串，但having只应该用于过滤分组查询得到的结果集，即having只应该包含结果集中的列名如 `{"_sumScore":{"$gt":100}}` ，其他关键字必须是字符串而必须是表中包含的列名，多个列名用,分隔。
 
-以上关键字可以自由组合并可以与前面查询语句中的where, order, limit, skip等组合使用。
 
 比如，GameScore表是游戏玩家的信息和得分表，有playerName(玩家名称)、score(玩家得分)等你自己创建的列，还有Bmob的默认列objectId, createdAt, updatedAt,那么我们现在举例如何使用以上的查询关键字来作这个表的统计。
 
@@ -2108,7 +2107,7 @@ Content-Type: application/json
 }
 ```
 
-其中 **mobilePhoneNumber** 就是手机号码，而 **smsCode** 是使用 [请求短信验证码API](/restful/developdoc/index.html?menukey=develop_doc&key=develop_restful#请求短信验证码 "请求短信验证码API")发送到用户手机上的 6位验证码字符串。如果是新用户且不传入 username，默认用户名将是手机号码。
+其中 **mobilePhoneNumber** 就是手机号码，而 **smsCode** 是使用 [请求短信验证码API](/Restful/developdoc/index.html?menukey=develop_doc&key=develop_restful#请求短信验证码 "请求短信验证码API")发送到用户手机上的 6位验证码字符串。如果是新用户且不传入 username，默认用户名将是手机号码。
 
 **成功时响应**
 
@@ -2597,7 +2596,7 @@ curl -X POST \
 
 **请求描述**
 
-如果用户有绑定了手机号码，就可以通过手机验证码短信来实现使用手机号码找回密码的功能，先调用 [请求短信验证码API](/restful/developdoc/index.html?menukey=develop_doc&key=develop_restful#请求短信验证码 "请求短信验证码API")会将验证码发送到用户手机上，用户收到验证码并输入后，调用PUT /1/resetPasswordBySmsCode/smsCode 来为用户设置新的密码。
+如果用户有绑定了手机号码，就可以通过手机验证码短信来实现使用手机号码找回密码的功能，先调用 [请求短信验证码API](/Restful/developdoc/index.html?menukey=develop_doc&key=develop_restful#请求短信验证码 "请求短信验证码API")会将验证码发送到用户手机上，用户收到验证码并输入后，调用PUT /1/resetPasswordBySmsCode/smsCode 来为用户设置新的密码。
 
 **请求**
 
@@ -3704,9 +3703,9 @@ curl -X GET \
 
 ## app服务
 
-通过app restful api，你可以查看，创建或编辑你的app，在用户管理后台也实现了这样的功能。通过验证你的bmob email账号和密码，你可以获取所有的app信息，创建一个新的app或者修改旧的app的信息。
+通过app REST API api，你可以查看，创建或编辑你的app，在用户管理后台也实现了这样的功能。通过验证你的bmob email账号和密码，你可以获取所有的app信息，创建一个新的app或者修改旧的app的信息。
 
-app restful api的验证流程和其它restful api有点不一样。在验证的时候，不是验证你的app key，而是验证账号的登录信息。头部 **X-Bmob-Email** 代表登录用的email，头部 **X-Bmob-Password** 代表登录用的密码。
+app REST API api的验证流程和其它REST API api有点不一样。在验证的时候，不是验证你的app key，而是验证账号的登录信息。头部 **X-Bmob-Email** 代表登录用的email，头部 **X-Bmob-Password** 代表登录用的密码。
 
 ### 获取app信息
 
@@ -3871,7 +3870,7 @@ curl -X PUT \
 
 ## 数据表
 
-通过数据表的restful api，你可以查看，创建或编辑你的表结构，在用户管理后台的数据浏览页面也实现了这样的功能。
+通过数据表的REST API api，你可以查看，创建或编辑你的表结构，在用户管理后台的数据浏览页面也实现了这样的功能。
 
 注意，调用数据表相关的api，必须指定Master Key。
 
@@ -4292,7 +4291,7 @@ timestamp为时间戳，datetime为格式化的日期。
 
 ## 错误码
 
-参照[所有平台错误码列表](/other/error_code/#restapi) 中的Restful部分。
+参照[所有平台错误码列表](/other/error_code/#restapi) 中的REST API部分。
 
 
 

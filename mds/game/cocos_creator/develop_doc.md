@@ -1,11 +1,11 @@
 
-##引入SDK
+## 引入SDK
 
 下载 **Cocos Creator SDK**;
 将 **bmobgamesdk** 文件夹 复制到项目的assets文件夹中。
 
 
-##初始化SDK
+## 初始化SDK
 
 第一个参数修改为官网获取的 APPID (BGS游戏官网管理后台的游戏设置 > 应用密钥)。
 第二个参数可先不填，要在**创建房间**后获得。
@@ -45,7 +45,7 @@
     
     
 
-##创建房间
+## 创建房间
     
 关于UserId，建议使用 **Bmob小游戏sdk** 的用户体系。
 playerCount 为需要设定的房间人数。
@@ -102,7 +102,7 @@ playerCount 为需要设定的房间人数。
 
 *云函数销毁房间，请参考云函数文档*
 
-##加入房间
+## 加入房间
     
     // 这里的 roomInfo 就是创建房间时让你保存的 roomInfo
     BmobGame.JoinRoom(that.roomInfo.rid, that.roomInfo.joinKey, userId, BmobGame.get('seatKey'), function(code, data) {
@@ -173,7 +173,7 @@ playerCount 为需要设定的房间人数。
 
 ## 发送游戏交互信息
 
-###同步角色状态
+### 同步角色状态
 
 将处理事件转发的脚本绑定给本地角色Player，例如将Player的移动、旋转等数据，调用SDK接口同步到服务器。
 通过 **BmobGame.OthersGameStatusListener** 能监听到所有玩家的状态。
@@ -182,7 +182,7 @@ playerCount 为需要设定的房间人数。
     // value： 状态值，类型可以是boolean、int、float、double、boolean[]、int[]、float[]、double[]
     BmobGame.EditMyStatus(string attrName, object value);
  
-###发送瞬时信息
+### 发送瞬时信息
 
  这是玩家之间交互数据，通过 **BmobGame.TransferListener** 能收到其他玩家发送的数据。
  信息为**byte数组**形式，建议把数组的第一位作为自定义的交互事件类型flag，后面的为要交互的数据。
@@ -319,7 +319,8 @@ sdk特别提供了把string和byte数组互转的方法
 ----
 ## 附录
 
-###房间逻辑流程图
+### 房间逻辑流程图
+
 ![此处输入图片的描述](http://bmob-cdn-15075.b0.upaiyun.com/2018/05/21/2812fc16409b2ab18070b26e228a91d2.png)
 
 ### 常量
@@ -349,10 +350,26 @@ PlayerStatus_Playing|该位置上有玩家，已经在游戏中
 PlayerStatus_GameOut|该位置上有玩家，已经在游戏中被淘汰
 PlayerStatus_Offline|该位置上有玩家，已经在游戏中，但是掉线了
 
-####游戏内的 action 类型
+#### 游戏内的 action 类型
 
 名称|含义
 :--:|:--:
 PlayerGameAction_Offline|玩家游戏中掉线
 PlayerGameAction_Reconn|玩家游戏中重连
 PlayerGameAction_GameLose|玩家失败
+
+### 错误码
+
+#### 加入房间
+
+错误码|含义
+:--:|:--:
+201|未知错误
+202|参数错误，例如房间号错误
+203|未登录，userId为空
+204|房间已被销毁或joinKey错误
+206|房间已满人
+207|服务器内部错误
+208|房间正在游戏中，不允许加入
+
+

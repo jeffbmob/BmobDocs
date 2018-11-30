@@ -1,3 +1,6 @@
+---
+title: My Document
+---
 
 ## 平台常见问题
 
@@ -41,11 +44,11 @@ Bmob采用南北双线，多路分流的方式，将服务器部署在国内外�
 2.Cocos2d-x和Unity两种主流的游戏引擎  
 3.Js支持HTML5移动开发  
 4.C#、php、Java支持PC端开发  
-5.Restful开放API接口（可使用任何语言开发）
+5.REST API开放API接口（可使用任何语言开发）
 
 ---
 ** 不同SDK的数据是否打通 **
-当然！本质上，所有的SDK都是基于Restful开发，数据是完全打通的。
+当然！本质上，所有的SDK都是基于REST API开发，数据是完全打通的。
 
 ---
 ** 我想迁移数据到Bmob,但是user表如何迁移呢 **  
@@ -155,7 +158,7 @@ Bmob没有提供直接获取密码的方法。如果直接可以获取密码的�
 
 ---
 ** 我想在eclipse用Java web开发，使用struts2框架，然后后台数据库用bmob可以实现吗，需要下载什么东西 **  
-可以使用java sdk或者自己封装，通过https调用restful接口
+可以使用java sdk或者自己封装，通过https调用REST API接口
 
 ---
 ** web端上传文件最大支持多少 **  
@@ -171,7 +174,7 @@ Web操作是这样的，但你可以用SDK，通过代码来实现数据的关�
 
 ---
 ** http请求如何访问Bmob **  
-可以使用restful接口进行访问。
+可以使用REST API接口进行访问。
 
 ---
 ** ie8下引用 bmob-min.js 出现 “缺少标识符、字符串或数字” 错误 **  
@@ -179,7 +182,7 @@ ie8不支持html5
 
 ---
 ** angularJS如何与bmob配合使用 **  
-可以使用我们的JS SDK或者是使用angularJS的网络请求使用restful接口进行请求
+可以使用我们的JS SDK或者是使用angularJS的网络请求使用REST API接口进行请求
 
 ---
 ** 登录问题 能否实现只有通过验证的用户才能登 **  
@@ -199,7 +202,7 @@ ie8不支持html5
 
 ---
 ** 可以在PC端写tool来操作服务器数据? **  
-可以，使用restful接口
+可以，使用REST API接口
 
 ---
 ** API请求数是实时统计更新的吗？ **  
@@ -1352,7 +1355,7 @@ CCLOG("%s",(const char*)data);或者是BmobLog::bmob_log()
 
 ---
 ** unity端 查询表，会出现失败情况 **  
-失败原因 Failed to connect to api.bmob.cn port 443: Timed out, and response content is 
+失败原因 Failed to connect to api2.bmob.cn port 443: Timed out, and response content is 
 UnityEngine.MonoBehaviour:print(Object)  
 提示连接超时，先检查一下网络状况。
 
@@ -1366,7 +1369,7 @@ c#没有进行用户缓存
 
 ---
 ** 如何通过SDK删除用户表_User的数据 **  
-可以通过调用restful接口+master key来完成删除用户
+可以通过调用REST API接口+master key来完成删除用户
 
 ---
 ** C#SDK，使用Find功能，我自己封装一层查询的方法，想要获得bool的返回值，应该怎么实现 **  
@@ -1374,7 +1377,7 @@ c#没有进行用户缓存
 
 ---
 ** 请问在c#sdk可以使用master key吗？还是说要自己重新写？ **  
-不可以直接使用的，只有Restful api可以使用master key，你可以使用C#的http请求api来调用restful api
+不可以直接使用的，只有REST API api可以使用master key，你可以使用C#的http请求api来调用REST API api
 
 ---
 ** Bmob如何实现两张表的关联呢?   
@@ -1383,7 +1386,7 @@ c#没有进行用户缓存
 
 ---
 ** Unity可以使用短信验证么，为什么找不到API **  
-可以使用Unity的网络访问接口，调用restful来使用短信验证～
+可以使用Unity的网络访问接口，调用REST API来使用短信验证～
 
 ---
 ** bmob sdk for unity3D 在unity3d5.3 下转il2cpp无法使用  
@@ -1565,12 +1568,12 @@ app.controller('testcontroller',function($scope,$resource,bmobservice){
 ---
 
 ** JS如果想产生多行数据保存到表中怎么办? **  
-一次只能保存一条数据，多条数据需要使用批量操作，可以使用restful接口
+一次只能保存一条数据，多条数据需要使用批量操作，可以使用REST API接口
 
 ---
 
 ** js sdk中有更新某个表某个字段所有值的函数吗 **  
-没有的，只能一个个更新，restful有一个批量更新的接口，但是每次最多只能操作50条数据
+没有的，只能一个个更新，REST API有一个批量更新的接口，但是每次最多只能操作50条数据
 
 ---
 
@@ -1595,7 +1598,7 @@ JS有推送功能，可以查看推送文档。
 ---
 
 ** JS SDK可以增加模糊查询吗 **  
-目前JS并没有该接口，可使用JS的网络访问接口调用restful api实现，restful api中含有模糊查询的功能。
+目前JS并没有该接口，可使用JS的网络访问接口调用REST API api实现，REST API api中含有模糊查询的功能。
 
 ---
 
@@ -1663,7 +1666,7 @@ Bmob暂时没有事务操作，你要想同时更新两个表的话，可以使�
 ** test.php出现unauthorized
 下载sdk之后，修改了配置文件的Application ID和REST API Key
 运行test.php出现BmobException: [0]: unauthorized 
-app id 或 restful key不正确
+app id 或 REST API key不正确
 
 ---
 
@@ -1708,7 +1711,7 @@ PHP是我们官方出的SDK，你还可以根据restapi文档开发更多的SDK�
 客户端与服务器维护了一个长连接，有消息时由服务端主动推送消息
 
 
-### Restful
+### REST API
 
 ** RestApi 如何进行ACL查询呢？比如有一张表，设置了某条数据，某个用户才能读取查看，那该用户如何获取该条数据呢使用RestApi **  
 普通的查询就可以获取了，只要设置了ACL，其它使用就是正常的读写，如果没有权限会有提示
@@ -1721,7 +1724,7 @@ keyOfFile表示你存文件的那个表的字段名，group填个group1就可以
 ---
 
 ** STM32主板上其他模块获取到的数据怎么通过GPRS上传到服务器上 **  
-得看你的板子是否支持https请求，如果支持https请求则可以直接使用restful接口进行上传
+得看你的板子是否支持https请求，如果支持https请求则可以直接使用REST API接口进行上传
 
 ---
 
@@ -1762,7 +1765,7 @@ restapi都是通过https协议来进行请求的
 ---
 
 ** restAPI 使用短信验证码进行密码重置问题  
-用短信验证码进行密码重置 的接口 https://api.bmob.cn/1/resetPasswordBySmsCode ，从接口描述来看，需要上传的信息只有 验证码和新密码，用户的 session 或手机号都不需要上传。  
+用短信验证码进行密码重置 的接口 https://api2.bmob.cn/1/resetPasswordBySmsCode ，从接口描述来看，需要上传的信息只有 验证码和新密码，用户的 session 或手机号都不需要上传。  
 那后台如何知道这个验证码是哪个手机号发来的呢？ **  
 后台是根据你的手机号来生成验证码的，服务端可以知道具体的验证码对应哪个手机号，请放心使用
 
@@ -1861,11 +1864,11 @@ js的调用请使用bmob提供的js sdk，在sdk中已经解决了这个问题
 **  如何在线测试RestApi **  
 使用Chrome浏览器的Postman插件就可以进行调试了。[点击链接Postman下载地址](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?utm_source=chrome-ntp-icon)。  
 
-界面效果[点击这里查看](http://docs.bmob.cn/restful/faststart/index.html?menukey=fast_start&key=start_restful#RestAPI调试工具)。
+界面效果[点击这里查看](http://docs.bmob.cn/Restful/faststart/index.html?menukey=fast_start&key=start_restful#RestAPI调试工具)。
 
 ---
 ** Postman发起数据请求没有反应 **  
-首先先检查本地网络，通常是因为本地网络或者Postman没有成功发出数据请求，其次可以打开[https://api.bmob.cn/](https://api.bmob.cn/)查看是否能打开进行测试。
+首先先检查本地网络，通常是因为本地网络或者Postman没有成功发出数据请求，其次可以打开[https://api2.bmob.cn/](https://api2.bmob.cn/)查看是否能打开进行测试。
 
 ---
 
@@ -1890,7 +1893,7 @@ curl_setopt($c, CURLOPT_SSL_VERIFYHOST, FALSE);
 ---
 
 ** 关于where条件的问题 **  
-有开发者提出用PostMan请求的时候没有问题，但是用Java请求构造了where查询条件的时候有错（请求的格式大致如， `https://api.bmob.cn/1/classes/Footballer?limit=20&where={"location": {"$nearSphere": {"__type": "GeoPoint","latitude": 32.31735060,"longitude": 118.32457035 }}}` ）。  
+有开发者提出用PostMan请求的时候没有问题，但是用Java请求构造了where查询条件的时候有错（请求的格式大致如， `https://api2.bmob.cn/1/classes/Footballer?limit=20&where={"location": {"$nearSphere": {"__type": "GeoPoint","latitude": 32.31735060,"longitude": 118.32457035 }}}` ）。  
 
 这个问题是因为特殊字符导致的问题，大家可以参考以下的解决方案：  
 
@@ -2040,7 +2043,7 @@ response.send('data2');
 
 ---
 ** 云函数可以查询支付订单吗？返回订单结果和数额之类的，有相关函数吗 **  
-可以使用云函数去调用restful接口来查询
+可以使用云函数去调用REST API接口来查询
 
 ---
 ** 云函数可以实现抓取别的网页信息吗？比如说，我客户端去请求云函数，让云函数实现抓取某个咨询网站的信息 **  
@@ -2048,7 +2051,7 @@ response.send('data2');
 
 ---
 ** 请问云函数可以发送短信吗？ **  
-可以通过云函数调用restful接口来实现。
+可以通过云函数调用REST API接口来实现。
 
 ---
 
@@ -2113,7 +2116,7 @@ functions.run({
 
 ** 云函数如何进行模糊查询 **  
 
-调用restful的模糊查询接口
+调用REST API的模糊查询接口
 
 ---
 
@@ -2162,7 +2165,7 @@ functions.run({
 
 ** 怎么在云端调用 获取短信验证码、验证短信验证码 **
 
-使用云函数进行http请求，请求RESTful接口即可
+使用云函数进行http请求，请求REST API接口即可
 
 ---
 
@@ -2222,13 +2225,13 @@ Bmob导入数据，只可以从web后台手动导入。如果你要自动从本�
 
 ** 连上vpn没有数据返回 **
 
-可以在连上VPN时ping https://api.bmob.cn/看看能否ping通，有可能是VPN屏蔽了
+可以在连上VPN时ping https://api2.bmob.cn/看看能否ping通，有可能是VPN屏蔽了
 
 ---
 
 ** 云函数中where条件怎么表示!=？ **
 
-您好，可以参考restful文档中的查询数据中的条件查询，大概的形式为"type":{"$ne":"delete"}
+您好，可以参考REST API文档中的查询数据中的条件查询，大概的形式为"type":{"$ne":"delete"}
 
 ---
 
@@ -2248,7 +2251,7 @@ Bmob导入数据，只可以从web后台手动导入。如果你要自动从本�
 
 ** JavaScript能调用云函数吗（xx平台能调用云函数） **
 
-只要支持https请求就可以通过restful来调用云函数，部分sdk直接封装了调用云函数的接口，具体可以查看云函数文档。
+只要支持https请求就可以通过REST API来调用云函数，部分sdk直接封装了调用云函数的接口，具体可以查看云函数文档。
 
 ---
 
@@ -2311,7 +2314,7 @@ db.updateUserByObjectId({"objectId":request.body.objectId.toString() ,data: {"ch
 
 ** containedIn在云函数里面是什么指令 **
 
-对应为 [RESTful开发文档](http://doc.bmob.cn/data/restful/develop_doc/) 查询小节里面的 $in 查询，你可以参考restful文档，在where条件中使用就可以了。
+对应为 [REST API开发文档](http://doc.bmob.cn/data/Restful/develop_doc/) 查询小节里面的 $in 查询，你可以参考REST API文档，在where条件中使用就可以了。
 
 ---
 
@@ -2455,7 +2458,7 @@ curl -X GET \
 -H "X-Bmob-REST-API-Key: Your REST API Key" \
 -G \
 --data-urlencode 'keys=username' \
-https://api.bmob.cn/1/users/某个用户的objectId
+https://api2.bmob.cn/1/users/某个用户的objectId
 ```
 
 第二步：score降序获取前1000名的用户的用户名：
@@ -2465,7 +2468,7 @@ curl -X GET \
 -H "X-Bmob-REST-API-Key: Your REST API Key" \
 -G \
 --data-urlencode 'keys=username&order=-score&count=true&limit=1000&skip=0' \
-https://api.bmob.cn/1/classes/GameScore
+https://api2.bmob.cn/1/classes/GameScore
 ```
 返回前1000名的用户名，判断前一个查询的用户名是否在这个数组的哪个位置，如果没有找到，继续第二步, skip设为1000，直到找到为止。
 

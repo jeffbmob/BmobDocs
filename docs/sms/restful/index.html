@@ -4,13 +4,19 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta content="Bmob,BmobCloud,bomb,BaaS,mBaaS,PaaS,Serverless,FaaS,Function as a Service,Backend as a Service,serverless computing,cloud function,后端云,bmob后端云,小程序云,小程序后端,云数据库,云存储,文件存储,云函数,云端代码,定时任务,游戏后端,游戏云,用户系统,无服务器函数,移动开发,app开发,小程序开发,云端一体化,互联网中间件" name="keywords"/>
+            <meta content="国内首家专注于移动应用Serverless云服务的平台,Bmob后端云让移动开发更简单,全方位一体化的后端服务平台" name="description"/>
             
             
             
             <link rel="shortcut icon" href="../../img/favicon.ico">
         
         <script type="text/javascript" src="//game.bmob.cn/static/doc_union.js"></script>
-            <title>Bmob文档中心</title>
+            <!--
+            <title>REST API - Bmob文档中心</title>
+            -->
+            <title>短信服务 &middot; REST API – Bmob后端云 </title>        
+            
             <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
             <link href="../../css/font-awesome-4.5.0.css" rel="stylesheet">
             <link href="../../css/base.css" rel="stylesheet">
@@ -75,7 +81,7 @@
                             
                             
 								<li >
-									<a href="../../data/restful/">RESTful</a>
+									<a href="../../data/restful/">REST API</a>
                                 </li>
                             
                             
@@ -113,6 +119,11 @@
 									<a href="../../data/wechat_app_new/rm/">小程序(新)</a>
                                 </li>
                             
+                            
+                                <li >
+                                    <a href="../../data/kotlin/">Kotlin</a>
+                                </li>
+							
                         </ul>
                     </li>
                 
@@ -141,6 +152,11 @@
 							
                             
                                 <li >
+                                    <a href="../../cloud_function/python/">Python</a>
+                                </li>
+							
+                            
+                                <li >
                                     <a href="../../cloud_function/csharp/">C#</a>
                                 </li>
 							
@@ -156,7 +172,7 @@
 							
                             
                                 <li >
-                                    <a href="../../cloud_function/restful/">RESTful</a>
+                                    <a href="../../cloud_function/restful/">REST API</a>
                                 </li>
 							
                             
@@ -197,7 +213,7 @@
 							
                             
                                 <li class="active">
-                                    <a href="./">RESTful</a>
+                                    <a href="./">REST API</a>
                                 </li>
 							
                         </ul>
@@ -243,9 +259,9 @@
             
               <li class="pull-left">
                 
-					<!--<a href="">IM服务</a>-->
+					<!--<a href="">即时通讯</a>-->
 					<li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">IM服务 <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">即时通讯 <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             
 								<li >
@@ -290,7 +306,7 @@
 							
                             
                                 <li >
-                                    <a href="../../push/restful/">RESTful</a>
+                                    <a href="../../push/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -362,16 +378,6 @@
 				
 				
 				
-		
-	
-		
-				
-				
-				
-				
-				
-				
-				
 				
 		
 	
@@ -381,7 +387,19 @@
 				
 				
 				
-					<div class="code-title">RESTful</div>
+				
+				
+				
+				
+		
+	
+		
+				
+				
+				
+				
+				
+					<div class="code-title">REST API</div>
 				
 		
 	
@@ -489,7 +507,7 @@
 <p><strong>请求</strong></p>
 <ul>
 <li>
-<p>url ：https://api.bmob.cn/1/requestSmsCode</p>
+<p>url ：https://api2.bmob.cn/1/requestSmsCode</p>
 </li>
 <li>
 <p>method ：POST</p>
@@ -533,7 +551,7 @@ Content-Type: application/json
   -H &quot;X-Bmob-REST-API-Key: Your REST API Key&quot;        \
   -H &quot;Content-Type: application/json&quot; \
   -d '{&quot;mobilePhoneNumber&quot;: &quot;186xxxxxxxx&quot;}' \
-  https://api.bmob.cn/1/requestSmsCode
+  https://api2.bmob.cn/1/requestSmsCode
 </code></pre>
 
 <p>成功返回，短信验证码ID，可用于后面使用查询短信状态接口来查询该短信验证码是否发送成功和是否验证过：</p>
@@ -548,7 +566,7 @@ Content-Type: application/json
   -H &quot;X-Bmob-REST-API-Key: Your REST API Key&quot;        \
   -H &quot;Content-Type: application/json&quot; \
   -d '{&quot;mobilePhoneNumber&quot;: &quot;186xxxxxxxx&quot;, &quot;template&quot;:&quot;注册模板&quot;}' \
-  https://api.bmob.cn/1/requestSmsCode
+  https://api2.bmob.cn/1/requestSmsCode
 </code></pre>
 
 <p>成功返回，短信验证码ID，可用于后面使用查询短信状态接口来查询该短信验证码是否发送成功和是否验证过：</p>
@@ -563,7 +581,7 @@ Content-Type: application/json
 <p><strong>请求</strong></p>
 <ul>
 <li>
-<p>url ：https://api.bmob.cn/1/verifySmsCode/smsCode(用户收到的6位短信验证码)</p>
+<p>url ：https://api2.bmob.cn/1/verifySmsCode/smsCode(用户收到的6位短信验证码)</p>
 </li>
 <li>
 <p>method ：POST</p>
@@ -606,7 +624,7 @@ Content-Type: application/json
   -H &quot;X-Bmob-REST-API-Key: Your REST API Key&quot;        \
   -H &quot;Content-Type: application/json&quot; \
   -d '{&quot;mobilePhoneNumber&quot;: &quot;186xxxxxxxx&quot;}' \
-  https://api.bmob.cn/1/verifySmsCode/876845
+  https://api2.bmob.cn/1/verifySmsCode/876845
 </code></pre>
 
 <p><strong>注意事项</strong></p>

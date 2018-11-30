@@ -84,6 +84,8 @@ Bmob.User.login('username','password').then(res => {
 
 
 
+
+
 ## 用户操作
 
 ### 登陆
@@ -1322,8 +1324,6 @@ let data = {
 }
 query.equalTo("data", ">", data);
 ```
-> Ps:这里注意的是，系统字段 **createAt** 只需要传入字符日期比较
-
 ### File类型
 
 File类型是在上传后返回的JSON数据再加一个Key为"__Type":"File", 用来保存到数据列为文件类型的值：
@@ -1920,6 +1920,98 @@ Bmob.User.upInfo(e.detail.userInfo).then(result => {
 
 
 
+### 小程序加密数据解密
+
+在小程序的开发过程中，获取一些隐私信息，需要解密处理，例如：获取手机号、运动步数、分享转发群Id，获取uuid等，为了大家更方便的拿到这些信息，SDK封装了解密方法。
+
+
+
+**请求示例：**
+
+1.获取手机号
+
+```
+//wxml
+<button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">获取手机号 </button>
+
+//js
+ getPhoneNumber: function (res) {
+    wx.Bmob.User.decryption(res).then(res => {
+      console.log(res)
+  })
+    
+ // 解密后返回数据格式如下
+ // { "phoneNumber":"137xxxx6579", "purePhoneNumber":"137xxxx6579", "countryCode":"86", "watermark":{ "timestamp":1516762168, "appid":"wx094edexxxxx" } }
+  }
+```
+
+2.获取分享群ID
+
+```
+
+//获取分享群ID
+onShareAppMessage: function (res) {
+    wx.showShareMenu({
+      withShareTicket: true
+    })
+    var that = this;
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: 'Bmob 示例',
+      path: 'pages/index/index',
+      success: function (res) {
+        wx.getShareInfo({
+          shareTicket: res.shareTickets,
+          success(res) {
+            // 调用解密
+            wx.Bmob.User.decryption(res).then(res => {
+              console.log(res)
+            })
+          }
+        })
+      },
+      fail: function (res) {
+        // 转发失败
+      }
+    }
+  }
+  
+//解密后返回数据格式如下
+{
+ "openGId": "OPENGID"
+}
+```
+
+3.解密运动步数
+
+```
+wx.getWeRunData({
+      success(res) {
+        wx.Bmob.User.decryption(res).then(res => {
+          console.log(res)
+        })
+      }
+    })
+//解密后返回数据格式如下
+{
+  "stepInfoList": [
+    {
+      "timestamp": 1445866601,
+      "step": 100
+    },
+    {
+      "timestamp": 1445876601,
+      "step": 120
+    }
+  ]
+}
+```
+
+
+
 
 
 ### 生成二维码 ###
@@ -1967,7 +2059,7 @@ Bmob.generateCode 参数列表
 
 **简介：**
 
-微信小程序检测违规内容
+微信小程序检测用户输入的内容是否违规，建议用户留言，评论，发布内容，调用此接口。
 
 **参数说明：**
 
@@ -2198,8 +2290,6 @@ var openId = wx.getStorageSync('openid');
     	error: "content is empty."
     }
 
-
-
 ### 小程序解密
 
 #### 1.获取手机号
@@ -2217,6 +2307,7 @@ var openId = wx.getStorageSync('openid');
  // 解密后返回数据格式如下
  // { "phoneNumber":"137xxxx6579", "purePhoneNumber":"137xxxx6579", "countryCode":"86", "watermark":{ "timestamp":1516762168, "appid":"wx094edexxxxx" } }
   }
+
 ```
 
 #### 2.获取分享群ID
@@ -2256,6 +2347,7 @@ onShareAppMessage: function (res) {
 {
  "openGId": "OPENGID"
 }
+
 ```
 
 #### 3.解密运动步数
@@ -2281,6 +2373,7 @@ wx.getWeRunData({
     }
   ]
 }
+
 ```
 
 

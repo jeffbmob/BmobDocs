@@ -121,7 +121,7 @@ curl --request GET \
 
 支持2种调用方法
 1.小程序
-2.restful
+2.REST API
 
 1.小程序`Bmob.sendMasterMessage`调用主人通知接口
 ```
@@ -133,11 +133,11 @@ curl --request GET \
             "url": "https://www.bmob.cn/",
             "data": {
               "first": {
-                "value": "您好，Restful 失效，请登录控制台查看。",
+                "value": "您好，REST API 失效，请登录控制台查看。",
                 "color": "#c00"
               },
               "keyword1": {
-                "value": "Restful 失效"
+                "value": "REST API 失效"
               },
               "keyword2": {
                 "value": "2017-07-03 16:13:01"
@@ -163,7 +163,7 @@ curl --request GET \
 
 
 
-2.restful调用方式
+2.REST API调用方式
 
 ```
 curl --request POST \
@@ -177,11 +177,11 @@ curl --request POST \
    "url": "http://www.bmob.cn/",
    "data": {
        "first": {
-           "value": "您好，Restful 失效，请登录控制台查看。",
+           "value": "您好，REST API 失效，请登录控制台查看。",
            "color": "#c00"
        },
        "keyword1": {
-           "value": "Restful 失效"
+           "value": "REST API 失效"
        },
        "keyword2": {
            "value": "2017-07-03 16:13:01"
@@ -405,10 +405,10 @@ var sessionKey="xTlW5jfSUP3Kx0vC5PJbmw==";
 小程序模板消息首先是通过获取`access_token`来发送。access_token有效期2小时。
 
 * ##### 模板消息支持2种方式调用。
-* 1.Restful
+* 1.REST API
 * 2.小程序
 
-Restful
+REST API
 ```
 curl -X POST \
   http://api2.bmob.cn/1/wechatApp/SendWeAppMessage \
@@ -437,7 +437,7 @@ curl -X POST \
 }'
 ```
 
-Restful主要用在一些特殊情况，例如审核后给用户发送一个通知，定时发通知等这种要配合云逻辑或自己服务端来使用。
+REST API主要用在一些特殊情况，例如审核后给用户发送一个通知，定时发通知等这种要配合云逻辑或自己服务端来使用。
 
 
 小程序内部调用比较常用，使用门槛低
@@ -942,7 +942,6 @@ Bmob的统计查询，提供以下关键字或其组合的查询操作：
 
 以上关键字除了groupcount是传Boolean值true或false，having传的是和where类似的json字符串，但having只应该用于过滤分组查询得到的结果集，即having只应该包含结果集中的列名如 `{"_sumScore":{"$gt":100}}` ，其他关键字必须是字符串而必须是表中包含的列名，多个列名用,分隔。
 
-以上关键字可以自由组合并可以与前面查询语句中的where, order, limit, skip等组合使用。
 
 比如，GameScore表是游戏玩家的信息和得分表，有playerName(玩家名称)、score(玩家得分)等你自己创建的列，还有Bmob的默认列objectId, createdAt, updatedAt,那么我们现在举例如何使用以上的查询关键字来作这个表的统计。
 
@@ -964,28 +963,6 @@ query._extraOptions = {"sum":"score"};
 
 ```
 
-#### 分组计算总和
-比如我们以创建时间按天统计所有玩家的得分，并按时间降序, groupby后面只能拼接列名，如果该列是时间类型，则按天分组，其他类型，则按确定值分组:
-
-```
-query._extraOptions = {"sum":"score","groupby":"createdAt"};
-query.ascending("createdAt");
-```
-
-返回内容如下：
-
-```
-[
-	{
-		"_sumScore": 2398,
-		"createdAt": "2014-02-05"
-	},
-	{
-		"_sumScore": 1208,
-		"createdAt": "2014-01-01"
-	},
-]
-```
 
 
 ## 修改数据

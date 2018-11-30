@@ -209,7 +209,7 @@ import cn.bmob.gamesdk.server.api.Bmob;
 public class Room extends RoomBase {
 
 	static {
-		Bmob.init("Bmob AppKey", "Bmob Restful Key");
+		Bmob.init("Bmob AppKey", "Bmob REST API Key");
 	}
     
 	...

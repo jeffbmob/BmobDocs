@@ -811,7 +811,6 @@ game->update(this);
 Bmob 的统计查询,提供以下关键字或其组合的查询操作: Key Operation groupby 分组操作 groupcount 返回每个分组的总记录 sum 计算总和 average 计算平均值 max 计算最大值 min 计算最小值 having 分组中的过滤条件
 为避免和用户创建的列名称冲突, Bmob 约定以上统计关键字( sum, max, min) 的查询结果值都用 '_( 关键字 )+ 首字母大写的列名 ' 的格式,如计算玩家得分列名称为 score 总和的操作,则返回的结果集会有一个列名为 _sumScore 。 average 返回的列为 '_avg+ 首字 母大写的列名 ' ,有 groupcount 的情形下则返回 _count 。
 以上关键字除了 groupcount 是传 Boolean 值 true 或 false , having 传的是和 where类似的 json 字符串,但 having 只应该用于过滤分组查询得到的结果集,即 having 只应该包含结果集中的列名如 {"_sumScore":{"$gt":100}} ,其他关键字必须是字符串而必须是表中包含的列名,多个列名 用 , 分隔。
-以上关键字可以自由组合并可以与前面查询语句中的 where, order, limit, skip 等组合使用。
 比 如, GameScore 表是游戏玩家的信息和得分表,有 playerName( 玩家名称 ) 、score( 玩家得分 ) 等你自己创建的列,还有 Bmob 的默认 列 objectId, createdAt,updatedAt, 那么我们现在举例如何使用以上的查询关键字来作这个表的统计。
 
 #### 计算总和

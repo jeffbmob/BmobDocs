@@ -4,13 +4,19 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta content="Bmob,BmobCloud,bomb,BaaS,mBaaS,PaaS,Serverless,FaaS,Function as a Service,Backend as a Service,serverless computing,cloud function,后端云,bmob后端云,小程序云,小程序后端,云数据库,云存储,文件存储,云函数,云端代码,定时任务,游戏后端,游戏云,用户系统,无服务器函数,移动开发,app开发,小程序开发,云端一体化,互联网中间件" name="keywords"/>
+            <meta content="国内首家专注于移动应用Serverless云服务的平台,Bmob后端云让移动开发更简单,全方位一体化的后端服务平台" name="description"/>
             
             
             
             <link rel="shortcut icon" href="../../img/favicon.ico">
         
         <script type="text/javascript" src="//game.bmob.cn/static/doc_union.js"></script>
-            <title>Bmob文档中心</title>
+            <!--
+            <title>数据安全 - Bmob文档中心</title>
+            -->
+            <title>数据安全 – Bmob后端云 </title>        
+            
             <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
             <link href="../../css/font-awesome-4.5.0.css" rel="stylesheet">
             <link href="../../css/base.css" rel="stylesheet">
@@ -75,7 +81,7 @@
                             
                             
 								<li >
-									<a href="../../data/restful/">RESTful</a>
+									<a href="../../data/restful/">REST API</a>
                                 </li>
                             
                             
@@ -113,6 +119,11 @@
 									<a href="../../data/wechat_app_new/rm/">小程序(新)</a>
                                 </li>
                             
+                            
+                                <li >
+                                    <a href="../../data/kotlin/">Kotlin</a>
+                                </li>
+							
                         </ul>
                     </li>
                 
@@ -141,6 +152,11 @@
 							
                             
                                 <li >
+                                    <a href="../../cloud_function/python/">Python</a>
+                                </li>
+							
+                            
+                                <li >
                                     <a href="../../cloud_function/csharp/">C#</a>
                                 </li>
 							
@@ -156,7 +172,7 @@
 							
                             
                                 <li >
-                                    <a href="../../cloud_function/restful/">RESTful</a>
+                                    <a href="../../cloud_function/restful/">REST API</a>
                                 </li>
 							
                             
@@ -197,7 +213,7 @@
 							
                             
                                 <li >
-                                    <a href="../../sms/restful/">RESTful</a>
+                                    <a href="../../sms/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -243,9 +259,9 @@
             
               <li class="pull-left">
                 
-					<!--<a href="">IM服务</a>-->
+					<!--<a href="">即时通讯</a>-->
 					<li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">IM服务 <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">即时通讯 <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             
 								<li >
@@ -290,7 +306,7 @@
 							
                             
                                 <li >
-                                    <a href="../../push/restful/">RESTful</a>
+                                    <a href="../../push/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -362,9 +378,11 @@
 				
 				
 				
+				
 		
 	
 		
+				
 				
 				
 				
@@ -524,6 +542,7 @@
 <p>当APP进入发布阶段，你可以做更多的工作，防止某些不法人士破解了你的APP，获取Application KEY，而随意更改里面的数据。需要做的事情非常简单，你只需要进入到这个APP的Bmob后台，依次点击“应用设置-&gt;安全认证”，将APP的签名/Bundle ID信息填写在里面，就可以确保数据的安全。如下图：</p>
 <p><img alt="" src="./image/safesetting.png" /></p>
 <p>如果你的APP已经处于发布状态，也开启了安全认证，那么，当你需要对这个APP进行调试时，要把调试时的网络IP加到IP白名单上面。这样的话，这个IP就能够绕过安全认证进行操作。有点繁琐，但为了确保你的数据安全，Bmob后端云建议你进行相应的操作。</p>
+<p>另外，你也可以启用“数据安全开关”，当开启了数据安全开关后，只有登录的用户才能对数据表进行读写。</p>
                 </div>
             </div>
         </div>

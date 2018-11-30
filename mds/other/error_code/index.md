@@ -208,8 +208,8 @@ code为下表中的错误码，error为下表中的内容
 |4007 	|iOS|| 价格超出限额 |
 |4008 	|iOS|| 获取支付参数错误，请稍后重试 |
 |||||
-|150	|Restful|order_no is null.|订单号是空的.|
-|10001	|Restful|%s required|有些项是必填的|
-|10002	|Restful|order_no not exists.|你要查询的订单号不存在.|
-|10003	|Restful|%s.|详细错误信息，如微信或支付宝返回的详细错误.|
-|10004	|Restful|%s.|详细错误信息，如微信或支付宝返回的详细错误.|
+|150	|REST API|order_no is null.|订单号是空的.|
+|10001	|REST API|%s required|有些项是必填的|
+|10002	|REST API|order_no not exists.|你要查询的订单号不存在.|
+|10003	|REST API|%s.|详细错误信息，如微信或支付宝返回的详细错误.|
+|10004	|REST API|%s.|详细错误信息，如微信或支付宝返回的详细错误.|

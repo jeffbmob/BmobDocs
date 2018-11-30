@@ -35,7 +35,7 @@ pages:
     - 'GO':
         - '快速入门': 'data/go/index.md'
         - '开发文档': 'data/go/develop_doc.md'
-    - 'RESTful':
+    - 'REST API':
         - '快速入门': 'data/restful/index.md'
         - '开发文档': 'data/restful/develop_doc.md'
     - 'JavaScript':
@@ -52,14 +52,16 @@ pages:
     - '小程序(新)':
         - '快速入门': 'data/wechat_app_new/rm.md'
         - '开发文档': 'data/wechat_app_new/index.md'
+    - 'Kotlin': 'data/kotlin/index.md'
 - '云函数':
     - 'Android': 'cloud_function/android/index.md'
     - 'iOS': 'cloud_function/ios/index.md'
     - 'Java': 'cloud_function/java/index.md'
+    - 'Python': 'cloud_function/python/index.md'
     - 'C#': 'cloud_function/csharp/index.md'
     - 'PHP': 'cloud_function/php/index.md'
     - 'JavaScript': 'cloud_function/javascript/index.md'
-    - 'RESTful': 'cloud_function/restful/index.md'
+    - 'REST API': 'cloud_function/restful/index.md'
     - 'Web':
         - '快速入门': 'cloud_function/web/index.md'
         - '开发文档': 'cloud_function/web/develop_doc.md'
@@ -76,13 +78,13 @@ pages:
 #        - '开发文档': 'pay/ios/index.md'
 #        - '示例/功能': 'pay/ios/example.md'
 #        - '更新日志': 'pay/ios/update_log.md'
-#    - 'RESTful': 'pay/restful/index.md'
+#    - 'REST API': 'pay/restful/index.md'
 - '短信服务':
     - 'Android': 'sms/android/index.md'
     - 'iOS': 'sms/ios/index.md'
     - 'PHP': 'sms/php/index.md'
     - 'JavaScript': 'sms/javascript/index.md'
-    - 'RESTful': 'sms/restful/index.md'
+    - 'REST API': 'sms/restful/index.md'
 - '游戏实时后端':
     - 'Unity':
         - '快速入门': 'game/unity/quick_start.md'
@@ -95,7 +97,7 @@ pages:
         - '开发文档': 'game/wechat_games/develop_doc.md'
     - '云函数': 'game/cloud_function/develop_doc.md'
     - '经典案例': 'game/classic_case.md'
-- 'IM服务':
+- '即时通讯':
     - 'Android':
         - '开发文档': 'im/android/index.md'
         - '类库文档': 'im/android/class_doc.md'
@@ -108,9 +110,9 @@ pages:
     - 'iOS': 'push/ios/index.md'
     - 'PHP': 'push/php/index.md'
     - 'JavaScript': 'push/javascript/index.md'
-    - 'RESTful': 'push/restful/index.md'
+    - 'REST API': 'push/restful/index.md'
 - '其他':
-    - '常见问题': 'other/common_problem/index.md'
+    - '常见问题': 'other/common_problem/index.md' 
     - '错误码': 'other/error_code/index.md'
     - '数据安全': 'other/data_safety/index.md'
     - 'BQL': 'other/bql/index.md'

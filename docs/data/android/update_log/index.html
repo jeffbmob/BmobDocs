@@ -4,13 +4,19 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta content="Bmob,BmobCloud,bomb,BaaS,mBaaS,PaaS,Serverless,FaaS,Function as a Service,Backend as a Service,serverless computing,cloud function,后端云,bmob后端云,小程序云,小程序后端,云数据库,云存储,文件存储,云函数,云端代码,定时任务,游戏后端,游戏云,用户系统,无服务器函数,移动开发,app开发,小程序开发,云端一体化,互联网中间件" name="keywords"/>
+            <meta content="国内首家专注于移动应用Serverless云服务的平台,Bmob后端云让移动开发更简单,全方位一体化的后端服务平台" name="description"/>
             
             
             
             <link rel="shortcut icon" href="../../../img/favicon.ico">
         
         <script type="text/javascript" src="//game.bmob.cn/static/doc_union.js"></script>
-            <title>Bmob文档中心</title>
+            <!--
+            <title>更新日志 - Bmob文档中心</title>
+            -->
+            <title>数据存储 &middot; Android – Bmob后端云 </title>        
+            
             <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
             <link href="../../../css/font-awesome-4.5.0.css" rel="stylesheet">
             <link href="../../../css/base.css" rel="stylesheet">
@@ -75,7 +81,7 @@
                             
                             
 								<li >
-									<a href="../../restful/">RESTful</a>
+									<a href="../../restful/">REST API</a>
                                 </li>
                             
                             
@@ -113,6 +119,11 @@
 									<a href="../../wechat_app_new/rm/">小程序(新)</a>
                                 </li>
                             
+                            
+                                <li >
+                                    <a href="../../kotlin/">Kotlin</a>
+                                </li>
+							
                         </ul>
                     </li>
                 
@@ -141,6 +152,11 @@
 							
                             
                                 <li >
+                                    <a href="../../../cloud_function/python/">Python</a>
+                                </li>
+							
+                            
+                                <li >
                                     <a href="../../../cloud_function/csharp/">C#</a>
                                 </li>
 							
@@ -156,7 +172,7 @@
 							
                             
                                 <li >
-                                    <a href="../../../cloud_function/restful/">RESTful</a>
+                                    <a href="../../../cloud_function/restful/">REST API</a>
                                 </li>
 							
                             
@@ -197,7 +213,7 @@
 							
                             
                                 <li >
-                                    <a href="../../../sms/restful/">RESTful</a>
+                                    <a href="../../../sms/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -243,9 +259,9 @@
             
               <li class="pull-left">
                 
-					<!--<a href="">IM服务</a>-->
+					<!--<a href="">即时通讯</a>-->
 					<li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">IM服务 <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">即时通讯 <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             
 								<li >
@@ -290,7 +306,7 @@
 							
                             
                                 <li >
-                                    <a href="../../../push/restful/">RESTful</a>
+                                    <a href="../../../push/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -364,9 +380,11 @@
 				
 				
 				
+				
 		
 	
 		
+				
 				
 				
 				
@@ -455,7 +473,23 @@
 										
 										<ul class="nav">
 											
-											<li class="active "><a href="#v36420180614">v3.6.4(2018/06/14)</a>
+											<li class="active "><a href="#v368-rc320181126">v3.6.8-rc3(2018/11/26)</a>
+												
+											</li>
+												
+											<li class=""><a href="#v368-rc220181120">v3.6.8-rc2(2018/11/20)</a>
+												
+											</li>
+												
+											<li class=""><a href="#v36620180914">v3.6.6(2018/09/14)</a>
+												
+											</li>
+												
+											<li class=""><a href="#v36520180709">v3.6.5(2018/07/09)</a>
+												
+											</li>
+												
+											<li class=""><a href="#v36420180614">v3.6.4(2018/06/14)</a>
 												
 											</li>
 												
@@ -790,6 +824,8 @@
 					
 						
 					
+						
+					
 				
 			
 		
@@ -812,6 +848,26 @@
                 <div class="wrap">
                     
 
+<h2 id="v368-rc320181126">v3.6.8-rc3(2018/11/26)<a class="headerlink" href="#v368-rc320181126" title="Permanent link">&para;</a></h2>
+<p>1、修复RxJava不能传递空值的bug。
+2、删除了无效的API接口，例如发送自定义内容短信等。</p>
+<h2 id="v368-rc220181120">v3.6.8-rc2(2018/11/20)<a class="headerlink" href="#v368-rc220181120" title="Permanent link">&para;</a></h2>
+<p>1、升级SDK依赖的RxJava1、RxAndroid1到RxJava2、RxAndroid2，由于rxjava1到rxjava2的代码修改较大，若在项目中使用了rxjava的开发者需要做较多的改动。</p>
+<p>2、升级SDK依赖的Gson、Okio到了最新版本。</p>
+<p>3、将SDK依赖的RxJava、RxAndroid、Gson、Okio从远程仓库中剔除，由开发者自行导入依赖，用于解决依赖库的冲突问题。</p>
+<p>4、修复SDK在Android P网络请求中的CLEARTEXT communication to host not permitted by network错误，需要在res下的xml文件夹中进行相关配置。</p>
+<p>5、为适配Android P将support包迁移为androidx包，并将目标SDK版本改为28，已达到各大应用市场的上传要求。</p>
+<p>6、BmobUser.fetchUserInfo获取最新控制台用户信息的同时，增加了更新本地用户缓存的功能；但BmobUser.fetchUserJsonInfo只是获取最新控制台用户信息JSON格式，没有更新本地用户缓存的功能。</p>
+<p>7、修复了Bmob.resetDomain重置域名无效的问题，Bmob.resetDomain需要放置在SDK初始化代码之前。</p>
+<p>8、此次版本改动较大，有问题可直接提交工单询问，我们会不断优化SDK为开发者们服务。</p>
+<h2 id="v36620180914">v3.6.6(2018/09/14)<a class="headerlink" href="#v36620180914" title="Permanent link">&para;</a></h2>
+<ol>
+<li>修复部分Bug。</li>
+</ol>
+<h2 id="v36520180709">v3.6.5(2018/07/09)<a class="headerlink" href="#v36520180709" title="Permanent link">&para;</a></h2>
+<ol>
+<li>修复部分Bug。</li>
+</ol>
 <h2 id="v36420180614">v3.6.4(2018/06/14)<a class="headerlink" href="#v36420180614" title="Permanent link">&para;</a></h2>
 <ol>
 <li>修复部分Bug。</li>

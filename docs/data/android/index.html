@@ -4,13 +4,19 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta content="Bmob,BmobCloud,bomb,BaaS,mBaaS,PaaS,Serverless,FaaS,Function as a Service,Backend as a Service,serverless computing,cloud function,后端云,bmob后端云,小程序云,小程序后端,云数据库,云存储,文件存储,云函数,云端代码,定时任务,游戏后端,游戏云,用户系统,无服务器函数,移动开发,app开发,小程序开发,云端一体化,互联网中间件" name="keywords"/>
+            <meta content="国内首家专注于移动应用Serverless云服务的平台,Bmob后端云让移动开发更简单,全方位一体化的后端服务平台" name="description"/>
             
             
             
             <link rel="shortcut icon" href="../../img/favicon.ico">
         
         <script type="text/javascript" src="//game.bmob.cn/static/doc_union.js"></script>
-            <title>Bmob文档中心</title>
+            <!--
+            <title>快速入门 - Bmob文档中心</title>
+            -->
+            <title>数据存储 &middot; Android – Bmob后端云 </title>        
+            
             <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
             <link href="../../css/font-awesome-4.5.0.css" rel="stylesheet">
             <link href="../../css/base.css" rel="stylesheet">
@@ -75,7 +81,7 @@
                             
                             
 								<li >
-									<a href="../restful/">RESTful</a>
+									<a href="../restful/">REST API</a>
                                 </li>
                             
                             
@@ -113,6 +119,11 @@
 									<a href="../wechat_app_new/rm/">小程序(新)</a>
                                 </li>
                             
+                            
+                                <li >
+                                    <a href="../kotlin/">Kotlin</a>
+                                </li>
+							
                         </ul>
                     </li>
                 
@@ -141,6 +152,11 @@
 							
                             
                                 <li >
+                                    <a href="../../cloud_function/python/">Python</a>
+                                </li>
+							
+                            
+                                <li >
                                     <a href="../../cloud_function/csharp/">C#</a>
                                 </li>
 							
@@ -156,7 +172,7 @@
 							
                             
                                 <li >
-                                    <a href="../../cloud_function/restful/">RESTful</a>
+                                    <a href="../../cloud_function/restful/">REST API</a>
                                 </li>
 							
                             
@@ -197,7 +213,7 @@
 							
                             
                                 <li >
-                                    <a href="../../sms/restful/">RESTful</a>
+                                    <a href="../../sms/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -243,9 +259,9 @@
             
               <li class="pull-left">
                 
-					<!--<a href="">IM服务</a>-->
+					<!--<a href="">即时通讯</a>-->
 					<li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">IM服务 <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">即时通讯 <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             
 								<li >
@@ -290,7 +306,7 @@
 							
                             
                                 <li >
-                                    <a href="../../push/restful/">RESTful</a>
+                                    <a href="../../push/restful/">REST API</a>
                                 </li>
 							
                         </ul>
@@ -364,9 +380,11 @@
 				
 				
 				
+				
 		
 	
 		
+				
 				
 				
 				
@@ -546,6 +564,8 @@
 					
 						
 					
+						
+					
 				
 			
 		
@@ -587,7 +607,7 @@
 <h3 id="_2">自动导入(推荐)<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <p>请按照如下两个步骤进行：</p>
 <ol>
-<li>在 <code>Project</code> 的 <code>build.gradle</code> 文件中添加 <code>Bmob的maven仓库地址</code>，示例如下：（<strong>注意文字说明部分</strong>）：</li>
+<li>在 <code>Project</code> 的 <code>build.gradle</code> 文件中添加 <code>Bmob的maven仓库地址</code>：</li>
 </ol>
 <pre><code>    buildscript {
         repositories {
@@ -608,46 +628,24 @@
 </code></pre>
 
 <ol>
-<li>在<code>app</code>的<code>build.gradle</code>文件中添加<code>compile依赖文件</code>,示例如下：（<strong>注意文字说明部分</strong>）：</li>
+<li>在<code>app</code>的<code>build.gradle</code>文件中添加<code>compile依赖文件</code>：</li>
 </ol>
-<pre><code>    apply plugin: 'com.android.application'
+<pre><code class="gradle">android {
+    useLibrary 'org.apache.http.legacy'
+}
+</code></pre>
 
-    android {
-        compileSdkVersion 22
-        buildToolsVersion '22.0.1'
-
-        **兼容Android6.0系统所需，如果这句话报错，可在dependencies标签下使用compile 'cn.bmob.android:http-legacy:1.0'**
-        useLibrary 'org.apache.http.legacy'
-
-        ...
+<pre><code class="gradle">    dependencies {
+        implementation 'cn.bmob.android:bmob-sdk:3.6.8-rc3'
+        implementation &quot;io.reactivex.rxjava2:rxjava:2.2.2&quot;
+        implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+        implementation 'com.squareup.okio:okio:2.1.0'
+        implementation 'com.google.code.gson:gson:2.8.5'
     }
-
-
-    dependencies {
-        compile fileTree(dir: 'libs', include: ['*.jar'])
-
-        //以下SDK开发者请根据需要自行选择
-        //bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:
-        //3.5.5：请务必查看下面注释[1]
-        compile 'cn.bmob.android:bmob-sdk:3.6.3'
-
-        //bmob-push：Bmob的推送包
-        compile 'cn.bmob.android:bmob-push:0.8'
-
-        //bmob-im：Bmob的即时通讯包，注意每个版本的im依赖特定版本的bmob-sdk，具体的依赖关系可查看下面注释[2]
-        compile 'cn.bmob.android:bmob-im:2.1.0@aar'
-
-        //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
-        compile 'cn.bmob.android:http-legacy:1.0'
-    }
-
 </code></pre>
 
 <p><strong>注：</strong></p>
-<p><strong>[1]、为了降低开发者的使用成本，自v3.4.7开始，同步提供<code>aar</code>格式的文件，此aar包含<code>libbmob.so、依赖jar包(okhttp、okio、rx、gson等)及自动更新组件所需要的资源文件</code></strong>。开发者再也不需要配置libbmob.so,不需要添加依赖jar，也不需要复制自动更新组件的资源文件啦，只需要添加以下依赖即可。<strong>如果开发者使用到其他包含了okhttp、okio、rxjava、rxandroid、gson的库，需要从这些库中exclude掉这些已包含在bmobsdk中的包</strong></p>
-<pre><code>compile 'cn.bmob.android:bmob-sdk:3.6.3'
-</code></pre>
-<p>注：由于<code>PermissionManager权限管理类</code>需要依赖<code>support-v4:23.2.1</code>的jar包,导致开发者认为SDK依赖文件较多，故分离出SDK。开发者如果需要兼容Android6.0系统，可以在下载的SDK的官方Demo的<code>com.example.bmobexample.permission</code>包下面查看该类源码。</p>
+<p><strong>[1]、v3.6.8-rc2开始，远程仓库中数据SDK包含了libbmob.so及自动更新组件所需要的资源文件</strong>。开发者再也不需要配置libbmob.so,不需要添加依赖jar，也不需要复制自动更新组件的资源文件啦，只需要添加以下依赖即可。</p>
 <p><strong>[2]、每个版本的im依赖特定版本的bmob-sdk：</strong></p>
 <ul>
 <li><code>bmob-im:1.1.8---&gt;bmob-sdk:3.3.5</code></li>
