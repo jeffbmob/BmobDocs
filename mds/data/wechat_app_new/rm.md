@@ -235,7 +235,7 @@ https://github.com/bmob/ithome-lite
 
 29.海南黎家特产
 
-\30. 轩宇工具 
+30. 轩宇工具 
 
 31.在旅途看世界 
 
@@ -243,7 +243,7 @@ https://github.com/bmob/ithome-lite
 
 33.Bmob示例 
 
-\34. 鲁山拼车 
+34. 鲁山拼车 
 
 33.莲馨图书室          图书馆-扫描借书 
 
@@ -381,6 +381,18 @@ https://github.com/bmob/ithome-lite
 
 102.钓鱼技巧666
 
+103.吉县同城便民信息
+
+104.小熊头像
+
+105.新视窗家政服务
+
+106.答题星Plus
+
+107.职前公社
+
+.....
+
 
 
 ### 小程序游戏
@@ -390,6 +402,8 @@ https://github.com/bmob/ithome-lite
 2.弹球明星
 
 3.棋头并进		多人实时数据对战
+
+4.最强钓鱼人
 
 
 
