@@ -102,7 +102,6 @@ Bmob支持的扩展字段数据类型：
 |:---|:---|:---|
 |String|String|字符串类型|
 |Boolean|Boolean|布尔类型|
-|Object|Object|对象类型|
 |Number	 |Integer、Float、Short、Byte、Double、Character|对应数据库的Number类型，要求是封装类|
 |Array	 |List|数组类型|
 |File  	 |BmobFile|Bmob特有类型，用来标识文件类型|
@@ -1930,7 +1929,7 @@ post.update(new UpdateListener() {
 
 
 
-## 查询数据
+# 数据查询
 
 数据的查询可能是每个应用都会频繁使用到的，BmobSDK中提供了`BmobQuery`类，它提供了多样的方法来实现不同条件的查询，同时它的使用也是非常的简单和方便的。
 
@@ -3095,7 +3094,7 @@ query.doSQLQuery(new SQLQueryListener<GameScore>(){
 **只有`第一种查询方式`才能和`query.hasCachedResult(context,class)`或者`query.clearCachedResult(context,class)`并列使用。**
 **建议使用`第一种查询方式`进行BQL缓存查询。**
 
-# 数组
+# 数组操作
 对于数组类型数据，BmobSDK提供了3种操作来原子性地修改一个数组字段的值：
 
  - **add、addAll** 在一个数组字段的后面添加一些指定的对象(包装在一个数组内)
@@ -4637,7 +4636,7 @@ http://open-vip.bmob.cn/8/
 		Bmob.initialize(this,APPID,"BMOB");
 
 
-## 系统兼容
+# 版本兼容
 ### Android 6.0
 - 添加对Apache的HTTP-client支持
 Android6.0版本开始移除了对Apache的HTTP Client的支持，需要在`app`的`build.gradle`文件添加配置:
