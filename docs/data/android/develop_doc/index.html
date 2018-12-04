@@ -523,13 +523,41 @@
 													<li><a class="itm-l2" href="#32">3.2、关联关系案例详解</a></li>
 												</ul>
 												
+											</li>
+												
+											<li class=""><a href="#_16">数据查询</a>
+												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_16">查询数据</a></li>
+													<li><a class="itm-l2" href="#_17">查询条件</a></li>
+												</ul>
+												
+												<ul class="nav nav-l2">
+													<li><a class="itm-l2" href="#_26">复合查询</a></li>
+												</ul>
+												
+												<ul class="nav nav-l2">
+													<li><a class="itm-l2" href="#_27">查询结果计数</a></li>
+												</ul>
+												
+												<ul class="nav nav-l2">
+													<li><a class="itm-l2" href="#_28">查询指定列</a></li>
+												</ul>
+												
+												<ul class="nav nav-l2">
+													<li><a class="itm-l2" href="#_29">统计查询</a></li>
+												</ul>
+												
+												<ul class="nav nav-l2">
+													<li><a class="itm-l2" href="#_30">缓存查询</a></li>
+												</ul>
+												
+												<ul class="nav nav-l2">
+													<li><a class="itm-l2" href="#bql">BQL查询</a></li>
 												</ul>
 												
 											</li>
 												
-											<li class=""><a href="#_36">数组</a>
+											<li class=""><a href="#_36">数组操作</a>
 												
 												<ul class="nav nav-l2">
 													<li><a class="itm-l2" href="#_37">添加数组数据</a></li>
@@ -679,8 +707,16 @@
 													<li><a class="itm-l2" href="#_82">统计功能</a></li>
 												</ul>
 												
+											</li>
+												
+											<li class=""><a href="#_83">版本兼容</a>
+												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_83">系统兼容</a></li>
+													<li><a class="itm-l2" href="#android-60">Android 6.0</a></li>
+												</ul>
+												
+												<ul class="nav nav-l2">
+													<li><a class="itm-l2" href="#android-p">Android P 网络配置</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
@@ -925,11 +961,6 @@ public class Category extends BmobObject {
 <td align="left">Boolean</td>
 <td align="left">Boolean</td>
 <td align="left">布尔类型</td>
-</tr>
-<tr>
-<td align="left">Object</td>
-<td align="left">Object</td>
-<td align="left">对象类型</td>
 </tr>
 <tr>
 <td align="left">Number</td>
@@ -2706,7 +2737,7 @@ post.update(new UpdateListener() {
 <img alt="Post" src="http://i.imgur.com/o4giGoy.png" />
 <img alt="Comment" src="http://i.imgur.com/RmsP7m8.png" />
 <strong>2 为方便大家了解学习，我们提供了一个关于数据关联的Demo，下载地址是：https://github.com/bmob/RelationDemo</strong></p>
-<h2 id="_16">查询数据<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h2>
+<h1 id="_16">数据查询<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h1>
 <p>数据的查询可能是每个应用都会频繁使用到的，BmobSDK中提供了<code>BmobQuery</code>类，它提供了多样的方法来实现不同条件的查询，同时它的使用也是非常的简单和方便的。</p>
 <p><strong>注：</strong>
 2 v3.5.2开始可以对查询条件等提供链式调用的写法，如下：</br></p>
@@ -3815,7 +3846,7 @@ query.doSQLQuery(new SQLQueryListener&lt;GameScore&gt;(){
 <strong>3、doSQLQuery（Context context, String bql, SQLQueryListener<T> listener,Object... params)----占位符查询</strong>
 <strong>只有<code>第一种查询方式</code>才能和<code>query.hasCachedResult(context,class)</code>或者<code>query.clearCachedResult(context,class)</code>并列使用。</strong>
 <strong>建议使用<code>第一种查询方式</code>进行BQL缓存查询。</strong></p>
-<h1 id="_36">数组<a class="headerlink" href="#_36" title="Permanent link">&para;</a></h1>
+<h1 id="_36">数组操作<a class="headerlink" href="#_36" title="Permanent link">&para;</a></h1>
 <p>对于数组类型数据，BmobSDK提供了3种操作来原子性地修改一个数组字段的值：</p>
 <ul>
 <li><strong>add、addAll</strong> 在一个数组字段的后面添加一些指定的对象(包装在一个数组内)</li>
@@ -5175,7 +5206,7 @@ Bmob.getAllTableSchema(context, new QueryListListener&lt;BmobTableSchema&gt;() {
 </code></pre>
 </li>
 </ul>
-<h2 id="_83">系统兼容<a class="headerlink" href="#_83" title="Permanent link">&para;</a></h2>
+<h1 id="_83">版本兼容<a class="headerlink" href="#_83" title="Permanent link">&para;</a></h1>
 <h3 id="android-60">Android 6.0<a class="headerlink" href="#android-60" title="Permanent link">&para;</a></h3>
 <ul>
 <li>添加对Apache的HTTP-client支持
