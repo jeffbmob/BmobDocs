@@ -102,7 +102,7 @@ Bmob支持的扩展字段数据类型：
 |:---|:---|:---|
 |String|String|字符串类型|
 |Boolean|Boolean|布尔类型|
-|Number	 |Integer、Float、Short、Byte、Double、Character|对应数据库的Number类型，要求是封装类|
+|Number	 |Integer、Float、Short、Byte、Double、Long、Character|对应数据库的Number类型，要求是封装类|
 |Array	 |List|数组类型|
 |File  	 |BmobFile|Bmob特有类型，用来标识文件类型|
 |GeoPoint|BmobGeoPoint|Bmob特有类型，用来标识地理位置|
