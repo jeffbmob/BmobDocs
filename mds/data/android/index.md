@@ -112,7 +112,7 @@ android {
 
 #### 手动导入
 
-1. 开发者到[SDK下载中心](http://www.bmob.cn/downloads)下载 `数据服务` 的Android 版本的SDK，并将下载下来的`libs`文件夹里面的文件根据需要复制到工程的libs目录下(注意，自`v3.4.7`开始提供`libbmob.so`文件)； 
+1. 开发者到[SDK下载中心](http://www.bmob.cn/downloads)下载 `数据服务` 的Android 版本的SDK，并将下载下来的`本地导入SDK`文件夹里面的文件根据需要复制到工程的libs和res相应目录下。
 
 2. 在`app`的`buid.gradle`文件中添加SO库目录配置：
 

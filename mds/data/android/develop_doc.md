@@ -1929,7 +1929,7 @@ post.update(new UpdateListener() {
 
 
 
-# 数据查询
+# 4、数据查询
 
 数据的查询可能是每个应用都会频繁使用到的，BmobSDK中提供了`BmobQuery`类，它提供了多样的方法来实现不同条件的查询，同时它的使用也是非常的简单和方便的。
 
@@ -3094,7 +3094,7 @@ query.doSQLQuery(new SQLQueryListener<GameScore>(){
 **只有`第一种查询方式`才能和`query.hasCachedResult(context,class)`或者`query.clearCachedResult(context,class)`并列使用。**
 **建议使用`第一种查询方式`进行BQL缓存查询。**
 
-# 数组操作
+# 5、数组操作
 对于数组类型数据，BmobSDK提供了3种操作来原子性地修改一个数组字段的值：
 
  - **add、addAll** 在一个数组字段的后面添加一些指定的对象(包装在一个数组内)
@@ -3396,7 +3396,7 @@ query.findObjects(new FindListener<Post>() {
 
 
 
-# 图文消息
+# 7、图文消息
 
 2017年下半年开始，后端云提供了素材管理模块，控制台文件浏览功能合并到了该模块下；
 
@@ -3430,7 +3430,7 @@ private void queryArticle() {
 ```
 
 
-# 文件管理
+# 8、文件管理
 
 `BmobFile`可以让你的应用程序将文件存储到服务器中，常见的文件类型都可以实现存储：比如图像文件、影像文件、音乐文件和任何其他二进制数据。
 
@@ -3737,7 +3737,7 @@ BmobFile.deleteBatch(urls, new DeleteBatchListener() {
 **1、文件的批量上传是BmobSDK_v3.2.7版本才提供的功能，如需使用，请更新版本;**
 **2、文件的下载和批量删除是BmobSDK_v3.4.6才提供的功能，如需使用，请更新版本。**
 
-# 数据监听
+# 9、数据监听
 
 **数据监听按需收费，请开发者到【应用设置-套餐升级-数据监听】中开通此功能**
 
@@ -3807,7 +3807,7 @@ rtd.unsubRowUpdate(testTableName, objectId);
 rtd.unsubRowDelete(testTableName, objectId);
 ```
 
-# 数据安全
+# 10、数据安全
 
 ## ACL和角色
 
@@ -4100,8 +4100,10 @@ private void removeUserFromRole(BmobRole bmobRole) {
 ### ACL案例源码
 
 我们为大家提供一个ACL相关的案例源码，大家可以点击下载：[https://github.com/bmob/bmob-android-demo-acl](https://github.com/bmob/bmob-android-demo-acl)
+## 应用安全
 
-# 地理位置
+请大家在使用Bmob开发应用程序之前，仔细阅读[数据与安全](http://doc.bmob.cn/other/data_safety/)的文档。
+# 11、地理位置
 
 Bmob允许用户根据地球的经度和纬度坐标进行基于地理位置的信息查询。通过在BmobObject的查询中添加一个BmobGeoPoint的对象查询，你就可以实现轻松查找出离当前用户最接近的信息或地点的功能。
 
@@ -4281,28 +4283,12 @@ private void queryBox() {
 
 2. 地理位置的点不能超过规定的范围。`纬度的范围`应该是在`-90.0到90.0`之间。`经度的范围`应该是在`-180.0到180.0`之间。如果您添加的经纬度超出了以上范围，将导致程序错误。
 
-## 应用安全
-
-请大家在使用Bmob开发应用程序之前，仔细阅读[数据与安全](http://doc.bmob.cn/other/data_safety/)的文档。
 
 
-## 开源案例
 
-为方便大家更好的理解Bmob SDK，我们特意为大家提供了一些源码，大家可以下载之后，**嵌入Bmob的Application Id**，就可以打包运行了。
 
-**阅读源码是一种良好的习惯！！**
 
-* 即时聊天案例源码：[https://github.com/bmob/BmobIMSDK4Android](https://github.com/bmob/BmobIMSDK4Android)
-
-* 图文社区案例源码：[https://git.oschina.net/v7/Wonderful](https://git.oschina.net/v7/Wonderful)  这个案例是猿圈媛圈开发团队提供的。
-
-* 校园小菜案例源码：[https://github.com/bmob/Shop](https://github.com/bmob/Shop) 这个案例是湖工大的朋友提供的。
-
-* 社交分享案例源码：[https://github.com/bmob/bmob-android-social-share](https://github.com/bmob/bmob-android-social-share) 这个是金刚锁开发者提供的
-
-* 第三方登录案例源码：[https://github.com/bmob/bmob-android-demo-thirdpartylogin](https://github.com/bmob/bmob-android-demo-thirdpartylogin)  包含第三方登录和登录后获取用户信息的源码
-
-## 其他功能
+# 12、其他功能
 
 ### 获取服务器时间
 
@@ -4416,7 +4402,7 @@ Bmob.getAllTableSchema(context, new QueryListListener<BmobTableSchema>() {
 
 ```
 
-## 错误码列表
+# 13、错误码列表
 
 **Android SDK的错误码都是以`9`开头的，其他错误码请点击查看：[错误码文档](http://doc.bmob.cn/other/error_code/)。**
 
@@ -4526,7 +4512,7 @@ Bmob.getAllTableSchema(context, new QueryListListener<BmobTableSchema>() {
 
 含义：格式不正确：手机号码、邮箱地址、验证码
 
-## 混淆打包
+# 14、混淆打包
 
 使用了BmobSDK的应用在混淆过程中，需注意以下几点：
 
@@ -4597,7 +4583,7 @@ Bmob.getAllTableSchema(context, new QueryListListener<BmobTableSchema>() {
 -keep class org.apache.http.**{*;}
 
 ```
-# 其他功能
+# 15、其他功能
 
 ## 模板代码
 在使用SDK过程中，如果一些Api如查询是高频代码，可以把一些重复的样板代码抽出来，并在AndroidStudio中设置模板，即可实现快速输入，能提高编码效率，效果如下：
@@ -4636,7 +4622,7 @@ http://open-vip.bmob.cn/8/
 		Bmob.initialize(this,APPID,"BMOB");
 
 
-# 版本兼容
+# 16、版本兼容
 ### Android 6.0
 - 添加对Apache的HTTP-client支持
 Android6.0版本开始移除了对Apache的HTTP Client的支持，需要在`app`的`build.gradle`文件添加配置:
