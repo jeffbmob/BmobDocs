@@ -4402,115 +4402,34 @@ Bmob.getAllTableSchema(context, new QueryListListener<BmobTableSchema>() {
 
 ```
 
-# 13、错误码列表
+# 13、SDK错误码列表
 
-**Android SDK的错误码都是以`9`开头的，其他错误码请点击查看：[错误码文档](http://doc.bmob.cn/other/error_code/)。**
-
-**9001**
-
-内容：AppKey is Null, Please initialize BmobSDK.
-
-含义：Application Id为空，请初始化。
-
-**9002**
-
-内容：Parse data error
-
-含义：解析返回数据出错
-
-**9003**
-
-内容：upload file error
-
-含义：上传文件出错
-
-**9004**
-
-内容：upload file failure
-
-含义：文件上传失败
-
-**9005**
-
-内容：A batch operation can not be more than 50
-
-含义：批量操作只支持最多50条
-
-**9006**
-
-内容：objectId is null
-
-含义：objectId为空
-
-**9007**
-
-内容：BmobFile File size must be less than 10M.
-
-含义：文件大小超过10M
-
-**9008**
-
-内容：BmobFile File does not exist.
-
-含义：上传文件不存在
-
-**9009**
-
-内容：No cache data.
-
-含义：没有缓存数据
-
-**9010**
-
-内容：The network is not normal.(Time out)
-
-含义：网络超时
-
-**9011**
-
-内容：BmobUser does not support batch operations.
-
-含义：BmobUser类不支持批量操作
-
-**9012**
-
-内容：context is null.
-
-含义：上下文为空
-
-**9013**
-
-内容： BmobObject Object names(database table name) format is not correct.
-
-含义：BmobObject（数据表名称）格式不正确
-
-**9014**
-
-含义：第三方账号授权失败
-
-**9015**
-
-含义：其他错误均返回此code
+Android SDK的错误码都是以`9`开头的，其他错误码请点击查看：[错误码文档](http://doc.bmob.cn/other/error_code/)。
 
 
-**9016**
+|错误码|内容|含义|
+|-----|----|----|
+|9001|AppKey is Null, Please initialize BmobSDK.|Application Id为空，请初始化。|
+|9002|Parse data error|解析返回数据出错|
+|9003|upload file error|上传文件出错|
+|9004|upload file failure|文件上传失败|
+|9005|A batch operation can not be more than 50|批量操作只支持最多50条|
+|9006|objectId is null|objectId为空|
+|9007|BmobFile File size must be less than 10M.|文件大小超过10M|
+|9008|BmobFile File does not exist.|上传文件不存在|
+|9009|No cache data.|没有缓存数据|
+|9010|The network is not normal.(Time out)|网络超时|
+|9011|BmobUser does not support batch operations.|BmobUser类不支持批量操作|
+|9012|context is null.|上下文为空|
+|9013|BmobObject Object names(database table name) format is not correct.|BmobObject（数据表名称）格式不正确|
+|9014||第三方账号授权失败|
+|9015||其他错误均返回此code|
+|9016|The network is not available,please check your network!|无网络连接，请检查您的手机网络。|
+|9017||与第三方登录有关的错误，具体请看对应的错误描述|
+|9018||参数不能为空|
+|9019||格式不正确：手机号码、邮箱地址、验证码|
 
-内容：The network is not available,please check your network!
 
-含义：无网络连接，请检查您的手机网络。
-
-**9017**
-
-含义：与第三方登录有关的错误，具体请看对应的错误描述
-
-**9018**
-
-含义：参数不能为空
-
-
-**9019**
-
-含义：格式不正确：手机号码、邮箱地址、验证码
 
 # 14、混淆打包
 
