@@ -685,7 +685,7 @@
 												
 											</li>
 												
-											<li class=""><a href="#13_1">13、错误码列表</a>
+											<li class=""><a href="#13sdk">13、SDK错误码列表</a>
 												
 											</li>
 												
@@ -5041,60 +5041,114 @@ Bmob.getAllTableSchema(context, new QueryListListener&lt;BmobTableSchema&gt;() {
 
 </code></pre>
 
-<h1 id="13_1">13、错误码列表<a class="headerlink" href="#13_1" title="Permanent link">&para;</a></h1>
-<p><strong>Android SDK的错误码都是以<code>9</code>开头的，其他错误码请点击查看：<a href="http://doc.bmob.cn/other/error_code/">错误码文档</a>。</strong></p>
-<p><strong>9001</strong></p>
-<p>内容：AppKey is Null, Please initialize BmobSDK.</p>
-<p>含义：Application Id为空，请初始化。</p>
-<p><strong>9002</strong></p>
-<p>内容：Parse data error</p>
-<p>含义：解析返回数据出错</p>
-<p><strong>9003</strong></p>
-<p>内容：upload file error</p>
-<p>含义：上传文件出错</p>
-<p><strong>9004</strong></p>
-<p>内容：upload file failure</p>
-<p>含义：文件上传失败</p>
-<p><strong>9005</strong></p>
-<p>内容：A batch operation can not be more than 50</p>
-<p>含义：批量操作只支持最多50条</p>
-<p><strong>9006</strong></p>
-<p>内容：objectId is null</p>
-<p>含义：objectId为空</p>
-<p><strong>9007</strong></p>
-<p>内容：BmobFile File size must be less than 10M.</p>
-<p>含义：文件大小超过10M</p>
-<p><strong>9008</strong></p>
-<p>内容：BmobFile File does not exist.</p>
-<p>含义：上传文件不存在</p>
-<p><strong>9009</strong></p>
-<p>内容：No cache data.</p>
-<p>含义：没有缓存数据</p>
-<p><strong>9010</strong></p>
-<p>内容：The network is not normal.(Time out)</p>
-<p>含义：网络超时</p>
-<p><strong>9011</strong></p>
-<p>内容：BmobUser does not support batch operations.</p>
-<p>含义：BmobUser类不支持批量操作</p>
-<p><strong>9012</strong></p>
-<p>内容：context is null.</p>
-<p>含义：上下文为空</p>
-<p><strong>9013</strong></p>
-<p>内容： BmobObject Object names(database table name) format is not correct.</p>
-<p>含义：BmobObject（数据表名称）格式不正确</p>
-<p><strong>9014</strong></p>
-<p>含义：第三方账号授权失败</p>
-<p><strong>9015</strong></p>
-<p>含义：其他错误均返回此code</p>
-<p><strong>9016</strong></p>
-<p>内容：The network is not available,please check your network!</p>
-<p>含义：无网络连接，请检查您的手机网络。</p>
-<p><strong>9017</strong></p>
-<p>含义：与第三方登录有关的错误，具体请看对应的错误描述</p>
-<p><strong>9018</strong></p>
-<p>含义：参数不能为空</p>
-<p><strong>9019</strong></p>
-<p>含义：格式不正确：手机号码、邮箱地址、验证码</p>
+<h1 id="13sdk">13、SDK错误码列表<a class="headerlink" href="#13sdk" title="Permanent link">&para;</a></h1>
+<p>Android SDK的错误码都是以<code>9</code>开头的，其他错误码请点击查看：<a href="http://doc.bmob.cn/other/error_code/">错误码文档</a>。</p>
+<table>
+<thead>
+<tr>
+<th>错误码</th>
+<th>内容</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>9001</td>
+<td>AppKey is Null, Please initialize BmobSDK.</td>
+<td>Application Id为空，请初始化。</td>
+</tr>
+<tr>
+<td>9002</td>
+<td>Parse data error</td>
+<td>解析返回数据出错</td>
+</tr>
+<tr>
+<td>9003</td>
+<td>upload file error</td>
+<td>上传文件出错</td>
+</tr>
+<tr>
+<td>9004</td>
+<td>upload file failure</td>
+<td>文件上传失败</td>
+</tr>
+<tr>
+<td>9005</td>
+<td>A batch operation can not be more than 50</td>
+<td>批量操作只支持最多50条</td>
+</tr>
+<tr>
+<td>9006</td>
+<td>objectId is null</td>
+<td>objectId为空</td>
+</tr>
+<tr>
+<td>9007</td>
+<td>BmobFile File size must be less than 10M.</td>
+<td>文件大小超过10M</td>
+</tr>
+<tr>
+<td>9008</td>
+<td>BmobFile File does not exist.</td>
+<td>上传文件不存在</td>
+</tr>
+<tr>
+<td>9009</td>
+<td>No cache data.</td>
+<td>没有缓存数据</td>
+</tr>
+<tr>
+<td>9010</td>
+<td>The network is not normal.(Time out)</td>
+<td>网络超时</td>
+</tr>
+<tr>
+<td>9011</td>
+<td>BmobUser does not support batch operations.</td>
+<td>BmobUser类不支持批量操作</td>
+</tr>
+<tr>
+<td>9012</td>
+<td>context is null.</td>
+<td>上下文为空</td>
+</tr>
+<tr>
+<td>9013</td>
+<td>BmobObject Object names(database table name) format is not correct.</td>
+<td>BmobObject（数据表名称）格式不正确</td>
+</tr>
+<tr>
+<td>9014</td>
+<td></td>
+<td>第三方账号授权失败</td>
+</tr>
+<tr>
+<td>9015</td>
+<td></td>
+<td>其他错误均返回此code</td>
+</tr>
+<tr>
+<td>9016</td>
+<td>The network is not available,please check your network!</td>
+<td>无网络连接，请检查您的手机网络。</td>
+</tr>
+<tr>
+<td>9017</td>
+<td></td>
+<td>与第三方登录有关的错误，具体请看对应的错误描述</td>
+</tr>
+<tr>
+<td>9018</td>
+<td></td>
+<td>参数不能为空</td>
+</tr>
+<tr>
+<td>9019</td>
+<td></td>
+<td>格式不正确：手机号码、邮箱地址、验证码</td>
+</tr>
+</tbody>
+</table>
 <h1 id="14_1">14、混淆打包<a class="headerlink" href="#14_1" title="Permanent link">&para;</a></h1>
 <p>使用了BmobSDK的应用在混淆过程中，需注意以下几点：</p>
 <p>1、<code>不要混淆BmobSDK的代码</code>，Bmob Android SDK本身进行了代码混淆；</p>
