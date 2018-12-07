@@ -555,32 +555,32 @@
 													<li><a class="itm-l2" href="#bql">BQL查询</a></li>
 												</ul>
 												
-											</li>
-												
-											<li class=""><a href="#5">5、数组操作</a>
-												
-												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_35">添加数组数据</a></li>
-												</ul>
-												
-												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_36">更新数组数据</a></li>
-												</ul>
-												
-												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_37">删除数组数据</a></li>
-												</ul>
-												
-												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_38">查询数组数据</a></li>
-												</ul>
-												
 												<ul class="nav nav-l2">
 													<li><a class="itm-l2" href="#include">include用法</a></li>
 												</ul>
 												
 												<ul class="nav nav-l2">
-													<li><a class="itm-l2" href="#_39">内部查询</a></li>
+													<li><a class="itm-l2" href="#_35">内部查询</a></li>
+												</ul>
+												
+											</li>
+												
+											<li class=""><a href="#5">5、数组操作</a>
+												
+												<ul class="nav nav-l2">
+													<li><a class="itm-l2" href="#_36">添加数组数据</a></li>
+												</ul>
+												
+												<ul class="nav nav-l2">
+													<li><a class="itm-l2" href="#_37">更新数组数据</a></li>
+												</ul>
+												
+												<ul class="nav nav-l2">
+													<li><a class="itm-l2" href="#_38">删除数组数据</a></li>
+												</ul>
+												
+												<ul class="nav nav-l2">
+													<li><a class="itm-l2" href="#_39">查询数组数据</a></li>
 												</ul>
 												
 											</li>
@@ -3854,150 +3854,6 @@ query.doSQLQuery(new SQLQueryListener&lt;GameScore&gt;(){
 <strong>3、doSQLQuery（Context context, String bql, SQLQueryListener<T> listener,Object... params)----占位符查询</strong>
 <strong>只有<code>第一种查询方式</code>才能和<code>query.hasCachedResult(context,class)</code>或者<code>query.clearCachedResult(context,class)</code>并列使用。</strong>
 <strong>建议使用<code>第一种查询方式</code>进行BQL缓存查询。</strong></p>
-<h1 id="5">5、数组操作<a class="headerlink" href="#5" title="Permanent link">&para;</a></h1>
-<p>对于数组类型数据，BmobSDK提供了3种操作来原子性地修改一个数组字段的值：</p>
-<ul>
-<li><strong>add、addAll</strong> 在一个数组字段的后面添加一些指定的对象(包装在一个数组内)</li>
-<li><strong>addUnique、addAllUnique</strong> 只会在原本数组字段中没有这些对象的情形下才会添加入数组，插入数组的位置随机</li>
-<li><strong>removeAll</strong> 从一个数组字段的值内移除指定数组中的所有对象</li>
-</ul>
-<p>举例子：</p>
-<pre><code class="java">public class Person extends BmobObject {
-    private List&lt;String&gt; hobbys;        // 爱好-对应服务端Array类型：String类型的集合
-    private List&lt;BankCard&gt; cards;       // 银行卡-对应服务端Array类型:Object类型的集合
-    ...
-    getter、setter方法
-}
-
-其中BankCard类结构如下：
-public class BankCard{
-    private String cardNumber;
-    private String bankName;
-    public BankCard(String bankName, String cardNumber){
-        this.bankName = bankName;
-        this.cardNumber = cardNumber;
-    }
-    ...
-    getter、setter方法
-}
-</code></pre>
-
-<h3 id="_35">添加数组数据<a class="headerlink" href="#_35" title="Permanent link">&para;</a></h3>
-<p>给<code>Person</code>对象中的数组类型字段添加数据,有以下两种方式：</p>
-<h4 id="addaddall">使用add、addAll添加<a class="headerlink" href="#addaddall" title="Permanent link">&para;</a></h4>
-<pre><code class="java">Person p = new Person();
-p.setObjectId(&quot;d32143db92&quot;);
-//添加String类型的数组
-p.add(&quot;hobbys&quot;, &quot;唱歌&quot;);                              // 添加单个String
-//p.addAll(&quot;hobbys&quot;, Arrays.asList(&quot;游泳&quot;, &quot;看书&quot;));    // 添加多个String
-//添加Object类型的数组
-p.add(&quot;cards&quot;,new BankCard(&quot;工行卡&quot;, &quot;工行卡账号&quot;))   //添加单个Object
-List&lt;BankCard&gt; cards =new ArrayList&lt;BankCard&gt;();
-for(int i=0;i&lt;2;i++){
-    cards.add(new BankCard(&quot;建行卡&quot;+i, &quot;建行卡账号&quot;+i));
-}
-//p.addAll(&quot;cards&quot;, cards);                         //添加多个Object值
-p.update(new UpdateListener() {
-
-    @Override
-    public void done(BmobException e) {
-        if(e==null){
-            Log.i(&quot;bmob&quot;,&quot;更新成功&quot;);
-        }else{
-            Log.i(&quot;bmob&quot;,&quot;更新失败：&quot;+e.getMessage());
-        }
-    }
-
-});
-</code></pre>
-
-<p><strong> 注：此类方法不管这些数据之前是否已添加过，都会再次添加。</strong></p>
-<h4 id="adduniqueaddallunique">使用addUnique、addAllUnique添加<a class="headerlink" href="#adduniqueaddallunique" title="Permanent link">&para;</a></h4>
-<pre><code class="java">Person p = new Person();
-p.setObjectId(&quot;d32143db92&quot;);
-//添加String类型的数组
-p.addUnique(&quot;hobbys&quot;, &quot;唱歌&quot;);                                // 添加单个String
-//p.addAllUnique(&quot;hobbys&quot;, Arrays.asList(&quot;游泳&quot;, &quot;看书&quot;));  // 添加多个String
-//添加Object类型的数组
-p.addUnique(&quot;cards&quot;,new BankCard(&quot;工行卡&quot;, &quot;工行卡账号&quot;))     //添加单个Object
-List&lt;BankCard&gt; cards =new ArrayList&lt;BankCard&gt;();
-for(int i=0;i&lt;2;i++){
-    cards.add(new BankCard(&quot;建行卡&quot;+i, &quot;建行卡账号&quot;+i));
-}
-//p.addAllUnique(&quot;cards&quot;, cards);                           //添加多个Object
-p.update(new UpdateListener() {
-
-    @Override
-    public void done(BmobException e) {
-        if(e==null){
-            Log.i(&quot;bmob&quot;,&quot;成功&quot;);
-        }else{
-            Log.i(&quot;bmob&quot;,&quot;失败：&quot;+e.getMessage());
-        }
-    }
-
-});
-</code></pre>
-
-<p><strong> 注： 只有在这些数据之前未添加过的情况下才会被添加。</strong></p>
-<h3 id="_36">更新数组数据<a class="headerlink" href="#_36" title="Permanent link">&para;</a></h3>
-<p>数组更新比较特殊，自<code>V3.4.4</code>版本开始提供<code>BmobObject</code>的<code>setValue</code>方法来更新数组，例：</p>
-<pre><code class="java">Person p2 = new Person();
-//更新String类型数组中的值
-p2.setValue(&quot;hobbys.0&quot;,&quot;爬山&quot;);                             //将hobbys中第一个位置的爱好（上面添加成功的唱歌）修改为爬山
-//更新Object类型数组中的某个位置的对象值(0对应集合中第一个元素)
-p2.setValue(&quot;cards.0&quot;, new BankCard(&quot;中行&quot;, &quot;中行卡号&quot;));    //将cards中第一个位置银行卡修改为指定BankCard对象
-//更新Object类型数组中指定对象的指定字段的值
-//  p2.setValue(&quot;cards.0.bankName&quot;, &quot;农行卡&quot;);             //将cards中第一个位置的银行卡名称修改为农行卡
-//  p2.setValue(&quot;cards.1.cardNumber&quot;, &quot;农行卡账号&quot;);         //将cards中第二个位置的银行卡账号修改为农行卡账号
-p2.update(objectId, new UpdateListener() {
-    @Override
-    public void done(BmobException e) {
-        if(e==null){
-            Log.i(&quot;bmob&quot;,&quot;成功&quot;);
-        }else{
-            Log.i(&quot;bmob&quot;,&quot;失败：&quot;+e.getMessage());
-        }
-    }
-});
-</code></pre>
-
-<h3 id="_37">删除数组数据<a class="headerlink" href="#_37" title="Permanent link">&para;</a></h3>
-<p>同理我们也可以使用removeAll从数组字段中移除某些值：</p>
-<pre><code class="java">Person p = new Person();
-p.removeAll(&quot;hobby&quot;, Arrays.asList(&quot;阅读&quot;,&quot;唱歌&quot;,&quot;游泳&quot;));
-p.update(new UpdateListener() {
-
-    @Override
-    public void done(BmobException e) {
-        if(e==null){
-            Log.i(&quot;bmob&quot;,&quot;成功&quot;);
-        }else{
-            Log.i(&quot;bmob&quot;,&quot;失败：&quot;+e.getMessage());
-        }
-    }
-});
-</code></pre>
-
-<h3 id="_38">查询数组数据<a class="headerlink" href="#_38" title="Permanent link">&para;</a></h3>
-<p>对于字段类型为数组的情况，可以以数组字段中包含有xxx的数据为条件进行查询：</p>
-<pre><code class="java">BmobQuery&lt;Person&gt; query = new BmobQuery&lt;Person&gt;();
-String [] hobby = {&quot;阅读&quot;,&quot;唱歌&quot;};
-query.addWhereContainsAll(&quot;hobby&quot;, Arrays.asList(hobby));
-query.findObjects(new FindListener&lt;Person&gt;() {
-
-    @Override
-    public void done(List&lt;Person&gt; object,BmobException e) {
-        if(e==null){
-            Log.i(&quot;bmob&quot;,&quot;查询成功：共&quot; + object.size() + &quot;条数据。&quot;);
-        }else{
-            Log.i(&quot;bmob&quot;,&quot;失败：&quot;+e.getMessage());
-        }
-    }
-
-});
-</code></pre>
-
 <h3 id="include">include用法<a class="headerlink" href="#include" title="Permanent link">&para;</a></h3>
 <p>在某些情况下，你想在一个查询内获取<code>Pointer</code>类型的关联对象。</p>
 <p>比如上述示例中，如果希望在查询帖子信息的同时也把该帖子的作者的信息查询出来，可以使用<code>include</code>方法</p>
@@ -4025,7 +3881,7 @@ query.include(&quot;post&quot;);
 
 <p>其中，post和author都是Pointer类型，post指向的表只返回likes字段，author指向的表只返回username和email字段。</p>
 <p><strong>注：include的查询对象只能为BmobPointer类型，而不能是BmobRelation类型。</strong></p>
-<h3 id="_39">内部查询<a class="headerlink" href="#_39" title="Permanent link">&para;</a></h3>
+<h3 id="_35">内部查询<a class="headerlink" href="#_35" title="Permanent link">&para;</a></h3>
 <p>如果你在查询某个对象列表时，它们的某个字段是BmobObject类型，并且这个BmobObject匹配一个不同的查询，这种情况下可使用<code>addWhereMatchesQuery</code>方法。</p>
 <p>请注意，默认的 limit 限制 100 也同样作用在内部查询上。因此如果是大规模的数据查询，你可能需要仔细构造你的查询对象来获取想要的行为。</p>
 <p>例如：<strong>查询带有图片的帖子的评论列表</strong>:</p>
@@ -4089,6 +3945,150 @@ query.findObjects(new FindListener&lt;Post&gt;() {
             Log.i(&quot;bmob&quot;,&quot;失败：&quot;+e.getMessage());
         }
     }
+});
+</code></pre>
+
+<h1 id="5">5、数组操作<a class="headerlink" href="#5" title="Permanent link">&para;</a></h1>
+<p>对于数组类型数据，BmobSDK提供了3种操作来原子性地修改一个数组字段的值：</p>
+<ul>
+<li><strong>add、addAll</strong> 在一个数组字段的后面添加一些指定的对象(包装在一个数组内)</li>
+<li><strong>addUnique、addAllUnique</strong> 只会在原本数组字段中没有这些对象的情形下才会添加入数组，插入数组的位置随机</li>
+<li><strong>removeAll</strong> 从一个数组字段的值内移除指定数组中的所有对象</li>
+</ul>
+<p>举例子：</p>
+<pre><code class="java">public class Person extends BmobObject {
+    private List&lt;String&gt; hobbys;        // 爱好-对应服务端Array类型：String类型的集合
+    private List&lt;BankCard&gt; cards;       // 银行卡-对应服务端Array类型:Object类型的集合
+    ...
+    getter、setter方法
+}
+
+其中BankCard类结构如下：
+public class BankCard{
+    private String cardNumber;
+    private String bankName;
+    public BankCard(String bankName, String cardNumber){
+        this.bankName = bankName;
+        this.cardNumber = cardNumber;
+    }
+    ...
+    getter、setter方法
+}
+</code></pre>
+
+<h3 id="_36">添加数组数据<a class="headerlink" href="#_36" title="Permanent link">&para;</a></h3>
+<p>给<code>Person</code>对象中的数组类型字段添加数据,有以下两种方式：</p>
+<h4 id="addaddall">使用add、addAll添加<a class="headerlink" href="#addaddall" title="Permanent link">&para;</a></h4>
+<pre><code class="java">Person p = new Person();
+p.setObjectId(&quot;d32143db92&quot;);
+//添加String类型的数组
+p.add(&quot;hobbys&quot;, &quot;唱歌&quot;);                              // 添加单个String
+//p.addAll(&quot;hobbys&quot;, Arrays.asList(&quot;游泳&quot;, &quot;看书&quot;));    // 添加多个String
+//添加Object类型的数组
+p.add(&quot;cards&quot;,new BankCard(&quot;工行卡&quot;, &quot;工行卡账号&quot;))   //添加单个Object
+List&lt;BankCard&gt; cards =new ArrayList&lt;BankCard&gt;();
+for(int i=0;i&lt;2;i++){
+    cards.add(new BankCard(&quot;建行卡&quot;+i, &quot;建行卡账号&quot;+i));
+}
+//p.addAll(&quot;cards&quot;, cards);                         //添加多个Object值
+p.update(new UpdateListener() {
+
+    @Override
+    public void done(BmobException e) {
+        if(e==null){
+            Log.i(&quot;bmob&quot;,&quot;更新成功&quot;);
+        }else{
+            Log.i(&quot;bmob&quot;,&quot;更新失败：&quot;+e.getMessage());
+        }
+    }
+
+});
+</code></pre>
+
+<p><strong> 注：此类方法不管这些数据之前是否已添加过，都会再次添加。</strong></p>
+<h4 id="adduniqueaddallunique">使用addUnique、addAllUnique添加<a class="headerlink" href="#adduniqueaddallunique" title="Permanent link">&para;</a></h4>
+<pre><code class="java">Person p = new Person();
+p.setObjectId(&quot;d32143db92&quot;);
+//添加String类型的数组
+p.addUnique(&quot;hobbys&quot;, &quot;唱歌&quot;);                                // 添加单个String
+//p.addAllUnique(&quot;hobbys&quot;, Arrays.asList(&quot;游泳&quot;, &quot;看书&quot;));  // 添加多个String
+//添加Object类型的数组
+p.addUnique(&quot;cards&quot;,new BankCard(&quot;工行卡&quot;, &quot;工行卡账号&quot;))     //添加单个Object
+List&lt;BankCard&gt; cards =new ArrayList&lt;BankCard&gt;();
+for(int i=0;i&lt;2;i++){
+    cards.add(new BankCard(&quot;建行卡&quot;+i, &quot;建行卡账号&quot;+i));
+}
+//p.addAllUnique(&quot;cards&quot;, cards);                           //添加多个Object
+p.update(new UpdateListener() {
+
+    @Override
+    public void done(BmobException e) {
+        if(e==null){
+            Log.i(&quot;bmob&quot;,&quot;成功&quot;);
+        }else{
+            Log.i(&quot;bmob&quot;,&quot;失败：&quot;+e.getMessage());
+        }
+    }
+
+});
+</code></pre>
+
+<p><strong> 注： 只有在这些数据之前未添加过的情况下才会被添加。</strong></p>
+<h3 id="_37">更新数组数据<a class="headerlink" href="#_37" title="Permanent link">&para;</a></h3>
+<p>数组更新比较特殊，自<code>V3.4.4</code>版本开始提供<code>BmobObject</code>的<code>setValue</code>方法来更新数组，例：</p>
+<pre><code class="java">Person p2 = new Person();
+//更新String类型数组中的值
+p2.setValue(&quot;hobbys.0&quot;,&quot;爬山&quot;);                             //将hobbys中第一个位置的爱好（上面添加成功的唱歌）修改为爬山
+//更新Object类型数组中的某个位置的对象值(0对应集合中第一个元素)
+p2.setValue(&quot;cards.0&quot;, new BankCard(&quot;中行&quot;, &quot;中行卡号&quot;));    //将cards中第一个位置银行卡修改为指定BankCard对象
+//更新Object类型数组中指定对象的指定字段的值
+//  p2.setValue(&quot;cards.0.bankName&quot;, &quot;农行卡&quot;);             //将cards中第一个位置的银行卡名称修改为农行卡
+//  p2.setValue(&quot;cards.1.cardNumber&quot;, &quot;农行卡账号&quot;);         //将cards中第二个位置的银行卡账号修改为农行卡账号
+p2.update(objectId, new UpdateListener() {
+    @Override
+    public void done(BmobException e) {
+        if(e==null){
+            Log.i(&quot;bmob&quot;,&quot;成功&quot;);
+        }else{
+            Log.i(&quot;bmob&quot;,&quot;失败：&quot;+e.getMessage());
+        }
+    }
+});
+</code></pre>
+
+<h3 id="_38">删除数组数据<a class="headerlink" href="#_38" title="Permanent link">&para;</a></h3>
+<p>同理我们也可以使用removeAll从数组字段中移除某些值：</p>
+<pre><code class="java">Person p = new Person();
+p.removeAll(&quot;hobby&quot;, Arrays.asList(&quot;阅读&quot;,&quot;唱歌&quot;,&quot;游泳&quot;));
+p.update(new UpdateListener() {
+
+    @Override
+    public void done(BmobException e) {
+        if(e==null){
+            Log.i(&quot;bmob&quot;,&quot;成功&quot;);
+        }else{
+            Log.i(&quot;bmob&quot;,&quot;失败：&quot;+e.getMessage());
+        }
+    }
+});
+</code></pre>
+
+<h3 id="_39">查询数组数据<a class="headerlink" href="#_39" title="Permanent link">&para;</a></h3>
+<p>对于字段类型为数组的情况，可以以数组字段中包含有xxx的数据为条件进行查询：</p>
+<pre><code class="java">BmobQuery&lt;Person&gt; query = new BmobQuery&lt;Person&gt;();
+String [] hobby = {&quot;阅读&quot;,&quot;唱歌&quot;};
+query.addWhereContainsAll(&quot;hobby&quot;, Arrays.asList(hobby));
+query.findObjects(new FindListener&lt;Person&gt;() {
+
+    @Override
+    public void done(List&lt;Person&gt; object,BmobException e) {
+        if(e==null){
+            Log.i(&quot;bmob&quot;,&quot;查询成功：共&quot; + object.size() + &quot;条数据。&quot;);
+        }else{
+            Log.i(&quot;bmob&quot;,&quot;失败：&quot;+e.getMessage());
+        }
+    }
+
 });
 </code></pre>
 
