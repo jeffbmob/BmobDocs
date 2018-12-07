@@ -3383,7 +3383,163 @@ query.findObjects(new FindListener<Person>() {
 });
 ```
 
+## 类名和表名的关系
 
+- Bmob官方推荐类名和表名完全一致的映射使用方式， 即如，上面的GameScore类，它在后台对应的表名也是GameScore（区分大小写）。
+- 如果你希望表名和类名并不相同，如表名为T_a_b，而类名还是GameScore，那么你可以使用BmobObject提供的setTableName("表名")的方法，
+
+示例代码如下：
+
+```java
+//这时候实际操作的表是T_a_b
+public class GameScore extends BmobObject{
+	private String playerName;
+	private Integer score;
+	private Boolean isPay;
+    private BmobFile pic;
+
+	public GameScore() {
+		this.setTableName("T_a_b");
+	}
+
+	public String getPlayerName() {
+		return playerName;
+	}
+	//其他方法，见上面的代码
+}
+```
+当然了，除了在构造函数中直接调用setTableName方法之外，你还可以在GameScore的实例中动态调用setTableName方法。
+
+### 查询自定义表名的数据
+
+如果您使用了setTableName方法来自定义表名，那么在对该表进行数据查询的时候必须使用以下方法。`需要注意的是查询的结果是JSONArray,需要自行解析JSONArray中的数据`。
+
+```java
+/**
+ * 查询数据
+ */
+public void queryData(){
+	BmobQuery query =new BmobQuery("Person");
+	query.addWhereEqualTo("age", 25);
+	query.setLimit(2);
+	query.order("createdAt");
+	//v3.5.0版本提供`findObjectsByTable`方法查询自定义表名的数据
+	query.findObjectsByTable(new QueryListener<JSONArray>() {
+		@Override
+		public void done(JSONArray ary, BmobException e) {
+			if(e==null){
+				Log.i("bmob","查询成功："+ary.toString());
+			}else{
+				Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
+			}
+		}
+	});
+}
+```
+
+**自定义表名情况下的更新、删除数据和普通的更新、删除数据方式一样，没有变化。为方便大家了解学习，我们提供了一个关于自定义表名情况下增删改查数据的Demo，下载地址是：[https://github.com/bmob/bmob-android-demo-dynamic-tablename](https://github.com/bmob/bmob-android-demo-dynamic-tablename)。**
+
+
+
+**自`V3.4.4`版本开始，SDK提供了另一种方法来更新数据，通过调用`Bmobobject`类中的`setValue（key，value）`方法，只需要传入key及想要更新的值即可**
+
+举例，说明如下：
+
+```java
+public class Person extends BmobObject {
+	private BmobUser user;	//BmobObject类型
+	private BankCard cards;	//Object类型
+	private Integer age;	//Integer类型
+	private Boolean gender; //Boolean类型
+	...
+	getter、setter方法
+}
+
+其中BankCard类结构如下：
+
+public class BankCard{
+	private String cardNumber;
+	private String bankName;
+	public BankCard(String bankName, String cardNumber){
+		this.bankName = bankName;
+		this.cardNumber = cardNumber;
+	}
+	...
+	getter、setter方法
+}
+
+```
+
+```java
+Person p2=new Person();
+//更新BmobObject的值
+//	p2.setValue("user", BmobUser.getCurrentUser(this, MyUser.class));
+//更新Object对象
+p2.setValue("bankCard",new BankCard("农行", "农行账号"));
+//更新Object对象的值
+//p2.setValue("bankCard.bankName","建行");
+//更新Integer类型
+//p2.setValue("age",11);
+//更新Boolean类型
+//p2.setValue("gender", true);
+p2.update(objectId, new UpdateListener() {
+
+	@Override
+	public void done(BmobException e) {
+		if(e==null){
+			Log.i("bmob","更新成功");
+		}else{
+			Log.i("bmob","更新失败："+e.getMessage()+","+e.getErrorCode());
+		}
+	}
+
+});
+
+```
+
+**注意：修改数据只能通过objectId来修改，目前不提供查询条件方式的修改方法。**
+
+### 原子计数器
+
+很多应用可能会有计数器功能的需求，比如文章点赞的功能，如果大量用户并发操作，用普通的更新方法操作的话，会存在数据不一致的情况。
+
+为此，Bmob提供了原子计数器来保证原子性的修改某一**数值字段**的值。注意：原子计数器只能对应用于Web后台的Number类型的字段，即JavaBeans数据对象中的Integer对象类型（**不要用int类型**）。
+
+```java
+gameScore.increment("score"); // 分数递增1
+gameScore.update(updateListener);
+```
+
+您还可以通过`increment(key, amount)`方法来递增或递减任意幅度的数字
+
+```java
+gameScore.increment("score", 5); // 分数递增5
+//gameScore.increment("score", -5); // 分数递减5
+gameScore.update(updateListener);
+```
+
+
+
+
+### 删除字段的值
+
+你可以在一个对象中删除一个字段的值，通过`remove`操作：
+
+```java
+GameScore gameScore = new GameScore();
+gameScore.setObjectId("dd8e6aff28");
+gameScore.remove("score");	// 删除GameScore对象中的score字段
+gameScore.update(new UpdateListener() {
+	@Override
+	public void done(BmobException e) {
+		if(e==null){
+			Log.i("bmob","成功");
+		}else{
+			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
+		}
+	}
+});
+```
 
 
 
@@ -4569,162 +4725,6 @@ android {
     </application>
 ```
 
-## 类名和表名的关系
 
-- Bmob官方推荐类名和表名完全一致的映射使用方式， 即如，上面的GameScore类，它在后台对应的表名也是GameScore（区分大小写）。
-- 如果你希望表名和类名并不相同，如表名为T_a_b，而类名还是GameScore，那么你可以使用BmobObject提供的setTableName("表名")的方法，
-
-示例代码如下：
-
-```java
-//这时候实际操作的表是T_a_b
-public class GameScore extends BmobObject{
-	private String playerName;
-	private Integer score;
-	private Boolean isPay;
-    private BmobFile pic;
-
-	public GameScore() {
-		this.setTableName("T_a_b");
-	}
-
-	public String getPlayerName() {
-		return playerName;
-	}
-	//其他方法，见上面的代码
-}
-```
-当然了，除了在构造函数中直接调用setTableName方法之外，你还可以在GameScore的实例中动态调用setTableName方法。
-
-### 查询自定义表名的数据
-
-如果您使用了setTableName方法来自定义表名，那么在对该表进行数据查询的时候必须使用以下方法。`需要注意的是查询的结果是JSONArray,需要自行解析JSONArray中的数据`。
-
-```java
-/**
- * 查询数据
- */
-public void queryData(){
-	BmobQuery query =new BmobQuery("Person");
-	query.addWhereEqualTo("age", 25);
-	query.setLimit(2);
-	query.order("createdAt");
-	//v3.5.0版本提供`findObjectsByTable`方法查询自定义表名的数据
-	query.findObjectsByTable(new QueryListener<JSONArray>() {
-		@Override
-		public void done(JSONArray ary, BmobException e) {
-			if(e==null){
-				Log.i("bmob","查询成功："+ary.toString());
-			}else{
-				Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-			}
-		}
-	});
-}
-```
-
-**自定义表名情况下的更新、删除数据和普通的更新、删除数据方式一样，没有变化。为方便大家了解学习，我们提供了一个关于自定义表名情况下增删改查数据的Demo，下载地址是：[https://github.com/bmob/bmob-android-demo-dynamic-tablename](https://github.com/bmob/bmob-android-demo-dynamic-tablename)。**
-
-
-
-**自`V3.4.4`版本开始，SDK提供了另一种方法来更新数据，通过调用`Bmobobject`类中的`setValue（key，value）`方法，只需要传入key及想要更新的值即可**
-
-举例，说明如下：
-
-```java
-public class Person extends BmobObject {
-	private BmobUser user;	//BmobObject类型
-	private BankCard cards;	//Object类型
-	private Integer age;	//Integer类型
-	private Boolean gender; //Boolean类型
-	...
-	getter、setter方法
-}
-
-其中BankCard类结构如下：
-
-public class BankCard{
-	private String cardNumber;
-	private String bankName;
-	public BankCard(String bankName, String cardNumber){
-		this.bankName = bankName;
-		this.cardNumber = cardNumber;
-	}
-	...
-	getter、setter方法
-}
-
-```
-
-```java
-Person p2=new Person();
-//更新BmobObject的值
-//	p2.setValue("user", BmobUser.getCurrentUser(this, MyUser.class));
-//更新Object对象
-p2.setValue("bankCard",new BankCard("农行", "农行账号"));
-//更新Object对象的值
-//p2.setValue("bankCard.bankName","建行");
-//更新Integer类型
-//p2.setValue("age",11);
-//更新Boolean类型
-//p2.setValue("gender", true);
-p2.update(objectId, new UpdateListener() {
-
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			Log.i("bmob","更新成功");
-		}else{
-			Log.i("bmob","更新失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
-
-});
-
-```
-
-**注意：修改数据只能通过objectId来修改，目前不提供查询条件方式的修改方法。**
-
-### 原子计数器
-
-很多应用可能会有计数器功能的需求，比如文章点赞的功能，如果大量用户并发操作，用普通的更新方法操作的话，会存在数据不一致的情况。
-
-为此，Bmob提供了原子计数器来保证原子性的修改某一**数值字段**的值。注意：原子计数器只能对应用于Web后台的Number类型的字段，即JavaBeans数据对象中的Integer对象类型（**不要用int类型**）。
-
-```java
-gameScore.increment("score"); // 分数递增1
-gameScore.update(updateListener);
-```
-
-您还可以通过`increment(key, amount)`方法来递增或递减任意幅度的数字
-
-```java
-gameScore.increment("score", 5); // 分数递增5
-//gameScore.increment("score", -5); // 分数递减5
-gameScore.update(updateListener);
-```
-
-
-
-
-### 删除字段的值
-
-你可以在一个对象中删除一个字段的值，通过`remove`操作：
-
-```java
-GameScore gameScore = new GameScore();
-gameScore.setObjectId("dd8e6aff28");
-gameScore.remove("score");	// 删除GameScore对象中的score字段
-gameScore.update(new UpdateListener() {
-	@Override
-	public void done(BmobException e) {
-		if(e==null){
-			Log.i("bmob","成功");
-		}else{
-			Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-		}
-	}
-});
-```
 
 
