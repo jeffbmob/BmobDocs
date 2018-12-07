@@ -3094,6 +3094,132 @@ query.doSQLQuery(new SQLQueryListener<GameScore>(){
 **只有`第一种查询方式`才能和`query.hasCachedResult(context,class)`或者`query.clearCachedResult(context,class)`并列使用。**
 **建议使用`第一种查询方式`进行BQL缓存查询。**
 
+### include用法
+
+
+在某些情况下，你想在一个查询内获取`Pointer`类型的关联对象。
+
+比如上述示例中，如果希望在查询帖子信息的同时也把该帖子的作者的信息查询出来，可以使用`include`方法
+
+```java
+query.include("author");
+```
+
+你可以使用`,`号(逗号)操作符来`include并列查询`两个对象
+
+比如，查询评论表的同时将该评论用户的信息和所评论的帖子信息也一并查询出来（因为Comment表有两个`Pointer类型`的字段），那么可以这样做：
+
+```java
+query.include("user,post");
+```
+
+但不能如下的做法：
+
+```java
+query.include("user");
+query.include("post");
+```
+
+你同时还可以使用 `. `号（英语句号）操作符来进行`include中的内嵌对象查询`
+
+
+比如，你想在查询评论信息的同时将该评论`Comment`对应的帖子`post`以及该帖子的作者信息`author`一并查询出来，你可以这样做：
+
+```java
+query.include("post.author");
+```
+
+另外，include还可以指定返回的字段：
+
+```java
+query.include("post[likes].author[username|email]");
+```
+其中，post和author都是Pointer类型，post指向的表只返回likes字段，author指向的表只返回username和email字段。
+
+
+**注：include的查询对象只能为BmobPointer类型，而不能是BmobRelation类型。**
+
+
+### 内部查询
+
+
+如果你在查询某个对象列表时，它们的某个字段是BmobObject类型，并且这个BmobObject匹配一个不同的查询，这种情况下可使用`addWhereMatchesQuery`方法。
+
+请注意，默认的 limit 限制 100 也同样作用在内部查询上。因此如果是大规模的数据查询，你可能需要仔细构造你的查询对象来获取想要的行为。
+
+例如：**查询带有图片的帖子的评论列表**:
+
+```java
+BmobQuery<Comment> query = new BmobQuery<Comment>();
+BmobQuery<Post> innerQuery = new BmobQuery<Post>();
+innerQuery.addWhereExists("image", true);
+// 第一个参数为评论表中的帖子字段名post
+// 第二个参数为Post字段的表名，也可以直接用"Post"字符串的形式
+// 第三个参数为内部查询条件
+query.addWhereMatchesQuery("post", "Post", innerQuery);
+query.findObjects(new FindListener<Comment>() {
+
+	@Override
+	public void done(List<Comment> object,BmobException e) {
+		if(e==null){
+			Log.i("bmob","成功");
+		}else{
+			Log.i("bmob","失败："+e.getMessage());
+		}
+	}
+});
+```
+
+反之，不想匹配某个子查询，你可以使用`addWhereDoesNotMatchQuery`方法。
+
+比如**查询不带图片的帖子的评论列表**：
+
+```java
+BmobQuery<Comment> query = new BmobQuery<Comment>();
+BmobQuery<Post> innerQuery = new BmobQuery<Post>();
+innerQuery.addWhereExists("image", true);
+// 第一个参数为评论表中的帖子字段名post
+// 第二个参数为Post字段的表名，也可以直接用"Post"字符串的形式
+// 第三个参数为内部查询条件
+query.addWhereDoesNotMatchQuery("post", "Post", innerQuery);
+query.findObjects(new FindListener<Comment>() {
+	@Override
+	public void done(List<Comment> object,BmobException e) {
+		if(e==null){
+			Log.i("bmob","成功");
+		}else{
+			Log.i("bmob","失败："+e.getMessage());
+		}
+	}
+});
+```
+
+**注：**
+
+`当查询的表为系统表（目前系统表有User、Installation、Role）时，需要带上下划线 `_`。`
+
+比如，你想查询出用户`smile`和`smile`好友的所有帖子，则可以这样：
+
+```sql
+
+BmobQuery<User> innerQuery = new BmobQuery<User>();
+String[] friendIds={"ssss","aaaa"};//好友的objectId数组
+innerQuery.addWhereContainedIn("objectId", Arrays.asList(friendIds));
+//查询帖子
+BmobQuery<Post> query = new BmobQuery<Post>();
+`query.addWhereMatchesQuery("author", "_User", innerQuery);`
+query.findObjects(new FindListener<Post>() {
+	@Override
+	public void done(List<Post> object,BmobException e) {
+		if(e==null){
+			Log.i("bmob","成功");
+		}else{
+			Log.i("bmob","失败："+e.getMessage());
+		}
+	}
+});
+```
+
 # 5、数组操作
 对于数组类型数据，BmobSDK提供了3种操作来原子性地修改一个数组字段的值：
 
@@ -3258,131 +3384,7 @@ query.findObjects(new FindListener<Person>() {
 ```
 
 
-### include用法
 
-
-在某些情况下，你想在一个查询内获取`Pointer`类型的关联对象。
-
-比如上述示例中，如果希望在查询帖子信息的同时也把该帖子的作者的信息查询出来，可以使用`include`方法
-
-```java
-query.include("author");
-```
-
-你可以使用`,`号(逗号)操作符来`include并列查询`两个对象
-
-比如，查询评论表的同时将该评论用户的信息和所评论的帖子信息也一并查询出来（因为Comment表有两个`Pointer类型`的字段），那么可以这样做：
-
-```java
-query.include("user,post");
-```
-
-但不能如下的做法：
-
-```java
-query.include("user");
-query.include("post");
-```
-
-你同时还可以使用 `. `号（英语句号）操作符来进行`include中的内嵌对象查询`
-
-
-比如，你想在查询评论信息的同时将该评论`Comment`对应的帖子`post`以及该帖子的作者信息`author`一并查询出来，你可以这样做：
-
-```java
-query.include("post.author");
-```
-
-另外，include还可以指定返回的字段：
-
-```java
-query.include("post[likes].author[username|email]");
-```
-其中，post和author都是Pointer类型，post指向的表只返回likes字段，author指向的表只返回username和email字段。
-
-
-**注：include的查询对象只能为BmobPointer类型，而不能是BmobRelation类型。**
-
-
-### 内部查询
-
-
-如果你在查询某个对象列表时，它们的某个字段是BmobObject类型，并且这个BmobObject匹配一个不同的查询，这种情况下可使用`addWhereMatchesQuery`方法。
-
-请注意，默认的 limit 限制 100 也同样作用在内部查询上。因此如果是大规模的数据查询，你可能需要仔细构造你的查询对象来获取想要的行为。
-
-例如：**查询带有图片的帖子的评论列表**:
-
-```java
-BmobQuery<Comment> query = new BmobQuery<Comment>();
-BmobQuery<Post> innerQuery = new BmobQuery<Post>();
-innerQuery.addWhereExists("image", true);
-// 第一个参数为评论表中的帖子字段名post
-// 第二个参数为Post字段的表名，也可以直接用"Post"字符串的形式
-// 第三个参数为内部查询条件
-query.addWhereMatchesQuery("post", "Post", innerQuery);
-query.findObjects(new FindListener<Comment>() {
-
-	@Override
-	public void done(List<Comment> object,BmobException e) {
-		if(e==null){
-			Log.i("bmob","成功");
-		}else{
-			Log.i("bmob","失败："+e.getMessage());
-		}
-	}
-});
-```
-
-反之，不想匹配某个子查询，你可以使用`addWhereDoesNotMatchQuery`方法。
-
-比如**查询不带图片的帖子的评论列表**：
-
-```java
-BmobQuery<Comment> query = new BmobQuery<Comment>();
-BmobQuery<Post> innerQuery = new BmobQuery<Post>();
-innerQuery.addWhereExists("image", true);
-// 第一个参数为评论表中的帖子字段名post
-// 第二个参数为Post字段的表名，也可以直接用"Post"字符串的形式
-// 第三个参数为内部查询条件
-query.addWhereDoesNotMatchQuery("post", "Post", innerQuery);
-query.findObjects(new FindListener<Comment>() {
-	@Override
-	public void done(List<Comment> object,BmobException e) {
-		if(e==null){
-			Log.i("bmob","成功");
-		}else{
-			Log.i("bmob","失败："+e.getMessage());
-		}
-	}
-});
-```
-
-**注：**
-
-`当查询的表为系统表（目前系统表有User、Installation、Role）时，需要带上下划线 `_`。`
-
-比如，你想查询出用户`smile`和`smile`好友的所有帖子，则可以这样：
-
-```sql
-
-BmobQuery<User> innerQuery = new BmobQuery<User>();
-String[] friendIds={"ssss","aaaa"};//好友的objectId数组
-innerQuery.addWhereContainedIn("objectId", Arrays.asList(friendIds));
-//查询帖子
-BmobQuery<Post> query = new BmobQuery<Post>();
-`query.addWhereMatchesQuery("author", "_User", innerQuery);`
-query.findObjects(new FindListener<Post>() {
-	@Override
-	public void done(List<Post> object,BmobException e) {
-		if(e==null){
-			Log.i("bmob","成功");
-		}else{
-			Log.i("bmob","失败："+e.getMessage());
-		}
-	}
-});
-```
 
 
 
