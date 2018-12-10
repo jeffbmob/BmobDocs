@@ -3061,9 +3061,9 @@ SDK初始化完毕之后，就完成了整个项目的配置，这样就可以�
 ![](https://upload-images.jianshu.io/upload_images/6673460-2320a2c782efec55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
-## 列的默认值
+## 列的默认值问题
 
-bmob默认值例子如下：
+为了减少默认值方面的疑惑，现特把默认值的例子说明一下：
 
 |类型|输入的例子|说明|
 |:---|:---|:---|
