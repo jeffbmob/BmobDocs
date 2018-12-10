@@ -3061,6 +3061,22 @@ SDK初始化完毕之后，就完成了整个项目的配置，这样就可以�
 ![](https://upload-images.jianshu.io/upload_images/6673460-2320a2c782efec55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
+## 列的默认值
+
+bmob默认值例子如下：
+
+|类型|输入的例子|说明|
+|:---|:---|:---|
+|String|jeff|任意的字符串|
+|Number|23|数字|
+|Boolean	 |true或者false||
+|Date	 |CURRENT_TIME或者2006-01-02 15:04:05|值为CURRENT_TIME表示插入的是当前时间，其它时间值的格式为“2006-01-02 15:04:05”|
+|File  	 |{"__type":"File","cdn":"upyun","filename":"新建文本文档.txt","url":"https://bmob-cdn-10.bmobcloud.com/2018/12/03/76815a8940e4da62803b0bbaa6320c5b.txt"}|用户需要修改的部分：其中"filename"为原来的文件名，url为上传文件后得到的url|
+|GeoPoint|23,12|23为latitude，12为longitude|
+|Array    |"tom","jeff"||
+|Object    |{"name":"jeff"}||
+|Pointer |{"__type":"Pointer","className":"_User","objectId":"MqgrAAAL"}|用户需要修改的部分："className"为指向的class，"objectId"为指向的class对应的记录Id|
+|Relation|{"__op": "AddRelation","objects": [{"__type": "Pointer","className": "_User","objectId": "MqgrAAAL"},{"__type": "Pointer","className": "_User", "objectId": "MTzXDDDG"}]}|参考Pointer类型|
 
 
 
