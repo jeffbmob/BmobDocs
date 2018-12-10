@@ -544,6 +544,10 @@
 											
 										</li>
 									
+										<li class=""><a href="#_26">列的默认值</a>
+											
+										</li>
+									
 								
 							
 						
@@ -2670,6 +2674,69 @@ bmob-im:2.0.3---&gt;bmob-sdk:3.4.6  </p>
 <p><strong> 小程序支付 </strong></p>
 <p>需要你的小程序微信平台开通微信支付，然后在控制台应用配置中填写商户号、商户支付密钥，目前小程序支付Bmob平台不收取任何手续费，只要是Bmob平台付费会员，并且账号通过实名认证都可以使用。</p>
 <p><img alt="" src="https://upload-images.jianshu.io/upload_images/6673460-2320a2c782efec55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<h2 id="_26">列的默认值<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h2>
+<p>bmob默认值例子如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">输入的例子</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">String</td>
+<td align="left">jeff</td>
+<td align="left">任意的字符串</td>
+</tr>
+<tr>
+<td align="left">Number</td>
+<td align="left">23</td>
+<td align="left">数字</td>
+</tr>
+<tr>
+<td align="left">Boolean</td>
+<td align="left">true或者false</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Date</td>
+<td align="left">CURRENT_TIME或者2006-01-02 15:04:05</td>
+<td align="left">值为CURRENT_TIME表示插入的是当前时间，其它时间值的格式为“2006-01-02 15:04:05”</td>
+</tr>
+<tr>
+<td align="left">File</td>
+<td align="left">{"__type":"File","cdn":"upyun","filename":"新建文本文档.txt","url":"https://bmob-cdn-10.bmobcloud.com/2018/12/03/76815a8940e4da62803b0bbaa6320c5b.txt"}</td>
+<td align="left">用户需要修改的部分：其中"filename"为原来的文件名，url为上传文件后得到的url</td>
+</tr>
+<tr>
+<td align="left">GeoPoint</td>
+<td align="left">23,12</td>
+<td align="left">23为latitude，12为longitude</td>
+</tr>
+<tr>
+<td align="left">Array</td>
+<td align="left">"tom","jeff"</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Object</td>
+<td align="left">{"name":"jeff"}</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Pointer</td>
+<td align="left">{"__type":"Pointer","className":"_User","objectId":"MqgrAAAL"}</td>
+<td align="left">用户需要修改的部分："className"为指向的class，"objectId"为指向的class对应的记录Id</td>
+</tr>
+<tr>
+<td align="left">Relation</td>
+<td align="left">{"__op": "AddRelation","objects": [{"__type": "Pointer","className": "_User","objectId": "MqgrAAAL"},{"__type": "Pointer","className": "_User", "objectId": "MTzXDDDG"}]}</td>
+<td align="left">参考Pointer类型</td>
+</tr>
+</tbody>
+</table>
                 </div>
             </div>
         </div>
