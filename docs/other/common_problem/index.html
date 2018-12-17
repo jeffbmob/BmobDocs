@@ -674,6 +674,9 @@ Bmob提供了一种非常简单的文件上传的方法：  </p>
 <a href="http://bmob.cn/sdk/standard.csv">点击这里下载CSV文件模版</a>  </p>
 <p>使用方法：Web后台-&gt;创建应用-&gt;创建表-&gt;导入数据-&gt;选择这个CSV文件</p>
 <hr />
+<p><strong> 支持导出哪些类型的数据 </strong><br />
+支持这几种类型：'string', 'number', 'boolean', 'date', 'geopoint', 'array', 'object'</p>
+<hr />
 <p><strong> 能直接在Web后台上传文件吗 </strong><br />
 可以，先在表中创建需要File类型的字段，然后新增一条记录就可以直接在Web端上传文件了。</p>
 <hr />
@@ -2694,7 +2697,7 @@ bmob-im:2.0.3---&gt;bmob-sdk:3.4.6  </p>
 <tr>
 <td align="left">String</td>
 <td align="left">jeff</td>
-<td align="left">任意的字符串</td>
+<td align="left">任意的字符串，如果默认值栏不输入任何值，则默认为空字符串</td>
 </tr>
 <tr>
 <td align="left">Number</td>
