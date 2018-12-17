@@ -15,7 +15,7 @@
 
 这里提供一些开发者写的其他语言调用RestApi的源码或者核心代码。
 
-JAVA访问RestApi：[http://wenda.bmob.cn//?/question/51](http://wenda.bmob.cn//?/question/51)
+JAVA访问RestApi：[https://github.com/bmob/bmob-java-sdk/tree/v3/javasdkdemo](https://github.com/bmob/bmob-java-sdk/tree/v3/javasdkdemo)
 
 PHP访问RestApi：[http://docs.bmob.cn/data/PHP/a_faststart/doc/index.html](http://docs.bmob.cn/data/PHP/a_faststart/doc/index.html)
 
