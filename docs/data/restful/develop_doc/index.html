@@ -1883,7 +1883,7 @@ Content-Type: application/json
 </code></pre>
 
 <h4 id="_26">分页查询<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h4>
-<p>你可以用limit和skip来做分页，limit的默认值是100，但是任何1到1000的值都是可选的，就是说，为了获取在400到600之间的对象:</p>
+<p>你可以用limit和skip来做分页，limit的默认值是100，企业pro版套餐limit的最大值为1000，其它版套餐limit的最大值为500，就是说，为了获取在400到600之间的对象:</p>
 <pre><code>curl -X GET \
     -H &quot;X-Bmob-Application-Id: Your Application ID&quot; \
     -H &quot;X-Bmob-REST-API-Key: Your REST API Key&quot; \
