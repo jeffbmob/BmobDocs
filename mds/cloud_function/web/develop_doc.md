@@ -1713,6 +1713,8 @@ function onRequest(request, response, modules) {
 
 ## 日志对象
 
+** 这个功能已暂时停用 **
+
 oLog 是一个日志对象，当程序调试时，可以把对应变量的值写入日志表。
 
 
