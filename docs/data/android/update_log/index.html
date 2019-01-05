@@ -479,7 +479,11 @@
 										
 										<ul class="nav">
 											
-											<li class="active "><a href="#v368-rc420181206">v3.6.8-rc4(2018/12/06)</a>
+											<li class="active "><a href="#v368-rc720190105">v3.6.8-rc7(2019/01/05)</a>
+												
+											</li>
+												
+											<li class=""><a href="#v368-rc420181206">v3.6.8-rc4(2018/12/06)</a>
 												
 											</li>
 												
@@ -860,6 +864,12 @@
                 <div class="wrap">
                     
 
+<h2 id="v368-rc720190105">v3.6.8-rc7(2019/01/05)<a class="headerlink" href="#v368-rc720190105" title="Permanent link">&para;</a></h2>
+<p>1、剔除了SDK中更改了包名的OKHttp，改为外部直接依赖，减少了SDK的包体积，开发者需要额外依赖OKHttp，增加了使用的灵活性。</p>
+<p>2、修复了同步网络请求方法在没有网络的情况下，因为解析数据出错而崩溃的问题，建议开发者们使用异步网络请求回调的方法进行开发，可以返回异常信息。</p>
+<p>3、修复了多进程中更新用户信息提示重新登录的问题、多进程中无法更新本地缓存信息的问题，需要在AndroidManifest.xml中注册ContentProvider。
+ 
+4、增加了本地导入SDK的demo，供网络情况不佳的开发者使用。</p>
 <h2 id="v368-rc420181206">v3.6.8-rc4(2018/12/06)<a class="headerlink" href="#v368-rc420181206" title="Permanent link">&para;</a></h2>
 <p>1、修复RxJava2的一些Bug。</p>
 <p>2、增加了获取应用签名的方法，用于应用安全验证，不必再去下载apk获取应用签名。</p>

@@ -486,6 +486,10 @@
 												
 											</li>
 												
+											<li class=""><a href="#contentprovider">配置ContentProvider</a>
+												
+											</li>
+												
 											<li class=""><a href="#bmobsdk">初始化BmobSDK</a>
 												
 											</li>
@@ -644,7 +648,7 @@
 </code></pre>
 
 <pre><code class="gradle">    dependencies {
-        implementation 'cn.bmob.android:bmob-sdk:3.6.8-rc4'
+        implementation 'cn.bmob.android:bmob-sdk:3.6.8-rc7'
         implementation &quot;io.reactivex.rxjava2:rxjava:2.2.2&quot;
         implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
         implementation 'com.squareup.okio:okio:2.1.0'
@@ -768,6 +772,17 @@ compile 'cn.bmob.android:http-legacy:1.0'
             android:screenOrientation=&quot;portrait&quot;&gt;
     &lt;/application&gt;
 &lt;/manifest&gt;
+</code></pre>
+
+<h2 id="contentprovider">配置ContentProvider<a class="headerlink" href="#contentprovider" title="Permanent link">&para;</a></h2>
+<pre><code>&lt;application&gt;
+···
+&lt;provider
+    android:name=&quot;cn.bmob.v3.util.BmobContentProvider&quot;
+    android:authorities=&quot;你的应用包名.BmobContentProvider&quot;&gt;
+&lt;/provider&gt;
+···
+&lt;/application&gt;
 </code></pre>
 
 <h2 id="bmobsdk">初始化BmobSDK<a class="headerlink" href="#bmobsdk" title="Permanent link">&para;</a></h2>
