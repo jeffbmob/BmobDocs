@@ -7,7 +7,9 @@
 
 
 3、修复了多进程中更新用户信息提示重新登录的问题、多进程中无法更新本地缓存信息的问题，需要在AndroidManifest.xml中注册ContentProvider。
- 
+
+
+
 4、增加了本地导入SDK的demo，供网络情况不佳的开发者使用。
 
 
