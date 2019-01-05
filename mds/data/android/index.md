@@ -65,7 +65,7 @@ android {
 ```
 ```gradle
 	dependencies {
-    	implementation 'cn.bmob.android:bmob-sdk:3.6.8-rc4'
+    	implementation 'cn.bmob.android:bmob-sdk:3.6.8-rc7'
     	implementation "io.reactivex.rxjava2:rxjava:2.2.2"
     	implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     	implementation 'com.squareup.okio:okio:2.1.0'
@@ -205,7 +205,17 @@ android {
     </application>
 </manifest>
 ```
-
+## 配置ContentProvider
+```
+<application>
+···
+<provider
+    android:name="cn.bmob.v3.util.BmobContentProvider"
+    android:authorities="你的应用包名.BmobContentProvider">
+</provider>
+···
+</application>
+```
 ## 初始化BmobSDK
 
 在你应用程序启动的Activity的onCreate()方法中初始化Bmob功能。代码如下所示：
