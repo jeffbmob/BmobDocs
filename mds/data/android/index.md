@@ -65,7 +65,7 @@ android {
 ```
 ```gradle
 	dependencies {
-    	implementation 'cn.bmob.android:bmob-sdk:3.6.8-rc7'
+    	implementation 'cn.bmob.android:bmob-sdk:3.6.9'
     	implementation "io.reactivex.rxjava2:rxjava:2.2.2"
     	implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     	implementation 'com.squareup.okio:okio:2.1.0'
@@ -104,7 +104,6 @@ android {
 
 如果需要兼容Android6.0系统，请添加以下两项：
 
-	compile 'com.android.support:support-v4:23.2.1'
 	compile 'cn.bmob.android:http-legacy:1.0'
 
 **[4]、bmob-sms适用于只需要使用Bmob短信功能的开发者，而bmob-sdk内部包含了bmob-sms的短信功能,请不要重复添加。**
