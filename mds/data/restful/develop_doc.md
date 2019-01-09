@@ -3212,16 +3212,18 @@ Content-Type: application/json
 
 **例子**
 
-如下为删除上传例子中的jpg文件
+如下为删除jpg文件的例子
 
 ```
 curl -X DELETE \
   -H "X-Bmob-Application-Id: Your Application ID" \
   -H "X-Bmob-REST-API-Key: Your REST API Key" \
-  https://api2.bmob.cn/2/files/upyun/2016/04/14/9306f2e74090d668801eac8814b3f56f.jpg
+  https://api2.bmob.cn/2/files/upyun/2019/01/09/53a0ff6340b6a7b780c9031d79d8befe.png
 ```
 
-其中2016/04/14/9306f2e74090d668801eac8814b3f56f.jpg是文件上传时返回的url除去域名之后的字符串，upyun是上传时返回的cdn。
+在上面的例子中要删除的图片为http://bmob-cdn-1614.b0.upaiyun.com/2019/01/09/53a0ff6340b6a7b780c9031d79d8befe.png，截取这个url中的“2019/01/09/53a0ff6340b6a7b780c9031d79d8befe.png”拼上前面的参数"https://api2.bmob.cn/2/files/upyun/"，就能得到删除时所使用的url：https://api2.bmob.cn/2/files/upyun/2019/01/09/53a0ff6340b6a7b780c9031d79d8befe.png
+
+如果域名是用bmobcloud.com的（例如：https://bmob-cdn-10.bmobcloud.com/2019/01/09/08d7522240e650f68035e4b79077fe82.png），根据上面的规则，也同样得到 https://api2.bmob.cn/2/files/upyun/2019/01/09/08d7522240e650f68035e4b79077fe82.png
 
 **删除文件不会删除文件关联的行记录中的文件列的值，需要自行通过更新行来删除关联。**
 
