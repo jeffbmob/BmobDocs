@@ -470,14 +470,18 @@
 											
 										</li>
 									
-										<li class=""><a href="#_3">购买事项</a>
+										<li class=""><a href="#_3">图形验证码</a>
+											
+										</li>
+									
+										<li class=""><a href="#_4">购买事项</a>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_4">购买方法</a></li>
+												<li><a class="itm-l2" href="#_5">购买方法</a></li>
 											</ul>
 											
 											<ul class="nav nav-l2">
-												<li><a class="itm-l2" href="#_5">发票事宜</a></li>
+												<li><a class="itm-l2" href="#_6">发票事宜</a></li>
 											</ul>
 											
 										</li>
@@ -581,6 +585,21 @@ Content-Type: application/json
 }
 </code></pre>
 
+<p>如果在模板中设置了需要启用图形验证码才能发送短信，则通过下面的请求传入validate_token（关于validate_token，请看本章节的图形验证码）：</p>
+<pre><code>curl -X POST \
+  -H &quot;X-Bmob-Application-Id: Your Application ID&quot;          \
+  -H &quot;X-Bmob-REST-API-Key: Your REST API Key&quot;        \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;mobilePhoneNumber&quot;: &quot;186xxxxxxxx&quot;, &quot;template&quot;:&quot;注册模板&quot;, &quot;validate_token&quot;:&quot;3fdgfs223&quot;}' \
+  https://api2.bmob.cn/1/requestSmsCode
+</code></pre>
+
+<p>成功返回，短信验证码ID，可用于后面使用查询短信状态接口来查询该短信验证码是否发送成功和是否验证过：</p>
+<pre><code>{
+    &quot;smsId&quot;: 1232222
+}
+</code></pre>
+
 <h2 id="_2">验证短信验证码<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p><strong>请求描述</strong></p>
 <p>通过以下接口，你可以验证用户输入的验证码是否是有效。</p>
@@ -642,12 +661,118 @@ Content-Type: application/json
 <li>计算得到的短信条数在本条短信发送成功后将会从你的账户剩余的短信条数中扣除。</li>
 </ol>
 <p><strong>短信发送限制规则是1/分钟，5/小时，10/天。即对于一个应用来说，一天给同一手机号发送短信不能超过10条，一小时给同一手机号发送短信不能超过5条，一分钟给同一手机号发送短信不能超过1条</strong></p>
-<h2 id="_3">购买事项<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<h3 id="_4">购买方法<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<h2 id="_3">图形验证码<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>图形验证码是防范短信轰炸最有效的手段。目前只有通过短信模板发送才支持使用图形验证码。</p>
+<p>通过下面的接口获取图形验证码：</p>
+<pre><code>curl -X POST \
+  -H &quot;X-Bmob-Application-Id: Your Application ID&quot;          \
+  -H &quot;X-Bmob-REST-API-Key: Your REST API Key&quot;        \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;width&quot;:85,&quot;height&quot;:30,&quot;size&quot;:4,&quot;ttl&quot;:180}' \
+  https://api2.bmob.cn/1/requestCaptcha
+</code></pre>
+
+<p>其中：</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>参数类型</th>
+<th>默认</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>width</td>
+<td>number</td>
+<td>85</td>
+<td>图形验证码展示区域的宽度，单位：像素，有效值范围：60-200</td>
+</tr>
+<tr>
+<td>height</td>
+<td>number</td>
+<td>30</td>
+<td>图形验证码展示区域的高度，单位：像素，有效值范围：30-100</td>
+</tr>
+<tr>
+<td>size</td>
+<td>number</td>
+<td>4</td>
+<td>验证码的字符长度，有效值范围：3-6</td>
+</tr>
+<tr>
+<td>ttl</td>
+<td>number</td>
+<td>60</td>
+<td>验证码有效期，单位：秒，有效值范围：60-180</td>
+</tr>
+</tbody>
+</table>
+<p>返回值如下：</p>
+<pre><code>{
+  &quot;captcha_token&quot;: &quot;dtP6cLb3axn0Ho13EvZP&quot;,
+  &quot;captcha_url&quot;: &quot;https://api2.bmob.cn/1/captchaImage?secretKey=ad1ef6c1eac9b6e7&amp;token=dtP6cLb3axn0Ho13EvZP&quot;
+}
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>captcha_token</td>
+<td>供 verifyCaptcha 校验使用</td>
+</tr>
+<tr>
+<td>captcha_url</td>
+<td>图形验证码的图片地址</td>
+</tr>
+</tbody>
+</table>
+<p>获取了图形验证码后，需要使用对应的验证接口来校验：</p>
+<pre><code>curl -X POST \
+  -H &quot;X-Bmob-Application-Id: Your Application ID&quot;          \
+  -H &quot;X-Bmob-REST-API-Key: Your REST API Key&quot;        \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;captcha_code&quot;: &quot;1110&quot;,&quot;captcha_token&quot;: &quot;R23423dsfd&quot;}' \
+  https://api2.bmob.cn/1/verifyCaptcha
+</code></pre>
+
+<p>其中：</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>captcha_code</td>
+<td>用户输入的图形验证码</td>
+</tr>
+<tr>
+<td>captcha_token</td>
+<td>requestCaptcha 返回的 captcha_token</td>
+</tr>
+</tbody>
+</table>
+<p>验证成功会返回：</p>
+<pre><code>{ &quot;validate_token&quot;: &quot;发送短信的二次凭证&quot;}
+</code></pre>
+
+<p>发送短信模板验证码的时候，把这个validate_token参数带上即可</p>
+<h2 id="_4">购买事项<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="_5">购买方法<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p>短信条数只能输入整数，且不能少于1000条</p>
 <p><img alt="短信计费模式" src="http://bmob-file-service-t.b0.upaiyun.com/Doc_File/jfms.png" /></p>
 <p>进入账号控制台，选择应用--&gt; 短信 --&gt; 点击充值即可。</p>
-<h3 id="_5">发票事宜<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<h3 id="_6">发票事宜<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <p>购买金额满100可提供发票，1000元以内的到付，1000以上（含1000）包邮。</p>
 <p>登录后台提交工单，提供购买服务的订单号和开票信息。</p>
 <p><strong>个人</strong></p>
