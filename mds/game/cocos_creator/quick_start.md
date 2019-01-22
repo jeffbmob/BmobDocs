@@ -15,11 +15,13 @@
 
 ## 配置
 
-[管理后台](https://game.bmob.cn/console)
+[管理后台-游戏选项](https://game.bmob.cn/#/game/options)
 
 请根据Demo的READ.md文件内容，在管理后台配置游戏，包括人数、是否中途加入等等
 
 ### 游戏属性
+
+[管理后台-游戏属性](https://game.bmob.cn/#/game/attribute)
 
 请根据Demo的READ.md文件内容，在管理后台配置玩家在游戏内需要同步的属性
 
@@ -38,6 +40,8 @@ score|int|65535|-|true|false|玩家分数
 ----
 
 ### 云函数
+
+[管理后台-云函数](https://game.bmob.cn/#/game/code)
 
 在 游戏设置 > 云函数 里，将下载的 **cloud** 文件夹内的 **Player.java**、**Room.java** 文件内容分别复制进去，都复制后再点击 **发布**
 
@@ -61,6 +65,8 @@ score|int|65535|-|true|false|玩家分数
 ----
 
 ### AppKey
+
+[管理后台-云函数](https://game.bmob.cn/#/game/key)
 
 游戏设置 > 应用密钥 > AppKey
 
