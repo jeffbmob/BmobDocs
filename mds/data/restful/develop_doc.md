@@ -3285,11 +3285,7 @@ curl -X POST \
   -H "X-Bmob-Application-Id: Your Application ID" \
   -H "X-Bmob-REST-API-Key: Your REST API Key" \
   -H "Content-Type: application/json" \
-  -d '{
-   {
-    "upyun":["2016/04/14/9306f2e74090d668801eac8814b3f56f.jpg","2016/04/14/ycf2f2e74090d668801eac88145523f.jpg"],
-}
-}'\
+  -d '{"upyun":["2016/04/14/9306f2e74090d668801eac8814b3f56f.jpg","2016/04/14/ycf2f2e74090d668801eac88145523f.jpg"]}'\
   https://api2.bmob.cn/2/cdnBatchDelete
 ```
 **删除文件不会删除文件关联的行记录中的文件列的值，需要自行通过更新行来删除关联。**
