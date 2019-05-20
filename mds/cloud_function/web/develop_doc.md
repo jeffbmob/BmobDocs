@@ -238,6 +238,18 @@ function onRequest(request, response, modules) {
 }
 ```
 
+### 模糊查询
+
+```java
+db.find({
+  "table":"XXX",          //表名
+  "where":{"playerName":{"$regex":"smile*"}}       //模糊查询
+ },function(err,data){    //回调函数
+ 
+ });
+```
+
+ 注:模糊查询只对专业版以上（包含专业版）的套餐开放，付费后可直接使用。
 
 ### 获取表的记录数
 
