@@ -211,6 +211,8 @@ function onRequest(request, response, modules) {
 }
 ```
 
+其它查询操作可参考这里 [restful查询](http://doc.bmob.cn/data/restful/develop_doc/#_22)
+
 
 ### 查询单条数据
 
