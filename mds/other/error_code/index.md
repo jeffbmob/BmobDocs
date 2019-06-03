@@ -2,6 +2,7 @@
 
 | 错误码 	| 内容 		| 含义		|
 |-----------|-----------|-----------|
+| 141		| sdk time error. |手机的时间不是标准的北京时间.
 | 9001		| AppKey is Null, Please initialize BmobSDK. |Application Id为空，请初始化.
 | 9002		| Parse data error|解析返回数据出错
 | 9003		| upload file error|上传文件出错
@@ -35,6 +36,7 @@
 |错误码	|内容	|含义|
 |:--	|:--	|:--|
 |100	|It is busy...Try it later!|一般是请求服务器的内容有误，如果是查询的话，请检查一下查询条件是否有误.|
+| 141		| sdk time error. |手机的时间不是标准的北京时间.
 |20000	|nil password!|登录或者注册时输入的密码为空.|
 |20001	|nil username!|登录或者注册时输入的用户名为空.|
 |20002	|connect failed!|请求失败.|
